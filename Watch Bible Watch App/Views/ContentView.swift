@@ -2,7 +2,7 @@ import SwiftUI
 import WatchKit
 
 struct ContentView: View {
-    @StateObject private var database = BibleDatabase()
+    @StateObject private var database = BibleDatabase.shared
     @State private var selectedTranslation = "slt"
     @State private var selectedBook: BibleDatabase.Book?
     @State private var selectedChapter = 1
@@ -68,7 +68,6 @@ struct ContentView: View {
                 if !verseText.isEmpty {
                     NavigationLink {
                         VerseDetailView(
-                            verseText: verseText,
                             book: selectedBook!,
                             chapter: selectedChapter,
                             verse: selectedVerse

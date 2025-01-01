@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ChapterPickerView: View {
     let book: BibleDatabase.Book
-    @StateObject private var database = BibleDatabase()
+    @StateObject private var database = BibleDatabase.shared
     
     var body: some View {
         ScrollView {
