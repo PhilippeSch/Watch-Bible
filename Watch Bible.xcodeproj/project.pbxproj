@@ -1,0 +1,671 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3777271E2D25D64D00DEE4D8 /* Watch Bible Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 3777271D2D25D64D00DEE4D8 /* Watch Bible Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3777271F2D25D64D00DEE4D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 377727112D25D64D00DEE4D8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3777271C2D25D64D00DEE4D8;
+			remoteInfo = "Watch Bible Watch App";
+		};
+		377727302D25D64E00DEE4D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 377727112D25D64D00DEE4D8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3777271C2D25D64D00DEE4D8;
+			remoteInfo = "Watch Bible Watch App";
+		};
+		3777273A2D25D64E00DEE4D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 377727112D25D64D00DEE4D8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3777271C2D25D64D00DEE4D8;
+			remoteInfo = "Watch Bible Watch App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		377727462D25D64E00DEE4D8 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				3777271E2D25D64D00DEE4D8 /* Watch Bible Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		377727172D25D64D00DEE4D8 /* Watch Bible.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Watch Bible.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3777271D2D25D64D00DEE4D8 /* Watch Bible Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Watch Bible Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3777272F2D25D64E00DEE4D8 /* Watch Bible Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Watch Bible Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		377727392D25D64E00DEE4D8 /* Watch Bible Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Watch Bible Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		377727212D25D64D00DEE4D8 /* Watch Bible Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Watch Bible Watch App";
+			sourceTree = "<group>";
+		};
+		377727322D25D64E00DEE4D8 /* Watch Bible Watch AppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Watch Bible Watch AppTests";
+			sourceTree = "<group>";
+		};
+		3777273C2D25D64E00DEE4D8 /* Watch Bible Watch AppUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Watch Bible Watch AppUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3777271A2D25D64D00DEE4D8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3777272C2D25D64E00DEE4D8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		377727362D25D64E00DEE4D8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		377727102D25D64D00DEE4D8 = {
+			isa = PBXGroup;
+			children = (
+				377727212D25D64D00DEE4D8 /* Watch Bible Watch App */,
+				377727322D25D64E00DEE4D8 /* Watch Bible Watch AppTests */,
+				3777273C2D25D64E00DEE4D8 /* Watch Bible Watch AppUITests */,
+				377727182D25D64D00DEE4D8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		377727182D25D64D00DEE4D8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				377727172D25D64D00DEE4D8 /* Watch Bible.app */,
+				3777271D2D25D64D00DEE4D8 /* Watch Bible Watch App.app */,
+				3777272F2D25D64E00DEE4D8 /* Watch Bible Watch AppTests.xctest */,
+				377727392D25D64E00DEE4D8 /* Watch Bible Watch AppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		377727162D25D64D00DEE4D8 /* Watch Bible */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 377727472D25D64E00DEE4D8 /* Build configuration list for PBXNativeTarget "Watch Bible" */;
+			buildPhases = (
+				377727152D25D64D00DEE4D8 /* Resources */,
+				377727462D25D64E00DEE4D8 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				377727202D25D64D00DEE4D8 /* PBXTargetDependency */,
+			);
+			name = "Watch Bible";
+			packageProductDependencies = (
+			);
+			productName = "Watch Bible";
+			productReference = 377727172D25D64D00DEE4D8 /* Watch Bible.app */;
+			productType = "com.apple.product-type.application.watchapp2-container";
+		};
+		3777271C2D25D64D00DEE4D8 /* Watch Bible Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 377727432D25D64E00DEE4D8 /* Build configuration list for PBXNativeTarget "Watch Bible Watch App" */;
+			buildPhases = (
+				377727192D25D64D00DEE4D8 /* Sources */,
+				3777271A2D25D64D00DEE4D8 /* Frameworks */,
+				3777271B2D25D64D00DEE4D8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				377727212D25D64D00DEE4D8 /* Watch Bible Watch App */,
+			);
+			name = "Watch Bible Watch App";
+			packageProductDependencies = (
+			);
+			productName = "Watch Bible Watch App";
+			productReference = 3777271D2D25D64D00DEE4D8 /* Watch Bible Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3777272E2D25D64E00DEE4D8 /* Watch Bible Watch AppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3777274A2D25D64E00DEE4D8 /* Build configuration list for PBXNativeTarget "Watch Bible Watch AppTests" */;
+			buildPhases = (
+				3777272B2D25D64E00DEE4D8 /* Sources */,
+				3777272C2D25D64E00DEE4D8 /* Frameworks */,
+				3777272D2D25D64E00DEE4D8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				377727312D25D64E00DEE4D8 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				377727322D25D64E00DEE4D8 /* Watch Bible Watch AppTests */,
+			);
+			name = "Watch Bible Watch AppTests";
+			packageProductDependencies = (
+			);
+			productName = "Watch Bible Watch AppTests";
+			productReference = 3777272F2D25D64E00DEE4D8 /* Watch Bible Watch AppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		377727382D25D64E00DEE4D8 /* Watch Bible Watch AppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3777274D2D25D64E00DEE4D8 /* Build configuration list for PBXNativeTarget "Watch Bible Watch AppUITests" */;
+			buildPhases = (
+				377727352D25D64E00DEE4D8 /* Sources */,
+				377727362D25D64E00DEE4D8 /* Frameworks */,
+				377727372D25D64E00DEE4D8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3777273B2D25D64E00DEE4D8 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				3777273C2D25D64E00DEE4D8 /* Watch Bible Watch AppUITests */,
+			);
+			name = "Watch Bible Watch AppUITests";
+			packageProductDependencies = (
+			);
+			productName = "Watch Bible Watch AppUITests";
+			productReference = 377727392D25D64E00DEE4D8 /* Watch Bible Watch AppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		377727112D25D64D00DEE4D8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					377727162D25D64D00DEE4D8 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					3777271C2D25D64D00DEE4D8 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					3777272E2D25D64E00DEE4D8 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 3777271C2D25D64D00DEE4D8;
+					};
+					377727382D25D64E00DEE4D8 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 3777271C2D25D64D00DEE4D8;
+					};
+				};
+			};
+			buildConfigurationList = 377727142D25D64D00DEE4D8 /* Build configuration list for PBXProject "Watch Bible" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 377727102D25D64D00DEE4D8;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 377727182D25D64D00DEE4D8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				377727162D25D64D00DEE4D8 /* Watch Bible */,
+				3777271C2D25D64D00DEE4D8 /* Watch Bible Watch App */,
+				3777272E2D25D64E00DEE4D8 /* Watch Bible Watch AppTests */,
+				377727382D25D64E00DEE4D8 /* Watch Bible Watch AppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		377727152D25D64D00DEE4D8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3777271B2D25D64D00DEE4D8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3777272D2D25D64E00DEE4D8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		377727372D25D64E00DEE4D8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		377727192D25D64D00DEE4D8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3777272B2D25D64E00DEE4D8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		377727352D25D64E00DEE4D8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		377727202D25D64D00DEE4D8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3777271C2D25D64D00DEE4D8 /* Watch Bible Watch App */;
+			targetProxy = 3777271F2D25D64D00DEE4D8 /* PBXContainerItemProxy */;
+		};
+		377727312D25D64E00DEE4D8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3777271C2D25D64D00DEE4D8 /* Watch Bible Watch App */;
+			targetProxy = 377727302D25D64E00DEE4D8 /* PBXContainerItemProxy */;
+		};
+		3777273B2D25D64E00DEE4D8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3777271C2D25D64D00DEE4D8 /* Watch Bible Watch App */;
+			targetProxy = 3777273A2D25D64E00DEE4D8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		377727412D25D64E00DEE4D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		377727422D25D64E00DEE4D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		377727442D25D64E00DEE4D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Watch Bible Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = PZ2HQ4532Q;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Watch Bible";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Scheuber.Watch-Bible.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.2;
+			};
+			name = Debug;
+		};
+		377727452D25D64E00DEE4D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Watch Bible Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = PZ2HQ4532Q;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Watch Bible";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Scheuber.Watch-Bible.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 11.2;
+			};
+			name = Release;
+		};
+		377727482D25D64E00DEE4D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PZ2HQ4532Q;
+				INFOPLIST_KEY_CFBundleDisplayName = "Watch Bible";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Scheuber.Watch-Bible";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		377727492D25D64E00DEE4D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PZ2HQ4532Q;
+				INFOPLIST_KEY_CFBundleDisplayName = "Watch Bible";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Scheuber.Watch-Bible";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3777274B2D25D64E00DEE4D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PZ2HQ4532Q;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Scheuber.Watch-Bible-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Watch Bible Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Watch Bible Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.2;
+			};
+			name = Debug;
+		};
+		3777274C2D25D64E00DEE4D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PZ2HQ4532Q;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Scheuber.Watch-Bible-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Watch Bible Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Watch Bible Watch App";
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 11.2;
+			};
+			name = Release;
+		};
+		3777274E2D25D64E00DEE4D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PZ2HQ4532Q;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Scheuber.Watch-Bible-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "Watch Bible Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.2;
+			};
+			name = Debug;
+		};
+		3777274F2D25D64E00DEE4D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PZ2HQ4532Q;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Scheuber.Watch-Bible-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "Watch Bible Watch App";
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 11.2;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		377727142D25D64D00DEE4D8 /* Build configuration list for PBXProject "Watch Bible" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				377727412D25D64E00DEE4D8 /* Debug */,
+				377727422D25D64E00DEE4D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		377727432D25D64E00DEE4D8 /* Build configuration list for PBXNativeTarget "Watch Bible Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				377727442D25D64E00DEE4D8 /* Debug */,
+				377727452D25D64E00DEE4D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		377727472D25D64E00DEE4D8 /* Build configuration list for PBXNativeTarget "Watch Bible" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				377727482D25D64E00DEE4D8 /* Debug */,
+				377727492D25D64E00DEE4D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3777274A2D25D64E00DEE4D8 /* Build configuration list for PBXNativeTarget "Watch Bible Watch AppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3777274B2D25D64E00DEE4D8 /* Debug */,
+				3777274C2D25D64E00DEE4D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3777274D2D25D64E00DEE4D8 /* Build configuration list for PBXNativeTarget "Watch Bible Watch AppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3777274E2D25D64E00DEE4D8 /* Debug */,
+				3777274F2D25D64E00DEE4D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 377727112D25D64D00DEE4D8 /* Project object */;
+}
