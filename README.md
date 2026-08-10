@@ -43,32 +43,30 @@ xcrun simctl list devices available | grep -i watch
 xcodebuild -project "Watch Bible.xcodeproj" \
            -scheme "Watch Bible Watch App" \
            -destination 'generic/platform=watchOS Simulator' \
-           -derivedDataPath ./build \
+           -derivedDataPath "$HOME/Library/Developer/WatchBible-build" \
            -quiet build 2>&1 | grep -E "error:|warning:|BUILD"
 
 # Unit-Tests gegen test_fixtures.json (braucht einen konkreten Simulator)
 xcodebuild -project "Watch Bible.xcodeproj" \
            -scheme "Watch Bible Watch App" \
-           -destination 'platform=watchOS Simulator,name=Apple Watch Series 10 (46mm)' \
-           -derivedDataPath ./build \
+           -destination 'platform=watchOS Simulator,name=Apple Watch Ultra 3 (49mm)' \
+           -derivedDataPath "$HOME/Library/Developer/WatchBible-build" \
            test 2>&1 | grep -E "error:|failed|passed"
 ```
 
 Merkpunkte:
 
 - `generic/platform=watchOS Simulator` genügt zum Bauen und vermeidet, dass ein Gerätename fest verdrahtet wird. Zum **Testen** braucht es einen konkreten Simulator aus der `simctl`-Liste.
-- `-derivedDataPath ./build` hält die Zwischenstände im Projekt statt in `~/Library/Developer/Xcode/DerivedData` — dadurch sieht Claude Code die Artefakte und kann sie aufräumen. **`build/` in `.gitignore` eintragen.**
+- **Derived Data nie in den Projektordner legen** (kein `-derivedDataPath ./build`): sowohl OneDrive- als auch Documents-Ordner werden auf diesem Rechner von einem File Provider synchronisiert, der den Build-Produkten erweiterte Attribute anhängt — codesign bricht dann mit «resource fork, Finder information, or similar detritus not allowed» ab. `~/Library/Developer/WatchBible-build` liegt ausserhalb jeder Synchronisierung.
 - Fehlschläge erkennt man am Exit-Code (`$?` ungleich 0), nicht nur an der Ausgabe.
 - Der Build braucht eine installierte watchOS-Simulator-Laufzeit. Fehlt sie, meldet `xcodebuild` das eindeutig — dann in Xcode unter Einstellungen → Components nachinstallieren.
 - Layout auf der Uhr lässt sich damit **nicht** beurteilen. Kompilieren heisst nicht, dass es gut aussieht: Bildschirme weiterhin im Simulator ansehen.
 
-### Ein Wort zu OneDrive
+### Ein Wort zu synchronisierten Ordnern
 
-Das Projekt liegt in einem OneDrive-Ordner. Das funktioniert, macht aber erfahrungsgemäss Ärger: die Synchronisierung greift in Build-Artefakte, Dateien werden während des Builds gesperrt, und bei «Dateien bei Bedarf» sind Quelldateien womöglich nur Platzhalter. Dazu kommt, dass die Datenbank bei jedem Build erneut hochgeladen wird — bei 43.5 MB pro Kopie.
+Das Projekt liegt unter `~/Documents/X-Code Projects/Watch Bible`. Auch der Documents-Ordner wird auf diesem Rechner von einem File Provider synchronisiert (nachgewiesen am `com.apple.fileprovider`-Attribut auf Build-Produkten) — Quelldateien sind unkritisch, aber Derived Data gehört deshalb zwingend nach `~/Library/Developer/` (siehe Merkpunkte oben).
 
-Empfehlung: das Projekt nach `~/Developer/WatchBible` verschieben und die Sicherung über ein Git-Repository lösen. Falls es in OneDrive bleiben soll, wenigstens `build/` und `DerivedData/` von der Synchronisierung ausnehmen und kein `.git` im synchronisierten Ordner führen.
-
-Der Pfad enthält ausserdem Leerzeichen und ein Umlautzeichen («Persönlich»). In Befehlen also immer in Anführungszeichen setzen.
+Der Pfad enthält Leerzeichen. In Befehlen also immer in Anführungszeichen setzen.
 
 ## Die zwei Datenbanken
 

@@ -23,6 +23,7 @@ struct Watch_Bible_Watch_AppApp: App {
 
 struct RootView: View {
     @Environment(AppModel.self) private var model
+    @State private var path = NavigationPath()
 
     var body: some View {
         switch model.state {
@@ -41,13 +42,24 @@ struct RootView: View {
             }
             .padding()
         case .ready:
-            NavigationStack {
+            NavigationStack(path: $path) {
                 HomeView()
                     .navigationDestination(for: Route.self) { route in
                         destination(for: route)
                     }
             }
+            .onOpenURL { url in open(url) }
         }
+    }
+
+    /// Deep Link des Widgets: watchbible://verse/<bookID>/<kapitel>/<vers>
+    /// oeffnet die Leseansicht auf genau diesem Vers.
+    private func open(_ url: URL) {
+        guard url.scheme == "watchbible", url.host() == "verse" else { return }
+        let parts = url.pathComponents.filter { $0 != "/" }.compactMap(Int.init)
+        guard parts.count == 3, model.book(id: parts[0]) != nil else { return }
+        path = NavigationPath()
+        path.append(Route.reader(bookID: parts[0], chapter: parts[1], verse: parts[2]))
     }
 
     @ViewBuilder

@@ -1,14 +1,36 @@
 {
   "sourceLanguage" : "de",
-  "version" : "1.0",
   "strings" : {
     "CFBundleDisplayName" : {
       "comment" : "Name der App auf dem Home-Bildschirm der Uhr. Kurz halten - unter dem Symbol ist wenig Platz.",
       "extractionState" : "manual",
       "localizations" : {
-        "de" : { "stringUnit" : { "state" : "translated", "value" : "Bibel" } },
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Bible" } }
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bibel"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bible"
+          }
+        }
+      }
+    },
+    "CFBundleName" : {
+      "comment" : "Bundle name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Watch Bible Watch App"
+          }
+        }
       }
     }
-  }
+  },
+  "version" : "1.0"
 }

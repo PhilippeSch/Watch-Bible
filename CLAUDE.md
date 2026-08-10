@@ -64,8 +64,11 @@ Kompilieren gehört zum Durchgang, nicht zur Nachkontrolle durch den Nutzer. Im 
 xcodebuild -project "Watch Bible.xcodeproj" \
            -scheme "Watch Bible Watch App" \
            -destination 'generic/platform=watchOS Simulator' \
-           -derivedDataPath ./build -quiet build 2>&1 | grep -E "error:|warning:|BUILD"
+           -derivedDataPath "$HOME/Library/Developer/WatchBible-build" \
+           -quiet build 2>&1 | grep -E "error:|warning:|BUILD"
 ```
+
+Zwei Eigenheiten dieses Rechners: `xcode-select` zeigt auf die CommandLineTools — vor xcodebuild `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer` setzen. Und Derived Data **nie** in den Projektordner legen (Documents wird von einem File Provider synchronisiert; codesign scheitert sonst an «detritus»-xattrs).
 
 Fehler selbst lesen und beheben, statt sie zu melden. Weiterführende Befehle und Fallstricke stehen im `README.md` unter «Bauen und prüfen».
 

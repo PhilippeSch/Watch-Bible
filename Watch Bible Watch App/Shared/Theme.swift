@@ -35,6 +35,9 @@ enum Typo {
     static let counter     = Font.system(size: 9, design: .monospaced)
     static let register    = Font.system(size: 9.5, weight: .bold)
     static let eyebrow     = Font.system(size: 9.5, weight: .bold)
+    /// Abschnittstitel in Listen (z. B. Sprache in der Uebersetzungswahl) —
+    /// groesser als der Eyebrow, damit er auf der Uhr gut lesbar bleibt.
+    static let sectionHeader = Font.system(size: 13, weight: .semibold)
     static let bookRow     = Font.system(size: 15, weight: .semibold)
     static let bookCount   = Font.system(size: 10, design: .monospaced)
     static let tableRow    = Font.system(size: 10)

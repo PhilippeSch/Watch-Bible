@@ -151,7 +151,7 @@ struct TranslationListView: View {
                     }
                 } header: {
                     Text(languageLabel(language))
-                        .font(Typo.eyebrow)
+                        .font(Typo.sectionHeader)
                         .foregroundStyle(Color.secondaryInk)
                 }
             }

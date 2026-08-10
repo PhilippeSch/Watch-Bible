@@ -2,10 +2,21 @@
 
 Stand: 10. August 2026. Baseline: Prototyp baut fehlerfrei (2 Warnungen im alten Parser).
 
-> **Status: Punkte 1–12 umgesetzt** (Durchgang vom 10. August 2026). Build grün
-> unter Swift 6, alle Unit-Tests bestehen, Bildschirme im Simulator geprüft
-> (Tag und Nacht, Deutsch und Englisch, Abweichungsfall 3Mo 5 ELB↔KJV).
-> Offen: Punkt 13 (Widget) sowie die Hinweise unter «Erkenntnisse».
+> **Status: alle Punkte 1–13 umgesetzt** (M6 Widget und M7 Archiv am
+> 10. August 2026 nachgezogen). Build grün unter Swift 6, alle Unit-Tests
+> bestehen, Bildschirme im Simulator geprüft (Tag und Nacht, Deutsch und
+> Englisch, Abweichungsfall 3Mo 5 ELB↔KJV). Archiv signiert und validiert:
+> **47.0 MB unkomprimiert** (Limit 75 MB), Privacy-Manifest als Plist gültig.
+>
+> **M6 (Widget):** Target `BibelWatchWidget` (accessoryRectangular +
+> accessoryCircular), deterministischer Tagesvers, Zeitleiste 7 Tage,
+> Deep Link `watchbible://verse/<buch>/<kapitel>/<vers>`. Das Widget teilt
+> Datenschicht und String-Katalog mit der App (Exception-Set im Projekt),
+> liest `bible.sqlite` aber **aus dem App-Bundle** (zwei Ebenen über der
+> .appex) — eine eigene Kopie hätte das Paket auf 90.5 MB verdoppelt.
+> Bewusst ohne App Group: das Widget folgt der Systemsprache statt der
+> gewählten Übersetzung, dafür bleibt das Privacy-Manifest bei CA92.1.
+> Von Hand zu prüfen: Widget im Simulator zum Smart Stack hinzufügen.
 
 ## Erkenntnisse aus der Umsetzung
 
@@ -14,9 +25,11 @@ Stand: 10. August 2026. Baseline: Prototyp baut fehlerfrei (2 Warnungen im alten
   der Designspezifikation vorgesehenen Any/Dark-Assets gibt es je Rolle zwei
   Colorsets (`…Day`/`…Night`); `ThemeState` in `Shared/Theme.swift` schaltet
   zentral und beobachtbar. Die Farbwerte liegen weiterhin nur im Asset-Katalog.
-- **OneDrive verträgt keine Build-Produkte:** codesign scheitert an den
-  xattrs («detritus»), die OneDrive den Dateien anhängt. Derived Data muss
-  ausserhalb des synchronisierten Ordners liegen (nicht `./build`).
+- **Synchronisierte Ordner vertragen keine Build-Produkte:** codesign
+  scheitert an den xattrs («detritus»), die der File Provider den Dateien
+  anhängt — das gilt auch für den Documents-Ordner am neuen Projektort.
+  Derived Data deshalb immer nach `~/Library/Developer/WatchBible-build`
+  (README und CLAUDE.md sind angepasst).
 - **Datenfund:** In der BSB fehlt Klagelieder 2,1 (Kapitel beginnt bei Vers 2)
   — einziger solcher Fall in der ganzen Datenbank. Quelle prüfen, Datenbank
   neu erzeugen (eigene Aufgabe).
