@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3777271E2D25D64D00DEE4D8 /* Watch Bible Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 3777271D2D25D64D00DEE4D8 /* Watch Bible Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		AB10000000000000000000E1 /* BibelWatchWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AB10000000000000000000A1 /* BibelWatchWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AB10000000000000000000F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB10000000000000000000F3 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		3777272F2D25D64E00DEE4D8 /* Watch Bible Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Watch Bible Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		377727392D25D64E00DEE4D8 /* Watch Bible Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Watch Bible Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB10000000000000000000A1 /* BibelWatchWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BibelWatchWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB10000000000000000000F3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -160,6 +162,7 @@
 		377727102D25D64D00DEE4D8 = {
 			isa = PBXGroup;
 			children = (
+				AB10000000000000000000F4 /* Watch Bible */,
 				377727212D25D64D00DEE4D8 /* Watch Bible Watch App */,
 				AB10000000000000000000A2 /* BibelWatchWidget */,
 				377727322D25D64E00DEE4D8 /* Watch Bible Watch AppTests */,
@@ -178,6 +181,14 @@
 				AB10000000000000000000A1 /* BibelWatchWidget.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		AB10000000000000000000F4 /* Watch Bible */ = {
+			isa = PBXGroup;
+			children = (
+				AB10000000000000000000F3 /* Assets.xcassets */,
+			);
+			path = "Watch Bible";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -210,6 +221,7 @@
 				3777271A2D25D64D00DEE4D8 /* Frameworks */,
 				3777271B2D25D64D00DEE4D8 /* Resources */,
 				AB10000000000000000000E0 /* Embed Foundation Extensions */,
+				AB10000000000000000000FA /* Set Build Number */,
 			);
 			buildRules = (
 			);
@@ -349,6 +361,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB10000000000000000000F2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,6 +394,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		AB10000000000000000000FA /* Set Build Number */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Set Build Number";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n\n# Setzt die Build-Nummer (CURRENT_PROJECT_VERSION) bei jedem Build auf einen\n# Zeitstempel im Format YYYYMMDDHHMM, fuer alle Targets zugleich.\n\nTIMESTAMP=$(date \"+%Y%m%d%H%M\")\n\ncd \"${SRCROOT}\" || exit 1\n\nxcrun agvtool new-version \"$TIMESTAMP\"\n\n# Xcode zum Neuladen der geaenderten Projektdatei zwingen\ntouch \"Watch Bible.xcodeproj/project.pbxproj\"\n\necho \"note: Build-Nummer auf $TIMESTAMP gesetzt (wirksam ab dem naechsten Build)\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		377727192D25D64D00DEE4D8 /* Sources */ = {
@@ -495,6 +530,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -548,6 +584,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
@@ -557,10 +594,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 202608102235;
 				DEVELOPMENT_ASSET_PATHS = "\"Watch Bible Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = PZ2HQ4532Q;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Watch Bible";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
@@ -587,10 +625,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 202608102235;
 				DEVELOPMENT_ASSET_PATHS = "\"Watch Bible Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = PZ2HQ4532Q;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Watch Bible";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
@@ -615,8 +654,9 @@
 		377727482D25D64E00DEE4D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 202608102235;
 				DEVELOPMENT_TEAM = PZ2HQ4532Q;
 				INFOPLIST_KEY_CFBundleDisplayName = "Watch Bible";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -631,8 +671,9 @@
 		377727492D25D64E00DEE4D8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 202608102235;
 				DEVELOPMENT_TEAM = PZ2HQ4532Q;
 				INFOPLIST_KEY_CFBundleDisplayName = "Watch Bible";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -650,7 +691,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 202608102235;
 				DEVELOPMENT_TEAM = PZ2HQ4532Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -670,7 +711,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 202608102235;
 				DEVELOPMENT_TEAM = PZ2HQ4532Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -690,7 +731,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 202608102235;
 				DEVELOPMENT_TEAM = PZ2HQ4532Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -709,7 +750,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 202608102235;
 				DEVELOPMENT_TEAM = PZ2HQ4532Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -729,7 +770,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 202608102235;
 				DEVELOPMENT_TEAM = PZ2HQ4532Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BibelWatchWidget/Info.plist;
@@ -755,7 +796,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 202608102235;
 				DEVELOPMENT_TEAM = PZ2HQ4532Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BibelWatchWidget/Info.plist;

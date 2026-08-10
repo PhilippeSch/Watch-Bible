@@ -51,8 +51,9 @@ struct VerseGridView: View {
 
     private var counter: some View {
         HStack {
+            // Int64: %lld des Katalogs liest 64 Bit, `Int` ist auf der Uhr 32 Bit.
             Text(String.localizedStringWithFormat(String(localized: "count.verses"),
-                                                  verseCount))
+                                                  Int64(verseCount)))
             Spacer(minLength: 0)
             Text(verbatim: model.translation?.abbrev ?? "")
         }

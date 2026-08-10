@@ -52,9 +52,13 @@ enum Localization {
     /// Stellenangabe ohne Vers («Psalm 23» / "Psalm 23"). Der Katalogschlüssel
     /// verwendet Positionsangaben (%1$@ %2$lld); SwiftUI-Interpolation erzeugt
     /// %@ %lld und fände ihn nicht — darum String(format:).
+    ///
+    /// `Int64(...)` ist Pflicht, keine Kosmetik: auf der Uhr (arm64_32) ist `Int`
+    /// 32 Bit breit, `%lld` liest aber 64 Bit. Ohne die Umwandlung steht auf dem
+    /// Gerät «2. Petrus 0» — im Simulator (arm64, 64 Bit) sieht man nichts davon.
     static func chapterReference(book: Book, chapter: Int) -> String {
         String(format: String(localized: "reference.chapter %1$@ %2$lld"),
-               name(of: book), chapter)
+               name(of: book), Int64(chapter))
     }
 
     /// Zählerzeile des Zufallsverses («18’463 / 31’103»).

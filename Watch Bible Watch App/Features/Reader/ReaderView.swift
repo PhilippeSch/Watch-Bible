@@ -258,8 +258,9 @@ private struct DivergenceTable: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
             Spacer(minLength: 6)
+            // Int64: %lld des Katalogs liest 64 Bit, `Int` ist auf der Uhr 32 Bit.
             Text(verbatim: String.localizedStringWithFormat(
-                String(localized: "count.verses"), count))
+                String(localized: "count.verses"), Int64(count)))
                 .monospacedDigit()
                 .foregroundStyle(Color.ink)
         }

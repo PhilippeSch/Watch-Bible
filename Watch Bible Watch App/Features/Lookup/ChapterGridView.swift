@@ -38,8 +38,9 @@ struct ChapterGridView: View {
 
     private var counter: some View {
         HStack {
+            // Int64: %lld des Katalogs liest 64 Bit, `Int` ist auf der Uhr 32 Bit.
             Text(String.localizedStringWithFormat(String(localized: "count.chapters"),
-                                                  chapters.count))
+                                                  Int64(chapters.count)))
             Spacer(minLength: 0)
             Text(verbatim: model.translation?.abbrev ?? "")
         }

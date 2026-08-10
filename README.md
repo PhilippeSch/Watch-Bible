@@ -62,6 +62,16 @@ Merkpunkte:
 - Der Build braucht eine installierte watchOS-Simulator-Laufzeit. Fehlt sie, meldet `xcodebuild` das eindeutig — dann in Xcode unter Einstellungen → Components nachinstallieren.
 - Layout auf der Uhr lässt sich damit **nicht** beurteilen. Kompilieren heisst nicht, dass es gut aussieht: Bildschirme weiterhin im Simulator ansehen.
 
+### Die Build-Nummer setzt sich selbst
+
+Das Target «Watch Bible Watch App» hat als letzte Build-Phase ein Skript «Set Build Number». Es ruft `xcrun agvtool new-version` mit dem aktuellen Zeitstempel im Format `YYYYMMDDHHMM` auf und schreibt damit `CURRENT_PROJECT_VERSION` in **alle** Targets — App, Widget und Tests bleiben so automatisch auf derselben Nummer. `CFBundleVersion` kommt bei allen Targets aus `GENERATE_INFOPLIST_FILE`, also braucht es keine Handarbeit an Info.plist-Dateien mehr. Dasselbe Verfahren läuft im Projekt Swiss-News.
+
+Drei Punkte dazu:
+
+- Das Skript schreibt in `project.pbxproj`, also **verändert jeder Build die Projektdatei**. Ein `git status` nach dem Bauen zeigt sie darum immer als geändert.
+- Der Zeitstempel wirkt erst im **nächsten** Build: Xcode löst die Build-Einstellungen zu Beginn auf, das Bundle des laufenden Builds trägt darum noch die Nummer vom vorherigen Lauf. Für den App Store genügt das, die Nummer steigt monoton.
+- Dafür ist `ENABLE_USER_SCRIPT_SANDBOXING` für dieses eine Target auf `NO` gesetzt (projektweit bleibt es `YES`) — die Sandbox verbietet das Schreiben ins Projektverzeichnis. `VERSIONING_SYSTEM = apple-generic` auf Projektebene ist die Voraussetzung dafür, dass `agvtool` überhaupt greift.
+
 ### Ein Wort zu synchronisierten Ordnern
 
 Das Projekt liegt unter `~/Documents/X-Code Projects/Watch Bible`. Auch der Documents-Ordner wird auf diesem Rechner von einem File Provider synchronisiert (nachgewiesen am `com.apple.fileprovider`-Attribut auf Build-Produkten) — Quelldateien sind unkritisch, aber Derived Data gehört deshalb zwingend nach `~/Library/Developer/` (siehe Merkpunkte oben).
