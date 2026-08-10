@@ -66,8 +66,9 @@ Merkpunkte:
 
 Das Target «Watch Bible Watch App» hat als letzte Build-Phase ein Skript «Set Build Number». Es ruft `xcrun agvtool new-version` mit dem aktuellen Zeitstempel im Format `YYYYMMDDHHMM` auf und schreibt damit `CURRENT_PROJECT_VERSION` in **alle** Targets — App, Widget und Tests bleiben so automatisch auf derselben Nummer. `CFBundleVersion` kommt bei allen Targets aus `GENERATE_INFOPLIST_FILE`, also braucht es keine Handarbeit an Info.plist-Dateien mehr. Dasselbe Verfahren läuft im Projekt Swiss-News.
 
-Drei Punkte dazu:
+Vier Punkte dazu:
 
+- **Beim Archivieren läuft das Skript bewusst nicht** (es prüft `$ACTION = install` und steigt sofort aus). Schreibt es während eines Archive-Vorgangs in die Projektdatei, lädt Xcode das Projekt mitten im Lauf neu und stoppt ihn — im Log steht dann nur «Build stopped», der Issue Navigator bleibt leer und es entsteht kein Archiv. Das Archiv erhält darum die Nummer des letzten normalen Builds. Wer vor dem Hochladen eine frische Nummer will, drückt vorher einmal ⌘B.
 - Das Skript schreibt in `project.pbxproj`, also **verändert jeder Build die Projektdatei**. Ein `git status` nach dem Bauen zeigt sie darum immer als geändert.
 - Der Zeitstempel wirkt erst im **nächsten** Build: Xcode löst die Build-Einstellungen zu Beginn auf, das Bundle des laufenden Builds trägt darum noch die Nummer vom vorherigen Lauf. Für den App Store genügt das, die Nummer steigt monoton.
 - Dafür ist `ENABLE_USER_SCRIPT_SANDBOXING` für dieses eine Target auf `NO` gesetzt (projektweit bleibt es `YES`) — die Sandbox verbietet das Schreiben ins Projektverzeichnis. `VERSIONING_SYSTEM = apple-generic` auf Projektebene ist die Voraussetzung dafür, dass `agvtool` überhaupt greift.
