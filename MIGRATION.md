@@ -8,6 +8,15 @@ Stand: 10. August 2026. Baseline: Prototyp baut fehlerfrei (2 Warnungen im alten
 > Englisch, Abweichungsfall 3Mo 5 ELB↔KJV). Archiv signiert und validiert:
 > **47.0 MB unkomprimiert** (Limit 75 MB), Privacy-Manifest als Plist gültig.
 >
+> **Deployment Targets.** Die watchOS-Ziele stehen auf 11.2. Der iOS-Container
+> («Watch Bible.app», reine Hülle einer Watch-only-App) hatte gar kein
+> `IPHONEOS_DEPLOYMENT_TARGET` und fiel damit auf den SDK-Vorgabewert 13.0
+> zurück — App Store Connect beanstandet das, weil ab Frühjahr 2027 mindestens
+> 15.0 verlangt wird. Jetzt fest auf **15.0** gesetzt (beide Konfigurationen
+> des Container-Targets); im Archiv geprüft: `MinimumOSVersion` = 15.0.
+> Die Hülle wird nie ausgeführt, ihr Wert steuert nur die Store-Annahme —
+> die Uhr selbst bleibt bei watchOS 11.2.
+>
 > **M6 (Widget):** Target `BibelWatchWidget` (accessoryRectangular +
 > accessoryCircular), deterministischer Tagesvers, Zeitleiste 7 Tage,
 > Deep Link `watchbible://verse/<buch>/<kapitel>/<vers>`. Das Widget teilt
