@@ -17,6 +17,17 @@ Stand: 10. August 2026. Baseline: Prototyp baut fehlerfrei (2 Warnungen im alten
 > Die Hülle wird nie ausgeführt, ihr Wert steuert nur die Store-Annahme —
 > die Uhr selbst bleibt bei watchOS 11.2.
 >
+> **Build-Nummern.** `CURRENT_PROJECT_VERSION` gilt in allen fünf Targets
+> gemeinsam; Container, Watch-App und Widget müssen dieselbe `CFBundleVersion`
+> tragen. Build 1 wurde am 10. August 2026 verbraucht (zwei Uploads, der zweite
+> als Dublette abgewiesen) — **jede weitere Lieferung braucht eine höhere
+> Nummer**, aktuell steht sie auf 2. `MARKETING_VERSION` bleibt 1.0.
+>
+> **Archivieren mit dem Schema `Watch Bible Watch App`.** Xcode legte beim
+> Anlegen des Widgets automatisch ein Schema `BibelWatchWidget` an; archiviert
+> man damit, ist das Ergebnis inhaltlich korrekt, heisst im Organizer aber nach
+> der Extension.
+>
 > **M6 (Widget):** Target `BibelWatchWidget` (accessoryRectangular +
 > accessoryCircular), deterministischer Tagesvers, Zeitleiste 7 Tage,
 > Deep Link `watchbible://verse/<buch>/<kapitel>/<vers>`. Das Widget teilt

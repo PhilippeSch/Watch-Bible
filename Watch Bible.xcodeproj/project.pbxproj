@@ -105,14 +105,6 @@
 			path = "Watch Bible Watch App";
 			sourceTree = "<group>";
 		};
-		AB10000000000000000000A2 /* BibelWatchWidget */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				AB10000000000000000000A4 /* Exceptions for "BibelWatchWidget" folder in "BibelWatchWidget" target */,
-			);
-			path = BibelWatchWidget;
-			sourceTree = "<group>";
-		};
 		377727322D25D64E00DEE4D8 /* Watch Bible Watch AppTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Watch Bible Watch AppTests";
@@ -121,6 +113,14 @@
 		3777273C2D25D64E00DEE4D8 /* Watch Bible Watch AppUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Watch Bible Watch AppUITests";
+			sourceTree = "<group>";
+		};
+		AB10000000000000000000A2 /* BibelWatchWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				AB10000000000000000000A4 /* Exceptions for "BibelWatchWidget" folder in "BibelWatchWidget" target */,
+			);
+			path = BibelWatchWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -557,7 +557,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Watch Bible Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = PZ2HQ4532Q;
 				ENABLE_PREVIEWS = YES;
@@ -587,7 +587,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Watch Bible Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = PZ2HQ4532Q;
 				ENABLE_PREVIEWS = YES;
@@ -616,7 +616,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = PZ2HQ4532Q;
 				INFOPLIST_KEY_CFBundleDisplayName = "Watch Bible";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -632,7 +632,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = PZ2HQ4532Q;
 				INFOPLIST_KEY_CFBundleDisplayName = "Watch Bible";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -650,7 +650,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = PZ2HQ4532Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -670,7 +670,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = PZ2HQ4532Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -690,7 +690,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = PZ2HQ4532Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -709,7 +709,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = PZ2HQ4532Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -729,7 +729,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = PZ2HQ4532Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BibelWatchWidget/Info.plist;
@@ -755,7 +755,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = PZ2HQ4532Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BibelWatchWidget/Info.plist;
