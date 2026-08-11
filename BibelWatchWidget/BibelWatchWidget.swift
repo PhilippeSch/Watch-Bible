@@ -1,10 +1,11 @@
 import WidgetKit
 import SwiftUI
 
-/// Vers des Tages (Konzept, Kapitel 9): deterministisch aus dem Datum
-/// abgeleitet, nie zufaellig — sonst zeigt jede Zeitleisten-Aktualisierung
-/// etwas anderes. Die Zeitleiste traegt sieben Tage vor, Wechsel um
-/// Mitternacht. Tippen oeffnet die App auf demselben Vers (widgetURL).
+/// Vers des Tages (Konzept, Kapitel 9): jeder Kalendertag zieht einen eigenen
+/// Zufallsvers aus der kuratierten Auswahl — mit der Tagesnummer als Startwert,
+/// damit der Vers von Mitternacht bis Mitternacht steht und jede Neuberechnung
+/// der Zeitleiste denselben liefert. Die Zeitleiste traegt sieben Tage vor.
+/// Tippen oeffnet die App auf demselben Vers (widgetURL).
 ///
 /// Bewusst ohne App Group: das Widget liest keine UserDefaults und folgt der
 /// Systemsprache (de → ELB, en → KJV). Damit bleibt das Privacy-Manifest der
@@ -96,7 +97,9 @@ struct VerseOfDayProvider: TimelineProvider {
             var entries: [VerseEntry] = []
             for offset in 0..<days {
                 guard let day = calendar.date(byAdding: .day, value: offset, to: startOfToday),
-                      let verse = try await repository.verseOfDay(for: day, in: translation),
+                      let dayNumber = calendar.ordinality(of: .day, in: .era, for: day),
+                      let verse = try await repository.randomCuratedVerse(
+                          in: translation, seed: UInt64(dayNumber)),
                       let book = await repository.book(id: verse.reference.bookID) else { continue }
                 entries.append(VerseEntry(
                     date: day,

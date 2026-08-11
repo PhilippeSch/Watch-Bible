@@ -64,14 +64,15 @@ Merkpunkte:
 
 ### Die Build-Nummer setzt sich selbst
 
-Das Target «Watch Bible Watch App» hat als letzte Build-Phase ein Skript «Set Build Number». Es ruft `xcrun agvtool new-version` mit dem aktuellen Zeitstempel im Format `YYYYMMDDHHMM` auf und schreibt damit `CURRENT_PROJECT_VERSION` in **alle** Targets — App, Widget und Tests bleiben so automatisch auf derselben Nummer. `CFBundleVersion` kommt bei allen Targets aus `GENERATE_INFOPLIST_FILE`, also braucht es keine Handarbeit an Info.plist-Dateien mehr. Dasselbe Verfahren läuft im Projekt Swiss-News.
+Das Target «Watch Bible Watch App» hat als letzte Build-Phase ein Skript «Set Build Number». Es schreibt den aktuellen Zeitstempel im Format `YYYYMMDDHHMM` als `BUILD_TIMESTAMP` nach `Config/Version.xcconfig`. Diese Datei ist die Basiskonfiguration beider Projekt-Konfigurationen (Debug und Release); alle Targets setzen `CURRENT_PROJECT_VERSION = $(BUILD_TIMESTAMP)` — App, Widget, Container und Tests bleiben so automatisch auf derselben Nummer. `CFBundleVersion` kommt bei allen Targets aus `GENERATE_INFOPLIST_FILE`, also braucht es keine Handarbeit an Info.plist-Dateien.
 
-Vier Punkte dazu:
+Fünf Punkte dazu:
 
-- **Beim Archivieren läuft das Skript bewusst nicht** (es prüft `$ACTION = install` und steigt sofort aus). Schreibt es während eines Archive-Vorgangs in die Projektdatei, lädt Xcode das Projekt mitten im Lauf neu und stoppt ihn — im Log steht dann nur «Build stopped», der Issue Navigator bleibt leer und es entsteht kein Archiv. Das Archiv erhält darum die Nummer des letzten normalen Builds. Wer vor dem Hochladen eine frische Nummer will, drückt vorher einmal ⌘B.
-- Das Skript schreibt in `project.pbxproj`, also **verändert jeder Build die Projektdatei**. Ein `git status` nach dem Bauen zeigt sie darum immer als geändert.
-- Der Zeitstempel wirkt erst im **nächsten** Build: Xcode löst die Build-Einstellungen zu Beginn auf, das Bundle des laufenden Builds trägt darum noch die Nummer vom vorherigen Lauf. Für den App Store genügt das, die Nummer steigt monoton.
-- Dafür ist `ENABLE_USER_SCRIPT_SANDBOXING` für dieses eine Target auf `NO` gesetzt (projektweit bleibt es `YES`) — die Sandbox verbietet das Schreiben ins Projektverzeichnis. `VERSIONING_SYSTEM = apple-generic` auf Projektebene ist die Voraussetzung dafür, dass `agvtool` überhaupt greift.
+- **Geschrieben wird nur die xcconfig, nie `project.pbxproj`.** Das ist der ganze Grund für diese Konstruktion: eine geänderte Projektdatei lässt Xcode das Projekt mitten im Lauf neu laden und bricht den laufenden Vorgang ab — ohne Fehler, ohne Meldung. Im Report Navigator bleibt der Eintrag leer, im `.xcresult` steht `"status": "cancelled"` bei `errorCount: 0`. Die frühere Fassung rief `xcrun agvtool new-version` auf und ist genau daran gescheitert: **jeder Testlauf aus Xcode heraus (⌘U) brach nach dem Build ab, ohne einen einzigen Test auszuführen.** Über die Kommandozeile lief derselbe Testlauf durch, weil `xcodebuild` kein Projekt neu lädt.
+- Für Tests gibt es keinen Ausweg über `$ACTION`: bei ⌘U steht `ACTION` genauso auf `build` wie bei ⌘B, und die Umgebung eines Testbuilds ist im App-Target bis auf die `LLBUILD_*`-IDs identisch. Ein Skript, das während des Builds in die Projektdatei schreibt, ist mit Testen schlicht unvereinbar.
+- **Beim Archivieren läuft das Skript bewusst gar nicht** (es prüft `$ACTION = install` und steigt sofort aus). Das Archiv erhält darum die Nummer des letzten normalen Builds. Wer vor dem Hochladen eine frische Nummer will, drückt vorher einmal ⌘B.
+- Der Zeitstempel wirkt erst im **nächsten** Build: Xcode löst die Build-Einstellungen zu Beginn auf, das Bundle des laufenden Builds trägt darum noch die Nummer vom vorherigen Lauf. Für den App Store genügt das, die Nummer steigt monoton. Innerhalb derselben Minute lässt das Skript die Datei unberührt.
+- `Config/Version.xcconfig` **gehört ins Repository** — fehlt sie, ist `CURRENT_PROJECT_VERSION` leer. Dafür verändert jeder Build diese eine Zeile, `git status` zeigt sie also immer als geändert (vorher war es die Projektdatei). `ENABLE_USER_SCRIPT_SANDBOXING` ist für dieses eine Target auf `NO` gesetzt (projektweit bleibt es `YES`), weil die Sandbox das Schreiben ins Projektverzeichnis verbietet.
 
 ### Ein Wort zu synchronisierten Ordnern
 

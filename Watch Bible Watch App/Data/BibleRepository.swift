@@ -95,11 +95,19 @@ actor BibleRepository {
     }
 
     /// Zufallsvers aus der kuratierten Auswahl (180 Kernverse).
+    ///
+    /// Mit `seed` liefert derselbe Startwert dieselbe Ziehung. Das Widget setzt
+    /// die Nummer des Kalendertages ein: der Vers steht damit von Mitternacht
+    /// bis Mitternacht, und jede Neuberechnung der Zeitleiste bestaetigt ihn,
+    /// statt einen anderen zu zeigen. Ohne `seed` wird der Startwert selbst
+    /// gewuerfelt — das ist der Zufallsvers der App.
     func randomCuratedVerse(in translation: Translation,
-                            excluding recent: Set<Int> = []) async throws -> Verse? {
+                            excluding recent: Set<Int> = [],
+                            seed: UInt64? = nil) async throws -> Verse? {
         guard curatedCount > 0 else { return nil }
+        var rng = SeededGenerator(seed: seed ?? .random(in: 0...UInt64.max))
         for _ in 0..<8 {
-            let offset = Int.random(in: 0..<curatedCount)
+            let offset = Int.random(in: 0..<curatedCount, using: &rng)
             guard let ref = try await db.queryOne("""
                 SELECT book_id, chapter, verse FROM curated
                  ORDER BY id LIMIT 1 OFFSET ?
@@ -112,22 +120,6 @@ actor BibleRepository {
             }
         }
         return nil
-    }
-
-    /// Deterministischer Vers des Tages — gleiche Eingabe, gleiches Ergebnis.
-    /// Das Widget darf keinen Zufall verwenden, sonst wechselt der Vers bei
-    /// jeder Zeitleisten-Aktualisierung.
-    func verseOfDay(for date: Date, in translation: Translation) async throws -> Verse? {
-        guard curatedCount > 0 else { return nil }
-        let day = Calendar(identifier: .gregorian)
-            .ordinality(of: .day, in: .era, for: date) ?? 0
-        let offset = day % curatedCount
-        guard let ref = try await db.queryOne("""
-            SELECT book_id, chapter, verse FROM curated ORDER BY id LIMIT 1 OFFSET ?
-            """, [offset], map: { r in
-                VerseReference(bookID: r.int(0), chapter: r.int(1), verse: r.int(2))
-            }) else { return nil }
-        return try await verse(ref, in: translation)
     }
 
     // MARK: - Nachschlagen
@@ -219,5 +211,26 @@ actor BibleRepository {
             return .unavailable
         }
         return .clamped(verse, requested: ref.verse)
+    }
+}
+
+/// Zufallszahlen mit festem Startwert (SplitMix64). Gleicher Startwert,
+/// gleiche Folge — anders als `SystemRandomNumberGenerator`, der bei jedem
+/// Aufruf neu wuerfelt. Rechnet durchgaengig in UInt64, weil `Int` auf
+/// watchOS 32 Bit breit ist.
+private struct SeededGenerator: RandomNumberGenerator {
+
+    private var state: UInt64
+
+    init(seed: UInt64) {
+        self.state = seed
+    }
+
+    mutating func next() -> UInt64 {
+        state = state &+ 0x9E37_79B9_7F4A_7C15
+        var z = state
+        z = (z ^ (z >> 30)) &* 0xBF58_476D_1CE4_E5B9
+        z = (z ^ (z >> 27)) &* 0x94D0_49BB_1331_11EB
+        return z ^ (z >> 31)
     }
 }

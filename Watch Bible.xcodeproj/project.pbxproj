@@ -74,6 +74,7 @@
 		3777272F2D25D64E00DEE4D8 /* Watch Bible Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Watch Bible Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		377727392D25D64E00DEE4D8 /* Watch Bible Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Watch Bible Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB10000000000000000000A1 /* BibelWatchWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BibelWatchWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB10000000000000000000FB /* Version.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Version.xcconfig; sourceTree = "<group>"; };
 		AB10000000000000000000F3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -162,6 +163,7 @@
 		377727102D25D64D00DEE4D8 = {
 			isa = PBXGroup;
 			children = (
+				AB10000000000000000000FC /* Config */,
 				AB10000000000000000000F4 /* Watch Bible */,
 				377727212D25D64D00DEE4D8 /* Watch Bible Watch App */,
 				AB10000000000000000000A2 /* BibelWatchWidget */,
@@ -181,6 +183,14 @@
 				AB10000000000000000000A1 /* BibelWatchWidget.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		AB10000000000000000000FC /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				AB10000000000000000000FB /* Version.xcconfig */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 		AB10000000000000000000F4 /* Watch Bible */ = {
@@ -417,7 +427,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\n# Setzt die Build-Nummer (CURRENT_PROJECT_VERSION) bei jedem Build auf einen\n# Zeitstempel im Format YYYYMMDDHHMM, fuer alle Targets zugleich.\n\n# Beim Archivieren nicht schreiben: agvtool aendert project.pbxproj, Xcode\n# laedt das Projekt daraufhin neu und stoppt den laufenden Vorgang ohne\n# Fehlermeldung. Das Archiv behaelt die Nummer des letzten normalen Builds.\nif [ \"$ACTION\" = \"install\" ]; then\n    echo \"note: Archivierung, Build-Nummer bleibt bei $CURRENT_PROJECT_VERSION\"\n    exit 0\nfi\n\nTIMESTAMP=$(date \"+%Y%m%d%H%M\")\n\ncd \"${SRCROOT}\" || exit 1\n\nxcrun agvtool new-version \"$TIMESTAMP\"\n\n# Xcode zum Neuladen der geaenderten Projektdatei zwingen\ntouch \"Watch Bible.xcodeproj/project.pbxproj\"\n\necho \"note: Build-Nummer auf $TIMESTAMP gesetzt (wirksam ab dem naechsten Build)\"\n";
+			shellScript = "#!/bin/sh\n\n# Setzt die Build-Nummer bei jedem Build auf einen Zeitstempel im Format\n# YYYYMMDDHHMM. Geschrieben wird ausschliesslich Config/Version.xcconfig;\n# alle Targets beziehen ihr CURRENT_PROJECT_VERSION aus BUILD_TIMESTAMP und\n# bleiben so automatisch auf derselben Nummer.\n\n# In project.pbxproj wird bewusst nicht mehr geschrieben (frueher via agvtool):\n# eine geaenderte Projektdatei laesst Xcode das Projekt mitten im Lauf neu\n# laden und bricht ihn ohne Fehlermeldung ab. Daran scheiterte jeder Testlauf\n# aus Xcode heraus - der Build lief durch, danach stand im Ergebnis nur\n# \"cancelled\", ohne Fehler und ohne einen einzigen ausgefuehrten Test.\n\n# Beim Archivieren gar nicht erst laufen: das Archiv traegt die Nummer, die zu\n# Beginn des Laufs aufgeloest wurde. Wer vor dem Hochladen eine frische Nummer\n# will, drueckt vorher einmal Cmd-B.\nif [ \"$ACTION\" = \"install\" ]; then\n    echo \"note: Archivierung, Build-Nummer bleibt bei $CURRENT_PROJECT_VERSION\"\n    exit 0\nfi\n\nCONFIG=\"${SRCROOT}/Config/Version.xcconfig\"\nTIMESTAMP=$(date \"+%Y%m%d%H%M\")\n\n{\n    echo \"// Von der Build-Phase \\\"Set Build Number\\\" erzeugt. Nicht von Hand aendern.\"\n    echo \"BUILD_TIMESTAMP = $TIMESTAMP\"\n} > \"$CONFIG.new\" || exit 1\n\n# Innerhalb derselben Minute bleibt die Datei unberuehrt, das erspart Xcode\n# das Neuaufloesen der Build-Einstellungen.\nif cmp -s \"$CONFIG.new\" \"$CONFIG\"; then\n    rm -f \"$CONFIG.new\"\n    exit 0\nfi\n\nmv \"$CONFIG.new\" \"$CONFIG\" || exit 1\necho \"note: Build-Nummer auf $TIMESTAMP gesetzt (wirksam ab dem naechsten Build)\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -478,6 +488,7 @@
 /* Begin XCBuildConfiguration section */
 		377727412D25D64E00DEE4D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB10000000000000000000FB /* Version.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -544,6 +555,7 @@
 		};
 		377727422D25D64E00DEE4D8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB10000000000000000000FB /* Version.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -606,7 +618,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202608111831;
+				CURRENT_PROJECT_VERSION = "$(BUILD_TIMESTAMP)";
 				DEVELOPMENT_ASSET_PATHS = "\"Watch Bible Watch App/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -637,7 +649,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202608111831;
+				CURRENT_PROJECT_VERSION = "$(BUILD_TIMESTAMP)";
 				DEVELOPMENT_ASSET_PATHS = "\"Watch Bible Watch App/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -668,7 +680,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202608111831;
+				CURRENT_PROJECT_VERSION = "$(BUILD_TIMESTAMP)";
 				INFOPLIST_KEY_CFBundleDisplayName = "Watch Bible";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -685,7 +697,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202608111831;
+				CURRENT_PROJECT_VERSION = "$(BUILD_TIMESTAMP)";
 				INFOPLIST_KEY_CFBundleDisplayName = "Watch Bible";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -703,7 +715,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202608111831;
+				CURRENT_PROJECT_VERSION = "$(BUILD_TIMESTAMP)";
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Scheuber.Watch-Bible-Watch-AppTests";
@@ -722,7 +734,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202608111831;
+				CURRENT_PROJECT_VERSION = "$(BUILD_TIMESTAMP)";
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Scheuber.Watch-Bible-Watch-AppTests";
@@ -741,7 +753,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202608111831;
+				CURRENT_PROJECT_VERSION = "$(BUILD_TIMESTAMP)";
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Scheuber.Watch-Bible-Watch-AppUITests";
@@ -759,7 +771,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202608111831;
+				CURRENT_PROJECT_VERSION = "$(BUILD_TIMESTAMP)";
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Scheuber.Watch-Bible-Watch-AppUITests";
@@ -778,7 +790,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202608111831;
+				CURRENT_PROJECT_VERSION = "$(BUILD_TIMESTAMP)";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BibelWatchWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Watch Bible";
@@ -803,7 +815,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 202608111831;
+				CURRENT_PROJECT_VERSION = "$(BUILD_TIMESTAMP)";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BibelWatchWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Watch Bible";

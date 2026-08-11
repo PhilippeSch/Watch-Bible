@@ -512,19 +512,50 @@ struct ZufallTests {
         #expect(!verse.text.isEmpty)
     }
 
-    /// Das Widget braucht Determinismus: gleicher Tag, gleicher Vers.
+    /// Das Widget braucht Determinismus: gleicher Startwert, gleicher Vers.
+    /// Sonst wechselt der Vers mitten am Tag, sobald WidgetKit die Zeitleiste
+    /// neu berechnet.
     @Test func versDesTagesIstDeterministisch() async throws {
         let repo = try await TestSupport.repository()
         let translations = await repo.translations
         let elb = try #require(translations.first { $0.code == "elb" })
 
-        let date = Date(timeIntervalSince1970: 1_754_000_000)
-        let first = try #require(try await repo.verseOfDay(for: date, in: elb))
-        let second = try #require(try await repo.verseOfDay(for: date, in: elb))
+        let day: UInt64 = 739_838
+        let first = try #require(try await repo.randomCuratedVerse(in: elb, seed: day))
+        let second = try #require(try await repo.randomCuratedVerse(in: elb, seed: day))
         #expect(first.id == second.id)
 
-        let nextDay = date.addingTimeInterval(86_400)
-        let third = try #require(try await repo.verseOfDay(for: nextDay, in: elb))
-        #expect(third.id != first.id)
+        let next = try #require(try await repo.randomCuratedVerse(in: elb, seed: day + 1))
+        #expect(next.id != first.id)
+    }
+
+    /// Ohne Startwert bleibt es der Zufallsvers der App: 20 Ziehungen aus der
+    /// kuratierten Liste duerfen nicht alle denselben Vers liefern.
+    @Test func kuratierterZufallsversStreut() async throws {
+        let repo = try await TestSupport.repository()
+        let translations = await repo.translations
+        let elb = try #require(translations.first { $0.code == "elb" })
+
+        var ids: Set<Int> = []
+        for _ in 0..<20 {
+            let verse = try #require(try await repo.randomCuratedVerse(in: elb))
+            ids.insert(verse.id)
+        }
+        #expect(ids.count > 1)
+    }
+
+    /// Ueber ein Jahr hinweg muss die Tagesauswahl den grossen Teil der 180
+    /// Kernverse abdecken — sonst wiederholt sich das Widget zu haeufig.
+    @Test func tagesauswahlDecktDieListeAb() async throws {
+        let repo = try await TestSupport.repository()
+        let translations = await repo.translations
+        let elb = try #require(translations.first { $0.code == "elb" })
+
+        var ids: Set<Int> = []
+        for day in UInt64(739_838)..<UInt64(739_838 + 365) {
+            let verse = try #require(try await repo.randomCuratedVerse(in: elb, seed: day))
+            ids.insert(verse.id)
+        }
+        #expect(ids.count > 150)
     }
 }

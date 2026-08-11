@@ -254,12 +254,14 @@ Nach der Auswahl die Leseansicht: der gewählte Vers hervorgehoben, davor und da
 
 ## 9. Vers des Tages als Widget
 
-Eine WidgetKit-Extension mit `accessoryRectangular` (Smart Stack, Zifferblatt) und `accessoryCircular` (nur Referenz, für kleine Komplikationen). Der Vers muss **deterministisch aus dem Datum** abgeleitet werden, nicht zufällig — sonst zeigt jede Aktualisierung etwas anderes:
+Eine WidgetKit-Extension mit `accessoryRectangular` (Smart Stack, Zifferblatt) und `accessoryCircular` (nur Referenz, für kleine Komplikationen). Jeder Kalendertag zieht **einen eigenen Zufallsvers aus der kuratierten Auswahl** — mit der Nummer des Tages als Startwert des Zufallsgenerators. Der Vers steht damit von Mitternacht bis Mitternacht, und jede Neuberechnung der Zeitleiste liefert denselben. Ein ungeseedeter `Int.random`-Aufruf wäre falsch: WidgetKit berechnet die Zeitleiste mehrmals, der Vers würde mitten am Tag wechseln.
 
 ```swift
 let day = Calendar.current.ordinality(of: .day, in: .era, for: date)!
-let index = day % curatedCount          // stabile Tagesauswahl
+let verse = try await repository.randomCuratedVerse(in: translation, seed: UInt64(day))
 ```
+
+Es gibt also keine eigene `verseOfDay`-Abfrage — Widget und Zufallsmodus der App teilen sich `randomCuratedVerse`, das Widget setzt zusätzlich den Startwert.
 
 `TimelineProvider` liefert Einträge für die nächsten sieben Tage mit `.after(mitternacht)`. Tippen öffnet die App auf demselben Vers (Deep Link über `widgetURL`).
 
@@ -331,7 +333,7 @@ Für Swift stand hier kein Compiler zur Verfügung. Die folgenden Dateien sind f
 
 - `Models.swift` — `Translation`, `Book`, `Verse`, `VerseReference`, `VerseResolution`
 - `BibleDatabase.swift` — Actor um die sqlite3-C-API, read-only, Statement-Cache, `deinit` mit `sqlite3_finalize`
-- `BibleRepository.swift` — alle Abfragen typisiert, dazu `randomVerse`, `randomCuratedVerse`, `verseOfDay`, `chapter`, `resolve`
+- `BibleRepository.swift` — alle Abfragen typisiert, dazu `randomVerse`, `randomCuratedVerse` (mit optionalem Startwert für das Widget), `chapter`, `resolve`
 - `AppSettings.swift` — `@Observable` mit `@AppStorage`
 - `Localization.swift` — Anzeigesprache, Übersetzungsvorgabe (erste Übersetzung dieser Sprache in Datenbankreihenfolge), Buchnamen, Stellenformat
 
