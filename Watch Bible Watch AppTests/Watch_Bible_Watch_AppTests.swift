@@ -408,6 +408,66 @@ struct SprachenTests {
         }
     }
 
+    /// Buchkuerzel: alle 66 Buecher in allen sechs Sprachen, ohne Rueckfall
+    /// auf `book.code` — der waere in fuenf davon falsch.
+    @Test func buchkuerzelLiegenInAllenSprachenVor() async throws {
+        let repo = try await TestSupport.repository()
+        let books = await repo.books
+
+        for sprache in Localization.supportedLanguages {
+            let ohne = books.filter { $0.abbreviations[sprache] == nil }
+            #expect(ohne.isEmpty,
+                    "\(sprache): kein Kuerzel fuer \(ohne.map(\.code).joined(separator: ", "))")
+            // Zwei Buecher mit demselben Kuerzel waeren im Register nicht
+            // auseinanderzuhalten.
+            let kuerzel = books.compactMap { $0.abbreviations[sprache] }
+            #expect(Set(kuerzel).count == kuerzel.count, "\(sprache): doppelte Kuerzel")
+        }
+    }
+
+    /// Stichproben der Kuerzel: je Sprache der uebliche Satz — Elberfelder
+    /// fuer Deutsch, SBL fuer Englisch, das 和合本-Kuerzel fuer Chinesisch.
+    @Test func buchkuerzelStimmen() async throws {
+        let repo = try await TestSupport.repository()
+        let books = await repo.books
+        let erwartet: [String: [String: String]] = [
+            "1Mo":  ["de": "1Mo", "en": "Gen", "es": "Gn",
+                     "fr": "Gn", "zh-Hant": "創", "zh-Hans": "创"],
+            "Ps":   ["de": "Ps", "en": "Ps", "es": "Sal",
+                     "fr": "Ps", "zh-Hant": "詩", "zh-Hans": "诗"],
+            "1Kor": ["de": "1Kor", "en": "1 Cor", "es": "1 Co",
+                     "fr": "1 Co", "zh-Hant": "林前", "zh-Hans": "林前"],
+            "Offb": ["de": "Offb", "en": "Rev", "es": "Ap",
+                     "fr": "Ap", "zh-Hant": "啟", "zh-Hans": "启"],
+        ]
+        for (code, kuerzel) in erwartet {
+            let book = try #require(books.first { $0.code == code })
+            for (sprache, kurz) in kuerzel {
+                #expect(Localization.abbreviation(of: book, in: sprache) == kurz,
+                        "\(code) \(sprache): \(Localization.abbreviation(of: book, in: sprache))")
+            }
+        }
+    }
+
+    /// Die sieben Sprungmarken des Registers muessen in 31 pt passen. Gemessen
+    /// wird in Zeichen, nicht in Punkten — aber ein Kuerzel ueber vier Zeichen
+    /// waere auch bei kleinster Schrift zu breit.
+    @Test func registerkuerzelSindKurzGenug() async throws {
+        let repo = try await TestSupport.repository()
+        let books = await repo.books
+        let marken = [1, 6, 19, 23, 40, 45, 66]
+
+        for bookID in marken {
+            let book = try #require(books.first { $0.id == bookID })
+            for sprache in Localization.supportedLanguages {
+                let kurz = Localization.abbreviation(of: book, in: sprache)
+                #expect(!kurz.isEmpty, "\(book.code) \(sprache): leer")
+                #expect(kurz.count <= 4,
+                        "\(book.code) \(sprache): «\(kurz)» ist \(kurz.count) Zeichen")
+            }
+        }
+    }
+
     /// Jede Sprache braucht ihre Stellenangabe: Deutsch Komma, die uebrigen
     /// Doppelpunkt. Fehlt der Schluessel, gaebe der Katalog ihn selbst zurueck.
     @Test func stellenformatIstJeSpracheUebersetzt() throws {

@@ -2,6 +2,48 @@
   "sourceLanguage": "de",
   "strings": {
     "%lld": {},
+    "OK": {
+      "comment": "Schaltflaeche im Hinweis, dass ein Kapitel fehlt",
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "好"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "好"
+          }
+        }
+      }
+    },
     "about.bibleTexts": {
       "comment": "Abschnitt im Impressum",
       "extractionState": "manual",
@@ -30,16 +72,16 @@
             "value": "Textes bibliques"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "聖經譯本"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "圣经译本"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "聖經譯本"
           }
         }
       }
@@ -72,16 +114,16 @@
             "value": "L’app fonctionne entièrement sur l’appareil et n’envoie aucune donnée."
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "本應用程式完全在裝置上運作，不會傳送任何資料。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "本应用完全在设备上运行，不会发送任何数据。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本應用程式完全在裝置上運作，不會傳送任何資料。"
           }
         }
       }
@@ -162,7 +204,7 @@
             }
           }
         },
-        "zh-Hant": {
+        "zh-Hans": {
           "variations": {
             "plural": {
               "other": {
@@ -174,7 +216,7 @@
             }
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "variations": {
             "plural": {
               "other": {
@@ -264,18 +306,6 @@
             }
           }
         },
-        "zh-Hant": {
-          "variations": {
-            "plural": {
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld 節"
-                }
-              }
-            }
-          }
-        },
         "zh-Hans": {
           "variations": {
             "plural": {
@@ -283,6 +313,18 @@
                 "stringUnit": {
                   "state": "translated",
                   "value": "%lld 节"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hant": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld 節"
                 }
               }
             }
@@ -318,16 +360,16 @@
             "value": "Verset %lld demandé ; fin du chapitre affichée."
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "所求第 %lld 節不存在，顯示本章末節。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "所求第 %lld 节不存在，显示本章末节。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "所求第 %lld 節不存在，顯示本章末節。"
           }
         }
       }
@@ -360,16 +402,16 @@
             "value": "Numérotation différente"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "節數不同"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "节数不同"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "節數不同"
           }
         }
       }
@@ -402,16 +444,16 @@
             "value": "Ce chapitre n’existe pas dans la %@."
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ 沒有這一章。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "%@ 没有这一章。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 沒有這一章。"
           }
         }
       }
@@ -444,16 +486,16 @@
             "value": "Les textes bibliques sont absents. Réinstallez l’app."
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "缺少聖經內容，請重新安裝應用程式。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "缺少圣经内容，请重新安装应用。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "缺少聖經內容，請重新安裝應用程式。"
           }
         }
       }
@@ -486,16 +528,16 @@
             "value": "Ce verset n’existe pas dans la traduction choisie."
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "所選譯本沒有這一節。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "所选译本没有这一节。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "所選譯本沒有這一節。"
           }
         }
       }
@@ -528,16 +570,16 @@
             "value": "Reprendre · %@"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "繼續閱讀 · %@"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "继续阅读 · %@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "繼續閱讀 · %@"
           }
         }
       }
@@ -570,16 +612,16 @@
             "value": "Rechercher"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "查閱"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "查阅"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查閱"
           }
         }
       }
@@ -612,16 +654,16 @@
             "value": "Verset au hasard"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "隨機經文"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "随机经文"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "隨機經文"
           }
         }
       }
@@ -654,16 +696,16 @@
             "value": "Réglages"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "設定"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "设置"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定"
           }
         }
       }
@@ -696,13 +738,13 @@
             "value": "Allemand"
           }
         },
-        "zh-Hant": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "德文"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "德文"
@@ -738,13 +780,13 @@
             "value": "Anglais"
           }
         },
-        "zh-Hant": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "英文"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "英文"
@@ -780,13 +822,13 @@
             "value": "Espagnol"
           }
         },
-        "zh-Hant": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "西班牙文"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "西班牙文"
@@ -822,13 +864,13 @@
             "value": "Français"
           }
         },
-        "zh-Hant": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "法文"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "法文"
@@ -864,16 +906,16 @@
             "value": "Chinois (simplifié)"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "中文（簡體）"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "中文（简体）"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "中文（簡體）"
           }
         }
       }
@@ -906,16 +948,16 @@
             "value": "Chinois (traditionnel)"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "中文（繁體）"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "中文（繁体）"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "中文（繁體）"
           }
         }
       }
@@ -948,16 +990,16 @@
             "value": "Livres"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "書卷"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "书卷"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "書卷"
           }
         }
       }
@@ -990,13 +1032,13 @@
             "value": "Chapitres"
           }
         },
-        "zh-Hant": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "章"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "章"
@@ -1032,61 +1074,19 @@
             "value": "Verset"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "節"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "节"
           }
-        }
-      }
-    },
-    "OK": {
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OK"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OK"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OK"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OK"
-          }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "好"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "好"
+            "value": "節"
           }
         }
-      },
-      "comment": "Schaltflaeche im Hinweis, dass ein Kapitel fehlt",
-      "extractionState": "manual"
+      }
     },
     "random.mode.curated": {
       "comment": "Zufallsmodus, kuratierte Auswahl",
@@ -1116,16 +1116,16 @@
             "value": "Versets clés"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "重點經文"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "重点经文"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重點經文"
           }
         }
       }
@@ -1158,16 +1158,16 @@
             "value": "Bible entière"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "整本聖經"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "整本圣经"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "整本聖經"
           }
         }
       }
@@ -1200,16 +1200,16 @@
             "value": "Verset suivant"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "下一節"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "下一节"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下一節"
           }
         }
       }
@@ -1242,13 +1242,13 @@
             "value": "%1$@ / %2$@"
           }
         },
-        "zh-Hant": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "%1$@ / %2$@"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "%1$@ / %2$@"
@@ -1284,16 +1284,16 @@
             "value": "Verset %1$@ sur %2$@"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "第 %1$@ 節，共 %2$@ 節"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "第 %1$@ 节，共 %2$@ 节"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "第 %1$@ 節，共 %2$@ 節"
           }
         }
       }
@@ -1326,16 +1326,16 @@
             "value": "Changer de traduction"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "切換譯本"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "切换译本"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切換譯本"
           }
         }
       }
@@ -1368,16 +1368,16 @@
             "value": "Lire dans le chapitre"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "在整章中閱讀"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "在整章中阅读"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在整章中閱讀"
           }
         }
       }
@@ -1410,13 +1410,13 @@
             "value": "%1$@ %2$lld"
           }
         },
-        "zh-Hant": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "%1$@ %2$lld"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "%1$@ %2$lld"
@@ -1452,310 +1452,16 @@
             "value": "%1$@ %2$lld:%3$lld"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ %2$lld:%3$lld"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "%1$@ %2$lld:%3$lld"
           }
-        }
-      }
-    },
-    "register.1Mo": {
-      "comment": "Sprungmarke im Register der Buchliste — sehr kurz halten",
-      "extractionState": "manual",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1Mo"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gen"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gn"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gn"
-          }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "創"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "创"
-          }
-        }
-      }
-    },
-    "register.Jes": {
-      "comment": "Sprungmarke im Register der Buchliste — sehr kurz halten",
-      "extractionState": "manual",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Jes"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Isa"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Is"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "És"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "賽"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "赛"
-          }
-        }
-      }
-    },
-    "register.Jos": {
-      "comment": "Sprungmarke im Register der Buchliste — sehr kurz halten",
-      "extractionState": "manual",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Jos"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Josh"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Jos"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Jos"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "書"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "书"
-          }
-        }
-      }
-    },
-    "register.Mt": {
-      "comment": "Sprungmarke im Register der Buchliste — sehr kurz halten",
-      "extractionState": "manual",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mt"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mt"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mt"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mt"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "太"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "太"
-          }
-        }
-      }
-    },
-    "register.Offb": {
-      "comment": "Sprungmarke im Register der Buchliste — sehr kurz halten",
-      "extractionState": "manual",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Offb"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rev"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ap"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ap"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "啟"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "启"
-          }
-        }
-      }
-    },
-    "register.Ps": {
-      "comment": "Sprungmarke im Register der Buchliste — sehr kurz halten",
-      "extractionState": "manual",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ps"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ps"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sal"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ps"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "詩"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "诗"
-          }
-        }
-      }
-    },
-    "register.Rom": {
-      "comment": "Sprungmarke im Register der Buchliste — sehr kurz halten",
-      "extractionState": "manual",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rom"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rom"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ro"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rm"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "羅"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "罗"
+            "value": "%1$@ %2$lld:%3$lld"
           }
         }
       }
@@ -1788,16 +1494,16 @@
             "value": "À propos"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "關於"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "关于"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "關於"
           }
         }
       }
@@ -1830,16 +1536,16 @@
             "value": "Apparence"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "外觀"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "外观"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外觀"
           }
         }
       }
@@ -1872,16 +1578,16 @@
             "value": "Automatique"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "自動"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "自动"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動"
           }
         }
       }
@@ -1914,16 +1620,16 @@
             "value": "Jour"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "日間"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "日间"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日間"
           }
         }
       }
@@ -1956,16 +1662,16 @@
             "value": "Nuit"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "夜間"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "夜间"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "夜間"
           }
         }
       }
@@ -1998,16 +1704,16 @@
             "value": "Retour haptique"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "觸覺回饋"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "触觉反馈"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "觸覺回饋"
           }
         }
       }
@@ -2040,16 +1746,16 @@
             "value": "Nuit à partir de"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "夜間開始"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "夜间开始"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "夜間開始"
           }
         }
       }
@@ -2082,16 +1788,16 @@
             "value": "Nuit jusqu’à"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "夜間結束"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "夜间结束"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "夜間結束"
           }
         }
       }
@@ -2124,16 +1830,16 @@
             "value": "Mode aléatoire"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "隨機範圍"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "随机范围"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "隨機範圍"
           }
         }
       }
@@ -2166,13 +1872,13 @@
             "value": "Taille du texte"
           }
         },
-        "zh-Hant": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "文字大小"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "文字大小"
@@ -2208,13 +1914,13 @@
             "value": "Grande"
           }
         },
-        "zh-Hant": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "大"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "大"
@@ -2250,13 +1956,13 @@
             "value": "Moyenne"
           }
         },
-        "zh-Hant": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "中"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "中"
@@ -2292,13 +1998,13 @@
             "value": "Petite"
           }
         },
-        "zh-Hant": {
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "小"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "小"
@@ -2334,16 +2040,16 @@
             "value": "Traduction"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "譯本"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "译本"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "譯本"
           }
         }
       }
@@ -2376,16 +2082,16 @@
             "value": "Nouveau Testament"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "新約"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "新约"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新約"
           }
         }
       }
@@ -2418,16 +2124,16 @@
             "value": "Ancien Testament"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "舊約"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "旧约"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "舊約"
           }
         }
       }
@@ -2460,16 +2166,16 @@
             "value": "Affiche chaque jour un verset clé."
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "每天顯示一節重點經文。"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "每天显示一节重点经文。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每天顯示一節重點經文。"
           }
         }
       }
@@ -2502,16 +2208,16 @@
             "value": "Verset du jour"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "每日經文"
-          }
-        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "每日经文"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每日經文"
           }
         }
       }

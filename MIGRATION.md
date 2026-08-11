@@ -96,14 +96,15 @@ Die App erschien bis dahin nur auf Deutsch und Englisch, obwohl die Datenbank
 
 | Was | Wo |
 |---|---|
-| Buchnamen der vier neuen Sprachen | `book.name_es`, `name_fr`, `name_zh_hant`, `name_zh_hans`; Schema-Version 2 |
-| Namenstabellen und Konverter | `tools/quotepas_to_sqlite.py`, Nachtrag über `tools/add_book_names.py` |
+| Buchnamen der vier neuen Sprachen | `book.name_es`, `name_fr`, `name_zh_hant`, `name_zh_hans` |
+| Buchkürzel aller sechs Sprachen | `book.abbrev_de` … `abbrev_zh_hans`; Schema-Version 3 |
+| Namens- und Kürzeltabellen, Konverter | `tools/quotepas_to_sqlite.py`, Nachtrag über `tools/add_book_names.py` |
 | Sprachlogik | `Shared/Localization.swift` — `supportedLanguages`, `normalized`, `languageOrder` |
-| Texte | `Localizable.xcstrings` 58 Schlüssel × 6 Sprachen, `InfoPlist.xcstrings`, `knownRegions` |
+| Texte | `Localizable.xcstrings` 51 Schlüssel × 6 Sprachen, `InfoPlist.xcstrings`, `knownRegions` |
 | Auswahl und Vorgabe | erste Übersetzung der Anzeigesprache in Datenbankreihenfolge, ihr Abschnitt zuoberst |
-| Tests | `SprachenTests` — 8 Prüfungen, darunter der Abgleich Übersetzungssprachen ↔ Oberflächensprachen |
+| Tests | `SprachenTests` — 11 Prüfungen, darunter der Abgleich Übersetzungssprachen ↔ Oberflächensprachen |
 
-Drei Punkte, die dabei nicht offensichtlich sind:
+Vier Punkte, die dabei nicht offensichtlich sind:
 
 - **`prefix(2)` auf der Sprachkennung war ein Fehler.** `zh-Hant` und `zh-Hans`
   unterscheiden sich in der Schrift; gekürzt auf `zh` hätte keine der beiden
@@ -120,12 +121,24 @@ Drei Punkte, die dabei nicht offensichtlich sind:
   sonst würde `test_fixtures.json` ungültig. `id` und `sort_order` laufen
   dadurch auseinander (KJV: `id` 3, `sort_order` 2); die App liest nur
   `ORDER BY sort_order`.
-- **Die Buchnamensspalten werden zur Laufzeit gesucht** (`PRAGMA table_info`),
-  nicht fest in die Abfrage geschrieben: eine Datenbank aus einem älteren
-  Konverterlauf kennt sie nicht, und ein `no such column` beim Vorbereiten
-  hätte die App beim Start scheitern lassen. Fehlt eine Spalte, steht für diese
-  Sprache der deutsche Buchname — `tools/add_book_names.py` trägt sie nach.
+- **Die Namens- und Kürzelspalten werden zur Laufzeit gesucht**
+  (`PRAGMA table_info`), nicht fest in die Abfrage geschrieben: eine Datenbank
+  aus einem älteren Konverterlauf kennt sie nicht, und ein `no such column`
+  beim Vorbereiten hätte die App beim Start scheitern lassen. Fehlt eine
+  Spalte, steht für diese Sprache der deutsche Buchname beziehungsweise im
+  Register der Buchcode — `tools/add_book_names.py` trägt sie nach.
+- **Buchkürzel sind nicht `book.code`.** Der Code ist Schlüssel (er steht in
+  `curated_verses.json`, `test_fixtures.json` und der OSIS-Zuordnung) und
+  deutsch geprägt. Die Kürzel sind Anzeige und folgen je Sprache dem dort
+  üblichen Satz: Elberfelder für Deutsch, SBL Handbook of Style für Englisch,
+  Reina-Valera für Spanisch, Segond für Französisch, der Kürzelsatz des 和合本
+  für Chinesisch. Die sieben Registerschlüssel im String Catalog
+  (`register.1Mo` …) sind damit weggefallen. Die vereinfachten Zeichen sind
+  gegen die Zeichenabbildung geprüft, die sich aus cuv/cuvs der Datenbank
+  selbst ergibt (`add_book_names.py --check-zh`); zwei Einträge liessen sich so
+  nicht prüfen, weil 壹 und 貳 im Bibeltext nicht vorkommen, und 3Joh ist eine
+  dokumentierte Ausnahme (約參 → 约叁, nicht 约参).
 
-Geprüft: Build ohne Warnung, 18 Unit-Tests grün, App im Simulator in allen
+Geprüft: Build ohne Warnung, 21 Unit-Tests grün, App im Simulator in allen
 sechs Sprachen aufgerufen (Startbildschirm, Buchliste mit Register,
 Einstellungen, Übersetzungswahl, Zufallsvers).

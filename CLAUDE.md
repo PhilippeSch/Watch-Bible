@@ -38,7 +38,7 @@ Zwei Punkte, die keine Geschmacksfragen sind: Raster **immer dreispaltig** (vier
 
 **Die App gibt es in jeder Sprache, für die eine Bibelübersetzung mitgeliefert wird** — zurzeit `de`, `en`, `es`, `fr`, `zh-Hant`, `zh-Hans`. Die Liste steht in `Localization.supportedLanguages` und muss deckungsgleich mit den `translation.language`-Werten der Datenbank bleiben; ein Unit-Test prüft das in beide Richtungen. Anzeigesprache folgt dem System, eine eigene Einstellung gibt es nicht.
 
-Alle Texte über `Resources/Localizable.xcstrings` — **kein Klartext in Views**. Buchnamen kommen aus der Datenbank (`name`, `name_en`, `name_es`, `name_fr`, `name_zh_hant`, `name_zh_hans`), nicht aus dem Katalog.
+Alle Texte über `Resources/Localizable.xcstrings` — **kein Klartext in Views**. Buchnamen und Buchkürzel kommen aus der Datenbank, nicht aus dem Katalog: `name`, `name_en`, `name_es`, `name_fr`, `name_zh_hant`, `name_zh_hans` sowie `abbrev_de`, `abbrev_en`, `abbrev_es`, `abbrev_fr`, `abbrev_zh_hant`, `abbrev_zh_hans`. Die Kürzel sind je Sprache der dort übliche Satz (Elberfelder, SBL, Reina-Valera, Segond, 和合本) und stehen im Register der Buchliste und in der runden Komplikation. **`book.code` ist kein Kürzel**, sondern Schlüssel — er bleibt in jeder Sprache gleich.
 
 **Sprachkennungen nie auf zwei Zeichen kürzen.** `zh-Hant` und `zh-Hans` unterscheiden sich in der Schrift; `prefix(2)` trifft keine der beiden chinesischen Übersetzungen. Normalisierung läuft über `Localization.normalized`.
 

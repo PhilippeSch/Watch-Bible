@@ -40,7 +40,7 @@ import unicodedata
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 APPLICATION_ID = 0x42494257  # "BIBW"
 
 # ---------------------------------------------------------------------------
@@ -184,6 +184,160 @@ BOOK_NAME_TABLES = {
     "fr": FRENCH_NAMES,
     "zh_hant": CHINESE_TRAD_NAMES,
     "zh_hans": CHINESE_SIMP_NAMES,
+}
+
+# ---------------------------------------------------------------------------
+# Buchkuerzel je Sprache.
+#
+# Sie sind die kurze Form fuer enge Stellen — das Register der Buchliste und
+# die runde Komplikation. Genommen ist jeweils der in der Sprache uebliche
+# Satz, nicht eine selbstgebaute Kuerzung:
+#
+#   de  Elberfelder/Schlachter, also 1Mo statt des Loccumer «Gen». Die
+#       deutschen Buchnamen der Datenbank stehen in derselben Tradition
+#       («1. Mose», «Hiob», «Prediger»); Loccum wuerde dazu nicht passen.
+#   en  SBL Handbook of Style, der akademische Standard des englischen
+#       Sprachraums (Gen, Exod, 1 Sam, Matt, Rev).
+#   es  Reina-Valera in der Form der Sociedades Biblicas Unidas.
+#   fr  Louis Segond in der Form der Alliance biblique francaise.
+#   zh  Der Kuerzelsatz des 和合本 (創, 出, 撒上, 林前, 啟).
+#
+# `book.code` bleibt davon unberuehrt: der ist Schluessel (curated_verses.json,
+# test_fixtures.json, OSIS-Zuordnung) und keine Anzeige.
+# ---------------------------------------------------------------------------
+
+GERMAN_ABBREV = {
+    "1Mo": "1Mo", "2Mo": "2Mo", "3Mo": "3Mo", "4Mo": "4Mo", "5Mo": "5Mo",
+    "Jos": "Jos", "Ri": "Ri", "Rt": "Rt", "1Sam": "1Sam", "2Sam": "2Sam",
+    "1Kon": "1Kö", "2Kon": "2Kö", "1Chr": "1Chr", "2Chr": "2Chr",
+    "Esr": "Esr", "Neh": "Neh", "Est": "Est", "Hi": "Hi", "Ps": "Ps",
+    "Spr": "Spr", "Pred": "Pred", "Hl": "Hld", "Jes": "Jes", "Jer": "Jer",
+    "Kla": "Kla", "Hes": "Hes", "Dan": "Dan", "Hos": "Hos", "Joel": "Joel",
+    "Am": "Am", "Ob": "Ob", "Jon": "Jon", "Mi": "Mi", "Nah": "Nah",
+    "Hab": "Hab", "Zeph": "Zeph", "Hag": "Hag", "Sach": "Sach", "Mal": "Mal",
+    "Mt": "Mt", "Mk": "Mk", "Lk": "Lk", "Joh": "Joh", "Apg": "Apg",
+    "Rom": "Röm", "1Kor": "1Kor", "2Kor": "2Kor", "Gal": "Gal",
+    "Eph": "Eph", "Phil": "Phil", "Kol": "Kol", "1Th": "1Thes", "2Th": "2Thes",
+    "1Tim": "1Tim", "2Tim": "2Tim", "Tit": "Tit", "Phlm": "Phlm",
+    "Hebr": "Hebr", "Jak": "Jak", "1Pt": "1Petr", "2Pt": "2Petr",
+    "1Joh": "1Joh", "2Joh": "2Joh", "3Joh": "3Joh", "Jud": "Jud",
+    "Offb": "Offb",
+}
+
+ENGLISH_ABBREV = {
+    "1Mo": "Gen", "2Mo": "Exod", "3Mo": "Lev", "4Mo": "Num", "5Mo": "Deut",
+    "Jos": "Josh", "Ri": "Judg", "Rt": "Ruth", "1Sam": "1 Sam", "2Sam": "2 Sam",
+    "1Kon": "1 Kgs", "2Kon": "2 Kgs", "1Chr": "1 Chr", "2Chr": "2 Chr",
+    "Esr": "Ezra", "Neh": "Neh", "Est": "Esth", "Hi": "Job", "Ps": "Ps",
+    "Spr": "Prov", "Pred": "Eccl", "Hl": "Song", "Jes": "Isa", "Jer": "Jer",
+    "Kla": "Lam", "Hes": "Ezek", "Dan": "Dan", "Hos": "Hos", "Joel": "Joel",
+    "Am": "Amos", "Ob": "Obad", "Jon": "Jonah", "Mi": "Mic", "Nah": "Nah",
+    "Hab": "Hab", "Zeph": "Zeph", "Hag": "Hag", "Sach": "Zech", "Mal": "Mal",
+    "Mt": "Matt", "Mk": "Mark", "Lk": "Luke", "Joh": "John", "Apg": "Acts",
+    "Rom": "Rom", "1Kor": "1 Cor", "2Kor": "2 Cor", "Gal": "Gal",
+    "Eph": "Eph", "Phil": "Phil", "Kol": "Col", "1Th": "1 Thess",
+    "2Th": "2 Thess", "1Tim": "1 Tim", "2Tim": "2 Tim", "Tit": "Titus",
+    "Phlm": "Phlm", "Hebr": "Heb", "Jak": "Jas", "1Pt": "1 Pet",
+    "2Pt": "2 Pet", "1Joh": "1 John", "2Joh": "2 John", "3Joh": "3 John",
+    "Jud": "Jude", "Offb": "Rev",
+}
+
+SPANISH_ABBREV = {
+    "1Mo": "Gn", "2Mo": "Ex", "3Mo": "Lv", "4Mo": "Nm", "5Mo": "Dt",
+    "Jos": "Jos", "Ri": "Jue", "Rt": "Rt", "1Sam": "1 S", "2Sam": "2 S",
+    "1Kon": "1 R", "2Kon": "2 R", "1Chr": "1 Cr", "2Chr": "2 Cr",
+    "Esr": "Esd", "Neh": "Neh", "Est": "Est", "Hi": "Job", "Ps": "Sal",
+    "Spr": "Pr", "Pred": "Ec", "Hl": "Cnt", "Jes": "Is", "Jer": "Jer",
+    "Kla": "Lm", "Hes": "Ez", "Dan": "Dn", "Hos": "Os", "Joel": "Jl",
+    "Am": "Am", "Ob": "Abd", "Jon": "Jon", "Mi": "Miq", "Nah": "Nah",
+    "Hab": "Hab", "Zeph": "Sof", "Hag": "Hag", "Sach": "Zac", "Mal": "Mal",
+    "Mt": "Mt", "Mk": "Mr", "Lk": "Lc", "Joh": "Jn", "Apg": "Hch",
+    "Rom": "Ro", "1Kor": "1 Co", "2Kor": "2 Co", "Gal": "Gá",
+    "Eph": "Ef", "Phil": "Fil", "Kol": "Col", "1Th": "1 Ts", "2Th": "2 Ts",
+    "1Tim": "1 Ti", "2Tim": "2 Ti", "Tit": "Tit", "Phlm": "Flm",
+    "Hebr": "He", "Jak": "Stg", "1Pt": "1 P", "2Pt": "2 P",
+    "1Joh": "1 Jn", "2Joh": "2 Jn", "3Joh": "3 Jn", "Jud": "Jud",
+    "Offb": "Ap",
+}
+
+FRENCH_ABBREV = {
+    "1Mo": "Gn", "2Mo": "Ex", "3Mo": "Lv", "4Mo": "Nb", "5Mo": "Dt",
+    "Jos": "Jos", "Ri": "Jg", "Rt": "Rt", "1Sam": "1 S", "2Sam": "2 S",
+    "1Kon": "1 R", "2Kon": "2 R", "1Chr": "1 Ch", "2Chr": "2 Ch",
+    "Esr": "Esd", "Neh": "Né", "Est": "Est", "Hi": "Jb", "Ps": "Ps",
+    "Spr": "Pr", "Pred": "Ec", "Hl": "Ct", "Jes": "És", "Jer": "Jr",
+    "Kla": "Lm", "Hes": "Éz", "Dan": "Dn", "Hos": "Os", "Joel": "Jl",
+    "Am": "Am", "Ob": "Ab", "Jon": "Jon", "Mi": "Mi", "Nah": "Na",
+    "Hab": "Ha", "Zeph": "So", "Hag": "Ag", "Sach": "Za", "Mal": "Ml",
+    "Mt": "Mt", "Mk": "Mc", "Lk": "Lc", "Joh": "Jn", "Apg": "Ac",
+    "Rom": "Rm", "1Kor": "1 Co", "2Kor": "2 Co", "Gal": "Ga",
+    "Eph": "Ép", "Phil": "Ph", "Kol": "Col", "1Th": "1 Th", "2Th": "2 Th",
+    "1Tim": "1 Tm", "2Tim": "2 Tm", "Tit": "Tt", "Phlm": "Phm",
+    "Hebr": "Hé", "Jak": "Jc", "1Pt": "1 P", "2Pt": "2 P",
+    "1Joh": "1 Jn", "2Joh": "2 Jn", "3Joh": "3 Jn", "Jud": "Jude",
+    "Offb": "Ap",
+}
+
+CHINESE_TRAD_ABBREV = {
+    "1Mo": "創", "2Mo": "出", "3Mo": "利", "4Mo": "民",
+    "5Mo": "申", "Jos": "書", "Ri": "士", "Rt": "得",
+    "1Sam": "撒上", "2Sam": "撒下", "1Kon": "王上",
+    "2Kon": "王下", "1Chr": "代上", "2Chr": "代下",
+    "Esr": "拉", "Neh": "尼", "Est": "斯", "Hi": "伯",
+    "Ps": "詩", "Spr": "箴", "Pred": "傳", "Hl": "歌",
+    "Jes": "賽", "Jer": "耶", "Kla": "哀", "Hes": "結",
+    "Dan": "但", "Hos": "何", "Joel": "珥", "Am": "摩",
+    "Ob": "俄", "Jon": "拿", "Mi": "彌", "Nah": "鴻",
+    "Hab": "哈", "Zeph": "番", "Hag": "該", "Sach": "亞",
+    "Mal": "瑪", "Mt": "太", "Mk": "可", "Lk": "路",
+    "Joh": "約", "Apg": "徒", "Rom": "羅", "1Kor": "林前",
+    "2Kor": "林後", "Gal": "加", "Eph": "弗", "Phil": "腓",
+    "Kol": "西", "1Th": "帖前", "2Th": "帖後",
+    "1Tim": "提前", "2Tim": "提後", "Tit": "多",
+    "Phlm": "門", "Hebr": "來", "Jak": "雅",
+    "1Pt": "彼前", "2Pt": "彼後", "1Joh": "約壹",
+    "2Joh": "約貳", "3Joh": "約參", "Jud": "猶",
+    "Offb": "啟",
+}
+
+# Vereinfachte Kuerzel. Bis auf eine Ausnahme die Zeichenentsprechung der
+# traditionellen Form; `add_book_names.py --check-zh` prueft das gegen die
+# Zeichenabbildung, die sich aus cuv/cuvs der Datenbank selbst ergibt.
+#
+# Ausnahme 3Joh: 約參 wird mechanisch zu 约参 (wie in 参加), gemeint ist aber
+# die foermliche Ziffer Drei. Die lautet vereinfacht 叁, also 约叁.
+CHINESE_SIMP_ABBREV = {
+    "1Mo": "创", "2Mo": "出", "3Mo": "利", "4Mo": "民",
+    "5Mo": "申", "Jos": "书", "Ri": "士", "Rt": "得",
+    "1Sam": "撒上", "2Sam": "撒下", "1Kon": "王上",
+    "2Kon": "王下", "1Chr": "代上", "2Chr": "代下",
+    "Esr": "拉", "Neh": "尼", "Est": "斯", "Hi": "伯",
+    "Ps": "诗", "Spr": "箴", "Pred": "传", "Hl": "歌",
+    "Jes": "赛", "Jer": "耶", "Kla": "哀", "Hes": "结",
+    "Dan": "但", "Hos": "何", "Joel": "珥", "Am": "摩",
+    "Ob": "俄", "Jon": "拿", "Mi": "弥", "Nah": "鸿",
+    "Hab": "哈", "Zeph": "番", "Hag": "该", "Sach": "亚",
+    "Mal": "玛", "Mt": "太", "Mk": "可", "Lk": "路",
+    "Joh": "约", "Apg": "徒", "Rom": "罗", "1Kor": "林前",
+    "2Kor": "林后", "Gal": "加", "Eph": "弗", "Phil": "腓",
+    "Kol": "西", "1Th": "帖前", "2Th": "帖后",
+    "1Tim": "提前", "2Tim": "提后", "Tit": "多",
+    "Phlm": "门", "Hebr": "来", "Jak": "雅",
+    "1Pt": "彼前", "2Pt": "彼后", "1Joh": "约壹",
+    "2Joh": "约贰", "3Joh": "约叁", "Jud": "犹",
+    "Offb": "启",
+}
+
+# Sprachkennung -> Kuerzeltabelle. Die Spalte heisst abbrev_<kennung mit _>.
+# Anders als bei den Namen ist auch Deutsch dabei: `book.name` traegt den
+# deutschen Namen, aber `book.code` ist ausdruecklich kein Kuerzel.
+BOOK_ABBREV_TABLES = {
+    "de": GERMAN_ABBREV,
+    "en": ENGLISH_ABBREV,
+    "es": SPANISH_ABBREV,
+    "fr": FRENCH_ABBREV,
+    "zh_hant": CHINESE_TRAD_ABBREV,
+    "zh_hans": CHINESE_SIMP_ABBREV,
 }
 
 # Sprache und Copyright-Zeile je Uebersetzungscode. Wird in die DB geschrieben
@@ -767,6 +921,12 @@ CREATE TABLE book (
     name_fr       TEXT,
     name_zh_hant  TEXT,
     name_zh_hans  TEXT,
+    abbrev_de     TEXT,
+    abbrev_en     TEXT,
+    abbrev_es     TEXT,
+    abbrev_fr     TEXT,
+    abbrev_zh_hant TEXT,
+    abbrev_zh_hans TEXT,
     testament     TEXT NOT NULL,
     chapter_count INTEGER NOT NULL,
     sort_order    INTEGER NOT NULL
@@ -823,11 +983,15 @@ def build_database(res: ParseResult, out_path: str, source_name: str,
         chapters_per_book[b].add(c)
     con.executemany(
         "INSERT INTO book (id, code, name, name_en, name_es, name_fr,"
-        " name_zh_hant, name_zh_hans, testament, chapter_count,"
-        " sort_order) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+        " name_zh_hant, name_zh_hans, abbrev_de, abbrev_en, abbrev_es,"
+        " abbrev_fr, abbrev_zh_hant, abbrev_zh_hans, testament, chapter_count,"
+        " sort_order) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         [(book_id[c], c, res.books[c], ENGLISH_NAMES.get(c),
           SPANISH_NAMES.get(c), FRENCH_NAMES.get(c),
           CHINESE_TRAD_NAMES.get(c), CHINESE_SIMP_NAMES.get(c),
+          GERMAN_ABBREV.get(c), ENGLISH_ABBREV.get(c), SPANISH_ABBREV.get(c),
+          FRENCH_ABBREV.get(c), CHINESE_TRAD_ABBREV.get(c),
+          CHINESE_SIMP_ABBREV.get(c),
           "NT" if c in NT_CODES else "AT",
           max(chapters_per_book[c]) if chapters_per_book[c] else 0,
           book_id[c]) for c in res.book_order],

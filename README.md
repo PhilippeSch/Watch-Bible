@@ -116,7 +116,7 @@ python3 tools/reorder_translations.py "Watch Bible Watch App/Resources/bible.sql
 
 Es ändert **nur** `sort_order`. `translation.id`, `first_verse_id`/`last_verse_id` und die Verstabelle bleiben unberührt — sonst müssten 300'000 Zeilen umgeschrieben werden und `test_fixtures.json` würde ungültig. Danach können `id` und `sort_order` auseinanderlaufen (in der ausgelieferten Datei hat KJV `id` 3 und `sort_order` 2); die App liest ausschliesslich `ORDER BY sort_order`.
 
-**Nach einem Wechsel einmal die Buchnamen prüfen.** Eine Datenbank aus einem Konverterlauf vor dem 11. August 2026 hat die Spalten `name_es`, `name_fr`, `name_zh_hant`, `name_zh_hans` noch nicht. Die App läuft trotzdem — sie zeigt für diese Sprachen dann aber den deutschen Buchnamen:
+**Nach einem Wechsel einmal Buchnamen und Kürzel prüfen.** Eine Datenbank aus einem Konverterlauf vor dem 11. August 2026 hat die Spalten `name_es`, `name_fr`, `name_zh_hant`, `name_zh_hans` und `abbrev_de` … `abbrev_zh_hans` noch nicht. Die App läuft trotzdem — sie zeigt für diese Sprachen dann aber den deutschen Buchnamen und im Register den Buchcode:
 
 ```bash
 python3 tools/add_book_names.py "Watch Bible Watch App/Resources/bible.sqlite" --check
@@ -131,9 +131,9 @@ python3 tools/add_book_names.py "Watch Bible Watch App/Resources/bible.sqlite"
 | `bible_frei_10-Uebersetzungen.sqlite` | Datenbank, frei verwendbare Übersetzungen |
 | `bible_mit-SLT_11-Uebersetzungen.sqlite` | Datenbank inklusive Schlachter 2000 |
 | `cuv_simplified.xml` | Vereinfachte Fassung des 和合本, maschinell aus der traditionellen erzeugt (siehe unten) |
-| `quotepas_to_sqlite.py` | Konverter. Liest die LaTeX-Quelldatei, zusätzlich OSIS-XML (`--osis CODE=DATEI`) und USFM-Verzeichnisse (`--usfm CODE=ORDNER`). Im Repository behalten, damit die Datenbank reproduzierbar bleibt. Führt auch die Buchnamen aller sechs Oberflächensprachen. |
+| `quotepas_to_sqlite.py` | Konverter. Liest die LaTeX-Quelldatei, zusätzlich OSIS-XML (`--osis CODE=DATEI`) und USFM-Verzeichnisse (`--usfm CODE=ORDNER`). Im Repository behalten, damit die Datenbank reproduzierbar bleibt. Führt auch Buchnamen und Buchkürzel aller sechs Oberflächensprachen sowie `TRANSLATION_ORDER`. |
 | `reorder_translations.py` | Setzt `translation.sort_order` einer bestehenden Datenbank auf `TRANSLATION_ORDER` aus dem Konverter — damit auch die Vorgabeübersetzung je Sprache. `--check` prüft, ohne zu schreiben. |
-| `add_book_names.py` | Trägt die Buchnamen der Oberflächensprachen (`name_es`, `name_fr`, `name_zh_hant`, `name_zh_hans`) in eine bestehende Datenbank nach und setzt die Schema-Version auf 2. Dieselben Tabellen wie im Konverter — für den Fall, dass die Quelldateien nicht zur Hand sind. `--check` prüft, ohne zu schreiben. |
+| `add_book_names.py` | Trägt Buchnamen (`name_es`, `name_fr`, `name_zh_hant`, `name_zh_hans`) und Buchkürzel (`abbrev_de` … `abbrev_zh_hans`) in eine bestehende Datenbank nach und setzt die Schema-Version auf 3. Dieselben Tabellen wie im Konverter — für den Fall, dass die Quelldateien nicht zur Hand sind. `--check` prüft, ohne zu schreiben; `--check-zh` prüft die vereinfachten Zeichen gegen die Zeichenabbildung, die sich aus cuv/cuvs der Datenbank selbst ergibt. |
 | `curated_verses.json` | 180 Kernverse aus 50 Büchern für den kuratierten Zufallsmodus |
 | `test_fixtures.json` | Erwartungswerte für Unit-Tests, erzeugt gegen `bible_frei_10-Uebersetzungen.sqlite`: 28 Stichproben und alle Versifikations-Abweichungen für vierzehn Übersetzungspaare |
 

@@ -98,6 +98,20 @@ enum Localization {
         book.names[language] ?? book.name
     }
 
+    /// Buchkürzel in der Anzeigesprache — für das Register der Buchliste und
+    /// die runde Komplikation, wo der volle Name nicht hinpasst. Je Sprache
+    /// der dort übliche Satz: «1Mo» · «Gen» · «Gn» · «創».
+    ///
+    /// Rückfall ist `book.code`. Der ist deutsch geprägt und damit nicht
+    /// richtig, aber kurz — besser als eine leere Sprungmarke.
+    static func abbreviation(of book: Book) -> String {
+        abbreviation(of: book, in: displayLanguage)
+    }
+
+    static func abbreviation(of book: Book, in language: String) -> String {
+        book.abbreviations[language] ?? book.code
+    }
+
     /// Stellenangabe. Der Trenner ist **nicht** kosmetisch: deutsche Bibeln
     /// schreiben «Johannes 3,16», englische «John 3:16». Darum über den
     /// String Catalog, nicht als fest verdrahtetes Zeichen.

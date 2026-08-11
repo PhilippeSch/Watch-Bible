@@ -5,21 +5,13 @@ import SwiftUI
 /// das Register ist der Buchwahl vorbehalten.
 struct BookListView: View {
     @Environment(AppModel.self) private var model
-    @State private var activeMark: String = "1Mo"
+    @State private var activeMark: Int = 1
 
-    /// Sieben Sprungmarken gemaess Spezifikation: 1Mo · Jos · Ps · Jes · Mt · Rom · Offb.
-    private static let marks: [(code: String, bookID: Int)] = [
-        ("1Mo", 1), ("Jos", 6), ("Ps", 19), ("Jes", 23),
-        ("Mt", 40), ("Rom", 45), ("Offb", 66)
-    ]
-
-    /// Beschriftung einer Sprungmarke. Die Buchcodes der Datenbank sind
-    /// deutsche Kuerzel — im Register steht deshalb das Kuerzel der
-    /// Anzeigesprache. Dynamischer Schluessel, darum ueber das Bundle:
-    /// String(localized:) wuerde die Interpolation als Formatargument lesen.
-    private static func markLabel(_ code: String) -> String {
-        Bundle.main.localizedString(forKey: "register.\(code)", value: code, table: nil)
-    }
+    /// Sieben Sprungmarken gemaess Spezifikation, als Buch-id:
+    /// 1. Mose · Josua · Psalmen · Jesaja · Matthaeus · Roemer · Offenbarung.
+    /// Beschriftet werden sie mit dem Buchkuerzel der Anzeigesprache aus der
+    /// Datenbank («1Mo» · «Gen» · «Gn» · «創»), nicht aus dem String Catalog.
+    private static let markBookIDs = [1, 6, 19, 23, 40, 45, 66]
 
     var body: some View {
         ScrollViewReader { proxy in
@@ -73,22 +65,30 @@ struct BookListView: View {
         .id(book.id)
     }
 
+    private func markLabel(_ bookID: Int) -> String {
+        guard let book = model.book(id: bookID) else { return "" }
+        return Localization.abbreviation(of: book)
+    }
+
     private func register(_ proxy: ScrollViewProxy) -> some View {
         VStack(spacing: 2) {
-            ForEach(Self.marks, id: \.code) { mark in
+            ForEach(Self.markBookIDs, id: \.self) { bookID in
+                let active = activeMark == bookID
                 Button {
-                    activeMark = mark.code
-                    withAnimation { proxy.scrollTo(mark.bookID, anchor: .top) }
+                    activeMark = bookID
+                    withAnimation { proxy.scrollTo(bookID, anchor: .top) }
                 } label: {
-                    Text(verbatim: Self.markLabel(mark.code))
+                    Text(verbatim: markLabel(bookID))
                         .font(Typo.register)
-                        .foregroundStyle(activeMark == mark.code ? Color.ground : Color.secondaryInk)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+                        .foregroundStyle(active ? Color.ground : Color.secondaryInk)
                         .frame(width: 31)
                         .frame(maxHeight: .infinity)
                         .background(
                             UnevenRoundedRectangle(topLeadingRadius: 10,
                                                    bottomLeadingRadius: 10)
-                                .fill(activeMark == mark.code ? Color.carmine : Color.fieldFill)
+                                .fill(active ? Color.carmine : Color.fieldFill)
                         )
                 }
                 .buttonStyle(.plain)

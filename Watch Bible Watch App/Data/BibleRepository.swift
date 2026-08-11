@@ -38,17 +38,33 @@ actor BibleRepository {
         let nameColumns = [("en", "name_en"), ("es", "name_es"), ("fr", "name_fr"),
                            ("zh-Hant", "name_zh_hant"), ("zh-Hans", "name_zh_hans")]
             .filter { columns.contains($0.1) }
-        let selection = (["id", "code", "name", "testament", "chapter_count"]
-                         + nameColumns.map(\.1)).joined(separator: ", ")
+        let abbrevColumns = [("de", "abbrev_de"), ("en", "abbrev_en"),
+                             ("es", "abbrev_es"), ("fr", "abbrev_fr"),
+                             ("zh-Hant", "abbrev_zh_hant"),
+                             ("zh-Hans", "abbrev_zh_hans")]
+            .filter { columns.contains($0.1) }
+        let fixed = ["id", "code", "name", "testament", "chapter_count"]
+        let selection = (fixed + nameColumns.map(\.1) + abbrevColumns.map(\.1))
+            .joined(separator: ", ")
+        let nameBase = Int32(fixed.count)
+        let abbrevBase = nameBase + Int32(nameColumns.count)
         books = try await db.query("""
             SELECT \(selection) FROM book ORDER BY sort_order
             """) { r in
             var names = ["de": r.string(2)]
             for (offset, column) in nameColumns.enumerated() {
-                if let name = r.stringOrNil(Int32(5 + offset)) { names[column.0] = name }
+                if let name = r.stringOrNil(nameBase + Int32(offset)) {
+                    names[column.0] = name
+                }
+            }
+            var abbreviations: [String: String] = [:]
+            for (offset, column) in abbrevColumns.enumerated() {
+                if let abbrev = r.stringOrNil(abbrevBase + Int32(offset)) {
+                    abbreviations[column.0] = abbrev
+                }
             }
             return Book(id: r.int(0), code: r.string(1), name: r.string(2),
-                        names: names,
+                        names: names, abbreviations: abbreviations,
                         testament: Book.Testament(rawValue: r.string(3)) ?? .at,
                         chapterCount: r.int(4))
         }

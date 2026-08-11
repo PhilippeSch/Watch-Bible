@@ -94,7 +94,7 @@ Bezug ist die 45-mm-Uhr: 396 × 484 px = **198 × 242 pt**. Kleinere Gehäuse ve
 
 ### 4.3 Nachschlagen — Bücher
 - Liste, in Abschnitte `Altes Testament` / `Neues Testament` geteilt.
-- Rechts das Register mit sieben Sprungmarken: `1Mo · Jos · Ps · Jes · Mt · Rom · Offb`. Aktive Marke in Karmin.
+- Rechts das Register mit sieben Sprungmarken (1. Mose · Josua · Psalmen · Jesaja · Matthäus · Römer · Offenbarung), beschriftet mit dem Buchkürzel der Anzeigesprache aus der Datenbank. Aktive Marke in Karmin.
 - Je Zeile: Buchname links, Kapitelzahl rechts in Monoschrift.
 
 ### 4.4 Nachschlagen — Kapitel und Verse
@@ -146,7 +146,9 @@ Keine Signalfarbe, kein Symbol, nichts zum Wegklicken. Zwei Zahlen erklären den
 
 **Buchnamen** kommen aus der Datenbank, nicht aus dem String Catalog: `book.name` für Deutsch, dazu `name_en`, `name_es`, `name_fr`, `name_zh_hant`, `name_zh_hans`. Alle sechs Spalten sind für alle 66 Bücher gefüllt. Wo die Schreibweise schwankt, gilt die der mitgelieferten Übersetzung derselben Sprache — spanisch «Ruth», «Esther», «Haggeo» nach RVR1909, französisch «Habakuk», «Ésaïe» nach LSG; sonst stünde in der Buchliste etwas anderes als im Verstext.
 
-**Das Register der Buchliste ist lokalisiert.** Die Buchcodes der Datenbank sind deutsche Kürzel; die sieben Sprungmarken stehen darum als eigene Schlüssel im Katalog (`register.1Mo` … `register.Offb`): 1Mo · Jos · Ps · Jes · Mt · Rom · Offb auf Deutsch, Gen · Josh · Ps · Isa · Mt · Rom · Rev auf Englisch, 創 · 書 · 詩 · 賽 · 太 · 羅 · 啟 auf Chinesisch.
+**Buchkürzel** stehen ebenfalls in der Datenbank: `abbrev_de`, `abbrev_en`, `abbrev_es`, `abbrev_fr`, `abbrev_zh_hant`, `abbrev_zh_hans`. Genommen ist je Sprache der dort übliche Satz, nicht eine selbstgebaute Kürzung — Elberfelder für Deutsch (1Mo, nicht das Loccumer «Gen»; die deutschen Buchnamen der Datenbank stehen in derselben Tradition), SBL Handbook of Style für Englisch, Reina-Valera für Spanisch, Segond für Französisch, der Kürzelsatz des 和合本 für Chinesisch. Sie sind je Sprache eindeutig; ein Unit-Test prüft das.
+
+**Das Register der Buchliste ist damit lokalisiert.** Es zeigt das Kürzel der Anzeigesprache aus der Datenbank, nicht `book.code` — der ist Schlüssel und deutsch geprägt. Die sieben Sprungmarken lauten 1Mo · Jos · Ps · Jes · Mt · Röm · Offb auf Deutsch, Gen · Josh · Ps · Isa · Matt · Rom · Rev auf Englisch, Gn · Jos · Sal · Is · Mt · Ro · Ap auf Spanisch, Gn · Jos · Ps · És · Mt · Rm · Ap auf Französisch und 創 · 書 · 詩 · 賽 · 太 · 羅 · 啟 beziehungsweise 创 · 书 · 诗 · 赛 · 太 · 罗 · 启 auf Chinesisch. Vier Zeichen sind die Obergrenze — mehr passt nicht in die 31 pt Registerbreite.
 
 **Die Stellenangabe ist selbst lokalisiert.** Deutsche Bibeln schreiben «Johannes 3,16», alle übrigen Sprachen der App «John 3:16» — Komma gegen Doppelpunkt. Der Trenner steht deshalb im String Catalog (`reference.format`) und darf nirgends fest verdrahtet werden. Die Zahlen der Zählerzeile folgen dagegen der **Region**, nicht der Sprache: 18’463 in der Schweiz, 18,463 in den USA, über `formatted(.number)`.
 

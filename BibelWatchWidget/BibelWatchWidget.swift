@@ -32,7 +32,9 @@ struct VerseOfDayWidget: Widget {
 struct VerseEntry: TimelineEntry {
     let date: Date
     let reference: String       // «Johannes 3,16»
-    let bookCode: String        // «Joh» — fuer die runde Komplikation
+    /// Buchkuerzel der Anzeigesprache fuer die runde Komplikation
+    /// («Joh» · «John» · «Jn» · «約»). Nicht book.code: der ist deutsch.
+    let bookAbbrev: String
     let chapter: Int
     let verse: Int
     let text: String
@@ -40,7 +42,7 @@ struct VerseEntry: TimelineEntry {
 
     static let placeholder = VerseEntry(
         date: .now,
-        reference: "Johannes 3,16", bookCode: "Joh", chapter: 3, verse: 16,
+        reference: "Johannes 3,16", bookAbbrev: "Joh", chapter: 3, verse: 16,
         text: "Denn also hat Gott die Welt geliebt, dass er seinen eingeborenen Sohn gab …",
         url: nil)
 }
@@ -99,7 +101,7 @@ struct VerseOfDayProvider: TimelineProvider {
                 entries.append(VerseEntry(
                     date: day,
                     reference: Localization.reference(verse.reference, book: book),
-                    bookCode: book.code,
+                    bookAbbrev: Localization.abbreviation(of: book),
                     chapter: verse.reference.chapter,
                     verse: verse.reference.verse,
                     text: verse.text,
@@ -121,8 +123,9 @@ struct VerseWidgetView: View {
         case .accessoryCircular:
             // Nur die Referenz — mehr traegt die kleine Komplikation nicht.
             VStack(spacing: -1) {
-                Text(verbatim: entry.bookCode)
+                Text(verbatim: entry.bookAbbrev)
                     .font(.system(size: 13, weight: .semibold))
+                    .lineLimit(1)
                     .widgetAccentable()
                 Text(verbatim: "\(entry.chapter),\(entry.verse)")
                     .font(.system(size: 12, weight: .medium))

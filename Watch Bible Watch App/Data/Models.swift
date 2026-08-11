@@ -23,6 +23,10 @@ struct Book: Identifiable, Hashable, Sendable {
     /// ("de", "en", "es", "fr", "zh-Hant", "zh-Hans"). Deutsch steht mit
     /// darin, damit der Zugriff ohne Sonderfall auskommt.
     let names: [String: String]
+    /// Buchkuerzel je Anzeigesprache, gleiche Schluessel. Fuer enge Stellen —
+    /// Register der Buchliste, runde Komplikation. **Nicht mit `code`
+    /// verwechseln**: der ist Schluessel und bleibt in jeder Sprache gleich.
+    let abbreviations: [String: String]
     let testament: Testament
     let chapterCount: Int
 
