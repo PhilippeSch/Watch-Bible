@@ -105,7 +105,16 @@ Die App lädt die Datei unter dem Ressourcennamen **`bible`** — welche der bei
 
 Achtung bei einem Wechsel: die Übersetzungen bekommen ihre `id` nach Reihenfolge in der Datenbank. In der grossen Datei ist Schlachter Nummer 1 und Leitübersetzung, in der kleinen Elberfelder. Deshalb liest die App Übersetzungen und Leitübersetzung immer zur Laufzeit aus der Datenbank und nie aus fest verdrahteten Zahlen.
 
-**Die Reihenfolge bestimmt auch die Vorgabe.** Beim allerersten Start wählt die App die erste Übersetzung der Anzeigesprache in Datenbankreihenfolge, und dieselbe steht in der Auswahl zuoberst. Wer für eine Sprache eine andere Vorgabe will, ändert nicht den Code, sondern die Reihenfolge im Konverter.
+**Die Reihenfolge bestimmt auch die Vorgabe.** Beim allerersten Start wählt die App die erste Übersetzung der Anzeigesprache in Datenbankreihenfolge (`sort_order`), und dieselbe steht in der Auswahl zuoberst. Wer für eine Sprache eine andere Vorgabe will, ändert nicht den Code, sondern die Liste `TRANSLATION_ORDER` in `tools/quotepas_to_sqlite.py` — die einzige Stelle, an der die Reihenfolge festgelegt ist. `--include` hat weiterhin Vorrang, wenn er angegeben wird.
+
+Für eine bereits erzeugte Datenbank trägt `tools/reorder_translations.py` dieselbe Reihenfolge nach, ohne sie neu zu bauen:
+
+```bash
+python3 tools/reorder_translations.py "Watch Bible Watch App/Resources/bible.sqlite" --check
+python3 tools/reorder_translations.py "Watch Bible Watch App/Resources/bible.sqlite"
+```
+
+Es ändert **nur** `sort_order`. `translation.id`, `first_verse_id`/`last_verse_id` und die Verstabelle bleiben unberührt — sonst müssten 300'000 Zeilen umgeschrieben werden und `test_fixtures.json` würde ungültig. Danach können `id` und `sort_order` auseinanderlaufen (in der ausgelieferten Datei hat KJV `id` 3 und `sort_order` 2); die App liest ausschliesslich `ORDER BY sort_order`.
 
 **Nach einem Wechsel einmal die Buchnamen prüfen.** Eine Datenbank aus einem Konverterlauf vor dem 11. August 2026 hat die Spalten `name_es`, `name_fr`, `name_zh_hant`, `name_zh_hans` noch nicht. Die App läuft trotzdem — sie zeigt für diese Sprachen dann aber den deutschen Buchnamen:
 
@@ -123,6 +132,7 @@ python3 tools/add_book_names.py "Watch Bible Watch App/Resources/bible.sqlite"
 | `bible_mit-SLT_11-Uebersetzungen.sqlite` | Datenbank inklusive Schlachter 2000 |
 | `cuv_simplified.xml` | Vereinfachte Fassung des 和合本, maschinell aus der traditionellen erzeugt (siehe unten) |
 | `quotepas_to_sqlite.py` | Konverter. Liest die LaTeX-Quelldatei, zusätzlich OSIS-XML (`--osis CODE=DATEI`) und USFM-Verzeichnisse (`--usfm CODE=ORDNER`). Im Repository behalten, damit die Datenbank reproduzierbar bleibt. Führt auch die Buchnamen aller sechs Oberflächensprachen. |
+| `reorder_translations.py` | Setzt `translation.sort_order` einer bestehenden Datenbank auf `TRANSLATION_ORDER` aus dem Konverter — damit auch die Vorgabeübersetzung je Sprache. `--check` prüft, ohne zu schreiben. |
 | `add_book_names.py` | Trägt die Buchnamen der Oberflächensprachen (`name_es`, `name_fr`, `name_zh_hant`, `name_zh_hans`) in eine bestehende Datenbank nach und setzt die Schema-Version auf 2. Dieselben Tabellen wie im Konverter — für den Fall, dass die Quelldateien nicht zur Hand sind. `--check` prüft, ohne zu schreiben. |
 | `curated_verses.json` | 180 Kernverse aus 50 Büchern für den kuratierten Zufallsmodus |
 | `test_fixtures.json` | Erwartungswerte für Unit-Tests, erzeugt gegen `bible_frei_10-Uebersetzungen.sqlite`: 28 Stichproben und alle Versifikations-Abweichungen für vierzehn Übersetzungspaare |

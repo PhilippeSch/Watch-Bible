@@ -211,6 +211,21 @@ TRANSLATION_META = {
                         "maschinell aus der traditionellen Ausgabe (OpenCC t2s)."),
 }
 
+# Reihenfolge, in der die Uebersetzungen in der App erscheinen (sort_order).
+#
+# Sie ist keine Kosmetik: die App waehlt beim allerersten Start die **erste
+# Uebersetzung der Anzeigesprache** aus dieser Reihenfolge, und dieselbe steht
+# in der Auswahl zuoberst. Wer fuer eine Sprache eine andere Vorgabe will,
+# aendert diese Liste — nicht den Swift-Code.
+#
+# Je Sprache steht die Leitausgabe vorn: Deutsch Elberfelder, Englisch King
+# James, Chinesisch die traditionelle Ausgabe. Codes, die hier fehlen, haengen
+# sich hinten in der Reihenfolge der Quelle an.
+TRANSLATION_ORDER = [
+    "elb", "kjv", "dar", "slt", "sch1951", "lut", "meng",
+    "cuv", "cuvs", "rvr1909", "lsg", "bsb",
+]
+
 # Anzeigename je Code, falls die Quelle keinen mitliefert.
 TRANSLATION_NAMES = {
     "sch1951": ("SCH", "Schlachter 1951"),
@@ -956,6 +971,12 @@ def main() -> int:
         keep = [c for c in keep if c not in drop]
     if not keep:
         raise SystemExit("Nach Filterung bleibt keine Uebersetzung uebrig.")
+    # Anzeigereihenfolge festlegen. --include gibt sie ausdruecklich vor und
+    # hat darum Vorrang; sonst gilt TRANSLATION_ORDER, Unbekanntes haengt sich
+    # hinten an (stabil, also in Reihenfolge der Quelle).
+    if not args.include:
+        keep.sort(key=lambda c: TRANSLATION_ORDER.index(c)
+                  if c in TRANSLATION_ORDER else len(TRANSLATION_ORDER))
 
     print("=" * 68)
     print(f"Quelle          : {args.source}  ({len(entries)} Eintraege)")

@@ -109,10 +109,17 @@ Drei Punkte, die dabei nicht offensichtlich sind:
   unterscheiden sich in der Schrift; gekürzt auf `zh` hätte keine der beiden
   chinesischen Übersetzungen je gegriffen. `Localization.normalized` bildet
   Systemkennungen jetzt vollständig ab (`zh-TW` → `zh-Hant`, `zh` → `zh-Hans`).
-- **Englisch bekommt Darby statt King James.** Die Regel «erste Übersetzung
-  dieser Sprache» liest die Reihenfolge der Datenbank, und dort steht DAR vor
-  KJV. Wer KJV als englische Vorgabe will, ändert die Reihenfolge im Konverter,
-  nicht den Code.
+- **Die Vorgabe je Sprache steht in der Datenbank, nicht im Code.** Die Regel
+  «erste Übersetzung dieser Sprache» liest `sort_order`. In der ersten Fassung
+  stand dort DAR vor KJV, Englisch bekam also Darby; die Reihenfolge ist am
+  11. August 2026 auf **KJV vor DAR** geändert worden. Festgelegt wird sie an
+  genau einer Stelle: `TRANSLATION_ORDER` in `tools/quotepas_to_sqlite.py`.
+  `tools/reorder_translations.py` trägt dieselbe Liste in eine bereits erzeugte
+  Datenbank nach und ändert dabei **nur** `sort_order` — `translation.id`,
+  `first_verse_id`/`last_verse_id` und die Verstabelle bleiben, wie sie sind,
+  sonst würde `test_fixtures.json` ungültig. `id` und `sort_order` laufen
+  dadurch auseinander (KJV: `id` 3, `sort_order` 2); die App liest nur
+  `ORDER BY sort_order`.
 - **Die Buchnamensspalten werden zur Laufzeit gesucht** (`PRAGMA table_info`),
   nicht fest in die Abfrage geschrieben: eine Datenbank aus einem älteren
   Konverterlauf kennt sie nicht, und ein `no such column` beim Vorbereiten
