@@ -13,6 +13,14 @@ struct BookListView: View {
         ("Mt", 40), ("Rom", 45), ("Offb", 66)
     ]
 
+    /// Beschriftung einer Sprungmarke. Die Buchcodes der Datenbank sind
+    /// deutsche Kuerzel — im Register steht deshalb das Kuerzel der
+    /// Anzeigesprache. Dynamischer Schluessel, darum ueber das Bundle:
+    /// String(localized:) wuerde die Interpolation als Formatargument lesen.
+    private static func markLabel(_ code: String) -> String {
+        Bundle.main.localizedString(forKey: "register.\(code)", value: code, table: nil)
+    }
+
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView {
@@ -72,7 +80,7 @@ struct BookListView: View {
                     activeMark = mark.code
                     withAnimation { proxy.scrollTo(mark.bookID, anchor: .top) }
                 } label: {
-                    Text(verbatim: mark.code)
+                    Text(verbatim: Self.markLabel(mark.code))
                         .font(Typo.register)
                         .foregroundStyle(activeMark == mark.code ? Color.ground : Color.secondaryInk)
                         .frame(width: 31)

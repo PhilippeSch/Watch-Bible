@@ -28,14 +28,29 @@ actor BibleRepository {
                         copyright: r.stringOrNil(5), verseCount: r.int(6),
                         firstVerseID: r.int(7), lastVerseID: r.int(8))
         }
+        // Buchnamen je Anzeigesprache. Die Namensspalten werden erst gesucht
+        // und dann angehaengt, statt fest in die Abfrage geschrieben: eine
+        // Datenbank aus einem aelteren Konverterlauf kennt sie noch nicht, und
+        // ein `no such column` beim Vorbereiten wuerde die ganze App lahmlegen.
+        // Fehlt eine Spalte, bleibt fuer diese Sprache der deutsche Name stehen
+        // (tools/add_book_names.py traegt sie nach).
+        let columns = Set(try await db.query("PRAGMA table_info(book)") { $0.string(1) })
+        let nameColumns = [("en", "name_en"), ("es", "name_es"), ("fr", "name_fr"),
+                           ("zh-Hant", "name_zh_hant"), ("zh-Hans", "name_zh_hans")]
+            .filter { columns.contains($0.1) }
+        let selection = (["id", "code", "name", "testament", "chapter_count"]
+                         + nameColumns.map(\.1)).joined(separator: ", ")
         books = try await db.query("""
-            SELECT id, code, name, name_en, testament, chapter_count
-              FROM book ORDER BY sort_order
+            SELECT \(selection) FROM book ORDER BY sort_order
             """) { r in
-            Book(id: r.int(0), code: r.string(1), name: r.string(2),
-                 nameEN: r.stringOrNil(3),
-                 testament: Book.Testament(rawValue: r.string(4)) ?? .at,
-                 chapterCount: r.int(5))
+            var names = ["de": r.string(2)]
+            for (offset, column) in nameColumns.enumerated() {
+                if let name = r.stringOrNil(Int32(5 + offset)) { names[column.0] = name }
+            }
+            return Book(id: r.int(0), code: r.string(1), name: r.string(2),
+                        names: names,
+                        testament: Book.Testament(rawValue: r.string(3)) ?? .at,
+                        chapterCount: r.int(4))
         }
         curatedCount = try await db.queryOne("SELECT COUNT(*) FROM curated") {
             $0.int(0)

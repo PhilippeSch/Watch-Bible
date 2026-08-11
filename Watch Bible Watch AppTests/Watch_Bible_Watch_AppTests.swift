@@ -273,6 +273,161 @@ struct VersifikationTests {
     }
 }
 
+// MARK: - Sprachen
+
+/// Die Oberflaeche soll es in jeder Sprache geben, fuer die eine
+/// Bibeluebersetzung mitgeliefert wird — und die Vorgabe soll die erste
+/// Uebersetzung dieser Sprache in der Reihenfolge der Datenbank sein.
+struct SprachenTests {
+
+    /// Der Bezugspunkt: keine Uebersetzungssprache ohne Oberflaeche.
+    /// Kommt eine siebte Sprache in die Datenbank, faellt dieser Test um.
+    @Test func jedeUebersetzungssspracheHatEineOberflaeche() async throws {
+        let repo = try await TestSupport.repository()
+        let sprachen = Set(await repo.translations.map(\.language))
+        let oberflaeche = Set(Localization.supportedLanguages)
+        #expect(sprachen.subtracting(oberflaeche).isEmpty,
+                "Uebersetzung ohne Oberflaechensprache: \(sprachen.subtracting(oberflaeche))")
+        // Umgekehrt ebenso: keine Oberflaeche ohne eigene Uebersetzung.
+        #expect(oberflaeche.subtracting(sprachen).isEmpty,
+                "Oberflaechensprache ohne Uebersetzung: \(oberflaeche.subtracting(sprachen))")
+    }
+
+    /// Auch als Bundle-Lokalisierung muss jede Sprache vorhanden sein —
+    /// sonst zeigt das Geraet trotz uebersetzter Texte die Leitsprache.
+    @Test func jedeSpracheIstImBundleLokalisiert() async throws {
+        let vorhanden = Set(Bundle.main.localizations)
+        for sprache in Localization.supportedLanguages {
+            #expect(vorhanden.contains(sprache),
+                    "Lokalisierung \(sprache) fehlt im Bundle: \(vorhanden.sorted())")
+        }
+    }
+
+    /// Vorgabe = erste Uebersetzung dieser Sprache in Datenbankreihenfolge.
+    /// Nichts davon ist im Code hinterlegt; die Erwartung wird aus der
+    /// Datenbank selbst abgeleitet.
+    @Test func vorgabeIstDieErsteUebersetzungDerSprache() async throws {
+        let repo = try await TestSupport.repository()
+        let translations = await repo.translations
+
+        for sprache in Localization.supportedLanguages {
+            let erwartet = try #require(translations.first { $0.language == sprache },
+                                        "keine Uebersetzung fuer \(sprache)")
+            let gewaehlt = Localization.defaultTranslationCode(available: translations,
+                                                              language: sprache)
+            #expect(gewaehlt == erwartet.code,
+                    "\(sprache): \(gewaehlt) statt \(erwartet.code)")
+        }
+    }
+
+    /// Unbekannte Systemsprache: Englisch, kein Absturz, kein leerer Code.
+    @Test func unbekannteSpracheFaelltAufEnglischZurueck() async throws {
+        let repo = try await TestSupport.repository()
+        let translations = await repo.translations
+        let code = Localization.defaultTranslationCode(available: translations,
+                                                       language: "it")
+        let englisch = try #require(translations.first { $0.language == "en" })
+        #expect(code == englisch.code)
+    }
+
+    /// Sprachkennungen des Systems auf die Schreibweise der Datenbank.
+    @Test func sprachkennungenWerdenNormalisiert() {
+        #expect(Localization.normalized("de") == "de")
+        #expect(Localization.normalized("de-CH") == "de")
+        #expect(Localization.normalized("en-GB") == "en")
+        #expect(Localization.normalized("es-419") == "es")
+        #expect(Localization.normalized("fr-CA") == "fr")
+        // Chinesisch unterscheidet sich in der Schrift, nicht in der Sprache.
+        #expect(Localization.normalized("zh-Hant") == "zh-Hant")
+        #expect(Localization.normalized("zh-Hans") == "zh-Hans")
+        #expect(Localization.normalized("zh-TW") == "zh-Hant")
+        #expect(Localization.normalized("zh-HK") == "zh-Hant")
+        #expect(Localization.normalized("zh-CN") == "zh-Hans")
+        #expect(Localization.normalized("zh") == "zh-Hans")
+        // Sprache ohne Uebersetzung
+        #expect(Localization.normalized("it") == "en")
+    }
+
+    /// Die Sprache der Oberflaeche steht in der Auswahl zuoberst, der Rest
+    /// bleibt in Datenbankreihenfolge.
+    @Test func anzeigespracheStehtZuoberst() async throws {
+        let repo = try await TestSupport.repository()
+        let translations = await repo.translations
+        // Unbekannte Sprache: reine Datenbankreihenfolge, nichts wird umgestellt.
+        var gesehen: Set<String> = []
+        let datenbankreihenfolge = translations.map(\.language)
+            .filter { gesehen.insert($0).inserted }
+        #expect(Localization.languageOrder(of: translations, first: "it")
+                == datenbankreihenfolge)
+
+        for sprache in Localization.supportedLanguages {
+            let reihenfolge = Localization.languageOrder(of: translations, first: sprache)
+            #expect(reihenfolge.first == sprache, "\(sprache) nicht zuoberst")
+            #expect(Array(reihenfolge.dropFirst())
+                    == datenbankreihenfolge.filter { $0 != sprache },
+                    "\(sprache): Rest nicht in Datenbankreihenfolge")
+        }
+    }
+
+    /// Buchnamen: alle 66 Buecher in allen sechs Sprachen, ohne Rueckfall
+    /// auf den deutschen Namen.
+    @Test func buchnamenLiegenInAllenSprachenVor() async throws {
+        let repo = try await TestSupport.repository()
+        let books = await repo.books
+
+        for sprache in Localization.supportedLanguages {
+            let ohne = books.filter { $0.names[sprache] == nil }
+            #expect(ohne.isEmpty,
+                    "\(sprache): kein Name fuer \(ohne.map(\.code).joined(separator: ", "))")
+            // Keine zwei Buecher duerfen in derselben Sprache gleich heissen.
+            let namen = books.compactMap { $0.names[sprache] }
+            #expect(Set(namen).count == namen.count, "\(sprache): doppelte Buchnamen")
+        }
+    }
+
+    /// Stichproben quer durch die Sprachen — Randfaelle des Konzepts.
+    @Test func buchnamenStimmen() async throws {
+        let repo = try await TestSupport.repository()
+        let books = await repo.books
+        let erwartet: [String: [String: String]] = [
+            "1Mo":  ["de": "1. Mose", "en": "Genesis", "es": "Génesis",
+                     "fr": "Genèse", "zh-Hant": "創世記", "zh-Hans": "创世记"],
+            "Ps":   ["de": "Psalmen", "en": "Psalms", "es": "Salmos",
+                     "fr": "Psaumes", "zh-Hant": "詩篇", "zh-Hans": "诗篇"],
+            "Jud":  ["de": "Judas", "en": "Jude", "es": "Judas",
+                     "fr": "Jude", "zh-Hant": "猶大書", "zh-Hans": "犹大书"],
+            "Offb": ["de": "Offenbarung", "en": "Revelation", "es": "Apocalipsis",
+                     "fr": "Apocalypse", "zh-Hant": "啟示錄", "zh-Hans": "启示录"],
+        ]
+        for (code, namen) in erwartet {
+            let book = try #require(books.first { $0.code == code })
+            for (sprache, name) in namen {
+                #expect(Localization.name(of: book, in: sprache) == name,
+                        "\(code) \(sprache): \(Localization.name(of: book, in: sprache))")
+            }
+        }
+    }
+
+    /// Jede Sprache braucht ihre Stellenangabe: Deutsch Komma, die uebrigen
+    /// Doppelpunkt. Fehlt der Schluessel, gaebe der Katalog ihn selbst zurueck.
+    @Test func stellenformatIstJeSpracheUebersetzt() throws {
+        let bundle = Bundle.main
+        for sprache in Localization.supportedLanguages {
+            let pfad = try #require(bundle.path(forResource: sprache, ofType: "lproj"),
+                                    "\(sprache).lproj fehlt")
+            let sprachbundle = try #require(Bundle(path: pfad))
+            let schluessel = "reference.format %1$@ %2$lld %3$lld"
+            let format = sprachbundle.localizedString(forKey: schluessel, value: "",
+                                                      table: nil)
+            #expect(!format.isEmpty, "\(sprache): kein Stellenformat")
+            #expect(format.contains(sprache == "de" ? "," : ":"),
+                    "\(sprache): Trenner falsch — \(format)")
+            let stelle = String(format: format, "Johannes", Int64(3), Int64(16))
+            #expect(stelle == (sprache == "de" ? "Johannes 3,16" : "Johannes 3:16"))
+        }
+    }
+}
+
 // MARK: - Zufall und Vers des Tages
 
 struct ZufallTests {

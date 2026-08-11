@@ -158,10 +158,9 @@ struct TranslationListView: View {
         }
     }
 
-    /// Sprachen in Datenbankreihenfolge, ohne Duplikate.
+    /// Anzeigesprache zuoberst, danach die übrigen in Datenbankreihenfolge.
     private var languages: [String] {
-        var seen: Set<String> = []
-        return model.translations.map(\.language).filter { seen.insert($0).inserted }
+        Localization.languageOrder(of: model.translations)
     }
 
     /// Dynamischer Schluessel — String(localized:) wuerde die Interpolation

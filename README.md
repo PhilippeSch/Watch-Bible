@@ -1,6 +1,6 @@
 # Bible Watch — Projektdateien
 
-Eigenständige Apple-Watch-App für Bibelverse. Zwei Funktionen: zufälliger Vers mit Weiterschalten, und gezieltes Nachschlagen über Buch → Kapitel → Vers. Deutsch und Englisch. Kein Netzwerk, kein Konto, kein iPhone nötig.
+Eigenständige Apple-Watch-App für Bibelverse. Zwei Funktionen: zufälliger Vers mit Weiterschalten, und gezieltes Nachschlagen über Buch → Kapitel → Vers. Oberfläche in sechs Sprachen — in jeder, für die eine Bibelübersetzung mitgeliefert wird. Kein Netzwerk, kein Konto, kein iPhone nötig.
 
 ## Ausgangslage
 
@@ -85,13 +85,14 @@ Eine davon auswählen und **als `bible.sqlite` ins Projekt kopieren**. Beide ent
 
 | Datei | Übersetzungen | Verse | Grösse | Verwendung |
 |---|---|---:|---:|---|
-| `bible_frei_9-Uebersetzungen.sqlite` | 9 Übersetzungen in 6 Sprachen | 279'863 | 43.5 MB | **Für die Veröffentlichung.** Alle frei verwendbar. |
-| `bible_mit-SLT_10-Uebersetzungen.sqlite` | zusätzlich Schlachter 2000 | 311'034 | 48.8 MB | Nur mit schriftlicher Genehmigung der Genfer Bibelgesellschaft. |
+| `bible_frei_10-Uebersetzungen.sqlite` | 10 Übersetzungen in 6 Sprachen | 311'034 | 48.5 MB | **Für die Veröffentlichung.** Alle frei verwendbar. |
+| `bible_mit-SLT_11-Uebersetzungen.sqlite` | zusätzlich Schlachter 2000 | 342'205 | 53.8 MB | Nur mit schriftlicher Genehmigung der Genfer Bibelgesellschaft. |
 
 | Kürzel | Übersetzung | Sprache | Verse |
 |---|---|---|---:|
 | ELB | Elberfelder 1905 | Deutsch | 31'103 |
 | SCH | Schlachter 1951 | Deutsch | 31'172 |
+| LUT | Luther 1912 | Deutsch | 31'171 |
 | BSB | Berean Standard Bible | Englisch | 31'084 |
 | KJV | King James Version | Englisch | 31'102 |
 | DAR | Darby Bible | Englisch | 30'996 |
@@ -104,23 +105,33 @@ Die App lädt die Datei unter dem Ressourcennamen **`bible`** — welche der bei
 
 Achtung bei einem Wechsel: die Übersetzungen bekommen ihre `id` nach Reihenfolge in der Datenbank. In der grossen Datei ist Schlachter Nummer 1 und Leitübersetzung, in der kleinen Elberfelder. Deshalb liest die App Übersetzungen und Leitübersetzung immer zur Laufzeit aus der Datenbank und nie aus fest verdrahteten Zahlen.
 
+**Die Reihenfolge bestimmt auch die Vorgabe.** Beim allerersten Start wählt die App die erste Übersetzung der Anzeigesprache in Datenbankreihenfolge, und dieselbe steht in der Auswahl zuoberst. Wer für eine Sprache eine andere Vorgabe will, ändert nicht den Code, sondern die Reihenfolge im Konverter.
+
+**Nach einem Wechsel einmal die Buchnamen prüfen.** Eine Datenbank aus einem Konverterlauf vor dem 11. August 2026 hat die Spalten `name_es`, `name_fr`, `name_zh_hant`, `name_zh_hans` noch nicht. Die App läuft trotzdem — sie zeigt für diese Sprachen dann aber den deutschen Buchnamen:
+
+```bash
+python3 tools/add_book_names.py "Watch Bible Watch App/Resources/bible.sqlite" --check
+python3 tools/add_book_names.py "Watch Bible Watch App/Resources/bible.sqlite"
+```
+
 ## Alle Dateien
 
 ### Daten
 | Datei | Inhalt |
 |---|---|
-| `bible_frei_9-Uebersetzungen.sqlite` | Datenbank, frei verwendbare Übersetzungen |
-| `bible_mit-SLT_10-Uebersetzungen.sqlite` | Datenbank inklusive Schlachter 2000 |
+| `bible_frei_10-Uebersetzungen.sqlite` | Datenbank, frei verwendbare Übersetzungen |
+| `bible_mit-SLT_11-Uebersetzungen.sqlite` | Datenbank inklusive Schlachter 2000 |
 | `cuv_simplified.xml` | Vereinfachte Fassung des 和合本, maschinell aus der traditionellen erzeugt (siehe unten) |
-| `quotepas_to_sqlite.py` | Konverter. Liest die LaTeX-Quelldatei, zusätzlich OSIS-XML (`--osis CODE=DATEI`) und USFM-Verzeichnisse (`--usfm CODE=ORDNER`). Im Repository behalten, damit die Datenbank reproduzierbar bleibt. |
+| `quotepas_to_sqlite.py` | Konverter. Liest die LaTeX-Quelldatei, zusätzlich OSIS-XML (`--osis CODE=DATEI`) und USFM-Verzeichnisse (`--usfm CODE=ORDNER`). Im Repository behalten, damit die Datenbank reproduzierbar bleibt. Führt auch die Buchnamen aller sechs Oberflächensprachen. |
+| `add_book_names.py` | Trägt die Buchnamen der Oberflächensprachen (`name_es`, `name_fr`, `name_zh_hant`, `name_zh_hans`) in eine bestehende Datenbank nach und setzt die Schema-Version auf 2. Dieselben Tabellen wie im Konverter — für den Fall, dass die Quelldateien nicht zur Hand sind. `--check` prüft, ohne zu schreiben. |
 | `curated_verses.json` | 180 Kernverse aus 50 Büchern für den kuratierten Zufallsmodus |
-| `test_fixtures.json` | Erwartungswerte für Unit-Tests, erzeugt gegen `bible_frei_9-Uebersetzungen.sqlite`, inklusive aller Versifikations-Abweichungen für fünf Übersetzungspaare |
+| `test_fixtures.json` | Erwartungswerte für Unit-Tests, erzeugt gegen `bible_frei_10-Uebersetzungen.sqlite`: 28 Stichproben und alle Versifikations-Abweichungen für vierzehn Übersetzungspaare |
 
 ### Dokumente
 | Datei | Inhalt |
 |---|---|
 | `Konzept_BibelWatch.md` | Architektur, Schema, Abfragen, Meilensteinplan, App-Store-Checkliste |
-| `Designspezifikation.md` | Farben, Typografie, Geometrie, Bildschirme, Zweisprachigkeit — verbindlich |
+| `Designspezifikation.md` | Farben, Typografie, Geometrie, Bildschirme, Mehrsprachigkeit — verbindlich |
 | `Design_TagNacht.html` | Bildschirmentwürfe, massstabsgetreu auf 45 mm |
 | `CLAUDE.md` | Projektanweisungen, gehört ins Repository-Wurzelverzeichnis |
 
@@ -132,7 +143,7 @@ Achtung bei einem Wechsel: die Übersetzungen bekommen ihre `id` nach Reihenfolg
 | `Data/BibleRepository.swift` | Alle Abfragen, Zufallsvers, Vers des Tages, Versifikationslogik |
 | `Shared/AppSettings.swift` | Einstellungen über `@AppStorage` |
 | `Shared/Localization.swift` | Anzeigesprache, Übersetzungsvorgabe, Buchnamen, Stellenformat |
-| `Resources/Localizable.xcstrings` | 45 Schlüssel, Deutsch und Englisch vollständig |
+| `Resources/Localizable.xcstrings` | 58 Schlüssel, alle sechs Oberflächensprachen vollständig |
 | `Resources/InfoPlist.xcstrings` | App-Name «Bibel» / «Bible» |
 | `PrivacyInfo.xcprivacy` | Privacy-Manifest, ein Eintrag für UserDefaults |
 
@@ -149,18 +160,22 @@ Achtung bei einem Wechsel: die Übersetzungen bekommen ihre `id` nach Reihenfolg
 ```bash
 # frei verwendbar, für die Veröffentlichung
 python3 quotepas_to_sqlite.py bible.db \
-        --osis sch1951=sch1951.xml --osis cuv=chi.xml --osis cuvs=cuv_simplified.xml \
+        --osis sch1951=sch1951.xml --osis lut=luth1912.xml \
+        --osis cuv=chi.xml --osis cuvs=cuv_simplified.xml \
         --osis rvr1909=sparv.xml --osis lsg=fren.xml --usfm bsb=./bsb_usfm \
         --exclude slt --curated curated_verses.json --swiss \
-        -o bible_frei_9-Uebersetzungen.sqlite
+        -o bible_frei_10-Uebersetzungen.sqlite
 
 # zusätzlich mit Schlachter 2000
 python3 quotepas_to_sqlite.py bible.db \
-        --osis sch1951=sch1951.xml --osis cuv=chi.xml --osis cuvs=cuv_simplified.xml \
+        --osis sch1951=sch1951.xml --osis lut=luth1912.xml \
+        --osis cuv=chi.xml --osis cuvs=cuv_simplified.xml \
         --osis rvr1909=sparv.xml --osis lsg=fren.xml --usfm bsb=./bsb_usfm \
         --curated curated_verses.json --swiss \
-        -o bible_mit-SLT_10-Uebersetzungen.sqlite
+        -o bible_mit-SLT_11-Uebersetzungen.sqlite
 ```
+
+Die Reihenfolge der Quellenangaben bestimmt `translation.id` und `sort_order`. Luther steht deshalb hinter Schlachter, damit die drei deutschen Übersetzungen zusammenliegen. Wer sie verschiebt, verschiebt alle nachfolgenden `verse.id` — die App liest beides zur Laufzeit aus der Datenbank, `test_fixtures.json` muss dann aber nachgerechnet werden.
 
 ## Offene Punkte vor der Veröffentlichung
 
@@ -171,6 +186,22 @@ python3 quotepas_to_sqlite.py bible.db \
 **Der `--swiss`-Schalter ist eine Bearbeitung.** Er wandelt ß zu ss, auch in Schlachter 1951. CC BY 4.0 verlangt, Änderungen kenntlich zu machen — also entweder im Impressum vermerken oder für diese Übersetzung darauf verzichten.
 
 **Schlachter 2000** bleibt urheberrechtlich geschützt (© 2000 Genfer Bibelgesellschaft). Mit Schlachter 1951 in der freien Datenbank brauchst du sie nicht mehr.
+
+## Herkunft der Lutherbibel
+
+Aus `de/luth1912.xml` von `github.com/gratis-bible/bible`, dessen OSIS-Kopf «Public Domain» führt. Es ist die Revision von **1912**, deren Schutzfrist abgelaufen ist — nicht die Lutherbibel 1984 oder 2017, die bei der Deutschen Bibelgesellschaft geschützt sind. 66 Bücher, 1'189 Kapitel, 31'171 Verse, keine XML-Reste, keine leeren Verse.
+
+**Gegenprobe an einer zweiten Quelle.** Dieselbe Revision liegt bei **ebible.org/deu1912** als USFM. Von 31'171 Verstexten stimmen 29'871 zeichengleich mit der OSIS-Ausgabe überein; es ist also nachweislich derselbe Revisionsstand. Die Restunterschiede sind auf beiden Seiten kleine Zeichensetzungsschäden («um um das ganze Mohrenland» bei ebible, ein hängendes Fragezeichen in 1Mo 5,1 bei gratis-bible) — sowie ein systematischer Unterschied, der die Wahl entschieden hat.
+
+**Verwendet wird die OSIS-Ausgabe, weil sie deutsch zählt.** Die ebible-Fassung ist auf die englische Versifikation umgestellt und trägt die Originalnummer als Präfix im Verstext (`[5:27] Die Kinder Levis waren…` unter 1Chr 6,1). Das wäre für diese App die falsche Grundlage: die deutsche Zählung ist genau das, was `BibleRepository.resolve` gegen die englischen Übersetzungen abgleicht. Luther zählt Joel mit vier und Maleachi mit drei Kapiteln, Elberfelder umgekehrt — Joel 4 gibt es in der ELB nicht, Maleachi 4 nicht in der Luther. Solche Kapitel müssen `.unavailable` melden. Gegen Schlachter 1951 unterscheiden sich nur drei Kapitel in der Verszahl, gegen Elberfelder 122, gegen die KJV 140; alle Fälle stehen in `test_fixtures.json`.
+
+**Drei dokumentierte Eingriffe am Quelltext**, jeder im Konverter aufgeführt und bei jedem Lauf gemeldet:
+
+- `SOURCE_FIXES`: In 1Mo 5,1 hängt ein Fragezeichen hinter dem Semikolon, mit dem der Vers endet. Gedruckt und in der ebible-Ausgabe steht dort nur das Semikolon.
+- `TYPOGRAPHY_FIXUPS`: 24 Verse tragen ein Leerzeichen vor dem Satzzeichen, wo im Druck eine Fussnotenmarke stand («heisst Hiddekel , das fliesst vor Assyrien»).
+- `TYPOGRAPHY_FIXUPS`: Das Modul setzt ASCII-Anführungszeichen. In 586 Versen sind sie auf « » gesetzt, weil quotepas-Quelle und Schlachter 1951 Guillemets verwenden und die deutschen Übersetzungen sonst zwei Systeme mischten. Ein `"` öffnet am Textanfang und nach Leerzeichen oder öffnender Klammer, sonst schliesst es; nicht über Paare gezählt, weil 177 Zitate über Versgrenzen laufen und in sechs Kapiteln das öffnende Zeichen in der Quelle fehlt.
+
+Beide Eingriffe sind an den Übersetzungscode gebunden und nicht allgemein: im Französischen gehört das Leerzeichen vor `;:!?` zur Rechtschreibung, und die übrigen Quellen bringen ihre Anführungszeichen typografisch mit. Da die Revision gemeinfrei ist, verlangt keine Lizenz einen Änderungsvermerk — anders als bei Schlachter 1951 (siehe oben).
 
 ## Herkunft der Berean Standard Bible
 

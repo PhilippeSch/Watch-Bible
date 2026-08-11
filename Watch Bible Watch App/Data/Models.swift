@@ -1,6 +1,6 @@
 import Foundation
 
-/// Datenmodelle. Spiegeln exakt das Schema von bible.sqlite (user_version 1).
+/// Datenmodelle. Spiegeln exakt das Schema von bible.sqlite (user_version 2).
 /// Nicht abaendern, ohne quotepas_to_sqlite.py mitzuziehen.
 
 struct Translation: Identifiable, Hashable, Sendable {
@@ -8,7 +8,7 @@ struct Translation: Identifiable, Hashable, Sendable {
     let code: String          // "elb", "kjv", …
     let abbrev: String        // "ELB"
     let name: String          // "Elberfelder 1905"
-    let language: String      // "de" | "en"
+    let language: String      // "de" | "en" | "es" | "fr" | "zh-Hant" | "zh-Hans"
     let copyright: String?
     let verseCount: Int
     let firstVerseID: Int     // fuer den Zufallsvers: Int.random(in: first...last)
@@ -18,8 +18,11 @@ struct Translation: Identifiable, Hashable, Sendable {
 struct Book: Identifiable, Hashable, Sendable {
     let id: Int               // 1…66, kanonische Reihenfolge
     let code: String          // "1Mo", "Offb"
-    let name: String          // "1. Mose"
-    let nameEN: String?
+    let name: String          // "1. Mose" — Deutsch, Leitsprache der Datenbank
+    /// Buchname je Anzeigesprache, Schluessel wie in `translation.language`
+    /// ("de", "en", "es", "fr", "zh-Hant", "zh-Hans"). Deutsch steht mit
+    /// darin, damit der Zugriff ohne Sonderfall auskommt.
+    let names: [String: String]
     let testament: Testament
     let chapterCount: Int
 

@@ -48,7 +48,8 @@ Falls du Ersatz für eine zeitgenössische deutsche Übersetzung suchst: Schlach
 meta          (key, value)                    -- Schema-Version, Erzeugungsdatum, Quelle
 translation   (id, code, abbrev, name, language, copyright,
                verse_count, first_verse_id, last_verse_id, sort_order)
-book          (id, code, name, name_en, testament, chapter_count, sort_order)
+book          (id, code, name, name_en, name_es, name_fr, name_zh_hant,
+               name_zh_hans, testament, chapter_count, sort_order)
 verse         (id, translation_id, book_id, chapter, verse, text)
 chapter_meta  (translation_id, book_id, chapter, verse_count)
 curated       (id, book_id, chapter, verse, topic)
@@ -206,7 +207,7 @@ BibelWatch/
 │   ├── AppSettings.swift       ✔ fertig — @AppStorage, @Observable
 │   └── Localization.swift      ✔ fertig — Sprache, Vorgaben, Stellenformat
 ├── Resources/
-│   ├── Localizable.xcstrings   ✔ fertig — 45 Schlüssel, de + en
+│   ├── Localizable.xcstrings   ✔ fertig — 58 Schlüssel, sechs Sprachen
 │   └── InfoPlist.xcstrings     ✔ fertig — App-Name
 └── PrivacyInfo.xcprivacy       ✔ fertig — validiert
 ```
@@ -302,13 +303,13 @@ Vorarbeit, die du nicht mehr machen musst — und ebenso wichtig: was davon **ge
 
 | Datei | Inhalt | Prüfung |
 |---|---|---|
-| `bible_frei_9-Uebersetzungen.sqlite` | 9 frei verwendbare Übersetzungen in 6 Sprachen, 279'863 Verse, 43.5 MB | Integrität, Stichproben, Zählwerte — **die Datei für die Veröffentlichung** |
-| `bible_mit-SLT_10-Uebersetzungen.sqlite` | zusätzlich Schlachter 2000, 311'034 Verse, 48.8 MB | dito |
+| `bible_frei_10-Uebersetzungen.sqlite` | 10 frei verwendbare Übersetzungen in 6 Sprachen, 311'034 Verse, 48.5 MB | Integrität, Stichproben, Zählwerte — **die Datei für die Veröffentlichung** |
+| `bible_mit-SLT_11-Uebersetzungen.sqlite` | zusätzlich Schlachter 2000, 342'205 Verse, 53.8 MB | dito |
 | `quotepas_to_sqlite.py` | Konverter, reproduzierbar | Läuft fehlerfrei über die volle Quelle |
 | `curated_verses.json` | 180 Kernverse aus 50 Büchern, 25 Themen | Alle 180 Referenzen in der Datenbank vorhanden |
 | `test_fixtures.json` | Erwartungswerte für Unit-Tests, inkl. aller 29 Versifikations-Abweichungen ELB ↔ KJV | direkt aus der Datenbank erzeugt |
 | `PrivacyInfo.xcprivacy` | Privacy-Manifest | Als Plist geparst, Struktur gültig |
-| `Localizable.xcstrings` | 45 Schlüssel, Deutsch und Englisch, inklusive Pluralformen | Als JSON geparst, keine Lücke in beiden Sprachen |
+| `Localizable.xcstrings` | 58 Schlüssel in sechs Sprachen, inklusive Pluralformen | Als JSON geparst, keine Lücke in einer Sprache |
 | `InfoPlist.xcstrings` | App-Name «Bibel» / «Bible» | dito |
 | `Designspezifikation.md` + `Design_TagNacht.html` | Farben, Typografie, Geometrie, Bildschirme | Rastergeometrie nachgerechnet |
 
@@ -332,7 +333,7 @@ Für Swift stand hier kein Compiler zur Verfügung. Die folgenden Dateien sind f
 - `BibleDatabase.swift` — Actor um die sqlite3-C-API, read-only, Statement-Cache, `deinit` mit `sqlite3_finalize`
 - `BibleRepository.swift` — alle Abfragen typisiert, dazu `randomVerse`, `randomCuratedVerse`, `verseOfDay`, `chapter`, `resolve`
 - `AppSettings.swift` — `@Observable` mit `@AppStorage`
-- `Localization.swift` — Anzeigesprache, Übersetzungsvorgabe (de → `elb`, en → `kjv`), Buchnamen, Stellenformat
+- `Localization.swift` — Anzeigesprache, Übersetzungsvorgabe (erste Übersetzung dieser Sprache in Datenbankreihenfolge), Buchnamen, Stellenformat
 
 Behandle sie als geprüften Entwurf, nicht als fertigen Code: die SQL-Strings und Spaltenindizes darin stimmen nachweislich mit der Datenbank überein, die Swift-Syntax drumherum ist ungetestet.
 

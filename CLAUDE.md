@@ -34,13 +34,17 @@ Deutsche und englische Bibeln zählen unterschiedlich (Psalmenüberschriften, Je
 
 Zwei Punkte, die keine Geschmacksfragen sind: Raster **immer dreispaltig** (vier Spalten ergeben 38 pt Zellen und unterschreiten die 44 pt für Tippziele), und bei `@Environment(\.isLuminanceReduced)` **immer** die Nachtpalette, unabhängig von der Einstellung.
 
-## Zweisprachigkeit
+## Mehrsprachigkeit
 
-Deutsch und Englisch, Anzeigesprache folgt dem System. Alle Texte über `Resources/Localizable.xcstrings` — **kein Klartext in Views**. Buchnamen kommen aus der Datenbank (`name` / `name_en`), nicht aus dem Katalog.
+**Die App gibt es in jeder Sprache, für die eine Bibelübersetzung mitgeliefert wird** — zurzeit `de`, `en`, `es`, `fr`, `zh-Hant`, `zh-Hans`. Die Liste steht in `Localization.supportedLanguages` und muss deckungsgleich mit den `translation.language`-Werten der Datenbank bleiben; ein Unit-Test prüft das in beide Richtungen. Anzeigesprache folgt dem System, eine eigene Einstellung gibt es nicht.
+
+Alle Texte über `Resources/Localizable.xcstrings` — **kein Klartext in Views**. Buchnamen kommen aus der Datenbank (`name`, `name_en`, `name_es`, `name_fr`, `name_zh_hant`, `name_zh_hans`), nicht aus dem Katalog.
+
+**Sprachkennungen nie auf zwei Zeichen kürzen.** `zh-Hant` und `zh-Hans` unterscheiden sich in der Schrift; `prefix(2)` trifft keine der beiden chinesischen Übersetzungen. Normalisierung läuft über `Localization.normalized`.
 
 Der Trenner der Stellenangabe unterscheidet sich: «Johannes 3,16» gegen «John 3:16». Nie fest verdrahten, immer über `reference.format`.
 
-Vorgabe der Bibelübersetzung: Deutsch → `elb`, Englisch → `kjv`, aber **nur beim ersten Start**. Eine vom Nutzer gewählte Übersetzung wird nie durch einen Sprachwechsel überschrieben. Logik liegt in `Shared/Localization.swift`.
+Vorgabe der Bibelübersetzung: die **erste Übersetzung der Anzeigesprache in Datenbankreihenfolge** — dieselbe, die in der Auswahl zuoberst steht. Keine fest verdrahteten Codes. Das gilt **nur beim ersten Start**; eine vom Nutzer gewählte Übersetzung wird nie durch einen Sprachwechsel überschrieben. Logik liegt in `Shared/Localization.swift`.
 
 ## Bedienung auf einer Uhr
 
@@ -81,5 +85,5 @@ Zwei Grenzen: ein erfolgreicher Build sagt nichts über das Layout — Bildschir
 - Nach jedem Meilenstein: kurz auflisten, welche Dateien entstanden sind und was in Xcode von Hand einzustellen ist (Target-Membership, Capabilities, Signing).
 - Datenschicht und Referenzauflösung bekommen Unit-Tests. Randfälle, die immer zu prüfen sind: Ps 119,176, Jud 1,25, letzter Vers von Offb, erster Vers von 1. Mose.
 - Es gibt zwei ausgelieferte Datenbanken (siehe `README.md`); die gewählte liegt im Projekt als `bible.sqlite`. Übersetzungs-`id` und Leitübersetzung unterscheiden sich zwischen beiden — deshalb **nie** fest verdrahten, immer zur Laufzeit aus der Datenbank lesen.
-- Die Datei `bible.sqlite` wird nicht von Hand bearbeitet. Stimmt etwas am Inhalt nicht, wird `tools/quotepas_to_sqlite.py` angepasst und die Datenbank neu erzeugt.
+- Die Datei `bible.sqlite` wird nicht von Hand bearbeitet. Stimmt etwas am Inhalt nicht, wird `tools/quotepas_to_sqlite.py` angepasst und die Datenbank neu erzeugt. Wer die Quelldateien nicht zur Hand hat, schreibt ein Skript nach dem Muster von `tools/add_book_names.py`: es liest dieselben Tabellen aus dem Konverter und ist damit reproduzierbar.
 - Antworten auf Deutsch, Schweizer Rechtschreibung, kein ß.

@@ -87,3 +87,38 @@ Stand: 10. August 2026. Baseline: Prototyp baut fehlerfrei (2 Warnungen im alten
 - **Deployment Target** bleibt watchOS 11.2 (Prototyp-Stand, über der Mindestvorgabe 10.0).
 - Alte Dateien (`Models/BibleDatabase.swift`, `Views/*`, `Resources/bible.db`) werden ersetzt; Git behält die Historie.
 - Widget (M6) und Archive-Prüfung (M7) folgen in eigenen Durchgängen.
+
+## Nachtrag 11. August 2026 — Oberfläche in allen Übersetzungssprachen
+
+Die App erschien bis dahin nur auf Deutsch und Englisch, obwohl die Datenbank
+Übersetzungen in sechs Sprachen führt. Jetzt gilt: **eine Oberflächensprache je
+Übersetzungssprache** — `de`, `en`, `es`, `fr`, `zh-Hant`, `zh-Hans`.
+
+| Was | Wo |
+|---|---|
+| Buchnamen der vier neuen Sprachen | `book.name_es`, `name_fr`, `name_zh_hant`, `name_zh_hans`; Schema-Version 2 |
+| Namenstabellen und Konverter | `tools/quotepas_to_sqlite.py`, Nachtrag über `tools/add_book_names.py` |
+| Sprachlogik | `Shared/Localization.swift` — `supportedLanguages`, `normalized`, `languageOrder` |
+| Texte | `Localizable.xcstrings` 58 Schlüssel × 6 Sprachen, `InfoPlist.xcstrings`, `knownRegions` |
+| Auswahl und Vorgabe | erste Übersetzung der Anzeigesprache in Datenbankreihenfolge, ihr Abschnitt zuoberst |
+| Tests | `SprachenTests` — 8 Prüfungen, darunter der Abgleich Übersetzungssprachen ↔ Oberflächensprachen |
+
+Drei Punkte, die dabei nicht offensichtlich sind:
+
+- **`prefix(2)` auf der Sprachkennung war ein Fehler.** `zh-Hant` und `zh-Hans`
+  unterscheiden sich in der Schrift; gekürzt auf `zh` hätte keine der beiden
+  chinesischen Übersetzungen je gegriffen. `Localization.normalized` bildet
+  Systemkennungen jetzt vollständig ab (`zh-TW` → `zh-Hant`, `zh` → `zh-Hans`).
+- **Englisch bekommt Darby statt King James.** Die Regel «erste Übersetzung
+  dieser Sprache» liest die Reihenfolge der Datenbank, und dort steht DAR vor
+  KJV. Wer KJV als englische Vorgabe will, ändert die Reihenfolge im Konverter,
+  nicht den Code.
+- **Die Buchnamensspalten werden zur Laufzeit gesucht** (`PRAGMA table_info`),
+  nicht fest in die Abfrage geschrieben: eine Datenbank aus einem älteren
+  Konverterlauf kennt sie nicht, und ein `no such column` beim Vorbereiten
+  hätte die App beim Start scheitern lassen. Fehlt eine Spalte, steht für diese
+  Sprache der deutsche Buchname — `tools/add_book_names.py` trägt sie nach.
+
+Geprüft: Build ohne Warnung, 18 Unit-Tests grün, App im Simulator in allen
+sechs Sprachen aufgerufen (Startbildschirm, Buchliste mit Register,
+Einstellungen, Übersetzungswahl, Zufallsvers).

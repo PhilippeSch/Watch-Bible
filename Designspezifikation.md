@@ -132,19 +132,25 @@ Keine Signalfarbe, kein Symbol, nichts zum Wegklicken. Zwei Zahlen erklären den
 
 ---
 
-## 5. Zweisprachigkeit
+## 5. Mehrsprachigkeit
 
-Die App erscheint auf Deutsch und Englisch. Die Anzeigesprache folgt dem System; eine eigene Spracheinstellung gibt es nicht.
+**Die App erscheint in jeder Sprache, für die sie eine Bibelübersetzung mitbringt** — zurzeit sechs: Deutsch, Englisch, Spanisch, Französisch, Chinesisch traditionell und Chinesisch vereinfacht. Die Anzeigesprache folgt dem System; eine eigene Spracheinstellung gibt es nicht. Die Liste steht in `Localization.supportedLanguages` und ist in derselben Schreibweise geführt wie `translation.language`, damit Anzeige- und Übersetzungssprache ohne Umrechnung vergleichbar sind. Ein Unit-Test hält beide Mengen deckungsgleich: kommt eine siebte Übersetzungssprache in die Datenbank, ohne dass die Oberfläche nachzieht, schlägt er fehl.
 
-**Texte** liegen in `Resources/Localizable.xcstrings` (String Catalog, 45 Schlüssel, beide Sprachen vollständig), der App-Name in `Resources/InfoPlist.xcstrings` — «Bibel» beziehungsweise «Bible», kurz gehalten, weil unter dem Symbol auf der Uhr wenig Platz ist. Schlüssel sind semantisch benannt (`settings.textSize`), nicht der englische Text selbst: bei zwei Sprachen, von denen eine Schweizer Orthografie verwendet, sind sprechende Schlüssel weniger fehleranfällig.
+**Chinesisch nie auf zwei Zeichen kürzen.** `zh-Hant` und `zh-Hans` unterscheiden sich in der Schrift, nicht in der Sprache; ein `String(code.prefix(2))` trifft weder die eine noch die andere Übersetzung. `Localization.normalized` bildet Systemkennungen ab: `de-CH` → `de`, `zh-TW` → `zh-Hant`, `zh` → `zh-Hans`.
 
-**Vorgabe der Bibelübersetzung nach Anzeigesprache:** Deutsch → Elberfelder 1905, Englisch → King James Version. Das gilt **nur beim ersten Start**. Wer einmal eine Übersetzung gewählt hat, behält sie, auch nach einem Sprachwechsel des Systems. Ist die Vorgabe nicht in der Datenbank, greift die erste Übersetzung derselben Sprache, sonst die erste überhaupt. Umgesetzt in `Shared/Localization.swift`.
+**Texte** liegen in `Resources/Localizable.xcstrings` (String Catalog, 58 Schlüssel, alle sechs Sprachen vollständig), der App-Name in `Resources/InfoPlist.xcstrings` — «Bibel», «Bible», «Biblia», «Bible», 聖經, 圣经, kurz gehalten, weil unter dem Symbol auf der Uhr wenig Platz ist. Schlüssel sind semantisch benannt (`settings.textSize`), nicht der englische Text selbst.
 
-**Buchnamen** kommen aus der Datenbank, nicht aus dem String Catalog: `book.name` für Deutsch, `book.name_en` für Englisch. Beide Spalten sind für alle 66 Bücher gefüllt.
+**Vorgabe der Bibelübersetzung nach Anzeigesprache:** die **erste Übersetzung dieser Sprache in der Reihenfolge der Datenbank** (`sort_order`) — also genau die, die in der Auswahl auch zuoberst steht. Nichts davon ist fest verdrahtet; fällt eine Übersetzung weg, rückt die nächste derselben Sprache nach. Das gilt **nur beim ersten Start**: wer einmal eine Übersetzung gewählt hat, behält sie, auch nach einem Sprachwechsel des Systems. Gibt es zur Anzeigesprache keine Übersetzung, greift bei Chinesisch die andere Schriftvariante, sonst Englisch, zuletzt die erste überhaupt. Umgesetzt in `Shared/Localization.swift`.
 
-**Die Stellenangabe ist selbst lokalisiert.** Deutsche Bibeln schreiben «Johannes 3,16», englische «John 3:16» — Komma gegen Doppelpunkt. Der Trenner steht deshalb im String Catalog (`reference.format`) und darf nirgends fest verdrahtet werden. Ebenso die Zahlen der Zählerzeile: 18’463 auf Deutsch (Schweiz), 18,463 auf Englisch, über `formatted(.number)`.
+**Die Übersetzungsauswahl beginnt bei der eigenen Sprache.** Der Abschnitt der Anzeigesprache steht zuoberst, die übrigen folgen in Datenbankreihenfolge (`Localization.languageOrder`).
 
-**Pluralformen** für «%lld Kapitel» und «%lld Verse» sind als Varianten hinterlegt. Im Englischen unterscheiden sich Einzahl und Mehrzahl, im Deutschen bei «Kapitel» nicht — beides ist im Katalog korrekt abgebildet.
+**Buchnamen** kommen aus der Datenbank, nicht aus dem String Catalog: `book.name` für Deutsch, dazu `name_en`, `name_es`, `name_fr`, `name_zh_hant`, `name_zh_hans`. Alle sechs Spalten sind für alle 66 Bücher gefüllt. Wo die Schreibweise schwankt, gilt die der mitgelieferten Übersetzung derselben Sprache — spanisch «Ruth», «Esther», «Haggeo» nach RVR1909, französisch «Habakuk», «Ésaïe» nach LSG; sonst stünde in der Buchliste etwas anderes als im Verstext.
+
+**Das Register der Buchliste ist lokalisiert.** Die Buchcodes der Datenbank sind deutsche Kürzel; die sieben Sprungmarken stehen darum als eigene Schlüssel im Katalog (`register.1Mo` … `register.Offb`): 1Mo · Jos · Ps · Jes · Mt · Rom · Offb auf Deutsch, Gen · Josh · Ps · Isa · Mt · Rom · Rev auf Englisch, 創 · 書 · 詩 · 賽 · 太 · 羅 · 啟 auf Chinesisch.
+
+**Die Stellenangabe ist selbst lokalisiert.** Deutsche Bibeln schreiben «Johannes 3,16», alle übrigen Sprachen der App «John 3:16» — Komma gegen Doppelpunkt. Der Trenner steht deshalb im String Catalog (`reference.format`) und darf nirgends fest verdrahtet werden. Die Zahlen der Zählerzeile folgen dagegen der **Region**, nicht der Sprache: 18’463 in der Schweiz, 18,463 in den USA, über `formatted(.number)`.
+
+**Pluralformen** für «%lld Kapitel» und «%lld Verse» sind als Varianten hinterlegt: Englisch, Spanisch und Französisch unterscheiden Einzahl und Mehrzahl, Deutsch bei «Kapitel» nicht, Chinesisch kennt nur eine Form.
 
 Was nicht übersetzt wird: die Namen der Bibelübersetzungen selbst («Elberfelder 1905», «King James Version») sind Eigennamen und kommen unverändert aus `translation.name`.
 
@@ -158,7 +164,7 @@ Die Datenbank enthält das 和合本 in traditionellen und vereinfachten Zeichen
 - **U+3000 nie wegkürzen.** Der ideographische Abstand vor 神 ist Teil des Textes, keine überflüssige Formatierung.
 - Die Textmenge ist unkritisch: längster chinesischer Vers 108 Zeichen gegenüber 503 im Deutschen.
 
-Die Bedienoberfläche bleibt deutsch und englisch. Buchnamen und Stellenangaben erscheinen deshalb auch bei chinesischem Verstext in der Anzeigesprache — «Johannes 3,16» über einem chinesischen Vers. Das ist bei mehrsprachigen Bibelprogrammen üblich und bewusst so.
+Die Bedienoberfläche gibt es seit August 2026 auch auf Chinesisch (siehe Kapitel 5). Buchnamen und Stellenangaben folgen weiterhin der **Anzeigesprache**, nicht der gewählten Übersetzung: über einem chinesischen Vers steht «Johannes 3,16», wenn die Uhr auf Deutsch läuft, und 約翰福音 3:16, wenn sie auf Chinesisch läuft. Das ist bei mehrsprachigen Bibelprogrammen üblich und bewusst so.
 
 ## 6. Was bewusst fehlt
 

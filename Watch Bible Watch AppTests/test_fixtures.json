@@ -3,7 +3,7 @@
   "zaehlwerte": {
     "buecher": 66,
     "kapitel": 1189,
-    "verse_gesamt": 279863,
+    "verse_gesamt": 311034,
     "kuratiert": 180,
     "uebersetzungen": [
       {
@@ -35,39 +35,46 @@
         "last_verse_id": 124373
       },
       {
+        "code": "lut",
+        "language": "de",
+        "verse_count": 31171,
+        "first_verse_id": 124374,
+        "last_verse_id": 155544
+      },
+      {
         "code": "cuv",
         "language": "zh-Hant",
         "verse_count": 31101,
-        "first_verse_id": 124374,
-        "last_verse_id": 155474
+        "first_verse_id": 155545,
+        "last_verse_id": 186645
       },
       {
         "code": "cuvs",
         "language": "zh-Hans",
         "verse_count": 31101,
-        "first_verse_id": 155475,
-        "last_verse_id": 186575
+        "first_verse_id": 186646,
+        "last_verse_id": 217746
       },
       {
         "code": "rvr1909",
         "language": "es",
         "verse_count": 31102,
-        "first_verse_id": 186576,
-        "last_verse_id": 217677
+        "first_verse_id": 217747,
+        "last_verse_id": 248848
       },
       {
         "code": "lsg",
         "language": "fr",
         "verse_count": 31102,
-        "first_verse_id": 217678,
-        "last_verse_id": 248779
+        "first_verse_id": 248849,
+        "last_verse_id": 279950
       },
       {
         "code": "bsb",
         "language": "en",
         "verse_count": 31084,
-        "first_verse_id": 248780,
-        "last_verse_id": 279863
+        "first_verse_id": 279951,
+        "last_verse_id": 311034
       }
     ]
   },
@@ -204,6 +211,69 @@
       "kapitel": 22,
       "vers": 21,
       "text": "Que la grâce du Seigneur Jésus soit avec tous!"
+    },
+    {
+      "uebersetzung": "lut",
+      "buch": "1Mo",
+      "kapitel": 1,
+      "vers": 1,
+      "text": "Am Anfang schuf Gott Himmel und Erde."
+    },
+    {
+      "uebersetzung": "lut",
+      "buch": "Ps",
+      "kapitel": 23,
+      "vers": 1,
+      "text": "Ein Psalm Davids. Der HERR ist mein Hirte; mir wird nichts mangeln."
+    },
+    {
+      "uebersetzung": "lut",
+      "buch": "Ps",
+      "kapitel": 119,
+      "vers": 176,
+      "text": "Ich bin ein verirrtes und verlorenes Schaf. Suche deinen Knecht; denn ich vergesse deiner Gebote nicht."
+    },
+    {
+      "uebersetzung": "lut",
+      "buch": "Joh",
+      "kapitel": 3,
+      "vers": 16,
+      "text": "Also hat Gott die Welt geliebt, dass er seinen eingeborenen Sohn gab, auf dass alle, die an ihn glauben, nicht verloren werden, sondern das ewige Leben haben."
+    },
+    {
+      "uebersetzung": "lut",
+      "buch": "Jud",
+      "kapitel": 1,
+      "vers": 25,
+      "text": "dem Gott, der allein weise ist, unserm Heiland, sei Ehre und Majestät und Gewalt und Macht nun und zu aller Ewigkeit! Amen."
+    },
+    {
+      "uebersetzung": "lut",
+      "buch": "Offb",
+      "kapitel": 22,
+      "vers": 21,
+      "text": "Die Gnade unsers HERRN Jesu Christi sei mit euch allen! Amen."
+    },
+    {
+      "uebersetzung": "lut",
+      "buch": "1Mo",
+      "kapitel": 5,
+      "vers": 1,
+      "text": "Dies ist das Buch von des Menschen Geschlecht. Da Gott den Menschen schuf, machte er ihn nach dem Bilde Gottes;"
+    },
+    {
+      "uebersetzung": "lut",
+      "buch": "1Mo",
+      "kapitel": 2,
+      "vers": 14,
+      "text": "Das dritte Wasser heisst Hiddekel, das fliesst vor Assyrien. Das vierte Wasser ist der Euphrat."
+    },
+    {
+      "uebersetzung": "lut",
+      "buch": "4Mo",
+      "kapitel": 21,
+      "vers": 14,
+      "text": "Daher heisst es in dem Buch von den Kriegen des HERRN: «Das Vaheb in Supha und die Bäche Arnon"
     }
   ],
   "versifikation": {
@@ -212,6 +282,54 @@
       "elb_kjv": {
         "anzahl": 29,
         "faelle": [
+          {
+            "buch": "1Kon",
+            "kapitel": 22,
+            "elb": 54,
+            "kjv": 53
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 20,
+            "elb": 43,
+            "kjv": 42
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 23,
+            "elb": 28,
+            "kjv": 29
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 24,
+            "elb": 23,
+            "kjv": 22
+          },
+          {
+            "buch": "2Kon",
+            "kapitel": 11,
+            "elb": 20,
+            "kjv": 21
+          },
+          {
+            "buch": "2Kon",
+            "kapitel": 15,
+            "elb": 39,
+            "kjv": 38
+          },
+          {
+            "buch": "2Kor",
+            "kapitel": 13,
+            "elb": 13,
+            "kjv": 14
+          },
+          {
+            "buch": "3Joh",
+            "kapitel": 1,
+            "elb": 15,
+            "kjv": 14
+          },
           {
             "buch": "3Mo",
             "kapitel": 5,
@@ -237,40 +355,28 @@
             "kjv": 68
           },
           {
-            "buch": "1Sam",
+            "buch": "Dan",
+            "kapitel": 5,
+            "elb": 30,
+            "kjv": 31
+          },
+          {
+            "buch": "Dan",
+            "kapitel": 6,
+            "elb": 29,
+            "kjv": 28
+          },
+          {
+            "buch": "Hes",
             "kapitel": 20,
-            "elb": 43,
-            "kjv": 42
+            "elb": 44,
+            "kjv": 49
           },
           {
-            "buch": "1Sam",
-            "kapitel": 23,
-            "elb": 28,
-            "kjv": 29
-          },
-          {
-            "buch": "1Sam",
-            "kapitel": 24,
-            "elb": 23,
-            "kjv": 22
-          },
-          {
-            "buch": "1Kon",
-            "kapitel": 22,
-            "elb": 54,
-            "kjv": 53
-          },
-          {
-            "buch": "2Kon",
-            "kapitel": 11,
-            "elb": 20,
-            "kjv": 21
-          },
-          {
-            "buch": "2Kon",
-            "kapitel": 15,
-            "elb": 39,
-            "kjv": 38
+            "buch": "Hes",
+            "kapitel": 21,
+            "elb": 37,
+            "kjv": 32
           },
           {
             "buch": "Hi",
@@ -289,42 +395,6 @@
             "kapitel": 41,
             "elb": 25,
             "kjv": 34
-          },
-          {
-            "buch": "Ps",
-            "kapitel": 13,
-            "elb": 5,
-            "kjv": 6
-          },
-          {
-            "buch": "Pred",
-            "kapitel": 6,
-            "elb": 11,
-            "kjv": 12
-          },
-          {
-            "buch": "Hes",
-            "kapitel": 20,
-            "elb": 44,
-            "kjv": 49
-          },
-          {
-            "buch": "Hes",
-            "kapitel": 21,
-            "elb": 37,
-            "kjv": 32
-          },
-          {
-            "buch": "Dan",
-            "kapitel": 5,
-            "elb": 30,
-            "kjv": 31
-          },
-          {
-            "buch": "Dan",
-            "kapitel": 6,
-            "elb": 29,
-            "kjv": 28
           },
           {
             "buch": "Hos",
@@ -351,6 +421,12 @@
             "kjv": 10
           },
           {
+            "buch": "Lk",
+            "kapitel": 17,
+            "elb": 36,
+            "kjv": 37
+          },
+          {
             "buch": "Mi",
             "kapitel": 4,
             "elb": 14,
@@ -363,34 +439,76 @@
             "kjv": 15
           },
           {
-            "buch": "Lk",
-            "kapitel": 17,
-            "elb": 36,
-            "kjv": 37
-          },
-          {
-            "buch": "2Kor",
-            "kapitel": 13,
-            "elb": 13,
-            "kjv": 14
-          },
-          {
-            "buch": "3Joh",
-            "kapitel": 1,
-            "elb": 15,
-            "kjv": 14
-          },
-          {
             "buch": "Offb",
             "kapitel": 12,
             "elb": 18,
             "kjv": 17
+          },
+          {
+            "buch": "Pred",
+            "kapitel": 6,
+            "elb": 11,
+            "kjv": 12
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 13,
+            "elb": 5,
+            "kjv": 6
           }
         ]
       },
       "elb_bsb": {
         "anzahl": 44,
         "faelle": [
+          {
+            "buch": "1Kon",
+            "kapitel": 22,
+            "elb": 54,
+            "bsb": 53
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 20,
+            "elb": 43,
+            "bsb": 42
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 23,
+            "elb": 28,
+            "bsb": 29
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 24,
+            "elb": 23,
+            "bsb": 22
+          },
+          {
+            "buch": "2Kon",
+            "kapitel": 11,
+            "elb": 20,
+            "bsb": 21
+          },
+          {
+            "buch": "2Kon",
+            "kapitel": 15,
+            "elb": 39,
+            "bsb": 38
+          },
+          {
+            "buch": "2Kor",
+            "kapitel": 13,
+            "elb": 13,
+            "bsb": 14
+          },
+          {
+            "buch": "3Joh",
+            "kapitel": 1,
+            "elb": 15,
+            "bsb": 14
+          },
           {
             "buch": "3Mo",
             "kapitel": 5,
@@ -414,198 +532,6 @@
             "kapitel": 28,
             "elb": 69,
             "bsb": 68
-          },
-          {
-            "buch": "1Sam",
-            "kapitel": 20,
-            "elb": 43,
-            "bsb": 42
-          },
-          {
-            "buch": "1Sam",
-            "kapitel": 23,
-            "elb": 28,
-            "bsb": 29
-          },
-          {
-            "buch": "1Sam",
-            "kapitel": 24,
-            "elb": 23,
-            "bsb": 22
-          },
-          {
-            "buch": "1Kon",
-            "kapitel": 22,
-            "elb": 54,
-            "bsb": 53
-          },
-          {
-            "buch": "2Kon",
-            "kapitel": 11,
-            "elb": 20,
-            "bsb": 21
-          },
-          {
-            "buch": "2Kon",
-            "kapitel": 15,
-            "elb": 39,
-            "bsb": 38
-          },
-          {
-            "buch": "Hi",
-            "kapitel": 39,
-            "elb": 35,
-            "bsb": 30
-          },
-          {
-            "buch": "Hi",
-            "kapitel": 40,
-            "elb": 27,
-            "bsb": 24
-          },
-          {
-            "buch": "Hi",
-            "kapitel": 41,
-            "elb": 25,
-            "bsb": 34
-          },
-          {
-            "buch": "Ps",
-            "kapitel": 13,
-            "elb": 5,
-            "bsb": 6
-          },
-          {
-            "buch": "Ps",
-            "kapitel": 106,
-            "elb": 48,
-            "bsb": 47
-          },
-          {
-            "buch": "Pred",
-            "kapitel": 6,
-            "elb": 11,
-            "bsb": 12
-          },
-          {
-            "buch": "Kla",
-            "kapitel": 2,
-            "elb": 22,
-            "bsb": 21
-          },
-          {
-            "buch": "Hes",
-            "kapitel": 20,
-            "elb": 44,
-            "bsb": 49
-          },
-          {
-            "buch": "Hes",
-            "kapitel": 21,
-            "elb": 37,
-            "bsb": 32
-          },
-          {
-            "buch": "Dan",
-            "kapitel": 5,
-            "elb": 30,
-            "bsb": 31
-          },
-          {
-            "buch": "Dan",
-            "kapitel": 6,
-            "elb": 29,
-            "bsb": 28
-          },
-          {
-            "buch": "Hos",
-            "kapitel": 11,
-            "elb": 11,
-            "bsb": 12
-          },
-          {
-            "buch": "Hos",
-            "kapitel": 12,
-            "elb": 15,
-            "bsb": 14
-          },
-          {
-            "buch": "Jon",
-            "kapitel": 1,
-            "elb": 16,
-            "bsb": 17
-          },
-          {
-            "buch": "Jon",
-            "kapitel": 2,
-            "elb": 11,
-            "bsb": 10
-          },
-          {
-            "buch": "Mi",
-            "kapitel": 4,
-            "elb": 14,
-            "bsb": 13
-          },
-          {
-            "buch": "Mi",
-            "kapitel": 5,
-            "elb": 14,
-            "bsb": 15
-          },
-          {
-            "buch": "Mt",
-            "kapitel": 17,
-            "elb": 27,
-            "bsb": 26
-          },
-          {
-            "buch": "Mt",
-            "kapitel": 18,
-            "elb": 35,
-            "bsb": 34
-          },
-          {
-            "buch": "Mt",
-            "kapitel": 23,
-            "elb": 39,
-            "bsb": 38
-          },
-          {
-            "buch": "Mk",
-            "kapitel": 7,
-            "elb": 37,
-            "bsb": 36
-          },
-          {
-            "buch": "Mk",
-            "kapitel": 9,
-            "elb": 50,
-            "bsb": 48
-          },
-          {
-            "buch": "Mk",
-            "kapitel": 11,
-            "elb": 33,
-            "bsb": 32
-          },
-          {
-            "buch": "Mk",
-            "kapitel": 15,
-            "elb": 47,
-            "bsb": 46
-          },
-          {
-            "buch": "Lk",
-            "kapitel": 23,
-            "elb": 56,
-            "bsb": 55
-          },
-          {
-            "buch": "Joh",
-            "kapitel": 5,
-            "elb": 47,
-            "bsb": 46
           },
           {
             "buch": "Apg",
@@ -632,28 +558,172 @@
             "bsb": 30
           },
           {
-            "buch": "Rom",
-            "kapitel": 16,
+            "buch": "Dan",
+            "kapitel": 5,
+            "elb": 30,
+            "bsb": 31
+          },
+          {
+            "buch": "Dan",
+            "kapitel": 6,
+            "elb": 29,
+            "bsb": 28
+          },
+          {
+            "buch": "Hes",
+            "kapitel": 20,
+            "elb": 44,
+            "bsb": 49
+          },
+          {
+            "buch": "Hes",
+            "kapitel": 21,
+            "elb": 37,
+            "bsb": 32
+          },
+          {
+            "buch": "Hi",
+            "kapitel": 39,
+            "elb": 35,
+            "bsb": 30
+          },
+          {
+            "buch": "Hi",
+            "kapitel": 40,
+            "elb": 27,
+            "bsb": 24
+          },
+          {
+            "buch": "Hi",
+            "kapitel": 41,
+            "elb": 25,
+            "bsb": 34
+          },
+          {
+            "buch": "Hos",
+            "kapitel": 11,
+            "elb": 11,
+            "bsb": 12
+          },
+          {
+            "buch": "Hos",
+            "kapitel": 12,
+            "elb": 15,
+            "bsb": 14
+          },
+          {
+            "buch": "Joh",
+            "kapitel": 5,
+            "elb": 47,
+            "bsb": 46
+          },
+          {
+            "buch": "Jon",
+            "kapitel": 1,
+            "elb": 16,
+            "bsb": 17
+          },
+          {
+            "buch": "Jon",
+            "kapitel": 2,
+            "elb": 11,
+            "bsb": 10
+          },
+          {
+            "buch": "Kla",
+            "kapitel": 2,
+            "elb": 22,
+            "bsb": 21
+          },
+          {
+            "buch": "Lk",
+            "kapitel": 23,
+            "elb": 56,
+            "bsb": 55
+          },
+          {
+            "buch": "Mi",
+            "kapitel": 4,
+            "elb": 14,
+            "bsb": 13
+          },
+          {
+            "buch": "Mi",
+            "kapitel": 5,
+            "elb": 14,
+            "bsb": 15
+          },
+          {
+            "buch": "Mk",
+            "kapitel": 7,
+            "elb": 37,
+            "bsb": 36
+          },
+          {
+            "buch": "Mk",
+            "kapitel": 9,
+            "elb": 50,
+            "bsb": 48
+          },
+          {
+            "buch": "Mk",
+            "kapitel": 11,
+            "elb": 33,
+            "bsb": 32
+          },
+          {
+            "buch": "Mk",
+            "kapitel": 15,
+            "elb": 47,
+            "bsb": 46
+          },
+          {
+            "buch": "Mt",
+            "kapitel": 17,
             "elb": 27,
             "bsb": 26
           },
           {
-            "buch": "2Kor",
-            "kapitel": 13,
-            "elb": 13,
-            "bsb": 14
+            "buch": "Mt",
+            "kapitel": 18,
+            "elb": 35,
+            "bsb": 34
           },
           {
-            "buch": "3Joh",
-            "kapitel": 1,
-            "elb": 15,
-            "bsb": 14
+            "buch": "Mt",
+            "kapitel": 23,
+            "elb": 39,
+            "bsb": 38
           },
           {
             "buch": "Offb",
             "kapitel": 12,
             "elb": 18,
             "bsb": 17
+          },
+          {
+            "buch": "Pred",
+            "kapitel": 6,
+            "elb": 11,
+            "bsb": 12
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 13,
+            "elb": 5,
+            "bsb": 6
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 106,
+            "elb": 48,
+            "bsb": 47
+          },
+          {
+            "buch": "Rom",
+            "kapitel": 16,
+            "elb": 27,
+            "bsb": 26
           }
         ]
       },
@@ -661,10 +731,34 @@
         "anzahl": 17,
         "faelle": [
           {
-            "buch": "Ps",
-            "kapitel": 106,
-            "bsb": 47,
-            "kjv": 48
+            "buch": "Apg",
+            "kapitel": 8,
+            "bsb": 39,
+            "kjv": 40
+          },
+          {
+            "buch": "Apg",
+            "kapitel": 15,
+            "bsb": 40,
+            "kjv": 41
+          },
+          {
+            "buch": "Apg",
+            "kapitel": 24,
+            "bsb": 26,
+            "kjv": 27
+          },
+          {
+            "buch": "Apg",
+            "kapitel": 28,
+            "bsb": 30,
+            "kjv": 31
+          },
+          {
+            "buch": "Joh",
+            "kapitel": 5,
+            "bsb": 46,
+            "kjv": 47
           },
           {
             "buch": "Kla",
@@ -673,22 +767,16 @@
             "kjv": 22
           },
           {
-            "buch": "Mt",
+            "buch": "Lk",
             "kapitel": 17,
-            "bsb": 26,
-            "kjv": 27
+            "bsb": 36,
+            "kjv": 37
           },
           {
-            "buch": "Mt",
-            "kapitel": 18,
-            "bsb": 34,
-            "kjv": 35
-          },
-          {
-            "buch": "Mt",
+            "buch": "Lk",
             "kapitel": 23,
-            "bsb": 38,
-            "kjv": 39
+            "bsb": 55,
+            "kjv": 56
           },
           {
             "buch": "Mk",
@@ -715,46 +803,28 @@
             "kjv": 47
           },
           {
-            "buch": "Lk",
+            "buch": "Mt",
             "kapitel": 17,
-            "bsb": 36,
-            "kjv": 37
-          },
-          {
-            "buch": "Lk",
-            "kapitel": 23,
-            "bsb": 55,
-            "kjv": 56
-          },
-          {
-            "buch": "Joh",
-            "kapitel": 5,
-            "bsb": 46,
-            "kjv": 47
-          },
-          {
-            "buch": "Apg",
-            "kapitel": 8,
-            "bsb": 39,
-            "kjv": 40
-          },
-          {
-            "buch": "Apg",
-            "kapitel": 15,
-            "bsb": 40,
-            "kjv": 41
-          },
-          {
-            "buch": "Apg",
-            "kapitel": 24,
             "bsb": 26,
             "kjv": 27
           },
           {
-            "buch": "Apg",
-            "kapitel": 28,
-            "bsb": 30,
-            "kjv": 31
+            "buch": "Mt",
+            "kapitel": 18,
+            "bsb": 34,
+            "kjv": 35
+          },
+          {
+            "buch": "Mt",
+            "kapitel": 23,
+            "bsb": 38,
+            "kjv": 39
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 106,
+            "bsb": 47,
+            "kjv": 48
           },
           {
             "buch": "Rom",
@@ -768,6 +838,42 @@
         "anzahl": 139,
         "faelle": [
           {
+            "buch": "1Chr",
+            "kapitel": 5,
+            "sch1951": 41,
+            "kjv": 26
+          },
+          {
+            "buch": "1Chr",
+            "kapitel": 6,
+            "sch1951": 66,
+            "kjv": 81
+          },
+          {
+            "buch": "1Chr",
+            "kapitel": 12,
+            "sch1951": 41,
+            "kjv": 40
+          },
+          {
+            "buch": "1Kon",
+            "kapitel": 4,
+            "sch1951": 20,
+            "kjv": 34
+          },
+          {
+            "buch": "1Kon",
+            "kapitel": 5,
+            "sch1951": 32,
+            "kjv": 18
+          },
+          {
+            "buch": "1Kon",
+            "kapitel": 22,
+            "sch1951": 54,
+            "kjv": 53
+          },
+          {
             "buch": "1Mo",
             "kapitel": 31,
             "sch1951": 54,
@@ -778,6 +884,66 @@
             "kapitel": 32,
             "sch1951": 33,
             "kjv": 32
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 21,
+            "sch1951": 16,
+            "kjv": 15
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 23,
+            "sch1951": 28,
+            "kjv": 29
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 24,
+            "sch1951": 23,
+            "kjv": 22
+          },
+          {
+            "buch": "2Chr",
+            "kapitel": 1,
+            "sch1951": 18,
+            "kjv": 17
+          },
+          {
+            "buch": "2Chr",
+            "kapitel": 2,
+            "sch1951": 17,
+            "kjv": 18
+          },
+          {
+            "buch": "2Chr",
+            "kapitel": 13,
+            "sch1951": 23,
+            "kjv": 22
+          },
+          {
+            "buch": "2Chr",
+            "kapitel": 14,
+            "sch1951": 14,
+            "kjv": 15
+          },
+          {
+            "buch": "2Kon",
+            "kapitel": 11,
+            "sch1951": 20,
+            "kjv": 21
+          },
+          {
+            "buch": "2Kon",
+            "kapitel": 12,
+            "sch1951": 22,
+            "kjv": 21
+          },
+          {
+            "buch": "2Kor",
+            "kapitel": 13,
+            "sch1951": 13,
+            "kjv": 14
           },
           {
             "buch": "2Mo",
@@ -802,6 +968,24 @@
             "kapitel": 22,
             "sch1951": 30,
             "kjv": 31
+          },
+          {
+            "buch": "2Sam",
+            "kapitel": 18,
+            "sch1951": 32,
+            "kjv": 33
+          },
+          {
+            "buch": "2Sam",
+            "kapitel": 19,
+            "sch1951": 44,
+            "kjv": 43
+          },
+          {
+            "buch": "3Joh",
+            "kapitel": 1,
+            "sch1951": 15,
+            "kjv": 14
           },
           {
             "buch": "3Mo",
@@ -876,106 +1060,184 @@
             "kjv": 29
           },
           {
-            "buch": "1Sam",
-            "kapitel": 21,
-            "sch1951": 16,
-            "kjv": 15
+            "buch": "Dan",
+            "kapitel": 3,
+            "sch1951": 33,
+            "kjv": 30
           },
           {
-            "buch": "1Sam",
-            "kapitel": 23,
-            "sch1951": 28,
-            "kjv": 29
-          },
-          {
-            "buch": "1Sam",
-            "kapitel": 24,
-            "sch1951": 23,
-            "kjv": 22
-          },
-          {
-            "buch": "2Sam",
-            "kapitel": 18,
-            "sch1951": 32,
-            "kjv": 33
-          },
-          {
-            "buch": "2Sam",
-            "kapitel": 19,
-            "sch1951": 44,
-            "kjv": 43
-          },
-          {
-            "buch": "1Kon",
+            "buch": "Dan",
             "kapitel": 4,
-            "sch1951": 20,
+            "sch1951": 34,
+            "kjv": 37
+          },
+          {
+            "buch": "Dan",
+            "kapitel": 5,
+            "sch1951": 30,
+            "kjv": 31
+          },
+          {
+            "buch": "Dan",
+            "kapitel": 6,
+            "sch1951": 29,
+            "kjv": 28
+          },
+          {
+            "buch": "Hes",
+            "kapitel": 20,
+            "sch1951": 44,
+            "kjv": 49
+          },
+          {
+            "buch": "Hes",
+            "kapitel": 21,
+            "sch1951": 37,
+            "kjv": 32
+          },
+          {
+            "buch": "Hi",
+            "kapitel": 40,
+            "sch1951": 32,
+            "kjv": 24
+          },
+          {
+            "buch": "Hi",
+            "kapitel": 41,
+            "sch1951": 26,
             "kjv": 34
           },
           {
-            "buch": "1Kon",
-            "kapitel": 5,
-            "sch1951": 32,
-            "kjv": 18
-          },
-          {
-            "buch": "1Kon",
-            "kapitel": 22,
-            "sch1951": 54,
-            "kjv": 53
-          },
-          {
-            "buch": "2Kon",
-            "kapitel": 11,
-            "sch1951": 20,
-            "kjv": 21
-          },
-          {
-            "buch": "2Kon",
-            "kapitel": 12,
-            "sch1951": 22,
-            "kjv": 21
-          },
-          {
-            "buch": "1Chr",
-            "kapitel": 5,
-            "sch1951": 41,
-            "kjv": 26
-          },
-          {
-            "buch": "1Chr",
+            "buch": "Hl",
             "kapitel": 6,
-            "sch1951": 66,
-            "kjv": 81
+            "sch1951": 12,
+            "kjv": 13
           },
           {
-            "buch": "1Chr",
-            "kapitel": 12,
-            "sch1951": 41,
-            "kjv": 40
+            "buch": "Hl",
+            "kapitel": 7,
+            "sch1951": 14,
+            "kjv": 13
           },
           {
-            "buch": "2Chr",
+            "buch": "Hos",
             "kapitel": 1,
-            "sch1951": 18,
-            "kjv": 17
+            "sch1951": 9,
+            "kjv": 11
           },
           {
-            "buch": "2Chr",
+            "buch": "Hos",
             "kapitel": 2,
-            "sch1951": 17,
-            "kjv": 18
+            "sch1951": 25,
+            "kjv": 23
           },
           {
-            "buch": "2Chr",
+            "buch": "Hos",
+            "kapitel": 11,
+            "sch1951": 11,
+            "kjv": 12
+          },
+          {
+            "buch": "Hos",
+            "kapitel": 12,
+            "sch1951": 15,
+            "kjv": 14
+          },
+          {
+            "buch": "Hos",
             "kapitel": 13,
+            "sch1951": 15,
+            "kjv": 16
+          },
+          {
+            "buch": "Hos",
+            "kapitel": 14,
+            "sch1951": 10,
+            "kjv": 9
+          },
+          {
+            "buch": "Jer",
+            "kapitel": 8,
             "sch1951": 23,
             "kjv": 22
           },
           {
-            "buch": "2Chr",
-            "kapitel": 14,
+            "buch": "Jer",
+            "kapitel": 9,
+            "sch1951": 25,
+            "kjv": 26
+          },
+          {
+            "buch": "Jes",
+            "kapitel": 8,
+            "sch1951": 23,
+            "kjv": 22
+          },
+          {
+            "buch": "Jes",
+            "kapitel": 9,
+            "sch1951": 20,
+            "kjv": 21
+          },
+          {
+            "buch": "Jes",
+            "kapitel": 64,
+            "sch1951": 11,
+            "kjv": 12
+          },
+          {
+            "buch": "Joel",
+            "kapitel": 2,
+            "sch1951": 27,
+            "kjv": 32
+          },
+          {
+            "buch": "Joel",
+            "kapitel": 3,
+            "sch1951": 5,
+            "kjv": 21
+          },
+          {
+            "buch": "Jon",
+            "kapitel": 1,
+            "sch1951": 16,
+            "kjv": 17
+          },
+          {
+            "buch": "Jon",
+            "kapitel": 2,
+            "sch1951": 11,
+            "kjv": 10
+          },
+          {
+            "buch": "Mal",
+            "kapitel": 3,
+            "sch1951": 24,
+            "kjv": 18
+          },
+          {
+            "buch": "Mi",
+            "kapitel": 4,
+            "sch1951": 14,
+            "kjv": 13
+          },
+          {
+            "buch": "Mi",
+            "kapitel": 5,
             "sch1951": 14,
             "kjv": 15
+          },
+          {
+            "buch": "Nah",
+            "kapitel": 1,
+            "sch1951": 14,
+            "kjv": 15
+          },
+          {
+            "buch": "Nah",
+            "kapitel": 2,
+            "sch1951": 14,
+            "kjv": 13
           },
           {
             "buch": "Neh",
@@ -1002,16 +1264,22 @@
             "kjv": 39
           },
           {
-            "buch": "Hi",
-            "kapitel": 40,
-            "sch1951": 32,
-            "kjv": 24
+            "buch": "Offb",
+            "kapitel": 12,
+            "sch1951": 18,
+            "kjv": 17
           },
           {
-            "buch": "Hi",
-            "kapitel": 41,
-            "sch1951": 26,
-            "kjv": 34
+            "buch": "Pred",
+            "kapitel": 4,
+            "sch1951": 17,
+            "kjv": 16
+          },
+          {
+            "buch": "Pred",
+            "kapitel": 5,
+            "sch1951": 19,
+            "kjv": 20
           },
           {
             "buch": "Ps",
@@ -1392,180 +1660,6 @@
             "kjv": 7
           },
           {
-            "buch": "Pred",
-            "kapitel": 4,
-            "sch1951": 17,
-            "kjv": 16
-          },
-          {
-            "buch": "Pred",
-            "kapitel": 5,
-            "sch1951": 19,
-            "kjv": 20
-          },
-          {
-            "buch": "Hl",
-            "kapitel": 6,
-            "sch1951": 12,
-            "kjv": 13
-          },
-          {
-            "buch": "Hl",
-            "kapitel": 7,
-            "sch1951": 14,
-            "kjv": 13
-          },
-          {
-            "buch": "Jes",
-            "kapitel": 8,
-            "sch1951": 23,
-            "kjv": 22
-          },
-          {
-            "buch": "Jes",
-            "kapitel": 9,
-            "sch1951": 20,
-            "kjv": 21
-          },
-          {
-            "buch": "Jes",
-            "kapitel": 64,
-            "sch1951": 11,
-            "kjv": 12
-          },
-          {
-            "buch": "Jer",
-            "kapitel": 8,
-            "sch1951": 23,
-            "kjv": 22
-          },
-          {
-            "buch": "Jer",
-            "kapitel": 9,
-            "sch1951": 25,
-            "kjv": 26
-          },
-          {
-            "buch": "Hes",
-            "kapitel": 20,
-            "sch1951": 44,
-            "kjv": 49
-          },
-          {
-            "buch": "Hes",
-            "kapitel": 21,
-            "sch1951": 37,
-            "kjv": 32
-          },
-          {
-            "buch": "Dan",
-            "kapitel": 3,
-            "sch1951": 33,
-            "kjv": 30
-          },
-          {
-            "buch": "Dan",
-            "kapitel": 4,
-            "sch1951": 34,
-            "kjv": 37
-          },
-          {
-            "buch": "Dan",
-            "kapitel": 5,
-            "sch1951": 30,
-            "kjv": 31
-          },
-          {
-            "buch": "Dan",
-            "kapitel": 6,
-            "sch1951": 29,
-            "kjv": 28
-          },
-          {
-            "buch": "Hos",
-            "kapitel": 1,
-            "sch1951": 9,
-            "kjv": 11
-          },
-          {
-            "buch": "Hos",
-            "kapitel": 2,
-            "sch1951": 25,
-            "kjv": 23
-          },
-          {
-            "buch": "Hos",
-            "kapitel": 11,
-            "sch1951": 11,
-            "kjv": 12
-          },
-          {
-            "buch": "Hos",
-            "kapitel": 12,
-            "sch1951": 15,
-            "kjv": 14
-          },
-          {
-            "buch": "Hos",
-            "kapitel": 13,
-            "sch1951": 15,
-            "kjv": 16
-          },
-          {
-            "buch": "Hos",
-            "kapitel": 14,
-            "sch1951": 10,
-            "kjv": 9
-          },
-          {
-            "buch": "Joel",
-            "kapitel": 2,
-            "sch1951": 27,
-            "kjv": 32
-          },
-          {
-            "buch": "Joel",
-            "kapitel": 3,
-            "sch1951": 5,
-            "kjv": 21
-          },
-          {
-            "buch": "Jon",
-            "kapitel": 1,
-            "sch1951": 16,
-            "kjv": 17
-          },
-          {
-            "buch": "Jon",
-            "kapitel": 2,
-            "sch1951": 11,
-            "kjv": 10
-          },
-          {
-            "buch": "Mi",
-            "kapitel": 4,
-            "sch1951": 14,
-            "kjv": 13
-          },
-          {
-            "buch": "Mi",
-            "kapitel": 5,
-            "sch1951": 14,
-            "kjv": 15
-          },
-          {
-            "buch": "Nah",
-            "kapitel": 1,
-            "sch1951": 14,
-            "kjv": 15
-          },
-          {
-            "buch": "Nah",
-            "kapitel": 2,
-            "sch1951": 14,
-            "kjv": 13
-          },
-          {
             "buch": "Sach",
             "kapitel": 1,
             "sch1951": 17,
@@ -1576,36 +1670,42 @@
             "kapitel": 2,
             "sch1951": 17,
             "kjv": 13
-          },
-          {
-            "buch": "Mal",
-            "kapitel": 3,
-            "sch1951": 24,
-            "kjv": 18
-          },
-          {
-            "buch": "2Kor",
-            "kapitel": 13,
-            "sch1951": 13,
-            "kjv": 14
-          },
-          {
-            "buch": "3Joh",
-            "kapitel": 1,
-            "sch1951": 15,
-            "kjv": 14
-          },
-          {
-            "buch": "Offb",
-            "kapitel": 12,
-            "sch1951": 18,
-            "kjv": 17
           }
         ]
       },
       "elb_sch1951": {
         "anzahl": 123,
         "faelle": [
+          {
+            "buch": "1Chr",
+            "kapitel": 5,
+            "elb": 26,
+            "sch1951": 41
+          },
+          {
+            "buch": "1Chr",
+            "kapitel": 6,
+            "elb": 81,
+            "sch1951": 66
+          },
+          {
+            "buch": "1Chr",
+            "kapitel": 12,
+            "elb": 40,
+            "sch1951": 41
+          },
+          {
+            "buch": "1Kon",
+            "kapitel": 4,
+            "elb": 34,
+            "sch1951": 20
+          },
+          {
+            "buch": "1Kon",
+            "kapitel": 5,
+            "elb": 18,
+            "sch1951": 32
+          },
           {
             "buch": "1Mo",
             "kapitel": 31,
@@ -1617,6 +1717,54 @@
             "kapitel": 32,
             "elb": 32,
             "sch1951": 33
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 20,
+            "elb": 43,
+            "sch1951": 42
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 21,
+            "elb": 15,
+            "sch1951": 16
+          },
+          {
+            "buch": "2Chr",
+            "kapitel": 1,
+            "elb": 17,
+            "sch1951": 18
+          },
+          {
+            "buch": "2Chr",
+            "kapitel": 2,
+            "elb": 18,
+            "sch1951": 17
+          },
+          {
+            "buch": "2Chr",
+            "kapitel": 13,
+            "elb": 22,
+            "sch1951": 23
+          },
+          {
+            "buch": "2Chr",
+            "kapitel": 14,
+            "elb": 15,
+            "sch1951": 14
+          },
+          {
+            "buch": "2Kon",
+            "kapitel": 12,
+            "elb": 21,
+            "sch1951": 22
+          },
+          {
+            "buch": "2Kon",
+            "kapitel": 15,
+            "elb": 39,
+            "sch1951": 38
           },
           {
             "buch": "2Mo",
@@ -1641,6 +1789,18 @@
             "kapitel": 22,
             "elb": 31,
             "sch1951": 30
+          },
+          {
+            "buch": "2Sam",
+            "kapitel": 18,
+            "elb": 33,
+            "sch1951": 32
+          },
+          {
+            "buch": "2Sam",
+            "kapitel": 19,
+            "elb": 43,
+            "sch1951": 44
           },
           {
             "buch": "4Mo",
@@ -1691,93 +1851,135 @@
             "sch1951": 28
           },
           {
-            "buch": "1Sam",
-            "kapitel": 20,
-            "elb": 43,
-            "sch1951": 42
+            "buch": "Dan",
+            "kapitel": 3,
+            "elb": 30,
+            "sch1951": 33
           },
           {
-            "buch": "1Sam",
-            "kapitel": 21,
-            "elb": 15,
-            "sch1951": 16
-          },
-          {
-            "buch": "2Sam",
-            "kapitel": 18,
-            "elb": 33,
-            "sch1951": 32
-          },
-          {
-            "buch": "2Sam",
-            "kapitel": 19,
-            "elb": 43,
-            "sch1951": 44
-          },
-          {
-            "buch": "1Kon",
+            "buch": "Dan",
             "kapitel": 4,
-            "elb": 34,
-            "sch1951": 20
+            "elb": 37,
+            "sch1951": 34
           },
           {
-            "buch": "1Kon",
-            "kapitel": 5,
-            "elb": 18,
+            "buch": "Hi",
+            "kapitel": 39,
+            "elb": 35,
+            "sch1951": 30
+          },
+          {
+            "buch": "Hi",
+            "kapitel": 40,
+            "elb": 27,
             "sch1951": 32
           },
           {
-            "buch": "2Kon",
-            "kapitel": 12,
-            "elb": 21,
-            "sch1951": 22
+            "buch": "Hi",
+            "kapitel": 41,
+            "elb": 25,
+            "sch1951": 26
           },
           {
-            "buch": "2Kon",
-            "kapitel": 15,
-            "elb": 39,
-            "sch1951": 38
-          },
-          {
-            "buch": "1Chr",
-            "kapitel": 5,
-            "elb": 26,
-            "sch1951": 41
-          },
-          {
-            "buch": "1Chr",
+            "buch": "Hl",
             "kapitel": 6,
-            "elb": 81,
-            "sch1951": 66
+            "elb": 13,
+            "sch1951": 12
           },
           {
-            "buch": "1Chr",
-            "kapitel": 12,
-            "elb": 40,
-            "sch1951": 41
+            "buch": "Hl",
+            "kapitel": 7,
+            "elb": 13,
+            "sch1951": 14
           },
           {
-            "buch": "2Chr",
+            "buch": "Hos",
             "kapitel": 1,
-            "elb": 17,
-            "sch1951": 18
+            "elb": 11,
+            "sch1951": 9
           },
           {
-            "buch": "2Chr",
+            "buch": "Hos",
             "kapitel": 2,
-            "elb": 18,
-            "sch1951": 17
+            "elb": 23,
+            "sch1951": 25
           },
           {
-            "buch": "2Chr",
+            "buch": "Hos",
             "kapitel": 13,
+            "elb": 16,
+            "sch1951": 15
+          },
+          {
+            "buch": "Hos",
+            "kapitel": 14,
+            "elb": 9,
+            "sch1951": 10
+          },
+          {
+            "buch": "Jer",
+            "kapitel": 8,
             "elb": 22,
             "sch1951": 23
           },
           {
-            "buch": "2Chr",
-            "kapitel": 14,
+            "buch": "Jer",
+            "kapitel": 9,
+            "elb": 26,
+            "sch1951": 25
+          },
+          {
+            "buch": "Jes",
+            "kapitel": 8,
+            "elb": 22,
+            "sch1951": 23
+          },
+          {
+            "buch": "Jes",
+            "kapitel": 9,
+            "elb": 21,
+            "sch1951": 20
+          },
+          {
+            "buch": "Jes",
+            "kapitel": 64,
+            "elb": 12,
+            "sch1951": 11
+          },
+          {
+            "buch": "Joel",
+            "kapitel": 2,
+            "elb": 32,
+            "sch1951": 27
+          },
+          {
+            "buch": "Joel",
+            "kapitel": 3,
+            "elb": 21,
+            "sch1951": 5
+          },
+          {
+            "buch": "Lk",
+            "kapitel": 17,
+            "elb": 36,
+            "sch1951": 37
+          },
+          {
+            "buch": "Mal",
+            "kapitel": 3,
+            "elb": 18,
+            "sch1951": 24
+          },
+          {
+            "buch": "Nah",
+            "kapitel": 1,
             "elb": 15,
+            "sch1951": 14
+          },
+          {
+            "buch": "Nah",
+            "kapitel": 2,
+            "elb": 13,
             "sch1951": 14
           },
           {
@@ -1805,22 +2007,22 @@
             "sch1951": 40
           },
           {
-            "buch": "Hi",
-            "kapitel": 39,
-            "elb": 35,
-            "sch1951": 30
+            "buch": "Pred",
+            "kapitel": 4,
+            "elb": 16,
+            "sch1951": 17
           },
           {
-            "buch": "Hi",
-            "kapitel": 40,
-            "elb": 27,
-            "sch1951": 32
+            "buch": "Pred",
+            "kapitel": 5,
+            "elb": 20,
+            "sch1951": 19
           },
           {
-            "buch": "Hi",
-            "kapitel": 41,
-            "elb": 25,
-            "sch1951": 26
+            "buch": "Pred",
+            "kapitel": 6,
+            "elb": 11,
+            "sch1951": 12
           },
           {
             "buch": "Ps",
@@ -2201,126 +2403,6 @@
             "sch1951": 8
           },
           {
-            "buch": "Pred",
-            "kapitel": 4,
-            "elb": 16,
-            "sch1951": 17
-          },
-          {
-            "buch": "Pred",
-            "kapitel": 5,
-            "elb": 20,
-            "sch1951": 19
-          },
-          {
-            "buch": "Pred",
-            "kapitel": 6,
-            "elb": 11,
-            "sch1951": 12
-          },
-          {
-            "buch": "Hl",
-            "kapitel": 6,
-            "elb": 13,
-            "sch1951": 12
-          },
-          {
-            "buch": "Hl",
-            "kapitel": 7,
-            "elb": 13,
-            "sch1951": 14
-          },
-          {
-            "buch": "Jes",
-            "kapitel": 8,
-            "elb": 22,
-            "sch1951": 23
-          },
-          {
-            "buch": "Jes",
-            "kapitel": 9,
-            "elb": 21,
-            "sch1951": 20
-          },
-          {
-            "buch": "Jes",
-            "kapitel": 64,
-            "elb": 12,
-            "sch1951": 11
-          },
-          {
-            "buch": "Jer",
-            "kapitel": 8,
-            "elb": 22,
-            "sch1951": 23
-          },
-          {
-            "buch": "Jer",
-            "kapitel": 9,
-            "elb": 26,
-            "sch1951": 25
-          },
-          {
-            "buch": "Dan",
-            "kapitel": 3,
-            "elb": 30,
-            "sch1951": 33
-          },
-          {
-            "buch": "Dan",
-            "kapitel": 4,
-            "elb": 37,
-            "sch1951": 34
-          },
-          {
-            "buch": "Hos",
-            "kapitel": 1,
-            "elb": 11,
-            "sch1951": 9
-          },
-          {
-            "buch": "Hos",
-            "kapitel": 2,
-            "elb": 23,
-            "sch1951": 25
-          },
-          {
-            "buch": "Hos",
-            "kapitel": 13,
-            "elb": 16,
-            "sch1951": 15
-          },
-          {
-            "buch": "Hos",
-            "kapitel": 14,
-            "elb": 9,
-            "sch1951": 10
-          },
-          {
-            "buch": "Joel",
-            "kapitel": 2,
-            "elb": 32,
-            "sch1951": 27
-          },
-          {
-            "buch": "Joel",
-            "kapitel": 3,
-            "elb": 21,
-            "sch1951": 5
-          },
-          {
-            "buch": "Nah",
-            "kapitel": 1,
-            "elb": 15,
-            "sch1951": 14
-          },
-          {
-            "buch": "Nah",
-            "kapitel": 2,
-            "elb": 13,
-            "sch1951": 14
-          },
-          {
             "buch": "Sach",
             "kapitel": 1,
             "elb": 21,
@@ -2331,30 +2413,12 @@
             "kapitel": 2,
             "elb": 13,
             "sch1951": 17
-          },
-          {
-            "buch": "Mal",
-            "kapitel": 3,
-            "elb": 18,
-            "sch1951": 24
-          },
-          {
-            "buch": "Lk",
-            "kapitel": 17,
-            "elb": 36,
-            "sch1951": 37
           }
         ]
       },
       "cuv_kjv": {
         "anzahl": 5,
         "faelle": [
-          {
-            "buch": "2Mo",
-            "kapitel": 16,
-            "cuv": 35,
-            "kjv": 36
-          },
           {
             "buch": "1Chr",
             "kapitel": 21,
@@ -2368,22 +2432,82 @@
             "kjv": 19
           },
           {
-            "buch": "Joh",
-            "kapitel": 7,
-            "cuv": 52,
-            "kjv": 53
+            "buch": "2Mo",
+            "kapitel": 16,
+            "cuv": 35,
+            "kjv": 36
           },
           {
             "buch": "3Joh",
             "kapitel": 1,
             "cuv": 15,
             "kjv": 14
+          },
+          {
+            "buch": "Joh",
+            "kapitel": 7,
+            "cuv": 52,
+            "kjv": 53
           }
         ]
       },
       "cuv_elb": {
         "anzahl": 32,
         "faelle": [
+          {
+            "buch": "1Chr",
+            "kapitel": 21,
+            "cuv": 31,
+            "elb": 30
+          },
+          {
+            "buch": "1Chr",
+            "kapitel": 22,
+            "cuv": 18,
+            "elb": 19
+          },
+          {
+            "buch": "1Kon",
+            "kapitel": 22,
+            "cuv": 53,
+            "elb": 54
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 20,
+            "cuv": 42,
+            "elb": 43
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 23,
+            "cuv": 29,
+            "elb": 28
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 24,
+            "cuv": 22,
+            "elb": 23
+          },
+          {
+            "buch": "2Kon",
+            "kapitel": 11,
+            "cuv": 21,
+            "elb": 20
+          },
+          {
+            "buch": "2Kon",
+            "kapitel": 15,
+            "cuv": 38,
+            "elb": 39
+          },
+          {
+            "buch": "2Kor",
+            "kapitel": 13,
+            "cuv": 14,
+            "elb": 13
+          },
           {
             "buch": "2Mo",
             "kapitel": 16,
@@ -2415,52 +2539,28 @@
             "elb": 69
           },
           {
-            "buch": "1Sam",
-            "kapitel": 20,
-            "cuv": 42,
-            "elb": 43
-          },
-          {
-            "buch": "1Sam",
-            "kapitel": 23,
-            "cuv": 29,
-            "elb": 28
-          },
-          {
-            "buch": "1Sam",
-            "kapitel": 24,
-            "cuv": 22,
-            "elb": 23
-          },
-          {
-            "buch": "1Kon",
-            "kapitel": 22,
-            "cuv": 53,
-            "elb": 54
-          },
-          {
-            "buch": "2Kon",
-            "kapitel": 11,
-            "cuv": 21,
-            "elb": 20
-          },
-          {
-            "buch": "2Kon",
-            "kapitel": 15,
-            "cuv": 38,
-            "elb": 39
-          },
-          {
-            "buch": "1Chr",
-            "kapitel": 21,
+            "buch": "Dan",
+            "kapitel": 5,
             "cuv": 31,
             "elb": 30
           },
           {
-            "buch": "1Chr",
-            "kapitel": 22,
-            "cuv": 18,
-            "elb": 19
+            "buch": "Dan",
+            "kapitel": 6,
+            "cuv": 28,
+            "elb": 29
+          },
+          {
+            "buch": "Hes",
+            "kapitel": 20,
+            "cuv": 49,
+            "elb": 44
+          },
+          {
+            "buch": "Hes",
+            "kapitel": 21,
+            "cuv": 32,
+            "elb": 37
           },
           {
             "buch": "Hi",
@@ -2481,42 +2581,6 @@
             "elb": 25
           },
           {
-            "buch": "Ps",
-            "kapitel": 13,
-            "cuv": 6,
-            "elb": 5
-          },
-          {
-            "buch": "Pred",
-            "kapitel": 6,
-            "cuv": 12,
-            "elb": 11
-          },
-          {
-            "buch": "Hes",
-            "kapitel": 20,
-            "cuv": 49,
-            "elb": 44
-          },
-          {
-            "buch": "Hes",
-            "kapitel": 21,
-            "cuv": 32,
-            "elb": 37
-          },
-          {
-            "buch": "Dan",
-            "kapitel": 5,
-            "cuv": 31,
-            "elb": 30
-          },
-          {
-            "buch": "Dan",
-            "kapitel": 6,
-            "cuv": 28,
-            "elb": 29
-          },
-          {
             "buch": "Hos",
             "kapitel": 11,
             "cuv": 12,
@@ -2527,6 +2591,12 @@
             "kapitel": 12,
             "cuv": 14,
             "elb": 15
+          },
+          {
+            "buch": "Joh",
+            "kapitel": 7,
+            "cuv": 52,
+            "elb": 53
           },
           {
             "buch": "Jon",
@@ -2541,6 +2611,12 @@
             "elb": 11
           },
           {
+            "buch": "Lk",
+            "kapitel": 17,
+            "cuv": 37,
+            "elb": 36
+          },
+          {
             "buch": "Mi",
             "kapitel": 4,
             "cuv": 13,
@@ -2553,34 +2629,76 @@
             "elb": 14
           },
           {
-            "buch": "Lk",
-            "kapitel": 17,
-            "cuv": 37,
-            "elb": 36
-          },
-          {
-            "buch": "Joh",
-            "kapitel": 7,
-            "cuv": 52,
-            "elb": 53
-          },
-          {
-            "buch": "2Kor",
-            "kapitel": 13,
-            "cuv": 14,
-            "elb": 13
-          },
-          {
             "buch": "Offb",
             "kapitel": 12,
             "cuv": 17,
             "elb": 18
+          },
+          {
+            "buch": "Pred",
+            "kapitel": 6,
+            "cuv": 12,
+            "elb": 11
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 13,
+            "cuv": 6,
+            "elb": 5
           }
         ]
       },
       "rvr1909_elb": {
         "anzahl": 29,
         "faelle": [
+          {
+            "buch": "1Kon",
+            "kapitel": 22,
+            "rvr1909": 53,
+            "elb": 54
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 20,
+            "rvr1909": 42,
+            "elb": 43
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 23,
+            "rvr1909": 29,
+            "elb": 28
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 24,
+            "rvr1909": 22,
+            "elb": 23
+          },
+          {
+            "buch": "2Kon",
+            "kapitel": 11,
+            "rvr1909": 21,
+            "elb": 20
+          },
+          {
+            "buch": "2Kon",
+            "kapitel": 15,
+            "rvr1909": 38,
+            "elb": 39
+          },
+          {
+            "buch": "2Kor",
+            "kapitel": 13,
+            "rvr1909": 14,
+            "elb": 13
+          },
+          {
+            "buch": "3Joh",
+            "kapitel": 1,
+            "rvr1909": 14,
+            "elb": 15
+          },
           {
             "buch": "3Mo",
             "kapitel": 5,
@@ -2606,40 +2724,28 @@
             "elb": 69
           },
           {
-            "buch": "1Sam",
+            "buch": "Dan",
+            "kapitel": 5,
+            "rvr1909": 31,
+            "elb": 30
+          },
+          {
+            "buch": "Dan",
+            "kapitel": 6,
+            "rvr1909": 28,
+            "elb": 29
+          },
+          {
+            "buch": "Hes",
             "kapitel": 20,
-            "rvr1909": 42,
-            "elb": 43
+            "rvr1909": 49,
+            "elb": 44
           },
           {
-            "buch": "1Sam",
-            "kapitel": 23,
-            "rvr1909": 29,
-            "elb": 28
-          },
-          {
-            "buch": "1Sam",
-            "kapitel": 24,
-            "rvr1909": 22,
-            "elb": 23
-          },
-          {
-            "buch": "1Kon",
-            "kapitel": 22,
-            "rvr1909": 53,
-            "elb": 54
-          },
-          {
-            "buch": "2Kon",
-            "kapitel": 11,
-            "rvr1909": 21,
-            "elb": 20
-          },
-          {
-            "buch": "2Kon",
-            "kapitel": 15,
-            "rvr1909": 38,
-            "elb": 39
+            "buch": "Hes",
+            "kapitel": 21,
+            "rvr1909": 32,
+            "elb": 37
           },
           {
             "buch": "Hi",
@@ -2658,42 +2764,6 @@
             "kapitel": 41,
             "rvr1909": 34,
             "elb": 25
-          },
-          {
-            "buch": "Ps",
-            "kapitel": 13,
-            "rvr1909": 6,
-            "elb": 5
-          },
-          {
-            "buch": "Pred",
-            "kapitel": 6,
-            "rvr1909": 12,
-            "elb": 11
-          },
-          {
-            "buch": "Hes",
-            "kapitel": 20,
-            "rvr1909": 49,
-            "elb": 44
-          },
-          {
-            "buch": "Hes",
-            "kapitel": 21,
-            "rvr1909": 32,
-            "elb": 37
-          },
-          {
-            "buch": "Dan",
-            "kapitel": 5,
-            "rvr1909": 31,
-            "elb": 30
-          },
-          {
-            "buch": "Dan",
-            "kapitel": 6,
-            "rvr1909": 28,
-            "elb": 29
           },
           {
             "buch": "Hos",
@@ -2720,6 +2790,12 @@
             "elb": 11
           },
           {
+            "buch": "Lk",
+            "kapitel": 17,
+            "rvr1909": 37,
+            "elb": 36
+          },
+          {
             "buch": "Mi",
             "kapitel": 4,
             "rvr1909": 13,
@@ -2732,34 +2808,76 @@
             "elb": 14
           },
           {
-            "buch": "Lk",
-            "kapitel": 17,
-            "rvr1909": 37,
-            "elb": 36
-          },
-          {
-            "buch": "2Kor",
-            "kapitel": 13,
-            "rvr1909": 14,
-            "elb": 13
-          },
-          {
-            "buch": "3Joh",
-            "kapitel": 1,
-            "rvr1909": 14,
-            "elb": 15
-          },
-          {
             "buch": "Offb",
             "kapitel": 12,
             "rvr1909": 17,
             "elb": 18
+          },
+          {
+            "buch": "Pred",
+            "kapitel": 6,
+            "rvr1909": 12,
+            "elb": 11
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 13,
+            "rvr1909": 6,
+            "elb": 5
           }
         ]
       },
       "lsg_elb": {
         "anzahl": 29,
         "faelle": [
+          {
+            "buch": "1Kon",
+            "kapitel": 22,
+            "lsg": 53,
+            "elb": 54
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 20,
+            "lsg": 42,
+            "elb": 43
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 23,
+            "lsg": 29,
+            "elb": 28
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 24,
+            "lsg": 22,
+            "elb": 23
+          },
+          {
+            "buch": "2Kon",
+            "kapitel": 11,
+            "lsg": 21,
+            "elb": 20
+          },
+          {
+            "buch": "2Kon",
+            "kapitel": 15,
+            "lsg": 38,
+            "elb": 39
+          },
+          {
+            "buch": "2Kor",
+            "kapitel": 13,
+            "lsg": 14,
+            "elb": 13
+          },
+          {
+            "buch": "3Joh",
+            "kapitel": 1,
+            "lsg": 14,
+            "elb": 15
+          },
           {
             "buch": "3Mo",
             "kapitel": 5,
@@ -2785,40 +2903,28 @@
             "elb": 69
           },
           {
-            "buch": "1Sam",
+            "buch": "Dan",
+            "kapitel": 5,
+            "lsg": 31,
+            "elb": 30
+          },
+          {
+            "buch": "Dan",
+            "kapitel": 6,
+            "lsg": 28,
+            "elb": 29
+          },
+          {
+            "buch": "Hes",
             "kapitel": 20,
-            "lsg": 42,
-            "elb": 43
+            "lsg": 49,
+            "elb": 44
           },
           {
-            "buch": "1Sam",
-            "kapitel": 23,
-            "lsg": 29,
-            "elb": 28
-          },
-          {
-            "buch": "1Sam",
-            "kapitel": 24,
-            "lsg": 22,
-            "elb": 23
-          },
-          {
-            "buch": "1Kon",
-            "kapitel": 22,
-            "lsg": 53,
-            "elb": 54
-          },
-          {
-            "buch": "2Kon",
-            "kapitel": 11,
-            "lsg": 21,
-            "elb": 20
-          },
-          {
-            "buch": "2Kon",
-            "kapitel": 15,
-            "lsg": 38,
-            "elb": 39
+            "buch": "Hes",
+            "kapitel": 21,
+            "lsg": 32,
+            "elb": 37
           },
           {
             "buch": "Hi",
@@ -2837,42 +2943,6 @@
             "kapitel": 41,
             "lsg": 34,
             "elb": 25
-          },
-          {
-            "buch": "Ps",
-            "kapitel": 13,
-            "lsg": 6,
-            "elb": 5
-          },
-          {
-            "buch": "Pred",
-            "kapitel": 6,
-            "lsg": 12,
-            "elb": 11
-          },
-          {
-            "buch": "Hes",
-            "kapitel": 20,
-            "lsg": 49,
-            "elb": 44
-          },
-          {
-            "buch": "Hes",
-            "kapitel": 21,
-            "lsg": 32,
-            "elb": 37
-          },
-          {
-            "buch": "Dan",
-            "kapitel": 5,
-            "lsg": 31,
-            "elb": 30
-          },
-          {
-            "buch": "Dan",
-            "kapitel": 6,
-            "lsg": 28,
-            "elb": 29
           },
           {
             "buch": "Hos",
@@ -2899,6 +2969,12 @@
             "elb": 11
           },
           {
+            "buch": "Lk",
+            "kapitel": 17,
+            "lsg": 37,
+            "elb": 36
+          },
+          {
             "buch": "Mi",
             "kapitel": 4,
             "lsg": 13,
@@ -2911,28 +2987,22 @@
             "elb": 14
           },
           {
-            "buch": "Lk",
-            "kapitel": 17,
-            "lsg": 37,
-            "elb": 36
-          },
-          {
-            "buch": "2Kor",
-            "kapitel": 13,
-            "lsg": 14,
-            "elb": 13
-          },
-          {
-            "buch": "3Joh",
-            "kapitel": 1,
-            "lsg": 14,
-            "elb": 15
-          },
-          {
             "buch": "Offb",
             "kapitel": 12,
             "lsg": 17,
             "elb": 18
+          },
+          {
+            "buch": "Pred",
+            "kapitel": 6,
+            "lsg": 12,
+            "elb": 11
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 13,
+            "lsg": 6,
+            "elb": 5
           }
         ]
       },
@@ -2943,6 +3013,1611 @@
       "lsg_kjv": {
         "anzahl": 0,
         "faelle": []
+      },
+      "lut_elb": {
+        "anzahl": 122,
+        "faelle": [
+          {
+            "buch": "1Chr",
+            "kapitel": 5,
+            "lut": 41,
+            "elb": 26
+          },
+          {
+            "buch": "1Chr",
+            "kapitel": 6,
+            "lut": 66,
+            "elb": 81
+          },
+          {
+            "buch": "1Kon",
+            "kapitel": 4,
+            "lut": 20,
+            "elb": 34
+          },
+          {
+            "buch": "1Kon",
+            "kapitel": 5,
+            "lut": 32,
+            "elb": 18
+          },
+          {
+            "buch": "1Mo",
+            "kapitel": 31,
+            "lut": 54,
+            "elb": 55
+          },
+          {
+            "buch": "1Mo",
+            "kapitel": 32,
+            "lut": 33,
+            "elb": 32
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 20,
+            "lut": 42,
+            "elb": 43
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 21,
+            "lut": 16,
+            "elb": 15
+          },
+          {
+            "buch": "2Chr",
+            "kapitel": 1,
+            "lut": 18,
+            "elb": 17
+          },
+          {
+            "buch": "2Chr",
+            "kapitel": 2,
+            "lut": 17,
+            "elb": 18
+          },
+          {
+            "buch": "2Chr",
+            "kapitel": 13,
+            "lut": 23,
+            "elb": 22
+          },
+          {
+            "buch": "2Chr",
+            "kapitel": 14,
+            "lut": 14,
+            "elb": 15
+          },
+          {
+            "buch": "2Kon",
+            "kapitel": 12,
+            "lut": 22,
+            "elb": 21
+          },
+          {
+            "buch": "2Mo",
+            "kapitel": 7,
+            "lut": 29,
+            "elb": 25
+          },
+          {
+            "buch": "2Mo",
+            "kapitel": 8,
+            "lut": 28,
+            "elb": 32
+          },
+          {
+            "buch": "2Mo",
+            "kapitel": 21,
+            "lut": 37,
+            "elb": 36
+          },
+          {
+            "buch": "2Mo",
+            "kapitel": 22,
+            "lut": 30,
+            "elb": 31
+          },
+          {
+            "buch": "2Sam",
+            "kapitel": 18,
+            "lut": 32,
+            "elb": 33
+          },
+          {
+            "buch": "2Sam",
+            "kapitel": 19,
+            "lut": 44,
+            "elb": 43
+          },
+          {
+            "buch": "4Mo",
+            "kapitel": 16,
+            "lut": 35,
+            "elb": 50
+          },
+          {
+            "buch": "4Mo",
+            "kapitel": 17,
+            "lut": 28,
+            "elb": 13
+          },
+          {
+            "buch": "4Mo",
+            "kapitel": 29,
+            "lut": 39,
+            "elb": 40
+          },
+          {
+            "buch": "5Mo",
+            "kapitel": 12,
+            "lut": 31,
+            "elb": 32
+          },
+          {
+            "buch": "5Mo",
+            "kapitel": 13,
+            "lut": 19,
+            "elb": 18
+          },
+          {
+            "buch": "5Mo",
+            "kapitel": 22,
+            "lut": 29,
+            "elb": 30
+          },
+          {
+            "buch": "5Mo",
+            "kapitel": 23,
+            "lut": 26,
+            "elb": 25
+          },
+          {
+            "buch": "5Mo",
+            "kapitel": 29,
+            "lut": 28,
+            "elb": 29
+          },
+          {
+            "buch": "Apg",
+            "kapitel": 19,
+            "lut": 40,
+            "elb": 41
+          },
+          {
+            "buch": "Dan",
+            "kapitel": 3,
+            "lut": 33,
+            "elb": 30
+          },
+          {
+            "buch": "Dan",
+            "kapitel": 4,
+            "lut": 34,
+            "elb": 37
+          },
+          {
+            "buch": "Hi",
+            "kapitel": 39,
+            "lut": 30,
+            "elb": 35
+          },
+          {
+            "buch": "Hi",
+            "kapitel": 40,
+            "lut": 32,
+            "elb": 27
+          },
+          {
+            "buch": "Hi",
+            "kapitel": 41,
+            "lut": 26,
+            "elb": 25
+          },
+          {
+            "buch": "Hl",
+            "kapitel": 6,
+            "lut": 12,
+            "elb": 13
+          },
+          {
+            "buch": "Hl",
+            "kapitel": 7,
+            "lut": 14,
+            "elb": 13
+          },
+          {
+            "buch": "Hos",
+            "kapitel": 1,
+            "lut": 9,
+            "elb": 11
+          },
+          {
+            "buch": "Hos",
+            "kapitel": 2,
+            "lut": 25,
+            "elb": 23
+          },
+          {
+            "buch": "Hos",
+            "kapitel": 13,
+            "lut": 15,
+            "elb": 16
+          },
+          {
+            "buch": "Hos",
+            "kapitel": 14,
+            "lut": 10,
+            "elb": 9
+          },
+          {
+            "buch": "Jer",
+            "kapitel": 8,
+            "lut": 23,
+            "elb": 22
+          },
+          {
+            "buch": "Jer",
+            "kapitel": 9,
+            "lut": 25,
+            "elb": 26
+          },
+          {
+            "buch": "Jes",
+            "kapitel": 8,
+            "lut": 23,
+            "elb": 22
+          },
+          {
+            "buch": "Jes",
+            "kapitel": 9,
+            "lut": 20,
+            "elb": 21
+          },
+          {
+            "buch": "Jes",
+            "kapitel": 64,
+            "lut": 11,
+            "elb": 12
+          },
+          {
+            "buch": "Joel",
+            "kapitel": 2,
+            "lut": 27,
+            "elb": 32
+          },
+          {
+            "buch": "Joel",
+            "kapitel": 3,
+            "lut": 5,
+            "elb": 21
+          },
+          {
+            "buch": "Lk",
+            "kapitel": 17,
+            "lut": 37,
+            "elb": 36
+          },
+          {
+            "buch": "Mal",
+            "kapitel": 3,
+            "lut": 24,
+            "elb": 18
+          },
+          {
+            "buch": "Nah",
+            "kapitel": 1,
+            "lut": 14,
+            "elb": 15
+          },
+          {
+            "buch": "Nah",
+            "kapitel": 2,
+            "lut": 14,
+            "elb": 13
+          },
+          {
+            "buch": "Neh",
+            "kapitel": 3,
+            "lut": 38,
+            "elb": 32
+          },
+          {
+            "buch": "Neh",
+            "kapitel": 4,
+            "lut": 17,
+            "elb": 23
+          },
+          {
+            "buch": "Neh",
+            "kapitel": 9,
+            "lut": 37,
+            "elb": 38
+          },
+          {
+            "buch": "Neh",
+            "kapitel": 10,
+            "lut": 40,
+            "elb": 39
+          },
+          {
+            "buch": "Pred",
+            "kapitel": 4,
+            "lut": 17,
+            "elb": 16
+          },
+          {
+            "buch": "Pred",
+            "kapitel": 5,
+            "lut": 19,
+            "elb": 20
+          },
+          {
+            "buch": "Pred",
+            "kapitel": 6,
+            "lut": 12,
+            "elb": 11
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 3,
+            "lut": 9,
+            "elb": 8
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 4,
+            "lut": 9,
+            "elb": 8
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 5,
+            "lut": 13,
+            "elb": 12
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 6,
+            "lut": 11,
+            "elb": 10
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 7,
+            "lut": 18,
+            "elb": 17
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 8,
+            "lut": 10,
+            "elb": 9
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 9,
+            "lut": 21,
+            "elb": 20
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 12,
+            "lut": 9,
+            "elb": 8
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 13,
+            "lut": 7,
+            "elb": 5
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 18,
+            "lut": 51,
+            "elb": 50
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 19,
+            "lut": 15,
+            "elb": 14
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 20,
+            "lut": 10,
+            "elb": 9
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 21,
+            "lut": 14,
+            "elb": 13
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 22,
+            "lut": 32,
+            "elb": 31
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 30,
+            "lut": 13,
+            "elb": 12
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 31,
+            "lut": 25,
+            "elb": 24
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 34,
+            "lut": 23,
+            "elb": 22
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 36,
+            "lut": 13,
+            "elb": 12
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 38,
+            "lut": 23,
+            "elb": 22
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 39,
+            "lut": 14,
+            "elb": 13
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 40,
+            "lut": 18,
+            "elb": 17
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 41,
+            "lut": 14,
+            "elb": 13
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 42,
+            "lut": 12,
+            "elb": 11
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 44,
+            "lut": 27,
+            "elb": 26
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 45,
+            "lut": 18,
+            "elb": 17
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 46,
+            "lut": 12,
+            "elb": 11
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 47,
+            "lut": 10,
+            "elb": 9
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 48,
+            "lut": 15,
+            "elb": 14
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 49,
+            "lut": 21,
+            "elb": 20
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 51,
+            "lut": 21,
+            "elb": 19
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 52,
+            "lut": 11,
+            "elb": 9
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 53,
+            "lut": 7,
+            "elb": 6
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 54,
+            "lut": 9,
+            "elb": 7
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 55,
+            "lut": 24,
+            "elb": 23
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 56,
+            "lut": 14,
+            "elb": 13
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 57,
+            "lut": 12,
+            "elb": 11
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 58,
+            "lut": 12,
+            "elb": 11
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 59,
+            "lut": 18,
+            "elb": 17
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 60,
+            "lut": 14,
+            "elb": 12
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 61,
+            "lut": 9,
+            "elb": 8
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 62,
+            "lut": 13,
+            "elb": 12
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 63,
+            "lut": 12,
+            "elb": 11
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 64,
+            "lut": 11,
+            "elb": 10
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 65,
+            "lut": 14,
+            "elb": 13
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 67,
+            "lut": 8,
+            "elb": 7
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 68,
+            "lut": 36,
+            "elb": 35
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 69,
+            "lut": 37,
+            "elb": 36
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 70,
+            "lut": 6,
+            "elb": 5
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 75,
+            "lut": 11,
+            "elb": 10
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 76,
+            "lut": 13,
+            "elb": 12
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 77,
+            "lut": 21,
+            "elb": 20
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 80,
+            "lut": 20,
+            "elb": 19
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 81,
+            "lut": 17,
+            "elb": 16
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 83,
+            "lut": 19,
+            "elb": 18
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 84,
+            "lut": 13,
+            "elb": 12
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 85,
+            "lut": 14,
+            "elb": 13
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 88,
+            "lut": 19,
+            "elb": 18
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 89,
+            "lut": 53,
+            "elb": 52
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 92,
+            "lut": 16,
+            "elb": 15
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 102,
+            "lut": 29,
+            "elb": 28
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 108,
+            "lut": 14,
+            "elb": 13
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 140,
+            "lut": 14,
+            "elb": 13
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 142,
+            "lut": 8,
+            "elb": 7
+          },
+          {
+            "buch": "Sach",
+            "kapitel": 1,
+            "lut": 17,
+            "elb": 21
+          },
+          {
+            "buch": "Sach",
+            "kapitel": 2,
+            "lut": 17,
+            "elb": 13
+          }
+        ]
+      },
+      "lut_kjv": {
+        "anzahl": 140,
+        "faelle": [
+          {
+            "buch": "1Chr",
+            "kapitel": 5,
+            "lut": 41,
+            "kjv": 26
+          },
+          {
+            "buch": "1Chr",
+            "kapitel": 6,
+            "lut": 66,
+            "kjv": 81
+          },
+          {
+            "buch": "1Kon",
+            "kapitel": 4,
+            "lut": 20,
+            "kjv": 34
+          },
+          {
+            "buch": "1Kon",
+            "kapitel": 5,
+            "lut": 32,
+            "kjv": 18
+          },
+          {
+            "buch": "1Kon",
+            "kapitel": 22,
+            "lut": 54,
+            "kjv": 53
+          },
+          {
+            "buch": "1Mo",
+            "kapitel": 31,
+            "lut": 54,
+            "kjv": 55
+          },
+          {
+            "buch": "1Mo",
+            "kapitel": 32,
+            "lut": 33,
+            "kjv": 32
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 21,
+            "lut": 16,
+            "kjv": 15
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 23,
+            "lut": 28,
+            "kjv": 29
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 24,
+            "lut": 23,
+            "kjv": 22
+          },
+          {
+            "buch": "2Chr",
+            "kapitel": 1,
+            "lut": 18,
+            "kjv": 17
+          },
+          {
+            "buch": "2Chr",
+            "kapitel": 2,
+            "lut": 17,
+            "kjv": 18
+          },
+          {
+            "buch": "2Chr",
+            "kapitel": 13,
+            "lut": 23,
+            "kjv": 22
+          },
+          {
+            "buch": "2Chr",
+            "kapitel": 14,
+            "lut": 14,
+            "kjv": 15
+          },
+          {
+            "buch": "2Kon",
+            "kapitel": 11,
+            "lut": 20,
+            "kjv": 21
+          },
+          {
+            "buch": "2Kon",
+            "kapitel": 12,
+            "lut": 22,
+            "kjv": 21
+          },
+          {
+            "buch": "2Kon",
+            "kapitel": 15,
+            "lut": 39,
+            "kjv": 38
+          },
+          {
+            "buch": "2Kor",
+            "kapitel": 13,
+            "lut": 13,
+            "kjv": 14
+          },
+          {
+            "buch": "2Mo",
+            "kapitel": 7,
+            "lut": 29,
+            "kjv": 25
+          },
+          {
+            "buch": "2Mo",
+            "kapitel": 8,
+            "lut": 28,
+            "kjv": 32
+          },
+          {
+            "buch": "2Mo",
+            "kapitel": 21,
+            "lut": 37,
+            "kjv": 36
+          },
+          {
+            "buch": "2Mo",
+            "kapitel": 22,
+            "lut": 30,
+            "kjv": 31
+          },
+          {
+            "buch": "2Sam",
+            "kapitel": 18,
+            "lut": 32,
+            "kjv": 33
+          },
+          {
+            "buch": "2Sam",
+            "kapitel": 19,
+            "lut": 44,
+            "kjv": 43
+          },
+          {
+            "buch": "3Joh",
+            "kapitel": 1,
+            "lut": 15,
+            "kjv": 14
+          },
+          {
+            "buch": "3Mo",
+            "kapitel": 5,
+            "lut": 26,
+            "kjv": 19
+          },
+          {
+            "buch": "3Mo",
+            "kapitel": 6,
+            "lut": 23,
+            "kjv": 30
+          },
+          {
+            "buch": "4Mo",
+            "kapitel": 16,
+            "lut": 35,
+            "kjv": 50
+          },
+          {
+            "buch": "4Mo",
+            "kapitel": 17,
+            "lut": 28,
+            "kjv": 13
+          },
+          {
+            "buch": "4Mo",
+            "kapitel": 29,
+            "lut": 39,
+            "kjv": 40
+          },
+          {
+            "buch": "4Mo",
+            "kapitel": 30,
+            "lut": 17,
+            "kjv": 16
+          },
+          {
+            "buch": "5Mo",
+            "kapitel": 12,
+            "lut": 31,
+            "kjv": 32
+          },
+          {
+            "buch": "5Mo",
+            "kapitel": 13,
+            "lut": 19,
+            "kjv": 18
+          },
+          {
+            "buch": "5Mo",
+            "kapitel": 22,
+            "lut": 29,
+            "kjv": 30
+          },
+          {
+            "buch": "5Mo",
+            "kapitel": 23,
+            "lut": 26,
+            "kjv": 25
+          },
+          {
+            "buch": "5Mo",
+            "kapitel": 28,
+            "lut": 69,
+            "kjv": 68
+          },
+          {
+            "buch": "5Mo",
+            "kapitel": 29,
+            "lut": 28,
+            "kjv": 29
+          },
+          {
+            "buch": "Apg",
+            "kapitel": 19,
+            "lut": 40,
+            "kjv": 41
+          },
+          {
+            "buch": "Dan",
+            "kapitel": 3,
+            "lut": 33,
+            "kjv": 30
+          },
+          {
+            "buch": "Dan",
+            "kapitel": 4,
+            "lut": 34,
+            "kjv": 37
+          },
+          {
+            "buch": "Dan",
+            "kapitel": 5,
+            "lut": 30,
+            "kjv": 31
+          },
+          {
+            "buch": "Dan",
+            "kapitel": 6,
+            "lut": 29,
+            "kjv": 28
+          },
+          {
+            "buch": "Hes",
+            "kapitel": 20,
+            "lut": 44,
+            "kjv": 49
+          },
+          {
+            "buch": "Hes",
+            "kapitel": 21,
+            "lut": 37,
+            "kjv": 32
+          },
+          {
+            "buch": "Hi",
+            "kapitel": 40,
+            "lut": 32,
+            "kjv": 24
+          },
+          {
+            "buch": "Hi",
+            "kapitel": 41,
+            "lut": 26,
+            "kjv": 34
+          },
+          {
+            "buch": "Hl",
+            "kapitel": 6,
+            "lut": 12,
+            "kjv": 13
+          },
+          {
+            "buch": "Hl",
+            "kapitel": 7,
+            "lut": 14,
+            "kjv": 13
+          },
+          {
+            "buch": "Hos",
+            "kapitel": 1,
+            "lut": 9,
+            "kjv": 11
+          },
+          {
+            "buch": "Hos",
+            "kapitel": 2,
+            "lut": 25,
+            "kjv": 23
+          },
+          {
+            "buch": "Hos",
+            "kapitel": 11,
+            "lut": 11,
+            "kjv": 12
+          },
+          {
+            "buch": "Hos",
+            "kapitel": 12,
+            "lut": 15,
+            "kjv": 14
+          },
+          {
+            "buch": "Hos",
+            "kapitel": 13,
+            "lut": 15,
+            "kjv": 16
+          },
+          {
+            "buch": "Hos",
+            "kapitel": 14,
+            "lut": 10,
+            "kjv": 9
+          },
+          {
+            "buch": "Jer",
+            "kapitel": 8,
+            "lut": 23,
+            "kjv": 22
+          },
+          {
+            "buch": "Jer",
+            "kapitel": 9,
+            "lut": 25,
+            "kjv": 26
+          },
+          {
+            "buch": "Jes",
+            "kapitel": 8,
+            "lut": 23,
+            "kjv": 22
+          },
+          {
+            "buch": "Jes",
+            "kapitel": 9,
+            "lut": 20,
+            "kjv": 21
+          },
+          {
+            "buch": "Jes",
+            "kapitel": 64,
+            "lut": 11,
+            "kjv": 12
+          },
+          {
+            "buch": "Joel",
+            "kapitel": 2,
+            "lut": 27,
+            "kjv": 32
+          },
+          {
+            "buch": "Joel",
+            "kapitel": 3,
+            "lut": 5,
+            "kjv": 21
+          },
+          {
+            "buch": "Jon",
+            "kapitel": 1,
+            "lut": 16,
+            "kjv": 17
+          },
+          {
+            "buch": "Jon",
+            "kapitel": 2,
+            "lut": 11,
+            "kjv": 10
+          },
+          {
+            "buch": "Mal",
+            "kapitel": 3,
+            "lut": 24,
+            "kjv": 18
+          },
+          {
+            "buch": "Mi",
+            "kapitel": 4,
+            "lut": 14,
+            "kjv": 13
+          },
+          {
+            "buch": "Mi",
+            "kapitel": 5,
+            "lut": 14,
+            "kjv": 15
+          },
+          {
+            "buch": "Nah",
+            "kapitel": 1,
+            "lut": 14,
+            "kjv": 15
+          },
+          {
+            "buch": "Nah",
+            "kapitel": 2,
+            "lut": 14,
+            "kjv": 13
+          },
+          {
+            "buch": "Neh",
+            "kapitel": 3,
+            "lut": 38,
+            "kjv": 32
+          },
+          {
+            "buch": "Neh",
+            "kapitel": 4,
+            "lut": 17,
+            "kjv": 23
+          },
+          {
+            "buch": "Neh",
+            "kapitel": 9,
+            "lut": 37,
+            "kjv": 38
+          },
+          {
+            "buch": "Neh",
+            "kapitel": 10,
+            "lut": 40,
+            "kjv": 39
+          },
+          {
+            "buch": "Offb",
+            "kapitel": 12,
+            "lut": 18,
+            "kjv": 17
+          },
+          {
+            "buch": "Pred",
+            "kapitel": 4,
+            "lut": 17,
+            "kjv": 16
+          },
+          {
+            "buch": "Pred",
+            "kapitel": 5,
+            "lut": 19,
+            "kjv": 20
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 3,
+            "lut": 9,
+            "kjv": 8
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 4,
+            "lut": 9,
+            "kjv": 8
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 5,
+            "lut": 13,
+            "kjv": 12
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 6,
+            "lut": 11,
+            "kjv": 10
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 7,
+            "lut": 18,
+            "kjv": 17
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 8,
+            "lut": 10,
+            "kjv": 9
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 9,
+            "lut": 21,
+            "kjv": 20
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 12,
+            "lut": 9,
+            "kjv": 8
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 13,
+            "lut": 7,
+            "kjv": 6
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 18,
+            "lut": 51,
+            "kjv": 50
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 19,
+            "lut": 15,
+            "kjv": 14
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 20,
+            "lut": 10,
+            "kjv": 9
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 21,
+            "lut": 14,
+            "kjv": 13
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 22,
+            "lut": 32,
+            "kjv": 31
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 30,
+            "lut": 13,
+            "kjv": 12
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 31,
+            "lut": 25,
+            "kjv": 24
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 34,
+            "lut": 23,
+            "kjv": 22
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 36,
+            "lut": 13,
+            "kjv": 12
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 38,
+            "lut": 23,
+            "kjv": 22
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 39,
+            "lut": 14,
+            "kjv": 13
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 40,
+            "lut": 18,
+            "kjv": 17
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 41,
+            "lut": 14,
+            "kjv": 13
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 42,
+            "lut": 12,
+            "kjv": 11
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 44,
+            "lut": 27,
+            "kjv": 26
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 45,
+            "lut": 18,
+            "kjv": 17
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 46,
+            "lut": 12,
+            "kjv": 11
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 47,
+            "lut": 10,
+            "kjv": 9
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 48,
+            "lut": 15,
+            "kjv": 14
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 49,
+            "lut": 21,
+            "kjv": 20
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 51,
+            "lut": 21,
+            "kjv": 19
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 52,
+            "lut": 11,
+            "kjv": 9
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 53,
+            "lut": 7,
+            "kjv": 6
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 54,
+            "lut": 9,
+            "kjv": 7
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 55,
+            "lut": 24,
+            "kjv": 23
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 56,
+            "lut": 14,
+            "kjv": 13
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 57,
+            "lut": 12,
+            "kjv": 11
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 58,
+            "lut": 12,
+            "kjv": 11
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 59,
+            "lut": 18,
+            "kjv": 17
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 60,
+            "lut": 14,
+            "kjv": 12
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 61,
+            "lut": 9,
+            "kjv": 8
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 62,
+            "lut": 13,
+            "kjv": 12
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 63,
+            "lut": 12,
+            "kjv": 11
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 64,
+            "lut": 11,
+            "kjv": 10
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 65,
+            "lut": 14,
+            "kjv": 13
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 67,
+            "lut": 8,
+            "kjv": 7
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 68,
+            "lut": 36,
+            "kjv": 35
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 69,
+            "lut": 37,
+            "kjv": 36
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 70,
+            "lut": 6,
+            "kjv": 5
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 75,
+            "lut": 11,
+            "kjv": 10
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 76,
+            "lut": 13,
+            "kjv": 12
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 77,
+            "lut": 21,
+            "kjv": 20
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 80,
+            "lut": 20,
+            "kjv": 19
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 81,
+            "lut": 17,
+            "kjv": 16
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 83,
+            "lut": 19,
+            "kjv": 18
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 84,
+            "lut": 13,
+            "kjv": 12
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 85,
+            "lut": 14,
+            "kjv": 13
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 88,
+            "lut": 19,
+            "kjv": 18
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 89,
+            "lut": 53,
+            "kjv": 52
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 92,
+            "lut": 16,
+            "kjv": 15
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 102,
+            "lut": 29,
+            "kjv": 28
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 108,
+            "lut": 14,
+            "kjv": 13
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 140,
+            "lut": 14,
+            "kjv": 13
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 142,
+            "lut": 8,
+            "kjv": 7
+          },
+          {
+            "buch": "Sach",
+            "kapitel": 1,
+            "lut": 17,
+            "kjv": 21
+          },
+          {
+            "buch": "Sach",
+            "kapitel": 2,
+            "lut": 17,
+            "kjv": 13
+          }
+        ]
+      },
+      "lut_sch1951": {
+        "anzahl": 3,
+        "faelle": [
+          {
+            "buch": "1Chr",
+            "kapitel": 12,
+            "lut": 40,
+            "sch1951": 41
+          },
+          {
+            "buch": "2Kon",
+            "kapitel": 15,
+            "lut": 39,
+            "sch1951": 38
+          },
+          {
+            "buch": "Apg",
+            "kapitel": 19,
+            "lut": 40,
+            "sch1951": 41
+          }
+        ]
       }
     }
   }

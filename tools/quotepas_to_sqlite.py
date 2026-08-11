@@ -40,7 +40,7 @@ import unicodedata
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 APPLICATION_ID = 0x42494257  # "BIBW"
 
 # ---------------------------------------------------------------------------
@@ -74,6 +74,116 @@ ENGLISH_NAMES = {
     "Hebr": "Hebrews", "Jak": "James", "1Pt": "1 Peter", "2Pt": "2 Peter",
     "1Joh": "1 John", "2Joh": "2 John", "3Joh": "3 John", "Jud": "Jude",
     "Offb": "Revelation",
+}
+
+# Buchnamen der uebrigen Oberflaechensprachen. Die App zeigt Buchnamen immer
+# in ihrer Anzeigesprache, unabhaengig von der gewaehlten Uebersetzung — sie
+# gehoeren deshalb in die Datenbank und nicht in den String Catalog.
+#
+# Wo die Schreibweise schwankt, gilt die der mitgelieferten Uebersetzung
+# derselben Sprache; nachgeprueft am Verstext selbst:
+#   Spanisch (RVR1909): Ruth, Esther, Nahum, Haggeo — nicht Rut/Ester/Hageo.
+#   Franzoesisch (LSG): Habakuk, Ésaïe — nicht Habacuc/Esaïe.
+
+SPANISH_NAMES = {
+    "1Mo": "Génesis", "2Mo": "Éxodo", "3Mo": "Levítico", "4Mo": "Números",
+    "5Mo": "Deuteronomio", "Jos": "Josué", "Ri": "Jueces", "Rt": "Ruth",
+    "1Sam": "1 Samuel", "2Sam": "2 Samuel", "1Kon": "1 Reyes", "2Kon": "2 Reyes",
+    "1Chr": "1 Crónicas", "2Chr": "2 Crónicas", "Esr": "Esdras",
+    "Neh": "Nehemías", "Est": "Esther", "Hi": "Job", "Ps": "Salmos",
+    "Spr": "Proverbios", "Pred": "Eclesiastés", "Hl": "Cantares",
+    "Jes": "Isaías", "Jer": "Jeremías", "Kla": "Lamentaciones",
+    "Hes": "Ezequiel", "Dan": "Daniel", "Hos": "Oseas", "Joel": "Joel",
+    "Am": "Amós", "Ob": "Abdías", "Jon": "Jonás", "Mi": "Miqueas",
+    "Nah": "Nahum", "Hab": "Habacuc", "Zeph": "Sofonías", "Hag": "Haggeo",
+    "Sach": "Zacarías", "Mal": "Malaquías", "Mt": "Mateo", "Mk": "Marcos",
+    "Lk": "Lucas", "Joh": "Juan", "Apg": "Hechos", "Rom": "Romanos",
+    "1Kor": "1 Corintios", "2Kor": "2 Corintios", "Gal": "Gálatas",
+    "Eph": "Efesios", "Phil": "Filipenses", "Kol": "Colosenses",
+    "1Th": "1 Tesalonicenses", "2Th": "2 Tesalonicenses", "1Tim": "1 Timoteo",
+    "2Tim": "2 Timoteo", "Tit": "Tito", "Phlm": "Filemón",
+    "Hebr": "Hebreos", "Jak": "Santiago", "1Pt": "1 Pedro", "2Pt": "2 Pedro",
+    "1Joh": "1 Juan", "2Joh": "2 Juan", "3Joh": "3 Juan", "Jud": "Judas",
+    "Offb": "Apocalipsis",
+}
+
+FRENCH_NAMES = {
+    "1Mo": "Genèse", "2Mo": "Exode", "3Mo": "Lévitique", "4Mo": "Nombres",
+    "5Mo": "Deutéronome", "Jos": "Josué", "Ri": "Juges", "Rt": "Ruth",
+    "1Sam": "1 Samuel", "2Sam": "2 Samuel", "1Kon": "1 Rois", "2Kon": "2 Rois",
+    "1Chr": "1 Chroniques", "2Chr": "2 Chroniques", "Esr": "Esdras",
+    "Neh": "Néhémie", "Est": "Esther", "Hi": "Job", "Ps": "Psaumes",
+    "Spr": "Proverbes", "Pred": "Ecclésiaste", "Hl": "Cantique des cantiques",
+    "Jes": "Ésaïe", "Jer": "Jérémie", "Kla": "Lamentations",
+    "Hes": "Ézéchiel", "Dan": "Daniel", "Hos": "Osée", "Joel": "Joël",
+    "Am": "Amos", "Ob": "Abdias", "Jon": "Jonas", "Mi": "Michée",
+    "Nah": "Nahum", "Hab": "Habakuk", "Zeph": "Sophonie", "Hag": "Aggée",
+    "Sach": "Zacharie", "Mal": "Malachie", "Mt": "Matthieu", "Mk": "Marc",
+    "Lk": "Luc", "Joh": "Jean", "Apg": "Actes", "Rom": "Romains",
+    "1Kor": "1 Corinthiens", "2Kor": "2 Corinthiens", "Gal": "Galates",
+    "Eph": "Éphésiens", "Phil": "Philippiens", "Kol": "Colossiens",
+    "1Th": "1 Thessaloniciens", "2Th": "2 Thessaloniciens",
+    "1Tim": "1 Timothée", "2Tim": "2 Timothée", "Tit": "Tite",
+    "Phlm": "Philémon", "Hebr": "Hébreux", "Jak": "Jacques",
+    "1Pt": "1 Pierre", "2Pt": "2 Pierre", "1Joh": "1 Jean", "2Joh": "2 Jean",
+    "3Joh": "3 Jean", "Jud": "Jude", "Offb": "Apocalypse",
+}
+
+# Chinesisch traditionell, Namensgebung des 和合本.
+CHINESE_TRAD_NAMES = {
+    "1Mo": "創世記", "2Mo": "出埃及記", "3Mo": "利未記", "4Mo": "民數記",
+    "5Mo": "申命記", "Jos": "約書亞記", "Ri": "士師記", "Rt": "路得記",
+    "1Sam": "撒母耳記上", "2Sam": "撒母耳記下", "1Kon": "列王紀上",
+    "2Kon": "列王紀下", "1Chr": "歷代志上", "2Chr": "歷代志下",
+    "Esr": "以斯拉記", "Neh": "尼希米記", "Est": "以斯帖記", "Hi": "約伯記",
+    "Ps": "詩篇", "Spr": "箴言", "Pred": "傳道書", "Hl": "雅歌",
+    "Jes": "以賽亞書", "Jer": "耶利米書", "Kla": "耶利米哀歌",
+    "Hes": "以西結書", "Dan": "但以理書", "Hos": "何西阿書", "Joel": "約珥書",
+    "Am": "阿摩司書", "Ob": "俄巴底亞書", "Jon": "約拿書", "Mi": "彌迦書",
+    "Nah": "那鴻書", "Hab": "哈巴谷書", "Zeph": "西番雅書", "Hag": "哈該書",
+    "Sach": "撒迦利亞書", "Mal": "瑪拉基書", "Mt": "馬太福音", "Mk": "馬可福音",
+    "Lk": "路加福音", "Joh": "約翰福音", "Apg": "使徒行傳", "Rom": "羅馬書",
+    "1Kor": "哥林多前書", "2Kor": "哥林多後書", "Gal": "加拉太書",
+    "Eph": "以弗所書", "Phil": "腓立比書", "Kol": "歌羅西書",
+    "1Th": "帖撒羅尼迦前書", "2Th": "帖撒羅尼迦後書", "1Tim": "提摩太前書",
+    "2Tim": "提摩太後書", "Tit": "提多書", "Phlm": "腓利門書",
+    "Hebr": "希伯來書", "Jak": "雅各書", "1Pt": "彼得前書", "2Pt": "彼得後書",
+    "1Joh": "約翰一書", "2Joh": "約翰二書", "3Joh": "約翰三書", "Jud": "猶大書",
+    "Offb": "啟示錄",
+}
+
+# Chinesisch vereinfacht. Geprueft gegen die Zeichenabbildung, die sich aus
+# den 31'101 ausgerichteten Verspaaren cuv/cuvs der Datenbank ergibt —
+# jedes Zeichen ist im Bibeltext belegt, keine Abweichung.
+CHINESE_SIMP_NAMES = {
+    "1Mo": "创世记", "2Mo": "出埃及记", "3Mo": "利未记", "4Mo": "民数记",
+    "5Mo": "申命记", "Jos": "约书亚记", "Ri": "士师记", "Rt": "路得记",
+    "1Sam": "撒母耳记上", "2Sam": "撒母耳记下", "1Kon": "列王纪上",
+    "2Kon": "列王纪下", "1Chr": "历代志上", "2Chr": "历代志下",
+    "Esr": "以斯拉记", "Neh": "尼希米记", "Est": "以斯帖记", "Hi": "约伯记",
+    "Ps": "诗篇", "Spr": "箴言", "Pred": "传道书", "Hl": "雅歌",
+    "Jes": "以赛亚书", "Jer": "耶利米书", "Kla": "耶利米哀歌",
+    "Hes": "以西结书", "Dan": "但以理书", "Hos": "何西阿书", "Joel": "约珥书",
+    "Am": "阿摩司书", "Ob": "俄巴底亚书", "Jon": "约拿书", "Mi": "弥迦书",
+    "Nah": "那鸿书", "Hab": "哈巴谷书", "Zeph": "西番雅书", "Hag": "哈该书",
+    "Sach": "撒迦利亚书", "Mal": "玛拉基书", "Mt": "马太福音", "Mk": "马可福音",
+    "Lk": "路加福音", "Joh": "约翰福音", "Apg": "使徒行传", "Rom": "罗马书",
+    "1Kor": "哥林多前书", "2Kor": "哥林多后书", "Gal": "加拉太书",
+    "Eph": "以弗所书", "Phil": "腓立比书", "Kol": "歌罗西书",
+    "1Th": "帖撒罗尼迦前书", "2Th": "帖撒罗尼迦后书", "1Tim": "提摩太前书",
+    "2Tim": "提摩太后书", "Tit": "提多书", "Phlm": "腓利门书",
+    "Hebr": "希伯来书", "Jak": "雅各书", "1Pt": "彼得前书", "2Pt": "彼得后书",
+    "1Joh": "约翰一书", "2Joh": "约翰二书", "3Joh": "约翰三书", "Jud": "犹大书",
+    "Offb": "启示录",
+}
+
+# Sprachkennung -> Namenstabelle. Die Spalte heisst name_<kennung mit _>.
+BOOK_NAME_TABLES = {
+    "en": ENGLISH_NAMES,
+    "es": SPANISH_NAMES,
+    "fr": FRENCH_NAMES,
+    "zh_hant": CHINESE_TRAD_NAMES,
+    "zh_hans": CHINESE_SIMP_NAMES,
 }
 
 # Sprache und Copyright-Zeile je Uebersetzungscode. Wird in die DB geschrieben
@@ -163,6 +273,10 @@ SOURCE_FIXES = {
     # Apostroph ersetzt worden. Gedruckt steht dort 贓私 (unrechter Gewinn).
     ("cuv", "Jes", 1, 23): [("\u8ffd\u6c42 ' \u79c1", "\u8ffd\u6c42\u8d13\u79c1")],
     ("cuvs", "Jes", 1, 23): [("\u8ffd\u6c42 ' \u79c1", "\u8ffd\u6c42\u8d43\u79c1")],
+    # Im Luther-Modul haengt in 1Mo 5,1 ein Fragezeichen hinter dem Semikolon,
+    # mit dem der Vers endet. Gedruckt und in der Ausgabe von ebible.org
+    # (deu1912) steht dort nur das Semikolon.
+    ("lut", "1Mo", 5, 1): [("Bilde Gottes;?", "Bilde Gottes;")],
 }
 
 
@@ -179,6 +293,55 @@ def apply_source_fixes(verses: list, code: str) -> tuple[list, list]:
                 notes.append(f"WARNUNG: Korrektur {code} {b} {ch},{vs} nicht "
                              f"anwendbar, Muster nicht gefunden")
         out.append((c, b, ch, vs, t))
+    return out, notes
+
+
+# Uebersetzungen, deren Zeichensetzung nachgezogen wird. Bewusst an den Code
+# gebunden und nicht allgemein, weil beide Schritte sonst Schaden anrichten:
+# im Franzoesischen (lsg) gehoert das Leerzeichen vor ; : ! ? zur Rechtschreibung,
+# und die uebrigen Quellen bringen ihre Anfuehrungszeichen typografisch mit.
+#
+# Das Luther-Modul braucht beides. Es setzt ASCII-Anfuehrungszeichen, waehrend
+# die quotepas-Quelle (\flqq/\frqq) und Schlachter 1951 « » verwenden - ohne
+# Angleichung mischten die deutschen Uebersetzungen zwei Systeme. Und es laesst
+# an 24 Stellen ein Leerzeichen vor dem Satzzeichen stehen, wo im Druck eine
+# Fussnotenmarke stand («heisst Hiddekel , das fliesst vor Assyrien»).
+TYPOGRAPHY_FIXUPS = {"lut"}
+
+# Ein " oeffnet am Textanfang und nach Leerzeichen oder oeffnender Klammer,
+# sonst schliesst es. Nicht ueber Paare gezaehlt: 177 Zitate laufen ueber
+# Versgrenzen, und in sechs Kapiteln fehlt in der Quelle das oeffnende Zeichen -
+# dort setzt die Regel richtig ein schliessendes, statt eines zu erfinden.
+QUOTE_OPENERS = " ([{«„"
+SPACE_BEFORE_PUNCT_RE = re.compile(r" +([,.;:!?])")
+
+
+def set_guillemets(text: str) -> str:
+    return "".join(
+        ch if ch != '"' else
+        ("«" if i == 0 or text[i - 1] in QUOTE_OPENERS else "»")
+        for i, ch in enumerate(text)
+    )
+
+
+def apply_typography(verses: list, code: str) -> tuple[list, list]:
+    """Zieht die Zeichensetzung einzelner Quellen nach und meldet den Umfang."""
+    if code not in TYPOGRAPHY_FIXUPS:
+        return verses, []
+    out, spaced, quoted = [], 0, 0
+    for c, b, ch, vs, t in verses:
+        tight = SPACE_BEFORE_PUNCT_RE.sub(r"\1", t)
+        spaced += tight != t
+        text = set_guillemets(tight)
+        quoted += text != tight
+        out.append((c, b, ch, vs, text))
+    notes = []
+    if spaced:
+        notes.append(f"Typografie {code}: Leerzeichen vor Satzzeichen in "
+                     f"{spaced} Versen entfernt")
+    if quoted:
+        notes.append(f"Typografie {code}: ASCII-Anfuehrungszeichen in "
+                     f"{quoted} Versen auf « » gesetzt")
     return out, notes
 
 # USFM-Buchkuerzel -> Buchcode der quotepas-Datei.
@@ -345,6 +508,8 @@ def parse_osis(path: str, code: str, known_books: set[str]) -> tuple[list, dict,
                         f"entfernt, U+3000 erhalten")
     verses, fix_notes = apply_source_fixes(verses, code)
     warnings.extend(fix_notes)
+    verses, typo_notes = apply_typography(verses, code)
+    warnings.extend(typo_notes)
     return verses, {"abbrev": abbrev, "name": name}, warnings
 
 # ---------------------------------------------------------------------------
@@ -583,6 +748,10 @@ CREATE TABLE book (
     code          TEXT NOT NULL UNIQUE,
     name          TEXT NOT NULL,
     name_en       TEXT,
+    name_es       TEXT,
+    name_fr       TEXT,
+    name_zh_hant  TEXT,
+    name_zh_hans  TEXT,
     testament     TEXT NOT NULL,
     chapter_count INTEGER NOT NULL,
     sort_order    INTEGER NOT NULL
@@ -638,9 +807,12 @@ def build_database(res: ParseResult, out_path: str, source_name: str,
     for _t, b, c, _v, _x in res.verses:
         chapters_per_book[b].add(c)
     con.executemany(
-        "INSERT INTO book (id, code, name, name_en, testament, chapter_count,"
-        " sort_order) VALUES (?,?,?,?,?,?,?)",
+        "INSERT INTO book (id, code, name, name_en, name_es, name_fr,"
+        " name_zh_hant, name_zh_hans, testament, chapter_count,"
+        " sort_order) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
         [(book_id[c], c, res.books[c], ENGLISH_NAMES.get(c),
+          SPANISH_NAMES.get(c), FRENCH_NAMES.get(c),
+          CHINESE_TRAD_NAMES.get(c), CHINESE_SIMP_NAMES.get(c),
           "NT" if c in NT_CODES else "AT",
           max(chapters_per_book[c]) if chapters_per_book[c] else 0,
           book_id[c]) for c in res.book_order],

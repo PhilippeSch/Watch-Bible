@@ -7,29 +7,95 @@ import Foundation
 /// die Systemsprache wechselt.
 enum Localization {
 
+    /// Die Sprachen, in denen die Oberfläche vorliegt — je eine Sprache, für
+    /// die auch eine Bibelübersetzung mitgeliefert wird. Geschrieben wie
+    /// `translation.language` in der Datenbank, damit Anzeigesprache und
+    /// Übersetzungssprache ohne Umrechnung vergleichbar sind.
+    static let supportedLanguages = ["de", "en", "es", "fr", "zh-Hant", "zh-Hans"]
+
+    /// Rückfall, wenn das System eine Sprache meldet, für die es keine
+    /// Übersetzung gibt.
+    static let fallbackLanguage = "en"
+
     /// Die aktive Anzeigesprache der App, nicht die des Systems: `preferredLocalizations`
     /// liefert die Sprache, für die das Bundle tatsächlich Texte hat.
+    ///
+    /// **Nicht auf zwei Zeichen kürzen.** Chinesisch unterscheidet sich in der
+    /// Schrift, nicht in der Sprache: «zh» allein trifft weder `zh-Hant` noch
+    /// `zh-Hans` und ließe beide chinesischen Übersetzungen ins Leere laufen.
     static var displayLanguage: String {
-        Bundle.main.preferredLocalizations.first.map { String($0.prefix(2)) } ?? "en"
-    }
-
-    /// Vorgabe für die Bibelübersetzung beim allerersten Start.
-    /// Deutsch → Elberfelder 1905, Englisch → King James Version.
-    static func defaultTranslationCode(available: [Translation]) -> String {
-        let preferred = displayLanguage == "de" ? "elb" : "kjv"
-        if available.contains(where: { $0.code == preferred }) { return preferred }
-        // Zweite Wahl: irgendeine Übersetzung in der Anzeigesprache …
-        if let sameLanguage = available.first(where: { $0.language == displayLanguage }) {
-            return sameLanguage.code
+        guard let preferred = Bundle.main.preferredLocalizations.first else {
+            return fallbackLanguage
         }
-        // … sonst die erste der Datenbank.
-        return available.first?.code ?? "elb"
+        return normalized(preferred)
     }
 
-    /// Buchname in der Anzeigesprache. Die Datenbank führt beide Spalten;
-    /// `name_en` ist für alle 66 Bücher gefüllt.
+    /// Bildet eine Sprachkennung des Systems auf die Schreibweise der
+    /// Datenbank ab: «de-CH» → «de», «zh-TW» → «zh-Hant», «zh» → «zh-Hans».
+    static func normalized(_ identifier: String) -> String {
+        if supportedLanguages.contains(identifier) { return identifier }
+        let language = Locale.Language(identifier: identifier)
+        guard let code = language.languageCode?.identifier else { return fallbackLanguage }
+        if code == "zh" {
+            // Ohne Schriftangabe («zh», «zh-CN») ergänzt maximalIdentifier sie.
+            let script = language.script?.identifier
+                ?? Locale.Language(identifier: language.maximalIdentifier).script?.identifier
+            return script == "Hant" ? "zh-Hant" : "zh-Hans"
+        }
+        return supportedLanguages.contains(code) ? code : fallbackLanguage
+    }
+
+    /// Vorgabe für die Bibelübersetzung beim allerersten Start: die **erste
+    /// Übersetzung der Anzeigesprache in der Reihenfolge der Datenbank**.
+    /// `available` kommt bereits nach `sort_order` sortiert aus dem Repository,
+    /// also genau in der Reihenfolge, in der die App sie auch anbietet.
+    ///
+    /// Nichts davon ist fest verdrahtet: fällt eine Übersetzung aus der
+    /// Datenbank weg, rückt die nächste derselben Sprache nach.
+    static func defaultTranslationCode(available: [Translation]) -> String {
+        defaultTranslationCode(available: available, language: displayLanguage)
+    }
+
+    /// Wie oben, aber mit ausdrücklicher Sprache — so ist die Regel prüfbar,
+    /// ohne das Bundle umzustellen.
+    static func defaultTranslationCode(available: [Translation],
+                                       language: String) -> String {
+        if let match = available.first(where: { $0.language == language }) {
+            return match.code
+        }
+        // Chinesisch: notfalls die andere Schriftvariante — verständlicher
+        // als eine fremde Sprache.
+        if language.hasPrefix("zh"),
+           let chinese = available.first(where: { $0.language.hasPrefix("zh") }) {
+            return chinese.code
+        }
+        // Sonst Englisch als Verkehrssprache, zuletzt die erste überhaupt.
+        return available.first(where: { $0.language == fallbackLanguage })?.code
+            ?? available.first?.code ?? ""
+    }
+
+    /// Sprachen für die Übersetzungswahl: die Anzeigesprache zuoberst, danach
+    /// die übrigen in der Reihenfolge der Datenbank.
+    static func languageOrder(of translations: [Translation]) -> [String] {
+        languageOrder(of: translations, first: displayLanguage)
+    }
+
+    static func languageOrder(of translations: [Translation],
+                              first language: String) -> [String] {
+        var seen: Set<String> = []
+        let all = translations.map(\.language).filter { seen.insert($0).inserted }
+        guard all.contains(language) else { return all }
+        return [language] + all.filter { $0 != language }
+    }
+
+    /// Buchname in der Anzeigesprache. Alle sechs Spalten sind für alle
+    /// 66 Bücher gefüllt; fehlt eine, bleibt der deutsche Name stehen.
     static func name(of book: Book) -> String {
-        displayLanguage == "en" ? (book.nameEN ?? book.name) : book.name
+        name(of: book, in: displayLanguage)
+    }
+
+    static func name(of book: Book, in language: String) -> String {
+        book.names[language] ?? book.name
     }
 
     /// Stellenangabe. Der Trenner ist **nicht** kosmetisch: deutsche Bibeln
