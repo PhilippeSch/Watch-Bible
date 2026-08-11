@@ -9,9 +9,18 @@ struct AboutView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 10) {
-                Text(verbatim: appVersion)
-                    .font(Typo.counter)
-                    .foregroundStyle(Color.secondaryInk)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(verbatim: appVersion)
+                        .font(Typo.counter)
+                        .foregroundStyle(Color.secondaryInk)
+                    if let buildLine {
+                        Text(verbatim: buildLine)
+                            .font(Typo.counter)
+                            .foregroundStyle(Color.secondaryInk)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.7)
+                    }
+                }
 
                 Text("about.bibleTexts")
                     .font(Typo.eyebrow)
@@ -50,5 +59,15 @@ struct AboutView: View {
         let version = Bundle.main
             .object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? ""
         return "Watch Bible \(version)"
+    }
+
+    /// Build-Nummer aus `CURRENT_PROJECT_VERSION` — ein zwoelfstelliger
+    /// Zeitstempel (YYYYMMDDHHMM). Neben der Version ergaebe das auf der
+    /// kleinsten Uhr eine zu lange Zeile, darum steht sie eine Zeile tiefer.
+    private var buildLine: String? {
+        guard let build = Bundle.main
+            .object(forInfoDictionaryKey: "CFBundleVersion") as? String,
+              !build.isEmpty else { return nil }
+        return String(format: String(localized: "about.build %@"), build)
     }
 }
