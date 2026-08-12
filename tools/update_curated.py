@@ -5,7 +5,13 @@ update_curated.py
 
 Traegt das Themenregister aus `curated_verses.json` in eine bestehende
 `bible.sqlite` nach: Tabelle `curated` und der Zaehlwert `curated_count` in
-`meta`.
+`meta`. Die Tabelle wird dabei nach `CURATED_DDL` aus `tables.py` neu
+aufgebaut — dieselbe Gestalt, die auch der Konverter anlegt.
+
+Die Themen sind deutsch und zugleich Schluessel. Wie ein Thema in den uebrigen
+Sprachen geschrieben wird, steht nicht in der Datenbank, sondern im String
+Catalog der App unter «topic.<deutscher Wert>»: die Liste ist Inhalt, die
+Schreibweise Oberflaeche.
 
 Warum es dieses Skript ueberhaupt gibt: `quotepas_to_sqlite.py` fuellt die
 Tabelle beim Erzeugen der Datenbank — dafuer braucht es aber alle Quelldateien
@@ -39,7 +45,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from quotepas_to_sqlite import TOPIC_NAME_TABLES  # noqa: E402
+from tables import CURATED_DDL, SCHEMA_VERSION  # noqa: E402
 
 VORGABE_JSON = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                             "curated_verses.json")
@@ -92,27 +98,16 @@ def pruefe(con: sqlite3.Connection, liste: list[dict]) -> tuple[list, list]:
 
 
 def schreibe(con: sqlite3.Connection, aufgeloest: list) -> None:
-    con.execute("DELETE FROM curated")
+    # Die Tabelle wird neu aufgebaut, nicht nur geleert: so hat sie hinterher
+    # genau die Gestalt, die `CURATED_DDL` vorgibt — auch dann, wenn in der
+    # Datei noch Spalten aus einem frueheren Versuch stehen. Der Konverter legt
+    # sie aus derselben Konstante an.
+    con.executescript("DROP TABLE IF EXISTS curated;" + CURATED_DDL)
     con.executemany(
         "INSERT INTO curated (book_id, chapter, verse, topic) VALUES (?,?,?,?)",
         aufgeloest,
     )
-    # Themen in den uebrigen Oberflaechensprachen wieder auffuellen: das DELETE
-    # oben nimmt sie mit, und eine Datenbank ohne sie zeigt in der Themenliste
-    # ueberall Deutsch. Dieselbe Tabelle wie in add_topic_names.py und im
-    # Konverter — es gibt nur eine Quelle.
-    spalten = [r[1] for r in con.execute("PRAGMA table_info(curated)")]
-    themen = sorted({t for *_, t in aufgeloest if t})
-    for kennung, tabelle in TOPIC_NAME_TABLES.items():
-        spalte = f"topic_{kennung}"
-        if spalte not in spalten:
-            continue
-        con.executemany(f"UPDATE curated SET {spalte} = ? WHERE topic = ?",
-                        [(tabelle.get(t), t) for t in themen])
-    fehlend = [t for t in themen if t not in TOPIC_NAME_TABLES["en"]]
-    for thema in fehlend:
-        print(f"    Thema ohne Uebersetzung (bleibt deutsch): {thema}"
-              " — TOPIC_NAMES in quotepas_to_sqlite.py ergaenzen")
+    con.execute(f"PRAGMA user_version = {SCHEMA_VERSION}")
     con.execute("INSERT OR REPLACE INTO meta (key, value) VALUES (?,?)",
                 ("curated_count", str(len(aufgeloest))))
     con.commit()

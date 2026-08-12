@@ -112,16 +112,20 @@ enum Localization {
         book.abbreviations[language] ?? book.code
     }
 
-    /// Themenname in der Anzeigesprache. Wie bei den Buchnamen aus der
-    /// Datenbank, nicht aus dem String Catalog — die Themenliste ist Inhalt.
-    /// Fehlt die Spalte (ältere Datenbank), bleibt der deutsche Schlüssel
-    /// stehen: lesbar, wenn auch in der falschen Sprache.
+    /// Themenname in der Anzeigesprache, aus dem String Catalog
+    /// («topic.Wort Gottes»). Anders als Buchnamen, die an die Rechtschreibung
+    /// der Übersetzung gebunden sind, ist ein Themenname blosse Beschriftung —
+    /// er gehört darum in den Katalog. Die Datenbank sagt nur, welche Themen es
+    /// gibt.
+    ///
+    /// Der Schlüssel wird zur Laufzeit gebildet und ist deshalb für Xcode nicht
+    /// auffindbar; die Einträge sind im Katalog als `manual` geführt und dürfen
+    /// nicht als «unbenutzt» entfernt werden. Fehlt einer, gibt der Katalog den
+    /// Schlüssel selbst zurück — dann steht dort der deutsche Wert, und der
+    /// Unit-Test `themenSindInAllenSprachenUebersetzt` schlägt fehl.
     static func name(of topic: Topic) -> String {
-        name(of: topic, in: displayLanguage)
-    }
-
-    static func name(of topic: Topic, in language: String) -> String {
-        topic.names[language] ?? topic.key
+        let localized = String(localized: String.LocalizationValue(topic.localizationKey))
+        return localized == topic.localizationKey ? topic.key : localized
     }
 
     /// Themen in der Reihenfolge der Anzeigesprache sortiert — «Amour» steht
@@ -129,13 +133,8 @@ enum Localization {
     /// liefert sie nach dem deutschen Schlüssel; das wäre in fünf von sechs
     /// Sprachen keine Ordnung.
     static func sorted(_ topics: [Topic]) -> [Topic] {
-        sorted(topics, in: displayLanguage)
-    }
-
-    static func sorted(_ topics: [Topic], in language: String) -> [Topic] {
         topics.sorted {
-            name(of: $0, in: language)
-                .localizedStandardCompare(name(of: $1, in: language)) == .orderedAscending
+            name(of: $0).localizedStandardCompare(name(of: $1)) == .orderedAscending
         }
     }
 

@@ -37,19 +37,28 @@ struct Book: Identifiable, Hashable, Sendable {
 ///
 /// Der deutsche Wert ist der **Schluessel** — wie `book.code` und aus demselben
 /// Grund: er steht so in `curated_verses.json` und bleibt in jeder Sprache
-/// gleich. Die Anzeigenamen kommen aus den Spalten `topic_en`, `topic_es`,
-/// `topic_fr`, `topic_zh_hant`, `topic_zh_hans` derselben Tabelle, nicht aus
-/// dem String Catalog: die Themenliste ist Datenbankinhalt. Kommt ein Thema
-/// dazu, zeigt die App es ohne Codeaenderung.
+/// gleich.
+///
+/// Anders als bei den Buchnamen steht die Schreibweise **nicht** in der
+/// Datenbank, sondern im String Catalog unter «topic.<deutscher Wert>». Der
+/// Unterschied ist kein Zufall: ein Buchname muss der Rechtschreibung der
+/// Uebersetzung folgen, in der der Vers steht («Ruth» nach Reina-Valera) — er
+/// haengt am Text. Ein Themenname haengt an nichts, er ist Beschriftung. Die
+/// Datenbank sagt, **welche** Themen es gibt, der Katalog, **wie sie
+/// geschrieben werden**; ein Unit-Test haelt beides deckungsgleich.
 struct Topic: Identifiable, Hashable, Sendable {
-    /// Deutscher Wert aus `curated.topic`.
+    /// Deutscher Wert aus `curated.topic`. Zugleich der Katalogschluessel,
+    /// mit `topic.` davor.
     let key: String
-    /// Anzeigename je Sprache, Schluessel wie in `translation.language`.
-    /// Deutsch steht mit darin, damit der Zugriff ohne Sonderfall auskommt.
-    let names: [String: String]
     let verseCount: Int
 
     var id: String { key }
+
+    /// Schluessel im String Catalog. Enthaelt Leerzeichen und Umlaute
+    /// («topic.Wort Gottes», «topic.Fuehrung» mit ue als Umlaut) — das ist
+    /// zulaessig und erspart eine erfundene Kurzform, die als zweite Wahrheit
+    /// neben `curated.topic` stuende.
+    var localizationKey: String { "topic.\(key)" }
 }
 
 /// Eine Stellenangabe. Bewusst ohne Uebersetzung: dieselbe Referenz kann

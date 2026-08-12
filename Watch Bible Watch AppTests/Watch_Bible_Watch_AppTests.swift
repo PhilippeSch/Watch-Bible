@@ -583,39 +583,54 @@ struct ThemenTests {
         }
     }
 
-    /// Wie bei den Buchnamen: alle sechs Oberflaechensprachen, keine Doppel.
-    /// Faellt der Test aus, steht in der Themenliste Deutsch statt der
-    /// Anzeigesprache — tools/add_topic_names.py traegt die Spalten nach.
-    @Test func themenLiegenInAllenSprachenVor() async throws {
+    /// Die Naht zwischen Datenbank und String Catalog: **jedes** Thema der
+    /// Datenbank braucht in **jeder** Sprache einen Eintrag. Genau das ist der
+    /// Preis dafuer, dass die Schreibweise nicht in der Datenbank steht — kommt
+    /// ein Thema in curated_verses.json dazu und niemand traegt es im Katalog
+    /// nach, schlaegt dieser Test fehl, statt dass auf franzoesischen Uhren
+    /// still «Wort Gottes» erscheint.
+    @Test func themenSindInAllenSprachenUebersetzt() async throws {
         let repo = try await TestSupport.repository()
         let topics = await repo.topics
+        #expect(!topics.isEmpty)
 
         for sprache in Localization.supportedLanguages {
-            let ohne = topics.filter { $0.names[sprache] == nil }
-            #expect(ohne.isEmpty,
-                    "\(sprache): kein Name fuer \(ohne.map(\.key).joined(separator: ", "))")
-            let namen = topics.compactMap { $0.names[sprache] }
+            let pfad = try #require(Bundle.main.path(forResource: sprache, ofType: "lproj"),
+                                    "\(sprache).lproj fehlt")
+            let sprachbundle = try #require(Bundle(path: pfad))
+            var namen: [String] = []
+            for topic in topics {
+                let name = sprachbundle.localizedString(forKey: topic.localizationKey,
+                                                        value: "", table: nil)
+                #expect(!name.isEmpty && name != topic.localizationKey,
+                        "\(sprache): kein Eintrag fuer \(topic.localizationKey)")
+                namen.append(name)
+            }
+            // Zwei Themen mit demselben Namen waeren in der Liste nicht
+            // auseinanderzuhalten.
             #expect(Set(namen).count == namen.count, "\(sprache): doppelte Themennamen")
         }
     }
 
-    @Test func themenStimmen() async throws {
-        let repo = try await TestSupport.repository()
-        let topics = await repo.topics
+    /// Stichproben: das in der Sprache uebliche Wort, nicht die woertliche
+    /// Uebersetzung.
+    @Test func themenStimmen() throws {
         let erwartet: [String: [String: String]] = [
-            "Nachfolge":   ["de": "Nachfolge", "en": "Discipleship",
-                            "es": "Discipulado", "fr": "Disciple",
-                            "zh-Hant": "門徒", "zh-Hans": "门徒"],
-            "Wort Gottes": ["de": "Wort Gottes", "en": "Word of God",
-                            "es": "Palabra de Dios", "fr": "Parole de Dieu",
-                            "zh-Hant": "神的話", "zh-Hans": "神的话"],
+            "topic.Nachfolge":   ["de": "Nachfolge", "en": "Discipleship",
+                                  "es": "Discipulado", "fr": "Disciple",
+                                  "zh-Hant": "門徒", "zh-Hans": "门徒"],
+            "topic.Wort Gottes": ["de": "Wort Gottes", "en": "Word of God",
+                                  "es": "Palabra de Dios", "fr": "Parole de Dieu",
+                                  "zh-Hant": "神的話", "zh-Hans": "神的话"],
         ]
-        for (key, namen) in erwartet {
-            let topic = try #require(topics.first { $0.key == key },
-                                     "Thema \(key) fehlt")
+        for (schluessel, namen) in erwartet {
             for (sprache, name) in namen {
-                #expect(Localization.name(of: topic, in: sprache) == name,
-                        "\(key) in \(sprache)")
+                let pfad = try #require(Bundle.main.path(forResource: sprache,
+                                                         ofType: "lproj"))
+                let sprachbundle = try #require(Bundle(path: pfad))
+                #expect(sprachbundle.localizedString(forKey: schluessel, value: "",
+                                                     table: nil) == name,
+                        "\(schluessel) in \(sprache)")
             }
         }
     }

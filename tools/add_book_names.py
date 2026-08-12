@@ -12,7 +12,7 @@ Warum es dieses Skript ueberhaupt gibt: `quotepas_to_sqlite.py` erzeugt die
 Datenbank seit denselben Aenderungen mit diesen Spalten — dafuer braucht es aber
 alle Quelldateien (quotepas-Datei, OSIS-XML, USFM-Verzeichnisse). Wer die nicht
 zur Hand hat, bringt die ausgelieferte Datenbank hiermit auf denselben Stand.
-Beide Wege lesen dieselben Tabellen aus `quotepas_to_sqlite.py` und liefern
+Beide Wege lesen dieselben Tabellen aus `tables.py` und liefern
 Zeichen fuer Zeichen dasselbe Ergebnis. Von Hand wird an der Datenbank nichts
 geaendert.
 
@@ -33,7 +33,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from quotepas_to_sqlite import (  # noqa: E402
+from tables import (  # noqa: E402
     BOOK_ABBREV_TABLES, BOOK_NAME_TABLES, SCHEMA_VERSION,
 )
 

@@ -124,13 +124,6 @@ python3 tools/add_book_names.py "Watch Bible Watch App/Resources/bible.sqlite" -
 python3 tools/add_book_names.py "Watch Bible Watch App/Resources/bible.sqlite"
 ```
 
-**Und ebenso die Themennamen.** Eine Datenbank aus einem Konverterlauf vor dem 12. August 2026 hat die Spalten `topic_en`, `topic_es`, `topic_fr`, `topic_zh_hant`, `topic_zh_hans` in `curated` noch nicht. Die App läuft trotzdem — die Themenliste steht dann aber in jeder Sprache auf Deutsch:
-
-```bash
-python3 tools/add_topic_names.py "Watch Bible Watch App/Resources/bible.sqlite" --check
-python3 tools/add_topic_names.py "Watch Bible Watch App/Resources/bible.sqlite"
-```
-
 ## Alle Dateien
 
 ### Daten
@@ -139,12 +132,12 @@ python3 tools/add_topic_names.py "Watch Bible Watch App/Resources/bible.sqlite"
 | `bible_frei_10-Uebersetzungen.sqlite` | Datenbank, frei verwendbare Übersetzungen |
 | `bible_mit-SLT_11-Uebersetzungen.sqlite` | Datenbank inklusive Schlachter 2000 |
 | `cuv_simplified.xml` | Vereinfachte Fassung des 和合本, maschinell aus der traditionellen erzeugt (siehe unten) |
-| `quotepas_to_sqlite.py` | Konverter. Liest die LaTeX-Quelldatei, zusätzlich OSIS-XML (`--osis CODE=DATEI`) und USFM-Verzeichnisse (`--usfm CODE=ORDNER`). Im Repository behalten, damit die Datenbank reproduzierbar bleibt. Führt auch Buchnamen und Buchkürzel aller sechs Oberflächensprachen sowie `TRANSLATION_ORDER`. |
+| `quotepas_to_sqlite.py` | Konverter. Liest die LaTeX-Quelldatei, zusätzlich OSIS-XML (`--osis CODE=DATEI`) und USFM-Verzeichnisse (`--usfm CODE=ORDNER`). Im Repository behalten, damit die Datenbank reproduzierbar bleibt. Beschreibt, **wie** die Quellen gelesen werden; die Tabellen, die in die Datenbank kommen, stehen in `tables.py`. |
+| `tables.py` | Die Nachschlagetabellen: Kanonwissen, Buchnamen und Buchkürzel der sechs Sprachen, `TRANSLATION_ORDER`, `TRANSLATION_META`, Schema-Version und das DDL der Tabelle `curated`. Konverter **und** Nachtragsskripte importieren hier — eine Quelle, ohne dass ein Skript den ganzen Konverter laden müsste. Enthält keine Themennamen: die stehen im String Catalog. |
 | `reorder_translations.py` | Setzt `translation.sort_order` einer bestehenden Datenbank auf `TRANSLATION_ORDER` aus dem Konverter — damit auch die Vorgabeübersetzung je Sprache. `--check` prüft, ohne zu schreiben. |
-| `add_book_names.py` | Trägt Buchnamen (`name_es`, `name_fr`, `name_zh_hant`, `name_zh_hans`) und Buchkürzel (`abbrev_de` … `abbrev_zh_hans`) in eine bestehende Datenbank nach und setzt die Schema-Version auf 4. Dieselben Tabellen wie im Konverter — für den Fall, dass die Quelldateien nicht zur Hand sind. `--check` prüft, ohne zu schreiben; `--check-zh` prüft die vereinfachten Zeichen gegen die Zeichenabbildung, die sich aus cuv/cuvs der Datenbank selbst ergibt. |
+| `add_book_names.py` | Trägt Buchnamen (`name_es`, `name_fr`, `name_zh_hant`, `name_zh_hans`) und Buchkürzel (`abbrev_de` … `abbrev_zh_hans`) in eine bestehende Datenbank nach und setzt die Schema-Version auf 3. Dieselben Tabellen wie im Konverter — für den Fall, dass die Quelldateien nicht zur Hand sind. `--check` prüft, ohne zu schreiben; `--check-zh` prüft die vereinfachten Zeichen gegen die Zeichenabbildung, die sich aus cuv/cuvs der Datenbank selbst ergibt. |
 | `curated_verses.json` | 463 Kernverse aus 54 Büchern in 26 Themen für den kuratierten Zufallsmodus. Verszählung der Leitübersetzung (`elb`, englische Zählung — Psalmenüberschriften sind kein eigener Vers) |
-| `update_curated.py` | Trägt das Themenregister aus `curated_verses.json` in eine bestehende Datenbank nach (Tabelle `curated`, `meta.curated_count`) — für den Fall, dass die Quelldateien nicht zur Hand sind. Prüft jede Referenz gegen die Leitübersetzung und schreibt nichts, solange eine Stelle fehlt. Füllt anschliessend die Themennamen der übrigen Sprachen wieder auf. `--check` prüft, ohne zu schreiben. |
-| `add_topic_names.py` | Trägt die Themennamen (`topic_en`, `topic_es`, `topic_fr`, `topic_zh_hant`, `topic_zh_hans` in `curated`) in eine bestehende Datenbank nach und setzt die Schema-Version auf 4. Dieselbe Tabelle `TOPIC_NAMES` wie im Konverter. `--check` prüft, ohne zu schreiben; `--check-zh` prüft die vereinfachten Zeichen gegen cuv/cuvs der Datenbank selbst. |
+| `update_curated.py` | Trägt das Themenregister aus `curated_verses.json` in eine bestehende Datenbank nach (Tabelle `curated`, `meta.curated_count`) — für den Fall, dass die Quelldateien nicht zur Hand sind. Prüft jede Referenz gegen die Leitübersetzung und schreibt nichts, solange eine Stelle fehlt. Baut die Tabelle nach `CURATED_DDL` aus `tables.py` neu auf. `--check` prüft, ohne zu schreiben. |
 | `test_fixtures.json` | Erwartungswerte für Unit-Tests, erzeugt gegen `bible_frei_10-Uebersetzungen.sqlite`: 28 Stichproben und alle Versifikations-Abweichungen für vierzehn Übersetzungspaare |
 
 ### Dokumente

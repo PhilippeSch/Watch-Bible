@@ -40,408 +40,20 @@ import unicodedata
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 
-SCHEMA_VERSION = 4
-APPLICATION_ID = 0x42494257  # "BIBW"
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-# ---------------------------------------------------------------------------
-# Kanon-Wissen: nur fuer Testament-Zuordnung und englische Namen.
-# Die Reihenfolge selbst wird aus der Quelldatei uebernommen.
-# ---------------------------------------------------------------------------
-
-NT_CODES = {
-    "Mt", "Mk", "Lk", "Joh", "Apg", "Rom", "1Kor", "2Kor", "Gal", "Eph",
-    "Phil", "Kol", "1Th", "2Th", "1Tim", "2Tim", "Tit", "Phlm", "Hebr",
-    "Jak", "1Pt", "2Pt", "1Joh", "2Joh", "3Joh", "Jud", "Offb",
-}
-
-ENGLISH_NAMES = {
-    "1Mo": "Genesis", "2Mo": "Exodus", "3Mo": "Leviticus", "4Mo": "Numbers",
-    "5Mo": "Deuteronomy", "Jos": "Joshua", "Ri": "Judges", "Rt": "Ruth",
-    "1Sam": "1 Samuel", "2Sam": "2 Samuel", "1Kon": "1 Kings", "2Kon": "2 Kings",
-    "1Chr": "1 Chronicles", "2Chr": "2 Chronicles", "Esr": "Ezra",
-    "Neh": "Nehemiah", "Est": "Esther", "Hi": "Job", "Ps": "Psalms",
-    "Spr": "Proverbs", "Pred": "Ecclesiastes", "Hl": "Song of Solomon",
-    "Jes": "Isaiah", "Jer": "Jeremiah", "Kla": "Lamentations",
-    "Hes": "Ezekiel", "Dan": "Daniel", "Hos": "Hosea", "Joel": "Joel",
-    "Am": "Amos", "Ob": "Obadiah", "Jon": "Jonah", "Mi": "Micah",
-    "Nah": "Nahum", "Hab": "Habakkuk", "Zeph": "Zephaniah", "Hag": "Haggai",
-    "Sach": "Zechariah", "Mal": "Malachi", "Mt": "Matthew", "Mk": "Mark",
-    "Lk": "Luke", "Joh": "John", "Apg": "Acts", "Rom": "Romans",
-    "1Kor": "1 Corinthians", "2Kor": "2 Corinthians", "Gal": "Galatians",
-    "Eph": "Ephesians", "Phil": "Philippians", "Kol": "Colossians",
-    "1Th": "1 Thessalonians", "2Th": "2 Thessalonians", "1Tim": "1 Timothy",
-    "2Tim": "2 Timothy", "Tit": "Titus", "Phlm": "Philemon",
-    "Hebr": "Hebrews", "Jak": "James", "1Pt": "1 Peter", "2Pt": "2 Peter",
-    "1Joh": "1 John", "2Joh": "2 John", "3Joh": "3 John", "Jud": "Jude",
-    "Offb": "Revelation",
-}
-
-# Buchnamen der uebrigen Oberflaechensprachen. Die App zeigt Buchnamen immer
-# in ihrer Anzeigesprache, unabhaengig von der gewaehlten Uebersetzung — sie
-# gehoeren deshalb in die Datenbank und nicht in den String Catalog.
-#
-# Wo die Schreibweise schwankt, gilt die der mitgelieferten Uebersetzung
-# derselben Sprache; nachgeprueft am Verstext selbst:
-#   Spanisch (RVR1909): Ruth, Esther, Nahum, Haggeo — nicht Rut/Ester/Hageo.
-#   Franzoesisch (LSG): Habakuk, Ésaïe — nicht Habacuc/Esaïe.
-
-SPANISH_NAMES = {
-    "1Mo": "Génesis", "2Mo": "Éxodo", "3Mo": "Levítico", "4Mo": "Números",
-    "5Mo": "Deuteronomio", "Jos": "Josué", "Ri": "Jueces", "Rt": "Ruth",
-    "1Sam": "1 Samuel", "2Sam": "2 Samuel", "1Kon": "1 Reyes", "2Kon": "2 Reyes",
-    "1Chr": "1 Crónicas", "2Chr": "2 Crónicas", "Esr": "Esdras",
-    "Neh": "Nehemías", "Est": "Esther", "Hi": "Job", "Ps": "Salmos",
-    "Spr": "Proverbios", "Pred": "Eclesiastés", "Hl": "Cantares",
-    "Jes": "Isaías", "Jer": "Jeremías", "Kla": "Lamentaciones",
-    "Hes": "Ezequiel", "Dan": "Daniel", "Hos": "Oseas", "Joel": "Joel",
-    "Am": "Amós", "Ob": "Abdías", "Jon": "Jonás", "Mi": "Miqueas",
-    "Nah": "Nahum", "Hab": "Habacuc", "Zeph": "Sofonías", "Hag": "Haggeo",
-    "Sach": "Zacarías", "Mal": "Malaquías", "Mt": "Mateo", "Mk": "Marcos",
-    "Lk": "Lucas", "Joh": "Juan", "Apg": "Hechos", "Rom": "Romanos",
-    "1Kor": "1 Corintios", "2Kor": "2 Corintios", "Gal": "Gálatas",
-    "Eph": "Efesios", "Phil": "Filipenses", "Kol": "Colosenses",
-    "1Th": "1 Tesalonicenses", "2Th": "2 Tesalonicenses", "1Tim": "1 Timoteo",
-    "2Tim": "2 Timoteo", "Tit": "Tito", "Phlm": "Filemón",
-    "Hebr": "Hebreos", "Jak": "Santiago", "1Pt": "1 Pedro", "2Pt": "2 Pedro",
-    "1Joh": "1 Juan", "2Joh": "2 Juan", "3Joh": "3 Juan", "Jud": "Judas",
-    "Offb": "Apocalipsis",
-}
-
-FRENCH_NAMES = {
-    "1Mo": "Genèse", "2Mo": "Exode", "3Mo": "Lévitique", "4Mo": "Nombres",
-    "5Mo": "Deutéronome", "Jos": "Josué", "Ri": "Juges", "Rt": "Ruth",
-    "1Sam": "1 Samuel", "2Sam": "2 Samuel", "1Kon": "1 Rois", "2Kon": "2 Rois",
-    "1Chr": "1 Chroniques", "2Chr": "2 Chroniques", "Esr": "Esdras",
-    "Neh": "Néhémie", "Est": "Esther", "Hi": "Job", "Ps": "Psaumes",
-    "Spr": "Proverbes", "Pred": "Ecclésiaste", "Hl": "Cantique des cantiques",
-    "Jes": "Ésaïe", "Jer": "Jérémie", "Kla": "Lamentations",
-    "Hes": "Ézéchiel", "Dan": "Daniel", "Hos": "Osée", "Joel": "Joël",
-    "Am": "Amos", "Ob": "Abdias", "Jon": "Jonas", "Mi": "Michée",
-    "Nah": "Nahum", "Hab": "Habakuk", "Zeph": "Sophonie", "Hag": "Aggée",
-    "Sach": "Zacharie", "Mal": "Malachie", "Mt": "Matthieu", "Mk": "Marc",
-    "Lk": "Luc", "Joh": "Jean", "Apg": "Actes", "Rom": "Romains",
-    "1Kor": "1 Corinthiens", "2Kor": "2 Corinthiens", "Gal": "Galates",
-    "Eph": "Éphésiens", "Phil": "Philippiens", "Kol": "Colossiens",
-    "1Th": "1 Thessaloniciens", "2Th": "2 Thessaloniciens",
-    "1Tim": "1 Timothée", "2Tim": "2 Timothée", "Tit": "Tite",
-    "Phlm": "Philémon", "Hebr": "Hébreux", "Jak": "Jacques",
-    "1Pt": "1 Pierre", "2Pt": "2 Pierre", "1Joh": "1 Jean", "2Joh": "2 Jean",
-    "3Joh": "3 Jean", "Jud": "Jude", "Offb": "Apocalypse",
-}
-
-# Chinesisch traditionell, Namensgebung des 和合本.
-CHINESE_TRAD_NAMES = {
-    "1Mo": "創世記", "2Mo": "出埃及記", "3Mo": "利未記", "4Mo": "民數記",
-    "5Mo": "申命記", "Jos": "約書亞記", "Ri": "士師記", "Rt": "路得記",
-    "1Sam": "撒母耳記上", "2Sam": "撒母耳記下", "1Kon": "列王紀上",
-    "2Kon": "列王紀下", "1Chr": "歷代志上", "2Chr": "歷代志下",
-    "Esr": "以斯拉記", "Neh": "尼希米記", "Est": "以斯帖記", "Hi": "約伯記",
-    "Ps": "詩篇", "Spr": "箴言", "Pred": "傳道書", "Hl": "雅歌",
-    "Jes": "以賽亞書", "Jer": "耶利米書", "Kla": "耶利米哀歌",
-    "Hes": "以西結書", "Dan": "但以理書", "Hos": "何西阿書", "Joel": "約珥書",
-    "Am": "阿摩司書", "Ob": "俄巴底亞書", "Jon": "約拿書", "Mi": "彌迦書",
-    "Nah": "那鴻書", "Hab": "哈巴谷書", "Zeph": "西番雅書", "Hag": "哈該書",
-    "Sach": "撒迦利亞書", "Mal": "瑪拉基書", "Mt": "馬太福音", "Mk": "馬可福音",
-    "Lk": "路加福音", "Joh": "約翰福音", "Apg": "使徒行傳", "Rom": "羅馬書",
-    "1Kor": "哥林多前書", "2Kor": "哥林多後書", "Gal": "加拉太書",
-    "Eph": "以弗所書", "Phil": "腓立比書", "Kol": "歌羅西書",
-    "1Th": "帖撒羅尼迦前書", "2Th": "帖撒羅尼迦後書", "1Tim": "提摩太前書",
-    "2Tim": "提摩太後書", "Tit": "提多書", "Phlm": "腓利門書",
-    "Hebr": "希伯來書", "Jak": "雅各書", "1Pt": "彼得前書", "2Pt": "彼得後書",
-    "1Joh": "約翰一書", "2Joh": "約翰二書", "3Joh": "約翰三書", "Jud": "猶大書",
-    "Offb": "啟示錄",
-}
-
-# Chinesisch vereinfacht. Geprueft gegen die Zeichenabbildung, die sich aus
-# den 31'101 ausgerichteten Verspaaren cuv/cuvs der Datenbank ergibt —
-# jedes Zeichen ist im Bibeltext belegt, keine Abweichung.
-CHINESE_SIMP_NAMES = {
-    "1Mo": "创世记", "2Mo": "出埃及记", "3Mo": "利未记", "4Mo": "民数记",
-    "5Mo": "申命记", "Jos": "约书亚记", "Ri": "士师记", "Rt": "路得记",
-    "1Sam": "撒母耳记上", "2Sam": "撒母耳记下", "1Kon": "列王纪上",
-    "2Kon": "列王纪下", "1Chr": "历代志上", "2Chr": "历代志下",
-    "Esr": "以斯拉记", "Neh": "尼希米记", "Est": "以斯帖记", "Hi": "约伯记",
-    "Ps": "诗篇", "Spr": "箴言", "Pred": "传道书", "Hl": "雅歌",
-    "Jes": "以赛亚书", "Jer": "耶利米书", "Kla": "耶利米哀歌",
-    "Hes": "以西结书", "Dan": "但以理书", "Hos": "何西阿书", "Joel": "约珥书",
-    "Am": "阿摩司书", "Ob": "俄巴底亚书", "Jon": "约拿书", "Mi": "弥迦书",
-    "Nah": "那鸿书", "Hab": "哈巴谷书", "Zeph": "西番雅书", "Hag": "哈该书",
-    "Sach": "撒迦利亚书", "Mal": "玛拉基书", "Mt": "马太福音", "Mk": "马可福音",
-    "Lk": "路加福音", "Joh": "约翰福音", "Apg": "使徒行传", "Rom": "罗马书",
-    "1Kor": "哥林多前书", "2Kor": "哥林多后书", "Gal": "加拉太书",
-    "Eph": "以弗所书", "Phil": "腓立比书", "Kol": "歌罗西书",
-    "1Th": "帖撒罗尼迦前书", "2Th": "帖撒罗尼迦后书", "1Tim": "提摩太前书",
-    "2Tim": "提摩太后书", "Tit": "提多书", "Phlm": "腓利门书",
-    "Hebr": "希伯来书", "Jak": "雅各书", "1Pt": "彼得前书", "2Pt": "彼得后书",
-    "1Joh": "约翰一书", "2Joh": "约翰二书", "3Joh": "约翰三书", "Jud": "犹大书",
-    "Offb": "启示录",
-}
-
-# Sprachkennung -> Namenstabelle. Die Spalte heisst name_<kennung mit _>.
-BOOK_NAME_TABLES = {
-    "en": ENGLISH_NAMES,
-    "es": SPANISH_NAMES,
-    "fr": FRENCH_NAMES,
-    "zh_hant": CHINESE_TRAD_NAMES,
-    "zh_hans": CHINESE_SIMP_NAMES,
-}
-
-# ---------------------------------------------------------------------------
-# Buchkuerzel je Sprache.
-#
-# Sie sind die kurze Form fuer enge Stellen — das Register der Buchliste und
-# die runde Komplikation. Genommen ist jeweils der in der Sprache uebliche
-# Satz, nicht eine selbstgebaute Kuerzung:
-#
-#   de  Elberfelder/Schlachter, also 1Mo statt des Loccumer «Gen». Die
-#       deutschen Buchnamen der Datenbank stehen in derselben Tradition
-#       («1. Mose», «Hiob», «Prediger»); Loccum wuerde dazu nicht passen.
-#   en  SBL Handbook of Style, der akademische Standard des englischen
-#       Sprachraums (Gen, Exod, 1 Sam, Matt, Rev).
-#   es  Reina-Valera in der Form der Sociedades Biblicas Unidas.
-#   fr  Louis Segond in der Form der Alliance biblique francaise.
-#   zh  Der Kuerzelsatz des 和合本 (創, 出, 撒上, 林前, 啟).
-#
-# `book.code` bleibt davon unberuehrt: der ist Schluessel (curated_verses.json,
-# test_fixtures.json, OSIS-Zuordnung) und keine Anzeige.
-# ---------------------------------------------------------------------------
-
-GERMAN_ABBREV = {
-    "1Mo": "1Mo", "2Mo": "2Mo", "3Mo": "3Mo", "4Mo": "4Mo", "5Mo": "5Mo",
-    "Jos": "Jos", "Ri": "Ri", "Rt": "Rt", "1Sam": "1Sam", "2Sam": "2Sam",
-    "1Kon": "1Kö", "2Kon": "2Kö", "1Chr": "1Chr", "2Chr": "2Chr",
-    "Esr": "Esr", "Neh": "Neh", "Est": "Est", "Hi": "Hi", "Ps": "Ps",
-    "Spr": "Spr", "Pred": "Pred", "Hl": "Hld", "Jes": "Jes", "Jer": "Jer",
-    "Kla": "Kla", "Hes": "Hes", "Dan": "Dan", "Hos": "Hos", "Joel": "Joel",
-    "Am": "Am", "Ob": "Ob", "Jon": "Jon", "Mi": "Mi", "Nah": "Nah",
-    "Hab": "Hab", "Zeph": "Zeph", "Hag": "Hag", "Sach": "Sach", "Mal": "Mal",
-    "Mt": "Mt", "Mk": "Mk", "Lk": "Lk", "Joh": "Joh", "Apg": "Apg",
-    "Rom": "Röm", "1Kor": "1Kor", "2Kor": "2Kor", "Gal": "Gal",
-    "Eph": "Eph", "Phil": "Phil", "Kol": "Kol", "1Th": "1Thes", "2Th": "2Thes",
-    "1Tim": "1Tim", "2Tim": "2Tim", "Tit": "Tit", "Phlm": "Phlm",
-    "Hebr": "Hebr", "Jak": "Jak", "1Pt": "1Petr", "2Pt": "2Petr",
-    "1Joh": "1Joh", "2Joh": "2Joh", "3Joh": "3Joh", "Jud": "Jud",
-    "Offb": "Offb",
-}
-
-ENGLISH_ABBREV = {
-    "1Mo": "Gen", "2Mo": "Exod", "3Mo": "Lev", "4Mo": "Num", "5Mo": "Deut",
-    "Jos": "Josh", "Ri": "Judg", "Rt": "Ruth", "1Sam": "1 Sam", "2Sam": "2 Sam",
-    "1Kon": "1 Kgs", "2Kon": "2 Kgs", "1Chr": "1 Chr", "2Chr": "2 Chr",
-    "Esr": "Ezra", "Neh": "Neh", "Est": "Esth", "Hi": "Job", "Ps": "Ps",
-    "Spr": "Prov", "Pred": "Eccl", "Hl": "Song", "Jes": "Isa", "Jer": "Jer",
-    "Kla": "Lam", "Hes": "Ezek", "Dan": "Dan", "Hos": "Hos", "Joel": "Joel",
-    "Am": "Amos", "Ob": "Obad", "Jon": "Jonah", "Mi": "Mic", "Nah": "Nah",
-    "Hab": "Hab", "Zeph": "Zeph", "Hag": "Hag", "Sach": "Zech", "Mal": "Mal",
-    "Mt": "Matt", "Mk": "Mark", "Lk": "Luke", "Joh": "John", "Apg": "Acts",
-    "Rom": "Rom", "1Kor": "1 Cor", "2Kor": "2 Cor", "Gal": "Gal",
-    "Eph": "Eph", "Phil": "Phil", "Kol": "Col", "1Th": "1 Thess",
-    "2Th": "2 Thess", "1Tim": "1 Tim", "2Tim": "2 Tim", "Tit": "Titus",
-    "Phlm": "Phlm", "Hebr": "Heb", "Jak": "Jas", "1Pt": "1 Pet",
-    "2Pt": "2 Pet", "1Joh": "1 John", "2Joh": "2 John", "3Joh": "3 John",
-    "Jud": "Jude", "Offb": "Rev",
-}
-
-SPANISH_ABBREV = {
-    "1Mo": "Gn", "2Mo": "Ex", "3Mo": "Lv", "4Mo": "Nm", "5Mo": "Dt",
-    "Jos": "Jos", "Ri": "Jue", "Rt": "Rt", "1Sam": "1 S", "2Sam": "2 S",
-    "1Kon": "1 R", "2Kon": "2 R", "1Chr": "1 Cr", "2Chr": "2 Cr",
-    "Esr": "Esd", "Neh": "Neh", "Est": "Est", "Hi": "Job", "Ps": "Sal",
-    "Spr": "Pr", "Pred": "Ec", "Hl": "Cnt", "Jes": "Is", "Jer": "Jer",
-    "Kla": "Lm", "Hes": "Ez", "Dan": "Dn", "Hos": "Os", "Joel": "Jl",
-    "Am": "Am", "Ob": "Abd", "Jon": "Jon", "Mi": "Miq", "Nah": "Nah",
-    "Hab": "Hab", "Zeph": "Sof", "Hag": "Hag", "Sach": "Zac", "Mal": "Mal",
-    "Mt": "Mt", "Mk": "Mr", "Lk": "Lc", "Joh": "Jn", "Apg": "Hch",
-    "Rom": "Ro", "1Kor": "1 Co", "2Kor": "2 Co", "Gal": "Gá",
-    "Eph": "Ef", "Phil": "Fil", "Kol": "Col", "1Th": "1 Ts", "2Th": "2 Ts",
-    "1Tim": "1 Ti", "2Tim": "2 Ti", "Tit": "Tit", "Phlm": "Flm",
-    "Hebr": "He", "Jak": "Stg", "1Pt": "1 P", "2Pt": "2 P",
-    "1Joh": "1 Jn", "2Joh": "2 Jn", "3Joh": "3 Jn", "Jud": "Jud",
-    "Offb": "Ap",
-}
-
-FRENCH_ABBREV = {
-    "1Mo": "Gn", "2Mo": "Ex", "3Mo": "Lv", "4Mo": "Nb", "5Mo": "Dt",
-    "Jos": "Jos", "Ri": "Jg", "Rt": "Rt", "1Sam": "1 S", "2Sam": "2 S",
-    "1Kon": "1 R", "2Kon": "2 R", "1Chr": "1 Ch", "2Chr": "2 Ch",
-    "Esr": "Esd", "Neh": "Né", "Est": "Est", "Hi": "Jb", "Ps": "Ps",
-    "Spr": "Pr", "Pred": "Ec", "Hl": "Ct", "Jes": "És", "Jer": "Jr",
-    "Kla": "Lm", "Hes": "Éz", "Dan": "Dn", "Hos": "Os", "Joel": "Jl",
-    "Am": "Am", "Ob": "Ab", "Jon": "Jon", "Mi": "Mi", "Nah": "Na",
-    "Hab": "Ha", "Zeph": "So", "Hag": "Ag", "Sach": "Za", "Mal": "Ml",
-    "Mt": "Mt", "Mk": "Mc", "Lk": "Lc", "Joh": "Jn", "Apg": "Ac",
-    "Rom": "Rm", "1Kor": "1 Co", "2Kor": "2 Co", "Gal": "Ga",
-    "Eph": "Ép", "Phil": "Ph", "Kol": "Col", "1Th": "1 Th", "2Th": "2 Th",
-    "1Tim": "1 Tm", "2Tim": "2 Tm", "Tit": "Tt", "Phlm": "Phm",
-    "Hebr": "Hé", "Jak": "Jc", "1Pt": "1 P", "2Pt": "2 P",
-    "1Joh": "1 Jn", "2Joh": "2 Jn", "3Joh": "3 Jn", "Jud": "Jude",
-    "Offb": "Ap",
-}
-
-CHINESE_TRAD_ABBREV = {
-    "1Mo": "創", "2Mo": "出", "3Mo": "利", "4Mo": "民",
-    "5Mo": "申", "Jos": "書", "Ri": "士", "Rt": "得",
-    "1Sam": "撒上", "2Sam": "撒下", "1Kon": "王上",
-    "2Kon": "王下", "1Chr": "代上", "2Chr": "代下",
-    "Esr": "拉", "Neh": "尼", "Est": "斯", "Hi": "伯",
-    "Ps": "詩", "Spr": "箴", "Pred": "傳", "Hl": "歌",
-    "Jes": "賽", "Jer": "耶", "Kla": "哀", "Hes": "結",
-    "Dan": "但", "Hos": "何", "Joel": "珥", "Am": "摩",
-    "Ob": "俄", "Jon": "拿", "Mi": "彌", "Nah": "鴻",
-    "Hab": "哈", "Zeph": "番", "Hag": "該", "Sach": "亞",
-    "Mal": "瑪", "Mt": "太", "Mk": "可", "Lk": "路",
-    "Joh": "約", "Apg": "徒", "Rom": "羅", "1Kor": "林前",
-    "2Kor": "林後", "Gal": "加", "Eph": "弗", "Phil": "腓",
-    "Kol": "西", "1Th": "帖前", "2Th": "帖後",
-    "1Tim": "提前", "2Tim": "提後", "Tit": "多",
-    "Phlm": "門", "Hebr": "來", "Jak": "雅",
-    "1Pt": "彼前", "2Pt": "彼後", "1Joh": "約壹",
-    "2Joh": "約貳", "3Joh": "約參", "Jud": "猶",
-    "Offb": "啟",
-}
-
-# Vereinfachte Kuerzel. Bis auf eine Ausnahme die Zeichenentsprechung der
-# traditionellen Form; `add_book_names.py --check-zh` prueft das gegen die
-# Zeichenabbildung, die sich aus cuv/cuvs der Datenbank selbst ergibt.
-#
-# Ausnahme 3Joh: 約參 wird mechanisch zu 约参 (wie in 参加), gemeint ist aber
-# die foermliche Ziffer Drei. Die lautet vereinfacht 叁, also 约叁.
-CHINESE_SIMP_ABBREV = {
-    "1Mo": "创", "2Mo": "出", "3Mo": "利", "4Mo": "民",
-    "5Mo": "申", "Jos": "书", "Ri": "士", "Rt": "得",
-    "1Sam": "撒上", "2Sam": "撒下", "1Kon": "王上",
-    "2Kon": "王下", "1Chr": "代上", "2Chr": "代下",
-    "Esr": "拉", "Neh": "尼", "Est": "斯", "Hi": "伯",
-    "Ps": "诗", "Spr": "箴", "Pred": "传", "Hl": "歌",
-    "Jes": "赛", "Jer": "耶", "Kla": "哀", "Hes": "结",
-    "Dan": "但", "Hos": "何", "Joel": "珥", "Am": "摩",
-    "Ob": "俄", "Jon": "拿", "Mi": "弥", "Nah": "鸿",
-    "Hab": "哈", "Zeph": "番", "Hag": "该", "Sach": "亚",
-    "Mal": "玛", "Mt": "太", "Mk": "可", "Lk": "路",
-    "Joh": "约", "Apg": "徒", "Rom": "罗", "1Kor": "林前",
-    "2Kor": "林后", "Gal": "加", "Eph": "弗", "Phil": "腓",
-    "Kol": "西", "1Th": "帖前", "2Th": "帖后",
-    "1Tim": "提前", "2Tim": "提后", "Tit": "多",
-    "Phlm": "门", "Hebr": "来", "Jak": "雅",
-    "1Pt": "彼前", "2Pt": "彼后", "1Joh": "约壹",
-    "2Joh": "约贰", "3Joh": "约叁", "Jud": "犹",
-    "Offb": "启",
-}
-
-# Sprachkennung -> Kuerzeltabelle. Die Spalte heisst abbrev_<kennung mit _>.
-# Anders als bei den Namen ist auch Deutsch dabei: `book.name` traegt den
-# deutschen Namen, aber `book.code` ist ausdruecklich kein Kuerzel.
-BOOK_ABBREV_TABLES = {
-    "de": GERMAN_ABBREV,
-    "en": ENGLISH_ABBREV,
-    "es": SPANISH_ABBREV,
-    "fr": FRENCH_ABBREV,
-    "zh_hant": CHINESE_TRAD_ABBREV,
-    "zh_hans": CHINESE_SIMP_ABBREV,
-}
-
-# ---------------------------------------------------------------------------
-# Themen des Versregisters je Sprache.
-#
-# `curated.topic` in curated_verses.json ist deutsch und bleibt der Schluessel —
-# wie `book.code`. Die uebrigen Sprachen stehen in `curated` als eigene Spalten
-# (topic_en, topic_es, …) und nicht im String Catalog: die Themenliste ist
-# Datenbankinhalt, kein Oberflaechentext. Kommt ein Thema dazu, zeigt die App es
-# ohne Codeaenderung; nur die Uebersetzung wird hier ergaenzt. Fehlt eine, meldet
-# der Konverter das und schreibt NULL — die App faellt dann auf Deutsch zurueck.
-#
-# Gewaehlt ist je Sprache das in Bibelausgaben und Konkordanzen uebliche Wort,
-# nicht die woertliche Uebersetzung: «Nachfolge» heisst englisch Discipleship
-# und chinesisch 門徒, «Umkehr» heisst spanisch Arrepentimiento.
-# ---------------------------------------------------------------------------
-
-TOPIC_NAMES = {
-    #  deutsch          en                es                 fr                 zh-Hant   zh-Hans
-    "Auftrag":       ("Mission",       "Misión",          "Mission",         "使命",   "使命"),
-    "Christus":      ("Christ",        "Cristo",          "Christ",          "基督",   "基督"),
-    "Dank":          ("Thanksgiving",  "Gratitud",        "Reconnaissance",  "感恩",   "感恩"),
-    "Demut":         ("Humility",      "Humildad",        "Humilité",        "謙卑",   "谦卑"),
-    "Endzeit":       ("Last Things",   "Últimos tiempos", "Fin des temps",   "末世",   "末世"),
-    "Evangelium":    ("Gospel",        "Evangelio",       "Évangile",        "福音",   "福音"),
-    "Freude":        ("Joy",           "Gozo",            "Joie",            "喜樂",   "喜乐"),
-    "Führung":       ("Guidance",      "Dirección",       "Direction",       "引導",   "引导"),
-    "Gebet":         ("Prayer",        "Oración",         "Prière",          "禱告",   "祷告"),
-    "Gebot":         ("Commandment",   "Mandamiento",     "Commandement",    "誡命",   "诫命"),
-    "Gemeinde":      ("Church",        "Iglesia",         "Église",          "教會",   "教会"),
-    "Glaube":        ("Faith",         "Fe",              "Foi",             "信心",   "信心"),
-    "Gott":          ("God",           "Dios",            "Dieu",            "神",     "神"),
-    "Heiliger Geist":("Holy Spirit",   "Espíritu Santo",  "Saint-Esprit",    "聖靈",   "圣灵"),
-    "Hoffnung":      ("Hope",          "Esperanza",       "Espérance",       "盼望",   "盼望"),
-    "Liebe":         ("Love",          "Amor",            "Amour",           "愛",     "爱"),
-    "Lob":           ("Praise",        "Alabanza",        "Louange",         "讚美",   "赞美"),
-    "Nachfolge":     ("Discipleship",  "Discipulado",     "Disciple",        "門徒",   "门徒"),
-    "Segen":         ("Blessing",      "Bendición",       "Bénédiction",     "祝福",   "祝福"),
-    "Treue":         ("Faithfulness",  "Fidelidad",       "Fidélité",        "信實",   "信实"),
-    "Trost":         ("Comfort",       "Consuelo",        "Consolation",     "安慰",   "安慰"),
-    "Umkehr":        ("Repentance",    "Arrepentimiento", "Repentance",      "悔改",   "悔改"),
-    "Vergebung":     ("Forgiveness",   "Perdón",          "Pardon",          "赦免",   "赦免"),
-    "Vertrauen":     ("Trust",         "Confianza",       "Confiance",       "倚靠",   "倚靠"),
-    "Weisheit":      ("Wisdom",        "Sabiduría",       "Sagesse",         "智慧",   "智慧"),
-    "Wort Gottes":   ("Word of God",   "Palabra de Dios", "Parole de Dieu",  "神的話", "神的话"),
-}
-
-# Sprachkennung -> Themenspalte -> Tabelle. Die Spalte heisst topic_<kennung>.
-TOPIC_NAME_TABLES = {
-    kennung: {thema: werte[i] for thema, werte in TOPIC_NAMES.items()}
-    for i, kennung in enumerate(("en", "es", "fr", "zh_hant", "zh_hans"))
-}
-
-# Sprache und Copyright-Zeile je Uebersetzungscode. Wird in die DB geschrieben
-# und in der App im Impressum angezeigt. Bei Bedarf hier ergaenzen.
-TRANSLATION_META = {
-    "slt": ("de", "Schlachter 2000, \u00a9 2000 Genfer Bibelgesellschaft. "
-                  "Verwendung nur mit Genehmigung."),
-    "sch1951": ("de", "Schlachter 1951, \u00a9 1951 Genfer Bibelgesellschaft. "
-                      "Lizenziert unter Creative Commons Attribution 4.0 "
-                      "(CC BY 4.0)."),
-    "elb": ("de", "Elberfelder Bibel 1905. Gemeinfrei."),
-    "dar": ("en", "Darby Bible (J. N. Darby). Gemeinfrei."),
-    "kjv": ("en", "King James Version (1611/1769). "
-                  "Gemeinfrei ausserhalb des Vereinigten Koenigreichs."),
-    "lut": ("de", "Luther 1912. Gemeinfrei."),
-    "meng": ("de", "Menge-Bibel. Gemeinfrei."),
-    "bsb": ("en", "Berean Standard Bible (BSB). Gemeinfrei; von den Rechteinhabern "
-                  "am 30. April 2023 in die Public Domain entlassen."),
-    "cuv":  ("zh-Hant", "\u548c\u5408\u672c Chinese Union Version (1919). "
-                        "Gemeinfrei, Schutzfrist abgelaufen."),
-    "rvr1909": ("es", "Reina-Valera 1909. Gemeinfrei."),
-    "lsg":  ("fr", "Louis Segond 1910. Gemeinfrei."),
-    "cuvs": ("zh-Hans", "\u548c\u5408\u672c Chinese Union Version (1919). "
-                        "Gemeinfrei, Schutzfrist abgelaufen. Vereinfachte Zeichen "
-                        "maschinell aus der traditionellen Ausgabe (OpenCC t2s)."),
-}
-
-# Reihenfolge, in der die Uebersetzungen in der App erscheinen (sort_order).
-#
-# Sie ist keine Kosmetik: die App waehlt beim allerersten Start die **erste
-# Uebersetzung der Anzeigesprache** aus dieser Reihenfolge, und dieselbe steht
-# in der Auswahl zuoberst. Wer fuer eine Sprache eine andere Vorgabe will,
-# aendert diese Liste — nicht den Swift-Code.
-#
-# Je Sprache steht die Leitausgabe vorn: Deutsch Elberfelder, Englisch King
-# James, Chinesisch die traditionelle Ausgabe. Codes, die hier fehlen, haengen
-# sich hinten in der Reihenfolge der Quelle an.
-TRANSLATION_ORDER = [
-    "elb", "kjv", "dar", "slt", "sch1951", "lut", "meng",
-    "cuv", "cuvs", "rvr1909", "lsg", "bsb",
-]
-
-# Anzeigename je Code, falls die Quelle keinen mitliefert.
-TRANSLATION_NAMES = {
-    "sch1951": ("SCH", "Schlachter 1951"),
-    "lut": ("LUT", "Luther 1912"),
-    "meng": ("MENG", "Menge-Bibel"),
-    "bsb": ("BSB", "Berean Standard Bible"),
-    "cuv":  ("CUV", "\u548c\u5408\u672c\uff08\u7e41\u9ad4\uff09"),
-    "rvr1909": ("RVR", "Reina-Valera 1909"),
-    "lsg":  ("LSG", "Louis Segond 1910"),
-    "cuvs": ("CUVS", "\u548c\u5408\u672c\uff08\u7b80\u4f53\uff09"),
-}
+# Die Nachschlagetabellen — Kanonwissen, Buchnamen, Buchkuerzel,
+# Uebersetzungsreihenfolge, Schema-Version, DDL der Tabelle `curated` —
+# stehen in tables.py. Dieses Modul beschreibt, wie die Quellen gelesen
+# werden; jenes, was in der Datenbank steht. Die Nachtragsskripte importieren
+# dort, nicht hier.
+from tables import (  # noqa: E402
+    APPLICATION_ID, BOOK_ABBREV_TABLES, BOOK_NAME_TABLES, CHINESE_SIMP_ABBREV,
+    CHINESE_SIMP_NAMES, CHINESE_TRAD_ABBREV, CHINESE_TRAD_NAMES, CURATED_DDL,
+    ENGLISH_ABBREV, ENGLISH_NAMES, FRENCH_ABBREV, FRENCH_NAMES, GERMAN_ABBREV,
+    NT_CODES, SCHEMA_VERSION, SPANISH_ABBREV, SPANISH_NAMES, TRANSLATION_META,
+    TRANSLATION_NAMES, TRANSLATION_ORDER,
+)
 
 # OSIS-Buchkuerzel -> Buchcode der quotepas-Datei.
 OSIS_BOOKS = {
@@ -1003,21 +615,7 @@ CREATE TABLE chapter_meta (
     PRIMARY KEY (translation_id, book_id, chapter)
 ) WITHOUT ROWID;
 
-CREATE TABLE curated (
-    id             INTEGER PRIMARY KEY,
-    book_id        INTEGER NOT NULL,
-    chapter        INTEGER NOT NULL,
-    verse          INTEGER NOT NULL,
-    topic          TEXT,
-    topic_en       TEXT,
-    topic_es       TEXT,
-    topic_fr       TEXT,
-    topic_zh_hant  TEXT,
-    topic_zh_hans  TEXT
-);
-
-CREATE UNIQUE INDEX idx_curated_ref ON curated (book_id, chapter, verse);
-"""
+""" + CURATED_DDL
 
 
 def build_database(res: ParseResult, out_path: str, source_name: str,
@@ -1094,7 +692,7 @@ def build_database(res: ParseResult, out_path: str, source_name: str,
 
     # Kuratierte Auswahl: jede Referenz gegen die Leituebersetzung pruefen.
     master = trans_id[keep[0]]
-    curated_ok, curated_missing, topics_missing = 0, [], set()
+    curated_ok, curated_missing = 0, []
     for i, item in enumerate(curated, start=1):
         bcode = item["book"]
         if bcode not in book_id:
@@ -1108,16 +706,10 @@ def build_database(res: ParseResult, out_path: str, source_name: str,
         if row is None:
             curated_missing.append(f"{bcode} {item['chapter']},{item['verse']}")
             continue
-        topic = item.get("topic")
-        if topic is not None and topic not in TOPIC_NAMES:
-            topics_missing.add(topic)
         con.execute(
-            "INSERT OR IGNORE INTO curated (book_id, chapter, verse, topic,"
-            " topic_en, topic_es, topic_fr, topic_zh_hant, topic_zh_hans)"
-            " VALUES (?,?,?,?,?,?,?,?,?)",
-            (book_id[bcode], item["chapter"], item["verse"], topic,
-             *(TOPIC_NAME_TABLES[k].get(topic) for k in
-               ("en", "es", "fr", "zh_hant", "zh_hans"))),
+            "INSERT OR IGNORE INTO curated (book_id, chapter, verse, topic)"
+            " VALUES (?,?,?,?)",
+            (book_id[bcode], item["chapter"], item["verse"], item.get("topic")),
         )
         curated_ok += 1
 
@@ -1136,9 +728,7 @@ def build_database(res: ParseResult, out_path: str, source_name: str,
     con.execute("VACUUM")
     con.close()
     return {"per_translation": stats, "curated_ok": curated_ok,
-            "curated_missing": curated_missing,
-            "topics_missing": sorted(topics_missing),
-            "books": len(res.book_order)}
+            "curated_missing": curated_missing, "books": len(res.book_order)}
 
 
 # ---------------------------------------------------------------------------
@@ -1254,9 +844,6 @@ def main() -> int:
               f"{len(stats['curated_missing'])} nicht gefunden")
         for miss in stats["curated_missing"][:10]:
             print(f"    fehlt: {miss}")
-        for thema in stats["topics_missing"]:
-            print(f"    Thema ohne Uebersetzung (bleibt deutsch): {thema}"
-                  " — in TOPIC_NAMES ergaenzen")
     if size_mb > 70:
         print("WARNUNG: Watch-App-Bundle darf unkomprimiert 75 MB nicht "
               "ueberschreiten. Uebersetzungen reduzieren.")

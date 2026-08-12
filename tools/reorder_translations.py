@@ -4,7 +4,7 @@ reorder_translations.py
 =======================
 
 Setzt `translation.sort_order` einer bestehenden `bible.sqlite` auf die
-Reihenfolge, die `TRANSLATION_ORDER` in `quotepas_to_sqlite.py` vorgibt.
+Reihenfolge, die `TRANSLATION_ORDER` in `tables.py` vorgibt.
 
 Wozu: `sort_order` bestimmt, in welcher Reihenfolge die App die Uebersetzungen
 anbietet — und damit auch die Vorgabe, denn beim allerersten Start waehlt sie
@@ -34,7 +34,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from quotepas_to_sqlite import TRANSLATION_ORDER  # noqa: E402
+from tables import TRANSLATION_ORDER  # noqa: E402
 
 
 def gewuenschte_reihenfolge(codes: list[str]) -> list[str]:

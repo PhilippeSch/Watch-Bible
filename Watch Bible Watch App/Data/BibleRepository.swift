@@ -81,55 +81,26 @@ actor BibleRepository {
         try await loadTopics()
     }
 
-    /// Themenregister. Die Namensspalten werden wie bei den Buechern erst
-    /// gesucht und dann angehaengt: eine Datenbank aus einem aelteren
-    /// Konverterlauf kennt sie noch nicht, und ein `no such column` beim
-    /// Vorbereiten wuerde die ganze App lahmlegen. Fehlt eine Spalte, bleibt
-    /// fuer diese Sprache das deutsche Thema stehen (tools/add_topic_names.py
-    /// traegt sie nach).
+    /// Themenregister: welche Themen es gibt und welche Stellen dazugehoeren.
+    /// Wie ein Thema geschrieben wird, steht im String Catalog — hier nicht.
     private func loadTopics() async throws {
-        let columns = Set(try await db.query("PRAGMA table_info(curated)") { $0.string(1) })
-        let nameColumns = [("en", "topic_en"), ("es", "topic_es"),
-                           ("fr", "topic_fr"), ("zh-Hant", "topic_zh_hant"),
-                           ("zh-Hans", "topic_zh_hans")]
-            .filter { columns.contains($0.1) }
-        let fixed = ["topic", "book_id", "chapter", "verse"]
-        let selection = (fixed + nameColumns.map(\.1)).joined(separator: ", ")
-        let nameBase = Int32(fixed.count)
-
-        struct Row {
-            let topic: String
-            let names: [String: String]
-            let reference: VerseReference
-        }
         let rows = try await db.query("""
-            SELECT \(selection) FROM curated
+            SELECT topic, book_id, chapter, verse FROM curated
              WHERE topic IS NOT NULL ORDER BY topic, id
             """) { r in
-            var names = ["de": r.string(0)]
-            for (offset, column) in nameColumns.enumerated() {
-                if let name = r.stringOrNil(nameBase + Int32(offset)) {
-                    names[column.0] = name
-                }
-            }
-            return Row(topic: r.string(0), names: names,
-                       reference: VerseReference(bookID: r.int(1),
-                                                 chapter: r.int(2),
-                                                 verse: r.int(3)))
+            (r.string(0), VerseReference(bookID: r.int(1), chapter: r.int(2),
+                                         verse: r.int(3)))
         }
 
         var references: [String: [VerseReference]] = [:]
-        var names: [String: [String: String]] = [:]
         var order: [String] = []
-        for row in rows {
-            if references[row.topic] == nil { order.append(row.topic) }
-            references[row.topic, default: []].append(row.reference)
-            names[row.topic] = row.names
+        for (topic, reference) in rows {
+            if references[topic] == nil { order.append(topic) }
+            references[topic, default: []].append(reference)
         }
         curatedByTopic = references
         topics = order.map { key in
-            Topic(key: key, names: names[key] ?? ["de": key],
-                  verseCount: references[key]?.count ?? 0)
+            Topic(key: key, verseCount: references[key]?.count ?? 0)
         }
     }
 

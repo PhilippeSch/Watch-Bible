@@ -42,6 +42,8 @@ Alle Texte über `Resources/Localizable.xcstrings` — **kein Klartext in Views*
 
 **Sprachkennungen nie auf zwei Zeichen kürzen.** `zh-Hant` und `zh-Hans` unterscheiden sich in der Schrift; `prefix(2)` trifft keine der beiden chinesischen Übersetzungen. Normalisierung läuft über `Localization.normalized`.
 
+**Themennamen dagegen stehen im Katalog**, unter `topic.<deutscher Wert>` — der deutsche Wert aus `curated.topic` ist zugleich der Schlüssel. Der Unterschied zu den Buchnamen ist die Bindung an den Text: ein Buchname muss der Rechtschreibung der Übersetzung folgen, in der der Vers steht, ein Themenname ist blosse Beschriftung. Die Datenbank sagt, **welche** Themen es gibt, der Katalog, **wie sie geschrieben werden**; ein Unit-Test hält beides deckungsgleich.
+
 Der Trenner der Stellenangabe unterscheidet sich: «Johannes 3,16» gegen «John 3:16». Nie fest verdrahten, immer über `reference.format`.
 
 Vorgabe der Bibelübersetzung: die **erste Übersetzung der Anzeigesprache in Datenbankreihenfolge** — dieselbe, die in der Auswahl zuoberst steht. Keine fest verdrahteten Codes. Das gilt **nur beim ersten Start**; eine vom Nutzer gewählte Übersetzung wird nie durch einen Sprachwechsel überschrieben. Logik liegt in `Shared/Localization.swift`.

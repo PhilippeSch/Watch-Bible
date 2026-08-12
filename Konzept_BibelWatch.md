@@ -52,8 +52,7 @@ book          (id, code, name, name_en, name_es, name_fr, name_zh_hant,
                name_zh_hans, testament, chapter_count, sort_order)
 verse         (id, translation_id, book_id, chapter, verse, text)
 chapter_meta  (translation_id, book_id, chapter, verse_count)
-curated       (id, book_id, chapter, verse, topic, topic_en, topic_es,
-               topic_fr, topic_zh_hant, topic_zh_hans)
+curated       (id, book_id, chapter, verse, topic)
 ```
 
 Zwei Kniffe, die den Watch-Code einfach halten:
@@ -93,12 +92,11 @@ SELECT chapter, verse_count FROM chapter_meta
  WHERE translation_id = ? AND book_id = ? ORDER BY chapter;
 
 -- 5. Themenregister  (einmal beim Start; die Ziehung selbst läuft in Swift)
-SELECT topic, topic_en, topic_es, topic_fr, topic_zh_hant, topic_zh_hans,
-       book_id, chapter, verse
+SELECT topic, book_id, chapter, verse
   FROM curated WHERE topic IS NOT NULL ORDER BY topic, id;
 ```
 
-Die fünfte Abfrage liest wenige hundert Zeilen und wird nie wiederholt: Themenliste, Anzahl Verse je Thema und die Stellen des Themenmodus stehen danach im Speicher. Ein Zufallsvers innerhalb eines Themas kostet damit genau eine Stellenabfrage (Nr. 3), keinen Durchlauf über `curated`.
+Die fünfte Abfrage liest wenige hundert Zeilen und wird nie wiederholt: Themenliste, Anzahl Verse je Thema und die Stellen des Themenmodus stehen danach im Speicher. `topic` ist deutsch und zugleich Schlüssel; die Schreibweise in den übrigen Sprachen kommt aus dem String Catalog («topic.<deutscher Wert>»), nicht aus der Datenbank. Ein Zufallsvers innerhalb eines Themas kostet damit genau eine Stellenabfrage (Nr. 3), keinen Durchlauf über `curated`.
 
 ---
 
