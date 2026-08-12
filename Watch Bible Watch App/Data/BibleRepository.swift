@@ -170,7 +170,7 @@ actor BibleRepository {
     ///
     /// Die Liste wird gemischt und die erste Stelle genommen, die es in dieser
     /// Uebersetzung wirklich gibt — ein Thema kann eine Stelle enthalten, die
-    /// in einer anderen Versifikation fehlt (siehe Konzept, Kap. 6). Sind alle
+    /// in einer anderen Versifikation fehlt (docs/Architektur.md, Kap. 5). Sind alle
     /// Stellen gesperrt, faellt die Sperre fuer diesen Zug weg, statt nichts zu
     /// liefern.
     func randomCuratedVerse(in translation: Translation, topic key: String,

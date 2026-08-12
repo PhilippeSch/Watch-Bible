@@ -62,7 +62,7 @@ struct Topic: Identifiable, Hashable, Sendable {
 }
 
 /// Eine Stellenangabe. Bewusst ohne Uebersetzung: dieselbe Referenz kann
-/// je nach Uebersetzung auf unterschiedliche Texte zeigen (siehe Konzept, Kap. 6).
+/// je nach Uebersetzung auf unterschiedliche Texte zeigen (docs/Architektur.md, Kap. 5).
 struct VerseReference: Hashable, Sendable, Codable {
     let bookID: Int
     let chapter: Int

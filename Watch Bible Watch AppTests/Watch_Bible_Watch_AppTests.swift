@@ -3,9 +3,9 @@
 //  Watch Bible Watch AppTests
 //
 //  Unit-Tests der Datenschicht und Referenzaufloesung gegen test_fixtures.json.
-//  Die Erwartungswerte wurden direkt aus der Datenbank erzeugt (siehe Konzept,
-//  Kapitel 12); die Fixtures enthalten alle 29 Kapitel, in denen ELB und KJV
-//  unterschiedlich viele Verse haben.
+//  Die Erwartungswerte wurden direkt aus der Datenbank erzeugt; die Fixtures
+//  enthalten alle 29 Kapitel, in denen ELB und KJV unterschiedlich viele Verse
+//  haben (docs/Architektur.md, Kap. 10).
 //
 
 import Foundation
@@ -234,7 +234,7 @@ struct VersifikationTests {
         }
     }
 
-    /// Pflichtfall aus dem Konzept: 3Mo 5 hat in ELB 26, in KJV 19 Verse.
+    /// Pflichtfall: 3Mo 5 hat in ELB 26, in KJV 19 Verse.
     /// ELB 5,26 → KJV muss auf das Kapitelende geklemmt und sichtbar werden.
     @Test func klemmtAufKapitelende() async throws {
         let repo = try await TestSupport.repository()
@@ -385,7 +385,7 @@ struct SprachenTests {
         }
     }
 
-    /// Stichproben quer durch die Sprachen — Randfaelle des Konzepts.
+    /// Stichproben quer durch die Sprachen — die festgelegten Randfaelle.
     @Test func buchnamenStimmen() async throws {
         let repo = try await TestSupport.repository()
         let books = await repo.books

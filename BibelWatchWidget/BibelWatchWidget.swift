@@ -1,7 +1,7 @@
 import WidgetKit
 import SwiftUI
 
-/// Vers des Tages (Konzept, Kapitel 9): jeder Kalendertag zieht einen eigenen
+/// Vers des Tages (docs/Architektur.md, Kap. 8): jeder Kalendertag zieht einen eigenen
 /// Zufallsvers aus der kuratierten Auswahl — mit der Tagesnummer als Startwert,
 /// damit der Vers von Mitternacht bis Mitternacht steht und jede Neuberechnung
 /// der Zeitleiste denselben liefert. Die Zeitleiste traegt sieben Tage vor.

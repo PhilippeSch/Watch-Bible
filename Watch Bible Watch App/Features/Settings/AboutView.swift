@@ -2,7 +2,7 @@ import SwiftUI
 
 /// Impressum. Die Copyright-Zeilen kommen aus translation.copyright — wird
 /// eine Uebersetzung aus der Datenbank genommen, verschwindet ihre Zeile
-/// automatisch mit (Konzept, Kapitel 10).
+/// automatisch mit (docs/Architektur.md, Kap. 9).
 struct AboutView: View {
     @Environment(AppModel.self) private var model
 

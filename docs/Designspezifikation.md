@@ -1,8 +1,8 @@
-# Designspezifikation — BibelWatch «Dünndruck»
+# Designspezifikation — Watch Bible «Dünndruck»
 
 Ein Entwurf, zwei Zustände: Papier bei Tag, Schwarz bei Nacht. Gleiche Struktur, gleiche Typografie, nur die Farbwerte tauschen. Auswahl über Register (Bücher) und Raster (Kapitel, Verse).
 
-Referenz-Bildschirme: `Design_TagNacht.html`. Diese Datei ist die verbindliche Fassung — bei Widersprüchen gilt sie.
+Diese Datei beschreibt die umgesetzte Gestaltung und bleibt für Änderungen daran verbindlich: Farbwerte, Schriftgrössen, Abstände und Rastergeometrie stehen hier, nicht als Konstanten im Code. Wie es aussieht, zeigen die Aufnahmen in `AppStore/Screenshots-de/`; der frühere HTML-Entwurf `Design_TagNacht.html` ist damit erledigt und entfernt.
 
 ---
 
@@ -58,7 +58,7 @@ Systemschrift SF Compact, im Fliesstext die serife Variante (`.font(.system(.bod
 | Zählerzeile, Verszahlen in Listen | 9 pt, tabellarisch | Mono | `Secondary` |
 | Registerbeschriftung | 9.5 pt | Sans, Bold | `Secondary` bzw. `Ground` auf Karmin |
 
-Alle Grössen sind Ausgangswerte für die erste Umsetzung. Die Ersatzschrift im HTML rendert breiter als SF Compact — **Zeilenumbrüche im Simulator prüfen, bevor die Werte festgeschrieben werden.** Dynamische Schriftgrössen des Systems müssen weiterhin greifen; die drei Stufen der Einstellung skalieren zusätzlich.
+Die Werte stehen in `Shared/Theme.swift` als `enum Typo`; Verstext und Verszahl leiten sich aus der eingestellten Grundgrösse ab (Verszahl 0.6 ×, Grundlinie +0.44 em, Zeilenabstand 0.42 ×). Wer eine Grösse ändert, prüft die **Zeilenumbrüche im Simulator** nach — auf der 41-mm-Uhr zuerst. Dynamische Schriftgrössen des Systems greifen weiterhin; die drei Stufen der Einstellung skalieren zusätzlich.
 
 ---
 
@@ -137,7 +137,7 @@ Keine Signalfarbe, kein Symbol, nichts zum Wegklicken. Zwei Zahlen erklären den
 | `.exact` | nichts |
 | `.divergent` | Tabelle mit beiden Verszahlen |
 | `.clamped` | Tabelle plus Zeile «Vers *n* angefragt, Kapitelende gezeigt.» |
-| `.unavailable` | «Dieses Kapitel gibt es in der *X* nicht.» und Rücksprung zur Buchwahl |
+| `.unavailable` | «Dieses Kapitel gibt es in der *X* nicht.» — der Wechsel wird abgebrochen, die bisherige Übersetzung bleibt stehen |
 
 ### 4.7 Einstellungen
 Übersetzung · Zufallsmodus · Darstellung (Tag / Nacht / Automatisch, bei Automatisch zwei Uhrzeiten) · Schriftgrösse · Haptik · Impressum. Die Copyright-Zeilen im Impressum kommen aus `translation.copyright`, nicht aus dem Code.
@@ -150,9 +150,9 @@ Keine Signalfarbe, kein Symbol, nichts zum Wegklicken. Zwei Zahlen erklären den
 
 **Chinesisch nie auf zwei Zeichen kürzen.** `zh-Hant` und `zh-Hans` unterscheiden sich in der Schrift, nicht in der Sprache; ein `String(code.prefix(2))` trifft weder die eine noch die andere Übersetzung. `Localization.normalized` bildet Systemkennungen ab: `de-CH` → `de`, `zh-TW` → `zh-Hant`, `zh` → `zh-Hans`.
 
-**Texte** liegen in `Resources/Localizable.xcstrings` (String Catalog, 58 Schlüssel, alle sechs Sprachen vollständig), der App-Name in `Resources/InfoPlist.xcstrings` — «Bibel», «Bible», «Biblia», «Bible», 聖經, 圣经, kurz gehalten, weil unter dem Symbol auf der Uhr wenig Platz ist. Schlüssel sind semantisch benannt (`settings.textSize`), nicht der englische Text selbst.
+**Texte** liegen in `Resources/Localizable.xcstrings` (String Catalog, 79 Schlüssel, alle sechs Sprachen vollständig), der App-Name in `Resources/InfoPlist.xcstrings` — «Bibel», «Bible», «Biblia», «Bible», 聖經, 圣经, kurz gehalten, weil unter dem Symbol auf der Uhr wenig Platz ist. Schlüssel sind semantisch benannt (`settings.textSize`), nicht der englische Text selbst.
 
-**Vorgabe der Bibelübersetzung nach Anzeigesprache:** die **erste Übersetzung dieser Sprache in der Reihenfolge der Datenbank** (`sort_order`) — also genau die, die in der Auswahl auch zuoberst steht: Deutsch Elberfelder 1905, Englisch King James, Chinesisch das 和合本 der jeweiligen Schrift, Spanisch Reina-Valera, Französisch Louis Segond. Nichts davon ist fest verdrahtet; die Reihenfolge selbst steht in `TRANSLATION_ORDER` im Konverter, und fällt eine Übersetzung weg, rückt die nächste derselben Sprache nach. Das gilt **nur beim ersten Start**: wer einmal eine Übersetzung gewählt hat, behält sie, auch nach einem Sprachwechsel des Systems. Gibt es zur Anzeigesprache keine Übersetzung, greift bei Chinesisch die andere Schriftvariante, sonst Englisch, zuletzt die erste überhaupt. Umgesetzt in `Shared/Localization.swift`.
+**Vorgabe der Bibelübersetzung nach Anzeigesprache:** die **erste Übersetzung dieser Sprache in der Reihenfolge der Datenbank** (`sort_order`) — also genau die, die in der Auswahl auch zuoberst steht: Deutsch Elberfelder 1905, Englisch King James, Chinesisch das 和合本 der jeweiligen Schrift, Spanisch Reina-Valera, Französisch Louis Segond. Nichts davon ist fest verdrahtet; die Reihenfolge selbst steht in `TRANSLATION_ORDER` in `tools/tables.py`, und fällt eine Übersetzung weg, rückt die nächste derselben Sprache nach. Das gilt **nur beim ersten Start**: wer einmal eine Übersetzung gewählt hat, behält sie, auch nach einem Sprachwechsel des Systems. Gibt es zur Anzeigesprache keine Übersetzung, greift bei Chinesisch die andere Schriftvariante, sonst Englisch, zuletzt die erste überhaupt. Umgesetzt in `Shared/Localization.swift`.
 
 **Die Übersetzungsauswahl beginnt bei der eigenen Sprache.** Der Abschnitt der Anzeigesprache steht zuoberst, die übrigen folgen in Datenbankreihenfolge (`Localization.languageOrder`).
 

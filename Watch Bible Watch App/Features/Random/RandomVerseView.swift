@@ -25,7 +25,7 @@ struct RandomVerseView: View {
     }
 
     /// Wie viele Verse zurueck gesperrt wird. Ueber die ganze Bibel sind es die
-    /// 20 des Konzepts; ein Thema mit 10 Versen kann keine 20 sperren, sonst
+    /// 20 der Designspezifikation; ein Thema mit 10 Versen kann keine 20 sperren, sonst
     /// bliebe nichts zu ziehen. Die Haelfte der Liste haelt Wiederholungen weit
     /// genug auseinander und laesst die Auswahl trotzdem zufaellig — eine Sperre
     /// von n−1 machte aus der Ziehung eine feste Reihenfolge.

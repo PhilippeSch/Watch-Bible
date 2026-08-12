@@ -2,37 +2,45 @@
 
 ## Was das hier ist
 
-Ein bestehender Prototyp einer eigenständigen Apple-Watch-App, die Bibelverse anzeigt. Zwei Funktionen: zufälliger Vers mit Weiterschalten, und gezieltes Nachschlagen über Buch → Kapitel → Vers. Die Verse liegen als schreibgeschützte SQLite-Datei im App-Bundle. Kein Server, kein Netzwerk, kein Konto, kein iPhone nötig.
+Eine ausgelieferte, eigenständige Apple-Watch-App für Bibelverse: Zufallsvers, Themen, Nachschlagen über Buch → Kapitel → Vers, Leseansicht als Fliesstext, Vers des Tages als Komplikation. Die Verse liegen als schreibgeschützte SQLite-Datei im App-Bundle. Kein Server, kein Netzwerk, kein Konto, kein iPhone nötig.
 
-Das ausführliche Konzept steht in `Konzept_BibelWatch.md`. **Lies vor jedem Meilenstein den betreffenden Abschnitt dort neu**, statt aus dem Gedächtnis zu arbeiten.
+Der Aufbau steht in `docs/Architektur.md`, die Gestaltung in `docs/Designspezifikation.md`, die Herkunft der Bibeltexte in `docs/Bibeltexte.md`. **Lies vor einer grösseren Änderung den betreffenden Abschnitt dort neu**, statt aus dem Gedächtnis zu arbeiten. Die Dokumente beschreiben den umgesetzten Stand; weicht der Code davon ab, ist eines von beiden falsch — melden, nicht stillschweigend auseinanderlaufen lassen.
 
 ## Technische Leitplanken
 
-- Swift 6, SwiftUI, Deployment Target watchOS 10.0. Kein UIKit, kein WatchKit-Storyboard.
+- Swift 6, SwiftUI, Deployment Target watchOS 11.2. Kein UIKit, kein WatchKit-Storyboard.
 - **Keine externen Abhängigkeiten.** Datenbankzugriff über `import SQLite3` direkt, nicht über GRDB oder SQLite.swift — die Widget-Extension braucht denselben Zugriff, und SPM-Pakete machen dort erfahrungsgemäss Ärger.
 - Datenbank read-only öffnen (`SQLITE_OPEN_READONLY`), Verbindung einmal beim Start herstellen und halten, vorbereitete Statements zwischenspeichern. Niemals pro Abfrage neu öffnen.
 - Datenbankzugriffe laufen nicht auf dem Main-Actor; Rückgabewerte sind `Sendable`-Structs.
 - Kein `try!`, kein `as!`, keine stillschweigend verschluckten Fehler. Ein fehlender Vers ist ein `nil`, kein Absturz.
-- Keine Netzwerk-APIs, keine Analytics, keine Berechtigungsabfragen. Wenn eine Lösung Netzwerk brauchen würde, ist es die falsche Lösung.
+- Keine Netzwerk-APIs, keine Analytics, keine Berechtigungsabfragen, keine App Group. Wenn eine Lösung Netzwerk brauchen würde, ist es die falsche Lösung. Eine App Group würde ausserdem den Reason-Code im Privacy-Manifest von CA92.1 auf 1C8F.1 heben.
 
 ## Datenmodell
 
-Schema und die vier benötigten Abfragen stehen in `Konzept_BibelWatch.md`, Kapitel 3 und 4. Nicht selber erfinden. Zwei Dinge sind bewusst so gebaut:
+Schema und die fünf Abfragen stehen in `docs/Architektur.md`, Kapitel 3 und 4. Nicht selber erfinden. Zwei Dinge sind bewusst so gebaut:
 
 - `verse.id` ist lückenlos und je Übersetzung zusammenhängend, dazu `translation.first_verse_id` / `last_verse_id`. Zufallsvers = ein Primärschlüsselzugriff. **Nie `ORDER BY RANDOM()`** über die Verstabelle.
 - `chapter_meta` ist vorberechnet. Für Auswahlräder keine `COUNT`-Abfragen schreiben.
 
-Übersetzungen, Bücher und Copyright-Zeilen werden **zur Laufzeit aus der Datenbank gelesen**, nie im Code hartkodiert. Wird eine Übersetzung aus der Datenbank entfernt, muss die App ohne Codeänderung weiterlaufen.
+Übersetzungen, Bücher, Themen und Copyright-Zeilen werden **zur Laufzeit aus der Datenbank gelesen**, nie im Code hartkodiert. Wird eine Übersetzung aus der Datenbank entfernt, muss die App ohne Codeänderung weiterlaufen.
 
 ## Versifikation
 
-Deutsche und englische Bibeln zählen unterschiedlich (Psalmenüberschriften, Jes 9,5 vs. 9,6). Eine Stelle, die in einer Übersetzung existiert, kann in einer anderen fehlen. Gemessen: 29 Kapitel unterscheiden sich zwischen ELB und KJV in der Verszahl, 136 zwischen SLT und KJV. Es verschieben sich auch ganze Kapitelgrenzen (4Mo 16/17, 3Mo 5/6, Joel 3/4) — die falsche Stelle sieht dann völlig plausibel aus. `BibleRepository.resolve` liefert deshalb `.exact`, `.divergent`, `.clamped` oder `.unavailable`. **Jeder dieser Fälle ausser `.exact` muss in der Oberfläche sichtbar sein.** Wer das zu einem stillen Fallback vereinfacht, baut einen Fehler ein, der den falschen Bibeltext anzeigt, ohne zu warnen.
+Bibelübersetzungen zählen unterschiedlich (Psalmenüberschriften, Jes 9,5 vs. 9,6). Eine Stelle, die in einer Übersetzung existiert, kann in einer anderen fehlen. Gemessen an der ausgelieferten Datenbank: 29 Kapitel unterscheiden sich zwischen ELB und KJV in der Verszahl, 141 zwischen SCH 1951 und KJV, 142 zwischen LUT und KJV. Es verschieben sich auch ganze Kapitelgrenzen (4Mo 16/17, 3Mo 5/6, Joel 3/4, Mal 3/4) — die falsche Stelle sieht dann völlig plausibel aus.
+
+Die Trennlinie folgt **nicht** der Sprache: in 4Mo 16/17 zählen Elberfelder und King James gleich, Schlachter und Luther anders. Wer eine Faustregel «deutsch so, englisch so» einbaut, liegt falsch.
+
+`BibleRepository.resolve` liefert deshalb `.exact`, `.divergent`, `.clamped` oder `.unavailable`. **Jeder dieser Fälle ausser `.exact` muss in der Oberfläche sichtbar sein.** Wer das zu einem stillen Fallback vereinfacht, baut einen Fehler ein, der den falschen Bibeltext anzeigt, ohne zu warnen.
 
 ## Gestaltung
 
-`Designspezifikation.md` ist verbindlich: Farbwerte, Schriftgrössen, Abstände, Rastergeometrie und das Verhalten aller Bildschirme stehen dort. `Design_TagNacht.html` zeigt dieselben Bildschirme gezeichnet. Farben gehören in einen Asset-Katalog mit Any/Dark-Variante, nicht als Konstanten in den Code.
+`docs/Designspezifikation.md` ist verbindlich: Farbwerte, Schriftgrössen, Abstände, Rastergeometrie und das Verhalten aller Bildschirme stehen dort. Farbwerte gehören in den Asset-Katalog, nicht als Konstanten in den Code.
 
-Zwei Punkte, die keine Geschmacksfragen sind: Raster **immer dreispaltig** (vier Spalten ergeben 38 pt Zellen und unterschreiten die 44 pt für Tippziele), und bei `@Environment(\.isLuminanceReduced)` **immer** die Nachtpalette, unabhängig von der Einstellung.
+Drei Punkte, die keine Geschmacksfragen sind:
+
+- Raster **immer dreispaltig** (vier Spalten ergeben 38 pt Zellen und unterschreiten die 44 pt für Tippziele).
+- Bei `@Environment(\.isLuminanceReduced)` **immer** die Nachtpalette, unabhängig von der Einstellung.
+- **watchOS wertet Any/Dark-Varianten eines Assets nicht aus** und ignoriert auch `\.colorScheme` für benannte Farben (im Simulator verifiziert). Darum je Rolle zwei Colorsets (`…Day` / `…Night`) und der beobachtbare Schalter `ThemeState` in `Shared/Theme.swift`. `\.colorScheme` wird zusätzlich gesetzt — nicht für diese Farben, sondern für alles, was das System selbst zeichnet.
 
 ## Mehrsprachigkeit
 
@@ -48,6 +56,8 @@ Der Trenner der Stellenangabe unterscheidet sich: «Johannes 3,16» gegen «John
 
 Vorgabe der Bibelübersetzung: die **erste Übersetzung der Anzeigesprache in Datenbankreihenfolge** — dieselbe, die in der Auswahl zuoberst steht. Keine fest verdrahteten Codes. Das gilt **nur beim ersten Start**; eine vom Nutzer gewählte Übersetzung wird nie durch einen Sprachwechsel überschrieben. Logik liegt in `Shared/Localization.swift`.
 
+**`Int` ist auf der Uhr 32 Bit breit** (arm64_32), `%lld` im String Catalog liest aber 64 Bit. Bei `String(format:)` mit `%lld` immer `Int64(...)` übergeben — sonst steht auf dem Gerät «2. Petrus 0», und im Simulator (arm64) sieht man nichts davon.
+
 ## Bedienung auf einer Uhr
 
 - Tippziele mindestens 44 × 44 Punkte. Kapitel- und Versauswahl als `LazyVGrid`, nicht als Liste.
@@ -56,11 +66,11 @@ Vorgabe der Bibelübersetzung: die **erste Übersetzung der Anzeigesprache in Da
 - Haptik beim Weiterschalten (`WKInterfaceDevice.current().play(.click)`), abschaltbar.
 - Beim Zufallsvers die letzten 20 Verse merken und nicht sofort wiederholen.
 
-## Bereits gelieferter Code
+## Verifizierter Code
 
-`Data/Models.swift`, `Data/BibleDatabase.swift`, `Data/BibleRepository.swift`, `Shared/AppSettings.swift` und `PrivacyInfo.xcprivacy` liegen vor. Die **SQL-Strings und Spaltenindizes darin sind gegen die echte Datenbank verifiziert** (Abfragepläne geprüft, kein Table Scan). Nicht neu erfinden, nicht «aufräumen». Der Swift-Code wurde jedoch nie kompiliert — korrigiere, was der Compiler bemängelt, und sonst nichts.
+Die **SQL-Strings und Spaltenindizes in `Data/`** sind gegen die echte Datenbank verifiziert (Abfragepläne geprüft, kein Table Scan). Nicht neu erfinden, nicht «aufräumen». Beim Beheben von Compilerfehlern bleiben sie unangetastet.
 
-`test_fixtures.json` enthält Erwartungswerte für die Unit-Tests, darunter alle 29 Kapitel, in denen ELB und KJV unterschiedlich viele Verse haben.
+`Watch Bible Watch AppTests/test_fixtures.json` enthält die Erwartungswerte der Unit-Tests, darunter alle 29 Kapitel, in denen ELB und KJV unterschiedlich viele Verse haben. Wird die Datenbank neu erzeugt und verschieben sich dabei die `verse.id`-Bereiche, muss diese Datei nachgerechnet werden.
 
 ## Bauen — nach jeder Änderung
 
@@ -78,14 +88,14 @@ Zwei Eigenheiten dieses Rechners: `xcode-select` zeigt auf die CommandLineTools 
 
 Fehler selbst lesen und beheben, statt sie zu melden. Weiterführende Befehle und Fallstricke stehen im `README.md` unter «Bauen und prüfen».
 
-Zwei Grenzen: ein erfolgreicher Build sagt nichts über das Layout — Bildschirme gehören in den Simulator angesehen. Und beim Beheben von Compilerfehlern bleiben die SQL-Strings und Spaltenindizes in `Data/` unangetastet; sie sind gegen die echte Datenbank verifiziert.
+Zwei Grenzen: ein erfolgreicher Build sagt nichts über das Layout — Bildschirme gehören in den Simulator angesehen, Tag und Nacht und wenigstens einmal auf Chinesisch. Und die Unit-Tests brauchen einen konkreten Simulator statt `generic` (Befehl im README).
 
 ## Arbeitsweise
 
-- Der Prototyp wird **verbessert, nicht ersetzt**. Vorhandenes, das der Spezifikation schon entspricht, bleibt. Vor der ersten Änderung eine Abweichungsliste erstellen und freigeben lassen (siehe `README.md`, «Erster Auftrag»).
-- Ein Punkt der Liste pro Durchgang. Nicht vorgreifen, keine Funktionen bauen, die im Konzept nicht stehen.
-- Nach jedem Meilenstein: kurz auflisten, welche Dateien entstanden sind und was in Xcode von Hand einzustellen ist (Target-Membership, Capabilities, Signing).
+- Die App ist **fertig und ausgeliefert**; Änderungen sind Verbesserungen an Vorhandenem. Keine Funktionen bauen, die nicht besprochen sind.
+- Ein Punkt pro Durchgang. Nicht vorgreifen.
 - Datenschicht und Referenzauflösung bekommen Unit-Tests. Randfälle, die immer zu prüfen sind: Ps 119,176, Jud 1,25, letzter Vers von Offb, erster Vers von 1. Mose.
-- Es gibt zwei ausgelieferte Datenbanken (siehe `README.md`); die gewählte liegt im Projekt als `bible.sqlite`. Übersetzungs-`id` und Leitübersetzung unterscheiden sich zwischen beiden — deshalb **nie** fest verdrahten, immer zur Laufzeit aus der Datenbank lesen.
-- Die Datei `bible.sqlite` wird nicht von Hand bearbeitet. Stimmt etwas am Inhalt nicht, wird `tools/quotepas_to_sqlite.py` angepasst und die Datenbank neu erzeugt. Wer die Quelldateien nicht zur Hand hat, schreibt ein Skript nach dem Muster von `tools/add_book_names.py`: es liest dieselben Tabellen aus dem Konverter und ist damit reproduzierbar.
+- Nach einer Änderung an Projekt oder Targets kurz auflisten, welche Dateien entstanden sind und was in Xcode von Hand einzustellen ist (Target-Membership, Capabilities, Signing).
+- Übersetzungs-`id` und Leitübersetzung **nie** fest verdrahten, immer zur Laufzeit aus der Datenbank lesen — sie ändern sich, sobald die Datenbank mit anderen Quellen neu erzeugt wird.
+- Die Datei `bible.sqlite` wird nicht von Hand bearbeitet. Stimmt etwas am Inhalt nicht, wird `tools/quotepas_to_sqlite.py` angepasst und die Datenbank neu erzeugt. Wer die Quelldateien nicht zur Hand hat, schreibt ein Skript nach dem Muster von `tools/add_book_names.py`: es liest dieselben Tabellen aus `tools/tables.py` und ist damit reproduzierbar.
 - Antworten auf Deutsch, Schweizer Rechtschreibung, kein ß.
