@@ -321,11 +321,18 @@ struct SprachenTests {
     }
 
     /// Unbekannte Systemsprache: Englisch, kein Absturz, kein leerer Code.
+    ///
+    /// `ja` steht hier fuer «Sprache ohne Uebersetzung» und muss eine bleiben:
+    /// kommt einmal eine japanische Bibel dazu, schlaegt dieser Test fehl und
+    /// will eine andere Kennung — genau so ist es gedacht. (Frueher stand hier
+    /// `it`; seit der Riveduta 1927 ist Italienisch eine der Sprachen.)
     @Test func unbekannteSpracheFaelltAufEnglischZurueck() async throws {
         let repo = try await TestSupport.repository()
         let translations = await repo.translations
+        #expect(!Localization.supportedLanguages.contains("ja"),
+                "«ja» ist keine unbekannte Sprache mehr — Test anpassen")
         let code = Localization.defaultTranslationCode(available: translations,
-                                                       language: "it")
+                                                       language: "ja")
         let englisch = try #require(translations.first { $0.language == "en" })
         #expect(code == englisch.code)
     }
@@ -337,6 +344,9 @@ struct SprachenTests {
         #expect(Localization.normalized("en-GB") == "en")
         #expect(Localization.normalized("es-419") == "es")
         #expect(Localization.normalized("fr-CA") == "fr")
+        #expect(Localization.normalized("it-CH") == "it")
+        #expect(Localization.normalized("pt-BR") == "pt")
+        #expect(Localization.normalized("pt-PT") == "pt")
         // Chinesisch unterscheidet sich in der Schrift, nicht in der Sprache.
         #expect(Localization.normalized("zh-Hant") == "zh-Hant")
         #expect(Localization.normalized("zh-Hans") == "zh-Hans")
@@ -345,7 +355,7 @@ struct SprachenTests {
         #expect(Localization.normalized("zh-CN") == "zh-Hans")
         #expect(Localization.normalized("zh") == "zh-Hans")
         // Sprache ohne Uebersetzung
-        #expect(Localization.normalized("it") == "en")
+        #expect(Localization.normalized("ja") == "en")
     }
 
     /// Die Sprache der Oberflaeche steht in der Auswahl zuoberst, der Rest
@@ -357,7 +367,7 @@ struct SprachenTests {
         var gesehen: Set<String> = []
         let datenbankreihenfolge = translations.map(\.language)
             .filter { gesehen.insert($0).inserted }
-        #expect(Localization.languageOrder(of: translations, first: "it")
+        #expect(Localization.languageOrder(of: translations, first: "ja")
                 == datenbankreihenfolge)
 
         for sprache in Localization.supportedLanguages {
@@ -369,7 +379,7 @@ struct SprachenTests {
         }
     }
 
-    /// Buchnamen: alle 66 Buecher in allen sechs Sprachen, ohne Rueckfall
+    /// Buchnamen: alle 66 Buecher in allen acht Sprachen, ohne Rueckfall
     /// auf den deutschen Namen.
     @Test func buchnamenLiegenInAllenSprachenVor() async throws {
         let repo = try await TestSupport.repository()
@@ -408,7 +418,7 @@ struct SprachenTests {
         }
     }
 
-    /// Buchkuerzel: alle 66 Buecher in allen sechs Sprachen, ohne Rueckfall
+    /// Buchkuerzel: alle 66 Buecher in allen acht Sprachen, ohne Rueckfall
     /// auf `book.code` — der waere in fuenf davon falsch.
     @Test func buchkuerzelLiegenInAllenSprachenVor() async throws {
         let repo = try await TestSupport.repository()

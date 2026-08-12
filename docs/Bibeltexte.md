@@ -1,6 +1,6 @@
 # Die Bibeltexte — Herkunft, Prüfung, Lizenz
 
-Zehn Übersetzungen in sechs Sprachen, alle gemeinfrei oder frei lizenziert. Dieses Dokument hält für jede fest, aus welcher Quelldatei sie stammt, woran geprüft wurde, dass es wirklich die angenommene Ausgabe ist, und welche Eingriffe am Quelltext dokumentiert sind.
+Zwölf Übersetzungen in acht Sprachen, alle gemeinfrei oder frei lizenziert. Dieses Dokument hält für jede fest, aus welcher Quelldatei sie stammt, woran geprüft wurde, dass es wirklich die angenommene Ausgabe ist, und welche Eingriffe am Quelltext dokumentiert sind.
 
 Der wiederkehrende Punkt: bei fast jeder dieser Übersetzungen gibt es eine jüngere, **geschützte** Revision mit fast demselben Namen — Luther 1984 statt 1912, Segond 21 statt 1910, RVR1960 statt 1909, 新標點和合本 statt 和合本, Schlachter 2000 statt 1951. Eine Verwechslung fällt im Text nicht auf, wohl aber vor Gericht. Darum steht hier bei jeder Übersetzung, woran die richtige zu erkennen ist.
 
@@ -14,10 +14,12 @@ Der wiederkehrende Punkt: bei fast jeder dieser Übersetzungen gibt es eine jün
 | BSB | Berean Standard Bible | Englisch | 31'084 | `usfm-bible/examples.bsb` |
 | RVR | Reina-Valera 1909 | Spanisch | 31'102 | `es/sparv.xml`, gratis-bible |
 | LSG | Louis Segond 1910 | Französisch | 31'102 | `fr/fren.xml`, gratis-bible |
+| RIV | Riveduta 1927 | Italienisch | 31'102 | `ita1927`, ebible.org |
+| BLV | Bíblia Livre | Portugiesisch | 31'102 | `porbr2018`, ebible.org |
 | CUV | 和合本（繁體） | Chinesisch trad. | 31'101 | `chi.xml`, gratis-bible |
 | CUVS | 和合本（简体） | Chinesisch vereinf. | 31'101 | aus CUV erzeugt, siehe unten |
 
-`gratis-bible` steht für `github.com/gratis-bible/bible`.
+`gratis-bible` steht für `github.com/gratis-bible/bible`, `ebible.org` für die USFM-Ausgaben unter `ebible.org/Scriptures/<id>_usfm.zip`.
 
 ---
 
@@ -42,7 +44,7 @@ Aus `de/luth1912.xml`, dessen OSIS-Kopf «Public Domain» führt. Es ist die Rev
 
 **Gegenprobe an einer zweiten Quelle.** Dieselbe Revision liegt bei **ebible.org/deu1912** als USFM. Von 31'171 Verstexten stimmen 29'871 zeichengleich mit der OSIS-Ausgabe überein; es ist also nachweislich derselbe Revisionsstand. Die Restunterschiede sind auf beiden Seiten kleine Zeichensetzungsschäden («um um das ganze Mohrenland» bei ebible, ein hängendes Fragezeichen in 1Mo 5,1 bei gratis-bible) — sowie ein systematischer Unterschied, der die Wahl entschieden hat.
 
-**Verwendet wird die OSIS-Ausgabe, weil sie deutsch zählt.** Die ebible-Fassung ist auf die englische Versifikation umgestellt und trägt die Originalnummer als Präfix im Verstext (`[5:27] Die Kinder Levis waren…` unter 1Chr 6,1). Das wäre hier die falsche Grundlage: die deutsche Zählung ist genau das, was `BibleRepository.resolve` gegen die englischen Übersetzungen abgleicht. Luther zählt Joel mit vier und Maleachi mit drei Kapiteln, Elberfelder umgekehrt — Joel 4 gibt es in der ELB nicht, Maleachi 4 nicht in der Luther. Solche Kapitel müssen `.unavailable` melden. Gegen Schlachter 1951 unterscheiden sich nur drei Kapitel in der Verszahl, gegen Elberfelder 124, gegen die KJV 142; alle Fälle stehen in `test_fixtures.json`.
+**Verwendet wird die OSIS-Ausgabe, weil sie deutsch zählt.** Die ebible-Fassung ist auf die englische Versifikation umgestellt und trägt die Originalnummer als Präfix im Verstext (`[5:27] Die Kinder Levis waren…` unter 1Chr 6,1). Das wäre hier die falsche Grundlage: die deutsche Zählung ist genau das, was `BibleRepository.resolve` gegen die englischen Übersetzungen abgleicht. Luther zählt Joel mit vier und Maleachi mit drei Kapiteln, Elberfelder umgekehrt — Joel 4 gibt es in der ELB nicht, Maleachi 4 nicht in der Luther. Solche Kapitel müssen `.unavailable` melden. Gegen Schlachter 1951 unterscheiden sich nur drei Kapitel in der Verszahl, gegen Elberfelder 122, gegen die KJV 140; alle Fälle stehen in `test_fixtures.json`.
 
 **Drei dokumentierte Eingriffe am Quelltext**, jeder im Konverter aufgeführt und bei jedem Lauf gemeldet:
 
@@ -73,6 +75,36 @@ Beide aus `gratis-bible`: `es/sparv.xml` und `fr/fren.xml`.
 **Louis Segond 1910** — die Standardbibel des französischsprachigen Protestantismus. Segond starb 1885, die Revision von 1910 ist gemeinfrei; der OSIS-Kopf führt entsprechend «Public Domain». Nicht verwechseln mit der Nouvelle Édition de Genève 1979 oder Segond 21, die beide geschützt sind.
 
 Beide folgen der englischen Verszählung: null Abweichungen gegen die KJV in allen 1'189 Kapiteln.
+
+---
+
+## Riveduta 1927
+
+Aus der USFM-Ausgabe `ita1927` von ebible.org, deren Lizenzblatt «Public Domain» führt; als Beiträger ist die Bible Society in Italy genannt. Es ist die Revision von **1927** durch Giovanni Luzzi — die italienische Standardbibel des Protestantismus und das Gegenstück zu Segond 1910 und Reina-Valera 1909 in dieser Sammlung. 66 Bücher, 1'189 Kapitel, 31'102 Verse, keine leeren Verse, keine Markup-Reste.
+
+**Nicht verwechseln** mit der Nuova Riveduta (1994/2006) oder der Riveduta 1990 — beide sind geschützt. Die Datei `it/irv_1990.xml` bei gratis-bible trägt im OSIS-Kopf ausdrücklich «Copyright (c) 1990 Societa Biblica Britannica & Forestriera» und ist deshalb **nicht** genommen; ebenso wenig `lnd_1991.xml` (La Nuova Diodati, geschützt) und `cei74.xml` (CEI 1974, geschützt). Die Datei `it/italian1.xml` erklärt sich zwar als Public Domain, sagt aber nirgends, welche Ausgabe sie ist — für einen Lizenznachweis zu wenig.
+
+Die Alternative wäre die **Diodati** gewesen (`ita1885` bei ebible, ebenfalls gemeinfrei): der italienische Klassiker von 1641, das Gegenstück zur King James. Die Riveduta passt besser in diese Sammlung, weil alle übrigen Sprachen ihre Standardausgabe der Jahrhundertwende führen — Elberfelder 1905, Luther 1912, Segond 1910, Reina-Valera 1909, 和合本 1919.
+
+**Eine Abweichung von der Quelle.** Die Buchnamen stammen aus den `\h`-Kopfzeilen der USFM-Dateien, mit einer Korrektur: dort steht «Giosué», der Verstext schreibt 225-mal «Giosuè» und nur 5-mal «Giosué». Es gilt die Form des Textes — sonst stünde in der Buchliste etwas anderes als im Vers.
+
+Die Buchkürzel kommen **nicht** aus der Quelle: deren `\toc3` wiederholt bloss den vollen Namen. Genommen ist der in italienischen Bibelausgaben übliche Satz (CEI / Nuova Riveduta), der Gen (Genesi) und Gn (Giona) auseinanderhält.
+
+---
+
+## Bíblia Livre
+
+Aus der USFM-Ausgabe `porbr2018` von ebible.org. Sie steht als einzige mitgelieferte Übersetzung neben der Schlachter 1951 unter **CC BY 4.0** — © 2018 Diego Santos, Mario Sérgio und Marco Teles. Das Lizenzblatt sagt es ausdrücklich: «A Bíblia Livre tem uso livre, porém a menção da obra de forma adequada é obrigatória … em conformidade com a Licença Creative Commons Atribuição 4.0 Brasil.» Die Namensnennung steht in `translation.copyright` und erscheint dadurch im Impressum der App.
+
+Der Text ist eine Überarbeitung der **João Ferreira de Almeida** von 1819 (Textus Receptus) — also die Almeida-Linie, die im portugiesischen Sprachraum das ist, was Luther im deutschen ist. 66 Bücher, 1'189 Kapitel, 31'102 Verse, keine leeren Verse, keine Markup-Reste.
+
+**Warum nicht die naheliegenden anderen.** Der Reihe nach geprüft und verworfen:
+
+- `pt/acf.xml` (gratis-bible) ist die Almeida Corrigida Fiel, geschützt von der Sociedade Bíblica Trinitariana do Brasil.
+- `pt/port.xml` (gratis-bible) nennt sich «João Ferreira de Almeida Atualizada» und hat gar keine Rechteangabe. Die Almeida Revista e Atualizada ist bei der Sociedade Bíblica do Brasil geschützt — ohne Nachweis nicht verwendbar.
+- `porbrbsl` (ebible) wäre gemeinfrei und vollständig, erklärt sich im eigenen Lizenzblatt aber als **Entwurf**: «Este é um rascunho de tradução da Bíblia Sagrada e ainda em revisão.» Ein Übersetzungsentwurf gehört nicht in eine ausgelieferte App.
+
+**Eine Korrektur an den Kürzeln.** Die `\toc3`-Felder der Quelle geben sowohl Jó (Hiob) als auch João «Jo» — im Register der Buchliste wären die beiden nicht auseinanderzuhalten, und der Unit-Test über die Eindeutigkeit der Kürzel schlägt darauf an. Der übliche brasilianische Satz trennt sie über den Akzent: **Jó** gegen **Jo**. Alle übrigen Kürzel sind unverändert aus der Quelle.
 
 ---
 
@@ -129,4 +161,17 @@ Dazu: `~` → geschütztes Leerzeichen, `--`/`---` → Halbgeviert-/Geviertstric
 
 `tools/curated_verses.json` enthält 463 Kernverse aus 54 Büchern in 26 Themen. Sie speisen den kuratierten Zufallsmodus, die Themenliste und das Widget. Die Referenzen folgen der Zählung der Leitübersetzung; `update_curated.py` prüft jede einzelne gegen die Datenbank und schreibt nichts, solange auch nur eine Stelle fehlt.
 
-Die Themennamen stehen **nicht** in der Datenbank, sondern im String Catalog unter `topic.<deutscher Wert>`. Die Datenbank sagt, welche Themen es gibt; der Katalog, wie sie in den sechs Sprachen geschrieben werden.
+Die Themennamen stehen **nicht** in der Datenbank, sondern im String Catalog unter `topic.<deutscher Wert>`. Die Datenbank sagt, welche Themen es gibt; der Katalog, wie sie in den acht Sprachen geschrieben werden.
+
+## Eine Übersetzung dazunehmen
+
+Der Weg, den Italienisch und Portugiesisch genommen haben, in der Reihenfolge:
+
+1. **Lizenz zuerst.** `ebible.org/Scriptures/translations.csv` führt für jede Ausgabe `Copyright` und `Redistributable`; das ist der schnellste belastbare Filter. Danach das Lizenzblatt `copr.htm` im heruntergeladenen Paket lesen — dort steht, was die CSV verkürzt.
+2. **Stammdaten** in `tools/tables.py`: Namens- und Kürzeltabelle der neuen Sprache, eingetragen in `BOOK_NAME_TABLES` / `BOOK_ABBREV_TABLES`, dazu `TRANSLATION_META` (Sprache und Copyright-Zeile), `TRANSLATION_NAMES` und die Stelle in `TRANSLATION_ORDER`. `SCHEMA_VERSION` hochsetzen.
+3. **Anhängen** mit `tools/add_translation.py`, danach `tools/add_book_names.py` für die neuen Spalten.
+4. **Oberfläche**: `Localization.supportedLanguages`, die Spaltenlisten in `BibleRepository.load()`, beide String Catalogs, `knownRegions` im Projekt.
+5. **Testdaten** in `test_fixtures.json` ergänzen — Zählwerte, ein paar Stichproben, die Versifikationspaare gegen KJV und ELB.
+6. **Archiv messen.** 75 MB unkomprimiert sind die Grenze; jede Übersetzung kostet gut 5 MB.
+
+Buchnamen kommen aus den `\h`-Kopfzeilen der USFM-Quelle, Kürzel aus `\toc3` — beides prüfen, bevor man es übernimmt. Bei beiden neuen Sprachen war genau dort ein Fehler: «Giosué» statt «Giosuè» im Italienischen, «Jo» für zwei verschiedene Bücher im Portugiesischen.

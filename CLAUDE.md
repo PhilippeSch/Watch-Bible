@@ -26,7 +26,9 @@ Schema und die fünf Abfragen stehen in `docs/Architektur.md`, Kapitel 3 und 4. 
 
 ## Versifikation
 
-Bibelübersetzungen zählen unterschiedlich (Psalmenüberschriften, Jes 9,5 vs. 9,6). Eine Stelle, die in einer Übersetzung existiert, kann in einer anderen fehlen. Gemessen an der ausgelieferten Datenbank: 29 Kapitel unterscheiden sich zwischen ELB und KJV in der Verszahl, 141 zwischen SCH 1951 und KJV, 142 zwischen LUT und KJV. Es verschieben sich auch ganze Kapitelgrenzen (4Mo 16/17, 3Mo 5/6, Joel 3/4, Mal 3/4) — die falsche Stelle sieht dann völlig plausibel aus.
+Bibelübersetzungen zählen unterschiedlich (Psalmenüberschriften, Jes 9,5 vs. 9,6). Eine Stelle, die in einer Übersetzung existiert, kann in einer anderen fehlen. Gemessen an der ausgelieferten Datenbank: 29 Kapitel unterscheiden sich zwischen ELB und KJV in der Verszahl, 139 zwischen SCH 1951 und KJV, 140 zwischen LUT und KJV. Es verschieben sich auch ganze Kapitelgrenzen (4Mo 16/17, 3Mo 5/6, Joel 3/4, Mal 3/4) — die falsche Stelle sieht dann völlig plausibel aus.
+
+Beim Zählen die beiden Fälle auseinanderhalten: abweichende Verszahl in einem Kapitel, das es in beiden gibt, ist `.divergent`; ein Kapitel, das einer Übersetzung ganz fehlt (Joel 4, Mal 4), ist `.unavailable`. Wer beides zusammenzählt, bekommt andere Zahlen als `test_fixtures.json`.
 
 Die Trennlinie folgt **nicht** der Sprache: in 4Mo 16/17 zählen Elberfelder und King James gleich, Schlachter und Luther anders. Wer eine Faustregel «deutsch so, englisch so» einbaut, liegt falsch.
 
@@ -44,9 +46,11 @@ Drei Punkte, die keine Geschmacksfragen sind:
 
 ## Mehrsprachigkeit
 
-**Die App gibt es in jeder Sprache, für die eine Bibelübersetzung mitgeliefert wird** — zurzeit `de`, `en`, `es`, `fr`, `zh-Hant`, `zh-Hans`. Die Liste steht in `Localization.supportedLanguages` und muss deckungsgleich mit den `translation.language`-Werten der Datenbank bleiben; ein Unit-Test prüft das in beide Richtungen. Anzeigesprache folgt dem System, eine eigene Einstellung gibt es nicht.
+**Die App gibt es in jeder Sprache, für die eine Bibelübersetzung mitgeliefert wird** — zurzeit `de`, `en`, `es`, `fr`, `it`, `pt`, `zh-Hant`, `zh-Hans`. Die Liste steht in `Localization.supportedLanguages` und muss deckungsgleich mit den `translation.language`-Werten der Datenbank bleiben; ein Unit-Test prüft das in beide Richtungen. Anzeigesprache folgt dem System, eine eigene Einstellung gibt es nicht.
 
-Alle Texte über `Resources/Localizable.xcstrings` — **kein Klartext in Views**. Buchnamen und Buchkürzel kommen aus der Datenbank, nicht aus dem Katalog: `name`, `name_en`, `name_es`, `name_fr`, `name_zh_hant`, `name_zh_hans` sowie `abbrev_de`, `abbrev_en`, `abbrev_es`, `abbrev_fr`, `abbrev_zh_hant`, `abbrev_zh_hans`. Die Kürzel sind je Sprache der dort übliche Satz (Elberfelder, SBL, Reina-Valera, Segond, 和合本) und stehen im Register der Buchliste und in der runden Komplikation. **`book.code` ist kein Kürzel**, sondern Schlüssel — er bleibt in jeder Sprache gleich.
+Alle Texte über `Resources/Localizable.xcstrings` — **kein Klartext in Views**. Buchnamen und Buchkürzel kommen aus der Datenbank, nicht aus dem Katalog: `name`, `name_en` … `name_zh_hans` sowie `abbrev_de` … `abbrev_zh_hans`. Welche Spalten es gibt, sagen `BOOK_NAME_TABLES` und `BOOK_ABBREV_TABLES` in `tools/tables.py` — der Konverter zählt sie nirgends auf. Die Kürzel sind je Sprache der dort übliche Satz (Elberfelder, SBL, Reina-Valera, Segond, CEI, Almeida, 和合本) und stehen im Register der Buchliste und in der runden Komplikation. **`book.code` ist kein Kürzel**, sondern Schlüssel — er bleibt in jeder Sprache gleich.
+
+Wird eine Sprache dazugenommen, gehören Tests angepasst, die eine **nicht** unterstützte Sprache brauchen: dort stand einmal `it`, heute `ja`. Der Weg im Ganzen steht in `docs/Bibeltexte.md` unter «Eine Übersetzung dazunehmen».
 
 **Sprachkennungen nie auf zwei Zeichen kürzen.** `zh-Hant` und `zh-Hans` unterscheiden sich in der Schrift; `prefix(2)` trifft keine der beiden chinesischen Übersetzungen. Normalisierung läuft über `Localization.normalized`.
 
@@ -98,4 +102,6 @@ Zwei Grenzen: ein erfolgreicher Build sagt nichts über das Layout — Bildschir
 - Nach einer Änderung an Projekt oder Targets kurz auflisten, welche Dateien entstanden sind und was in Xcode von Hand einzustellen ist (Target-Membership, Capabilities, Signing).
 - Übersetzungs-`id` und Leitübersetzung **nie** fest verdrahten, immer zur Laufzeit aus der Datenbank lesen — sie ändern sich, sobald die Datenbank mit anderen Quellen neu erzeugt wird.
 - Die Datei `bible.sqlite` wird nicht von Hand bearbeitet. Stimmt etwas am Inhalt nicht, wird `tools/quotepas_to_sqlite.py` angepasst und die Datenbank neu erzeugt. Wer die Quelldateien nicht zur Hand hat, schreibt ein Skript nach dem Muster von `tools/add_book_names.py`: es liest dieselben Tabellen aus `tools/tables.py` und ist damit reproduzierbar.
+- **Ein voller Konverterlauf vertauscht die `verse.id`-Bereiche von KJV und DAR.** Die ausgelieferte Datei trägt ihre ids noch aus der ursprünglichen Quellenreihenfolge, ein Neulauf vergibt sie nach `TRANSLATION_ORDER`. `test_fixtures.json` hängt an diesen Bereichen. Eine Übersetzung kommt deshalb über `tools/add_translation.py` dazu, nicht über einen Neubau.
+- **75 MB unkomprimiert** sind die Grenze für eine Watch-App, und diese hier ist fast nur Datenbank (62.2 MB im Archiv). Jede weitere Übersetzung kostet gut 5 MB. Nach einer Änderung am Datenbestand archivieren und messen, nicht schätzen.
 - Antworten auf Deutsch, Schweizer Rechtschreibung, kein ß.

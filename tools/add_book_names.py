@@ -187,7 +187,12 @@ def main() -> int:
             )
             print(f"{spalte}: {len(buecher)} Einträge geschrieben")
 
+        # Beide Stellen: `PRAGMA user_version` ist massgeblich, `meta` ist die
+        # lesbare Fassung derselben Zahl. Frueher wurde nur die Pragma gesetzt,
+        # dadurch standen in der ausgelieferten Datei 3 und 2 nebeneinander.
         con.execute(f"PRAGMA user_version = {SCHEMA_VERSION}")
+        con.execute("UPDATE meta SET value = ? WHERE key = 'schema_version'",
+                    (str(SCHEMA_VERSION),))
         con.commit()
 
         offen = pruefe(con)

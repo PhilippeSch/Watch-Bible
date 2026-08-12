@@ -30,6 +30,18 @@
             "value": "OK"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -70,6 +82,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Textes bibliques"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Testi biblici"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Textos bíblicos"
           }
         },
         "zh-Hans": {
@@ -114,6 +138,18 @@
             "value": "Build %@"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Build %@"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compilação %@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -154,6 +190,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "L’app fonctionne entièrement sur l’appareil et n’envoie aucune donnée."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’app funziona interamente sul dispositivo e non invia dati."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O app funciona inteiramente no dispositivo e não envia dados."
           }
         },
         "zh-Hans": {
@@ -241,6 +289,42 @@
                 "stringUnit": {
                   "state": "translated",
                   "value": "%lld chapitres"
+                }
+              }
+            }
+          }
+        },
+        "it": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld capitolo"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld capitoli"
+                }
+              }
+            }
+          }
+        },
+        "pt": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld capítulo"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld capítulos"
                 }
               }
             }
@@ -348,6 +432,42 @@
             }
           }
         },
+        "it": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld versetto"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld versetti"
+                }
+              }
+            }
+          }
+        },
+        "pt": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld versículo"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld versículos"
+                }
+              }
+            }
+          }
+        },
         "zh-Hans": {
           "variations": {
             "plural": {
@@ -402,6 +522,18 @@
             "value": "Verset %lld demandé ; fin du chapitre affichée."
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Richiesto il versetto %lld, mostrata la fine del capitolo."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versículo %lld solicitado; exibido o fim do capítulo."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -442,6 +574,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Numérotation différente"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Numerazione diversa"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Numeração diferente"
           }
         },
         "zh-Hans": {
@@ -486,6 +630,18 @@
             "value": "Ce chapitre n’existe pas dans la %@."
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Questo capitolo non esiste nella %@."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este capítulo não existe na %@."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -526,6 +682,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Les textes bibliques sont absents. Réinstallez l’app."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mancano i testi biblici. Reinstalla l’app."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faltam os textos bíblicos. Reinstale o app."
           }
         },
         "zh-Hans": {
@@ -570,6 +738,18 @@
             "value": "Ce verset n’existe pas dans la traduction choisie."
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Questo versetto non esiste nella traduzione scelta."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este versículo não existe na tradução escolhida."
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -610,6 +790,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Reprendre · %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riprendi · %@"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuar · %@"
           }
         },
         "zh-Hans": {
@@ -654,6 +846,18 @@
             "value": "Rechercher"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cerca"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -694,6 +898,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Verset au hasard"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versetto a caso"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versículo aleatório"
           }
         },
         "zh-Hans": {
@@ -738,6 +954,18 @@
             "value": "Réglages"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impostazioni"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -780,16 +1008,28 @@
             "value": "Thèmes"
           }
         },
-        "zh-Hant": {
+        "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "主題"
+            "value": "Temi"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temas"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "主题"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主題"
           }
         }
       }
@@ -820,6 +1060,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Allemand"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tedesco"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alemão"
           }
         },
         "zh-Hans": {
@@ -864,6 +1116,18 @@
             "value": "Anglais"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inglese"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inglês"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -904,6 +1168,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Espagnol"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spagnolo"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Espanhol"
           }
         },
         "zh-Hans": {
@@ -948,6 +1224,18 @@
             "value": "Français"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Francese"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Francês"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -958,6 +1246,114 @@
           "stringUnit": {
             "state": "translated",
             "value": "法文"
+          }
+        }
+      }
+    },
+    "language.it": {
+      "comment": "Sprachname in der Uebersetzungswahl",
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Italienisch"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Italian"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Italiano"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Italien"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Italiano"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Italiano"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "意大利文"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "義大利文"
+          }
+        }
+      }
+    },
+    "language.pt": {
+      "comment": "Sprachname in der Uebersetzungswahl",
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Portugiesisch"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Portuguese"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Portugués"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Portugais"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Portoghese"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Português"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "葡萄牙文"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "葡萄牙文"
           }
         }
       }
@@ -988,6 +1384,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Chinois (simplifié)"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cinese (semplificato)"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chinês (simplificado)"
           }
         },
         "zh-Hans": {
@@ -1032,6 +1440,18 @@
             "value": "Chinois (traditionnel)"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cinese (tradizionale)"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chinês (tradicional)"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1072,6 +1492,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Livres"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Libri"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Livros"
           }
         },
         "zh-Hans": {
@@ -1116,6 +1548,18 @@
             "value": "Chapitres"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capitoli"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capítulos"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1156,6 +1600,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Verset"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versetto"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versículo"
           }
         },
         "zh-Hans": {
@@ -1200,6 +1656,18 @@
             "value": "Versets clés"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versetti chiave"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versículos-chave"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1240,6 +1708,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bible entière"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tutta la Bibbia"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bíblia inteira"
           }
         },
         "zh-Hans": {
@@ -1284,6 +1764,18 @@
             "value": "Verset suivant"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versetto successivo"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Próximo versículo"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1321,6 +1813,18 @@
           }
         },
         "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ / %2$@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ / %2$@"
+          }
+        },
+        "pt": {
           "stringUnit": {
             "state": "translated",
             "value": "%1$@ / %2$@"
@@ -1368,6 +1872,18 @@
             "value": "Verset %1$@ sur %2$@"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versetto %1$@ di %2$@"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versículo %1$@ de %2$@"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1408,6 +1924,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Changer de traduction"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cambia traduzione"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trocar de tradução"
           }
         },
         "zh-Hans": {
@@ -1452,6 +1980,18 @@
             "value": "Lire dans le chapitre"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leggi nel capitolo"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ler no capítulo"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1489,6 +2029,18 @@
           }
         },
         "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ %2$lld"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ %2$lld"
+          }
+        },
+        "pt": {
           "stringUnit": {
             "state": "translated",
             "value": "%1$@ %2$lld"
@@ -1536,6 +2088,18 @@
             "value": "%1$@ %2$lld:%3$lld"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ %2$lld:%3$lld"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ %2$lld:%3$lld"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1576,6 +2140,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "À propos"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Informazioni"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sobre"
           }
         },
         "zh-Hans": {
@@ -1620,6 +2196,18 @@
             "value": "Apparence"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aspetto"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aparência"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1660,6 +2248,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Automatique"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatico"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automático"
           }
         },
         "zh-Hans": {
@@ -1704,6 +2304,18 @@
             "value": "Jour"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Giorno"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dia"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1744,6 +2356,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nuit"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notte"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noite"
           }
         },
         "zh-Hans": {
@@ -1788,6 +2412,18 @@
             "value": "Retour haptique"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Feedback aptico"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vibração"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1828,6 +2464,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nuit à partir de"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notte da"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noite a partir de"
           }
         },
         "zh-Hans": {
@@ -1872,6 +2520,18 @@
             "value": "Nuit jusqu’à"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notte fino a"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noite até"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1912,6 +2572,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mode aléatoire"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modalità casuale"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modo aleatório"
           }
         },
         "zh-Hans": {
@@ -1956,6 +2628,18 @@
             "value": "Taille du texte"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dimensione testo"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tamanho do texto"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -1993,6 +2677,18 @@
           }
         },
         "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grande"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grande"
+          }
+        },
+        "pt": {
           "stringUnit": {
             "state": "translated",
             "value": "Grande"
@@ -2040,6 +2736,18 @@
             "value": "Moyenne"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Media"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Médio"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2080,6 +2788,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Petite"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Piccola"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pequeno"
           }
         },
         "zh-Hans": {
@@ -2124,6 +2844,18 @@
             "value": "Traduction"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Traduzione"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tradução"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2164,6 +2896,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nouveau Testament"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nuovo Testamento"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Novo Testamento"
           }
         },
         "zh-Hans": {
@@ -2208,6 +2952,18 @@
             "value": "Ancien Testament"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antico Testamento"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antigo Testamento"
+          }
+        },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
@@ -2250,13 +3006,25 @@
             "value": "Mission"
           }
         },
-        "zh-Hant": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Missione"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Missão"
+          }
+        },
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "使命"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "使命"
@@ -2292,13 +3060,25 @@
             "value": "Christ"
           }
         },
-        "zh-Hant": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cristo"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cristo"
+          }
+        },
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "基督"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "基督"
@@ -2334,13 +3114,25 @@
             "value": "Reconnaissance"
           }
         },
-        "zh-Hant": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ringraziamento"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gratidão"
+          }
+        },
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "感恩"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "感恩"
@@ -2376,16 +3168,28 @@
             "value": "Humilité"
           }
         },
-        "zh-Hant": {
+        "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "謙卑"
+            "value": "Umiltà"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Humildade"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "谦卑"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "謙卑"
           }
         }
       }
@@ -2418,13 +3222,25 @@
             "value": "Fin des temps"
           }
         },
-        "zh-Hant": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ultime cose"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Últimos tempos"
+          }
+        },
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "末世"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "末世"
@@ -2460,13 +3276,25 @@
             "value": "Évangile"
           }
         },
-        "zh-Hant": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vangelo"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Evangelho"
+          }
+        },
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "福音"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "福音"
@@ -2502,16 +3330,28 @@
             "value": "Joie"
           }
         },
-        "zh-Hant": {
+        "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "喜樂"
+            "value": "Gioia"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alegria"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "喜乐"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "喜樂"
           }
         }
       }
@@ -2544,16 +3384,28 @@
             "value": "Direction"
           }
         },
-        "zh-Hant": {
+        "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "引導"
+            "value": "Guida"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Direção"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "引导"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引導"
           }
         }
       }
@@ -2586,16 +3438,28 @@
             "value": "Prière"
           }
         },
-        "zh-Hant": {
+        "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "禱告"
+            "value": "Preghiera"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oração"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "祷告"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "禱告"
           }
         }
       }
@@ -2628,16 +3492,28 @@
             "value": "Commandement"
           }
         },
-        "zh-Hant": {
+        "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "誡命"
+            "value": "Comandamento"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mandamento"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "诫命"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "誡命"
           }
         }
       }
@@ -2670,16 +3546,28 @@
             "value": "Église"
           }
         },
-        "zh-Hant": {
+        "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "教會"
+            "value": "Chiesa"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Igreja"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "教会"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "教會"
           }
         }
       }
@@ -2712,13 +3600,25 @@
             "value": "Foi"
           }
         },
-        "zh-Hant": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fede"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fé"
+          }
+        },
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "信心"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "信心"
@@ -2754,13 +3654,25 @@
             "value": "Dieu"
           }
         },
-        "zh-Hant": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dio"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deus"
+          }
+        },
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "神"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "神"
@@ -2796,16 +3708,28 @@
             "value": "Saint-Esprit"
           }
         },
-        "zh-Hant": {
+        "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "聖靈"
+            "value": "Spirito Santo"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Espírito Santo"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "圣灵"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "聖靈"
           }
         }
       }
@@ -2838,13 +3762,25 @@
             "value": "Espérance"
           }
         },
-        "zh-Hant": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Speranza"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esperança"
+          }
+        },
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "盼望"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "盼望"
@@ -2880,16 +3816,28 @@
             "value": "Amour"
           }
         },
-        "zh-Hant": {
+        "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "愛"
+            "value": "Amore"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Amor"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "爱"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "愛"
           }
         }
       }
@@ -2922,16 +3870,28 @@
             "value": "Louange"
           }
         },
-        "zh-Hant": {
+        "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "讚美"
+            "value": "Lode"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Louvor"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "赞美"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "讚美"
           }
         }
       }
@@ -2964,16 +3924,28 @@
             "value": "Disciple"
           }
         },
-        "zh-Hant": {
+        "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "門徒"
+            "value": "Discepolato"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Discipulado"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "门徒"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "門徒"
           }
         }
       }
@@ -3006,13 +3978,25 @@
             "value": "Bénédiction"
           }
         },
-        "zh-Hant": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Benedizione"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bênção"
+          }
+        },
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "祝福"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "祝福"
@@ -3048,16 +4032,28 @@
             "value": "Fidélité"
           }
         },
-        "zh-Hant": {
+        "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "信實"
+            "value": "Fedeltà"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fidelidade"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "信实"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "信實"
           }
         }
       }
@@ -3090,13 +4086,25 @@
             "value": "Consolation"
           }
         },
-        "zh-Hant": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Consolazione"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Consolo"
+          }
+        },
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "安慰"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "安慰"
@@ -3132,13 +4140,25 @@
             "value": "Repentance"
           }
         },
-        "zh-Hant": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conversione"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrependimento"
+          }
+        },
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "悔改"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "悔改"
@@ -3174,13 +4194,25 @@
             "value": "Pardon"
           }
         },
-        "zh-Hant": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perdono"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perdão"
+          }
+        },
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "赦免"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "赦免"
@@ -3216,13 +4248,25 @@
             "value": "Confiance"
           }
         },
-        "zh-Hant": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fiducia"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confiança"
+          }
+        },
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "倚靠"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "倚靠"
@@ -3258,13 +4302,25 @@
             "value": "Sagesse"
           }
         },
-        "zh-Hant": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sapienza"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sabedoria"
+          }
+        },
+        "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "智慧"
           }
         },
-        "zh-Hans": {
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "智慧"
@@ -3300,16 +4356,28 @@
             "value": "Parole de Dieu"
           }
         },
-        "zh-Hant": {
+        "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "神的話"
+            "value": "Parola di Dio"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Palavra de Deus"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "神的话"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "神的話"
           }
         }
       }
@@ -3340,6 +4408,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Affiche chaque jour un verset clé."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostra ogni giorno un versetto chiave."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostra um versículo-chave a cada dia."
           }
         },
         "zh-Hans": {
@@ -3382,6 +4462,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Verset du jour"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versetto del giorno"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versículo do dia"
           }
         },
         "zh-Hans": {

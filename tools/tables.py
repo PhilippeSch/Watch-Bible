@@ -4,9 +4,15 @@ tables.py
 =========
 
 Die Nachschlagetabellen, die in die Datenbank geschrieben werden: Kanonwissen,
-Buchnamen und Buchkuerzel der sechs Oberflaechensprachen, Reihenfolge und
+Buchnamen und Buchkuerzel der acht Oberflaechensprachen, Reihenfolge und
 Copyright-Zeilen der Uebersetzungen, dazu Schema-Version und das DDL der
 Tabelle `curated`.
+
+Eine Sprache dazunehmen heisst: eine Namens- und eine Kuerzeltabelle
+schreiben und beide in BOOK_NAME_TABLES / BOOK_ABBREV_TABLES eintragen.
+Konverter und Nachtragsskripte lesen ausschliesslich diese beiden
+Verzeichnisse — es gibt keine zweite Stelle, an der Spalten aufgezaehlt
+werden.
 
 Warum getrennt vom Konverter: `quotepas_to_sqlite.py` beschreibt, **wie** die
 Quellen gelesen werden (quotepas-LaTeX, OSIS, USFM) — dieses Modul, **was** in
@@ -20,7 +26,7 @@ Nicht ausfuehrbar, enthaelt nur Daten. Nur Standardbibliothek.
 
 from __future__ import annotations
 
-SCHEMA_VERSION = 3
+SCHEMA_VERSION = 4
 APPLICATION_ID = 0x42494257  # "BIBW"
 
 # ---------------------------------------------------------------------------
@@ -109,6 +115,56 @@ FRENCH_NAMES = {
     "3Joh": "3 Jean", "Jud": "Jude", "Offb": "Apocalypse",
 }
 
+# Italienisch, Namensgebung der Riveduta 1927. Aus den \h-Kopfzeilen der
+# USFM-Quelle uebernommen, mit einer Korrektur: die Kopfzeile schreibt
+# «Giosué», der Verstext 225-mal «Giosuè» und nur 5-mal «Giosué» — es gilt
+# die Form des Textes.
+ITALIAN_NAMES = {
+    "1Mo": "Genesi", "2Mo": "Esodo", "3Mo": "Levitico", "4Mo": "Numeri",
+    "5Mo": "Deuteronomio", "Jos": "Giosuè", "Ri": "Giudici", "Rt": "Rut",
+    "1Sam": "1 Samuele", "2Sam": "2 Samuele", "1Kon": "1 Re", "2Kon": "2 Re",
+    "1Chr": "1 Cronache", "2Chr": "2 Cronache", "Esr": "Esdra",
+    "Neh": "Neemia", "Est": "Ester", "Hi": "Giobbe", "Ps": "Salmi",
+    "Spr": "Proverbi", "Pred": "Ecclesiaste", "Hl": "Cantico dei Cantici",
+    "Jes": "Isaia", "Jer": "Geremia", "Kla": "Lamentazioni",
+    "Hes": "Ezechiele", "Dan": "Daniele", "Hos": "Osea", "Joel": "Gioele",
+    "Am": "Amos", "Ob": "Abdia", "Jon": "Giona", "Mi": "Michea",
+    "Nah": "Nahum", "Hab": "Abacuc", "Zeph": "Sofonia", "Hag": "Aggeo",
+    "Sach": "Zaccaria", "Mal": "Malachia", "Mt": "Matteo", "Mk": "Marco",
+    "Lk": "Luca", "Joh": "Giovanni", "Apg": "Atti", "Rom": "Romani",
+    "1Kor": "1 Corinzi", "2Kor": "2 Corinzi", "Gal": "Galati",
+    "Eph": "Efesini", "Phil": "Filippesi", "Kol": "Colossesi",
+    "1Th": "1 Tessalonicesi", "2Th": "2 Tessalonicesi", "1Tim": "1 Timoteo",
+    "2Tim": "2 Timoteo", "Tit": "Tito", "Phlm": "Filemone",
+    "Hebr": "Ebrei", "Jak": "Giacomo", "1Pt": "1 Pietro", "2Pt": "2 Pietro",
+    "1Joh": "1 Giovanni", "2Joh": "2 Giovanni", "3Joh": "3 Giovanni",
+    "Jud": "Giuda", "Offb": "Apocalisse",
+}
+
+# Portugiesisch, Namensgebung der Biblia Livre (Almeida-Linie). Aus den
+# \h-Kopfzeilen der USFM-Quelle uebernommen.
+PORTUGUESE_NAMES = {
+    "1Mo": "Gênesis", "2Mo": "Êxodo", "3Mo": "Levítico", "4Mo": "Números",
+    "5Mo": "Deuteronômio", "Jos": "Josué", "Ri": "Juízes", "Rt": "Rute",
+    "1Sam": "1 Samuel", "2Sam": "2 Samuel", "1Kon": "1 Reis", "2Kon": "2 Reis",
+    "1Chr": "1 Crônicas", "2Chr": "2 Crônicas", "Esr": "Esdras",
+    "Neh": "Neemias", "Est": "Ester", "Hi": "Jó", "Ps": "Salmos",
+    "Spr": "Provérbios", "Pred": "Eclesiastes", "Hl": "Cantares",
+    "Jes": "Isaías", "Jer": "Jeremias", "Kla": "Lamentações",
+    "Hes": "Ezequiel", "Dan": "Daniel", "Hos": "Oseias", "Joel": "Joel",
+    "Am": "Amós", "Ob": "Obadias", "Jon": "Jonas", "Mi": "Miqueias",
+    "Nah": "Naum", "Hab": "Habacuque", "Zeph": "Sofonias", "Hag": "Ageu",
+    "Sach": "Zacarias", "Mal": "Malaquias", "Mt": "Mateus", "Mk": "Marcos",
+    "Lk": "Lucas", "Joh": "João", "Apg": "Atos", "Rom": "Romanos",
+    "1Kor": "1 Coríntios", "2Kor": "2 Coríntios", "Gal": "Gálatas",
+    "Eph": "Efésios", "Phil": "Filipenses", "Kol": "Colossenses",
+    "1Th": "1 Tessalonicenses", "2Th": "2 Tessalonicenses",
+    "1Tim": "1 Timóteo", "2Tim": "2 Timóteo", "Tit": "Tito",
+    "Phlm": "Filemom", "Hebr": "Hebreus", "Jak": "Tiago", "1Pt": "1 Pedro",
+    "2Pt": "2 Pedro", "1Joh": "1 João", "2Joh": "2 João", "3Joh": "3 João",
+    "Jud": "Judas", "Offb": "Apocalipse",
+}
+
 # Chinesisch traditionell, Namensgebung des 和合本.
 CHINESE_TRAD_NAMES = {
     "1Mo": "創世記", "2Mo": "出埃及記", "3Mo": "利未記", "4Mo": "民數記",
@@ -162,6 +218,8 @@ BOOK_NAME_TABLES = {
     "en": ENGLISH_NAMES,
     "es": SPANISH_NAMES,
     "fr": FRENCH_NAMES,
+    "it": ITALIAN_NAMES,
+    "pt": PORTUGUESE_NAMES,
     "zh_hant": CHINESE_TRAD_NAMES,
     "zh_hans": CHINESE_SIMP_NAMES,
 }
@@ -258,6 +316,50 @@ FRENCH_ABBREV = {
     "Offb": "Ap",
 }
 
+# Italienisch: der in italienischen Bibelausgaben uebliche Satz (CEI /
+# Nuova Riveduta). Die USFM-Quelle taugt hier nicht — ihr \toc3 wiederholt
+# bloss den vollen Namen. Beachte Gen (Genesi) gegen Gn (Giona): die
+# italienische Tradition trennt die beiden genau so.
+ITALIAN_ABBREV = {
+    "1Mo": "Gen", "2Mo": "Es", "3Mo": "Lv", "4Mo": "Nm", "5Mo": "Dt",
+    "Jos": "Gs", "Ri": "Gdc", "Rt": "Rt", "1Sam": "1Sam", "2Sam": "2Sam",
+    "1Kon": "1Re", "2Kon": "2Re", "1Chr": "1Cr", "2Chr": "2Cr",
+    "Esr": "Esd", "Neh": "Ne", "Est": "Est", "Hi": "Gb", "Ps": "Sal",
+    "Spr": "Pr", "Pred": "Ec", "Hl": "Ct", "Jes": "Is", "Jer": "Ger",
+    "Kla": "Lam", "Hes": "Ez", "Dan": "Dn", "Hos": "Os", "Joel": "Gl",
+    "Am": "Am", "Ob": "Abd", "Jon": "Gn", "Mi": "Mi", "Nah": "Na",
+    "Hab": "Ab", "Zeph": "Sof", "Hag": "Ag", "Sach": "Zc", "Mal": "Ml",
+    "Mt": "Mt", "Mk": "Mc", "Lk": "Lc", "Joh": "Gv", "Apg": "At",
+    "Rom": "Rm", "1Kor": "1Cor", "2Kor": "2Cor", "Gal": "Gal",
+    "Eph": "Ef", "Phil": "Flp", "Kol": "Col", "1Th": "1Ts", "2Th": "2Ts",
+    "1Tim": "1Tm", "2Tim": "2Tm", "Tit": "Tt", "Phlm": "Flm",
+    "Hebr": "Eb", "Jak": "Gc", "1Pt": "1Pt", "2Pt": "2Pt",
+    "1Joh": "1Gv", "2Joh": "2Gv", "3Joh": "3Gv", "Jud": "Gd",
+    "Offb": "Ap",
+}
+
+# Portugiesisch: die \toc3-Felder der Biblia-Livre-Quelle, mit einer
+# Korrektur. Die Quelle gibt sowohl Jó (Hiob) als auch João «Jo» — im
+# Register waeren die beiden nicht auseinanderzuhalten. Der uebliche
+# brasilianische Satz trennt sie ueber den Akzent: Jó gegen Jo.
+PORTUGUESE_ABBREV = {
+    "1Mo": "Gn", "2Mo": "Ex", "3Mo": "Lv", "4Mo": "Nm", "5Mo": "Dt",
+    "Jos": "Js", "Ri": "Jz", "Rt": "Rt", "1Sam": "1Sm", "2Sam": "2Sm",
+    "1Kon": "1Rs", "2Kon": "2Rs", "1Chr": "1Cr", "2Chr": "2Cr",
+    "Esr": "Esd", "Neh": "Ne", "Est": "Est", "Hi": "Jó", "Ps": "Sl",
+    "Spr": "Prv", "Pred": "Ec", "Hl": "Ct", "Jes": "Is", "Jer": "Jr",
+    "Kla": "Lm", "Hes": "Ez", "Dan": "Dn", "Hos": "Os", "Joel": "Jl",
+    "Am": "Am", "Ob": "Ob", "Jon": "Jn", "Mi": "Mq", "Nah": "Na",
+    "Hab": "Hab", "Zeph": "Sf", "Hag": "Ag", "Sach": "Zc", "Mal": "Ml",
+    "Mt": "Mt", "Mk": "Mc", "Lk": "Lc", "Joh": "Jo", "Apg": "At",
+    "Rom": "Rm", "1Kor": "1Co", "2Kor": "2Co", "Gal": "Gl",
+    "Eph": "Ef", "Phil": "Fp", "Kol": "Cl", "1Th": "1Ts", "2Th": "2Ts",
+    "1Tim": "1Tm", "2Tim": "2Tm", "Tit": "Tt", "Phlm": "Flm",
+    "Hebr": "Hb", "Jak": "Tg", "1Pt": "1Pd", "2Pt": "2Pd",
+    "1Joh": "1Jo", "2Joh": "2Jo", "3Joh": "3Jo", "Jud": "Jd",
+    "Offb": "Ap",
+}
+
 CHINESE_TRAD_ABBREV = {
     "1Mo": "創", "2Mo": "出", "3Mo": "利", "4Mo": "民",
     "5Mo": "申", "Jos": "書", "Ri": "士", "Rt": "得",
@@ -316,6 +418,8 @@ BOOK_ABBREV_TABLES = {
     "en": ENGLISH_ABBREV,
     "es": SPANISH_ABBREV,
     "fr": FRENCH_ABBREV,
+    "it": ITALIAN_ABBREV,
+    "pt": PORTUGUESE_ABBREV,
     "zh_hant": CHINESE_TRAD_ABBREV,
     "zh_hans": CHINESE_SIMP_ABBREV,
 }
@@ -343,6 +447,12 @@ TRANSLATION_META = {
     "cuvs": ("zh-Hans", "\u548c\u5408\u672c Chinese Union Version (1919). "
                         "Gemeinfrei, Schutzfrist abgelaufen. Vereinfachte Zeichen "
                         "maschinell aus der traditionellen Ausgabe (OpenCC t2s)."),
+    "riv": ("it", "Riveduta 1927 (Giovanni Luzzi). Gemeinfrei."),
+    # CC BY 4.0 verlangt die Namensnennung; sie steht deshalb hier und
+    # erscheint dadurch im Impressum der App.
+    "blivre": ("pt", "B\u00edblia Livre, \u00a9 2018 Diego Santos, "
+                     "Mario S\u00e9rgio, Marco Teles. Lizenziert unter "
+                     "Creative Commons Attribution 4.0 (CC BY 4.0)."),
 }
 
 # Reihenfolge, in der die Uebersetzungen in der App erscheinen (sort_order).
@@ -357,7 +467,7 @@ TRANSLATION_META = {
 # sich hinten in der Reihenfolge der Quelle an.
 TRANSLATION_ORDER = [
     "elb", "kjv", "dar", "slt", "sch1951", "lut", "meng",
-    "cuv", "cuvs", "rvr1909", "lsg", "bsb",
+    "cuv", "cuvs", "rvr1909", "lsg", "riv", "blivre", "bsb",
 ]
 
 # Anzeigename je Code, falls die Quelle keinen mitliefert.
@@ -370,6 +480,8 @@ TRANSLATION_NAMES = {
     "rvr1909": ("RVR", "Reina-Valera 1909"),
     "lsg":  ("LSG", "Louis Segond 1910"),
     "cuvs": ("CUVS", "\u548c\u5408\u672c\uff08\u7b80\u4f53\uff09"),
+    "riv":  ("RIV", "Riveduta 1927"),
+    "blivre": ("BLV", "B\u00edblia Livre"),
 }
 
 # ---------------------------------------------------------------------------

@@ -43,10 +43,12 @@ actor BibleRepository {
         // (tools/add_book_names.py traegt sie nach).
         let columns = Set(try await db.query("PRAGMA table_info(book)") { $0.string(1) })
         let nameColumns = [("en", "name_en"), ("es", "name_es"), ("fr", "name_fr"),
+                           ("it", "name_it"), ("pt", "name_pt"),
                            ("zh-Hant", "name_zh_hant"), ("zh-Hans", "name_zh_hans")]
             .filter { columns.contains($0.1) }
         let abbrevColumns = [("de", "abbrev_de"), ("en", "abbrev_en"),
                              ("es", "abbrev_es"), ("fr", "abbrev_fr"),
+                             ("it", "abbrev_it"), ("pt", "abbrev_pt"),
                              ("zh-Hant", "abbrev_zh_hant"),
                              ("zh-Hans", "abbrev_zh_hans")]
             .filter { columns.contains($0.1) }

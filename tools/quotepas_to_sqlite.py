@@ -48,12 +48,18 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # werden; jenes, was in der Datenbank steht. Die Nachtragsskripte importieren
 # dort, nicht hier.
 from tables import (  # noqa: E402
-    APPLICATION_ID, BOOK_ABBREV_TABLES, BOOK_NAME_TABLES, CHINESE_SIMP_ABBREV,
-    CHINESE_SIMP_NAMES, CHINESE_TRAD_ABBREV, CHINESE_TRAD_NAMES, CURATED_DDL,
-    ENGLISH_ABBREV, ENGLISH_NAMES, FRENCH_ABBREV, FRENCH_NAMES, GERMAN_ABBREV,
-    NT_CODES, SCHEMA_VERSION, SPANISH_ABBREV, SPANISH_NAMES, TRANSLATION_META,
-    TRANSLATION_NAMES, TRANSLATION_ORDER,
+    APPLICATION_ID, BOOK_ABBREV_TABLES, BOOK_NAME_TABLES, CURATED_DDL,
+    NT_CODES, SCHEMA_VERSION, TRANSLATION_META, TRANSLATION_NAMES,
+    TRANSLATION_ORDER,
 )
+
+# Die sprachabhaengigen Spalten der Tabelle `book`, aus den Verzeichnissen in
+# tables.py abgeleitet statt aufgezaehlt: eine Sprache dazunehmen heisst dort
+# eintragen, hier nichts. Reihenfolge ist die der Verzeichnisse, damit DDL und
+# INSERT garantiert dieselbe bleiben.
+BOOK_NAME_COLUMNS = [f"name_{suffix}" for suffix in BOOK_NAME_TABLES]
+BOOK_ABBREV_COLUMNS = [f"abbrev_{suffix}" for suffix in BOOK_ABBREV_TABLES]
+BOOK_LANG_COLUMNS = BOOK_NAME_COLUMNS + BOOK_ABBREV_COLUMNS
 
 # OSIS-Buchkuerzel -> Buchcode der quotepas-Datei.
 OSIS_BOOKS = {
@@ -579,18 +585,9 @@ CREATE TABLE book (
     id            INTEGER PRIMARY KEY,
     code          TEXT NOT NULL UNIQUE,
     name          TEXT NOT NULL,
-    name_en       TEXT,
-    name_es       TEXT,
-    name_fr       TEXT,
-    name_zh_hant  TEXT,
-    name_zh_hans  TEXT,
-    abbrev_de     TEXT,
-    abbrev_en     TEXT,
-    abbrev_es     TEXT,
-    abbrev_fr     TEXT,
-    abbrev_zh_hant TEXT,
-    abbrev_zh_hans TEXT,
-    testament     TEXT NOT NULL,
+""" + "".join(
+    f"    {c:<{max(len(x) for x in BOOK_LANG_COLUMNS) + 1}s}TEXT,\n"
+    for c in BOOK_LANG_COLUMNS) + """    testament     TEXT NOT NULL,
     chapter_count INTEGER NOT NULL,
     sort_order    INTEGER NOT NULL
 );
@@ -635,17 +632,16 @@ def build_database(res: ParseResult, out_path: str, source_name: str,
     chapters_per_book: dict[str, set] = defaultdict(set)
     for _t, b, c, _v, _x in res.verses:
         chapters_per_book[b].add(c)
+    # Spalten und Werte kommen aus denselben Verzeichnissen wie das DDL, in
+    # derselben Reihenfolge — sie koennen gar nicht auseinanderlaufen.
+    lang_tables = list(BOOK_NAME_TABLES.values()) + list(BOOK_ABBREV_TABLES.values())
+    columns = ["id", "code", "name"] + BOOK_LANG_COLUMNS + [
+        "testament", "chapter_count", "sort_order"]
     con.executemany(
-        "INSERT INTO book (id, code, name, name_en, name_es, name_fr,"
-        " name_zh_hant, name_zh_hans, abbrev_de, abbrev_en, abbrev_es,"
-        " abbrev_fr, abbrev_zh_hant, abbrev_zh_hans, testament, chapter_count,"
-        " sort_order) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-        [(book_id[c], c, res.books[c], ENGLISH_NAMES.get(c),
-          SPANISH_NAMES.get(c), FRENCH_NAMES.get(c),
-          CHINESE_TRAD_NAMES.get(c), CHINESE_SIMP_NAMES.get(c),
-          GERMAN_ABBREV.get(c), ENGLISH_ABBREV.get(c), SPANISH_ABBREV.get(c),
-          FRENCH_ABBREV.get(c), CHINESE_TRAD_ABBREV.get(c),
-          CHINESE_SIMP_ABBREV.get(c),
+        f"INSERT INTO book ({', '.join(columns)})"
+        f" VALUES ({','.join('?' * len(columns))})",
+        [(book_id[c], c, res.books[c],
+          *(table.get(c) for table in lang_tables),
           "NT" if c in NT_CODES else "AT",
           max(chapters_per_book[c]) if chapters_per_book[c] else 0,
           book_id[c]) for c in res.book_order],

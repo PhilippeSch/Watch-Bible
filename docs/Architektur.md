@@ -4,7 +4,9 @@ Wie Watch Bible aufgebaut ist: Datenmodell, Schema, Abfragen, Versifikationslogi
 
 ## 1. Rahmenbedingungen
 
-**Platz.** Apple-Watch-Apps müssen unkomprimiert unter 75 MB bleiben, und watchOS unterstützt keine On-Demand-Resources — nachladbare Datenpakete fallen also weg, alles muss ins Bundle. Die Datenbank mit zehn Übersetzungen misst 50.9 MB. Der Konverter meldet die Grösse bei jedem Lauf und warnt ab 70 MB.
+**Platz — die bindende Grenze.** Apple-Watch-Apps müssen unkomprimiert unter 75 MB bleiben, und watchOS unterstützt keine On-Demand-Resources — nachladbare Datenpakete fallen also weg, alles muss ins Bundle. Die Datenbank mit zwölf Übersetzungen misst 61.5 MB, die archivierte Watch-App **62.2 MB**. Es bleiben rund 12 MB, also gut zwei weitere Übersetzungen zu je etwa 5 MB. Der Konverter meldet die Grösse bei jedem Lauf und warnt ab 70 MB; verlassen sollte man sich darauf nicht, sondern nach dem Archivieren messen (Befehl im README).
+
+Deshalb liegt `bible.sqlite` auch nur **einmal** im Paket: das Widget liest sie aus dem Bundle der App, zwei Ebenen über der `.appex`. Eine eigene Kopie würde die Grenze auf einen Schlag sprengen.
 
 **Kein Netzwerk.** Die App fragt nichts ab und lädt nichts nach. Das ist keine Sparsamkeit, sondern die Grundlage von allem Weiteren: keine Berechtigungen, kein Konto, kein zweiter Eintrag im Privacy-Manifest, keine Latenz auf einer Uhr ohne Empfang.
 
@@ -31,17 +33,18 @@ meta          (key, value)                    -- Schema-Version, Erzeugungsdatum
                                               -- Leitübersetzung, Anzahl kuratierter Verse
 translation   (id, code, abbrev, name, language, copyright,
                verse_count, first_verse_id, last_verse_id, sort_order)
-book          (id, code, name, name_en, name_es, name_fr, name_zh_hant, name_zh_hans,
-               abbrev_de, abbrev_en, abbrev_es, abbrev_fr, abbrev_zh_hant, abbrev_zh_hans,
+book          (id, code, name, name_en, name_es, name_fr, name_it, name_pt,
+               name_zh_hant, name_zh_hans, abbrev_de, abbrev_en, abbrev_es,
+               abbrev_fr, abbrev_it, abbrev_pt, abbrev_zh_hant, abbrev_zh_hans,
                testament, chapter_count, sort_order)
 verse         (id, translation_id, book_id, chapter, verse, text)
 chapter_meta  (translation_id, book_id, chapter, verse_count)
 curated       (id, book_id, chapter, verse, topic)
 ```
 
-Schema-Version 3 (`PRAGMA user_version`), `application_id` 0x42494257 («BIBW»).
+Schema-Version 4 (`PRAGMA user_version` **und** `meta.schema_version`), `application_id` 0x42494257 («BIBW»). Die Sprachspalten sind mit Version 3 (August 2026) dazugekommen, Italienisch und Portugiesisch mit Version 4.
 
-> **Bekannte Unstimmigkeit:** In der ausgelieferten Datei steht `meta.schema_version` noch auf `2`, weil `tools/add_book_names.py` beim Nachtragen nur `PRAGMA user_version` hochsetzt, nicht auch die `meta`-Zeile. Massgeblich ist die Pragma; die App liest weder das eine noch das andere. Beim nächsten vollständigen Konverterlauf löst sich das von selbst.
+**Die sprachabhängigen Spalten stehen nirgends aufgezählt.** DDL und `INSERT` des Konverters leiten sie aus `BOOK_NAME_TABLES` und `BOOK_ABBREV_TABLES` in `tools/tables.py` ab; eine Sprache dazunehmen heisst, dort eine Tabelle einzutragen. Auf der Swift-Seite steht die Zuordnung Spalte → Sprache noch als Liste in `BibleRepository.load()`, weil sie zusätzlich die Kennung der Datenbank auf die der App abbildet (`zh_hant` → `zh-Hant`).
 
 Zwei Kniffe, die den Watch-Code einfach halten:
 
@@ -96,19 +99,24 @@ Der gefährlichste Punkt im Projekt. Die Referenzmengen aller Übersetzungen sin
 
 | Vergleich | Kapitel mit abweichender Verszahl (von 1'189) |
 |---|---:|
-| LUT ↔ KJV | 142 |
-| SCH 1951 ↔ KJV | 141 |
-| ELB ↔ SCH 1951 | 125 |
-| LUT ↔ ELB | 124 |
+| LUT ↔ KJV | 140 |
+| SCH 1951 ↔ KJV | 139 |
+| ELB ↔ SCH 1951 | 123 |
+| LUT ↔ ELB | 122 |
 | ELB ↔ BSB | 44 |
 | CUV ↔ ELB | 32 |
 | ELB ↔ KJV | 29 |
+| RIV ↔ ELB | 29 |
+| BLV ↔ ELB | 29 |
 | BSB ↔ KJV | 17 |
 | DAR ↔ KJV | 6 |
 | CUV ↔ KJV | 5 |
 | LUT ↔ SCH 1951 | 3 |
-| RVR 1909 ↔ KJV | 0 |
-| LSG ↔ KJV | 0 |
+| RVR · LSG · RIV · BLV ↔ KJV | 0 |
+
+Gezählt sind Kapitel, die es in **beiden** Übersetzungen gibt und die unterschiedlich viele Verse haben — das sind die `.divergent`-Fälle. Kapitel, die einer Übersetzung ganz fehlen, sind hier nicht mitgezählt; sie sind `.unavailable` und ein anderer Fall. In dieser Datenbank gibt es davon genau zwei: Joel 4 (in LUT und SCH, nicht in ELB und KJV) und Maleachi 4 (umgekehrt). Wer beides zusammenzählt, bekommt zwei mehr je Paar — und vermischt zwei Zustände, die die App bewusst auseinanderhält.
+
+Fünf Übersetzungen folgen der englischen Zählung exakt: Reina-Valera, Segond, Riveduta, Bíblia Livre und (bis auf 17 Kapitel) die BSB.
 
 Es geht nicht nur um Psalmenüberschriften. **Ganze Kapitelgrenzen verschieben sich.** Beispiel 4. Mose 16/17, nachgezählt in der ausgelieferten Datenbank:
 
@@ -238,16 +246,16 @@ Der Impressumsbildschirm wird nicht hartkodiert, sondern aus der Datenbank gefü
 
 | Suite | Prüft |
 |---|---|
-| `ZaehlwerteTests` | 66 Bücher, 1'189 Kapitel, Verszahlen je Übersetzung |
-| `StichprobenTests` | 28 Stellen wörtlich; ein fehlender Vers ergibt `nil`, keinen Absturz |
+| `ZaehlwerteTests` | 66 Bücher, 1'189 Kapitel, Verszahlen und `verse.id`-Bereiche je Übersetzung |
+| `StichprobenTests` | 36 Stellen wörtlich; ein fehlender Vers ergibt `nil`, keinen Absturz |
 | `VersifikationTests` | `.divergent`, `.clamped`, `.unavailable` an den bekannten Fällen |
 | `SprachenTests` | Übersetzungssprachen ↔ Oberflächensprachen, Normalisierung, Vorgaben, Buchnamen, Kürzel, Stellenformat |
 | `ZufallTests` | Grenzen, Streuung, Determinismus des Tagesverses, Abdeckung der Liste |
-| `ThemenTests` | Themen aus der Datenbank, Übersetzung in allen sechs Sprachen, Wiederholungssperre |
+| `ThemenTests` | Themen aus der Datenbank, Übersetzung in allen acht Sprachen, Wiederholungssperre |
 
 Randfälle, die immer mitlaufen: Ps 119,176 · Jud 1,25 · letzter Vers der Offenbarung · erster Vers von 1. Mose.
 
-Der Abgleich «jede Übersetzungssprache hat eine Oberfläche» läuft in beide Richtungen: kommt eine siebte Sprache in die Datenbank, ohne dass die Oberfläche nachzieht, schlägt der Test fehl. Dasselbe gilt für Themen — jedes Thema der Datenbank braucht in allen sechs Sprachen einen Eintrag im String Catalog.
+Der Abgleich «jede Übersetzungssprache hat eine Oberfläche» läuft in beide Richtungen: kommt eine neunte Sprache in die Datenbank, ohne dass die Oberfläche nachzieht, schlägt der Test fehl. Dasselbe gilt für Themen — jedes Thema der Datenbank braucht in allen acht Sprachen einen Eintrag im String Catalog.
 
 ## 11. App Store
 

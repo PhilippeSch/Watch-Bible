@@ -3,7 +3,7 @@
   "zaehlwerte": {
     "buecher": 66,
     "kapitel": 1189,
-    "verse_gesamt": 311034,
+    "verse_gesamt": 373238,
     "kuratiert": 463,
     "uebersetzungen": [
       {
@@ -75,6 +75,20 @@
         "verse_count": 31084,
         "first_verse_id": 279951,
         "last_verse_id": 311034
+      },
+      {
+        "code": "riv",
+        "language": "it",
+        "verse_count": 31102,
+        "first_verse_id": 311035,
+        "last_verse_id": 342136
+      },
+      {
+        "code": "blivre",
+        "language": "pt",
+        "verse_count": 31102,
+        "first_verse_id": 342137,
+        "last_verse_id": 373238
       }
     ]
   },
@@ -274,6 +288,62 @@
       "kapitel": 21,
       "vers": 14,
       "text": "Daher heisst es in dem Buch von den Kriegen des HERRN: «Das Vaheb in Supha und die Bäche Arnon"
+    },
+    {
+      "uebersetzung": "riv",
+      "buch": "1Mo",
+      "kapitel": 1,
+      "vers": 1,
+      "text": "Nel principio Iddio creò i cieli e la terra."
+    },
+    {
+      "uebersetzung": "riv",
+      "buch": "Joh",
+      "kapitel": 3,
+      "vers": 16,
+      "text": "Poiché Iddio ha tanto amato il mondo, che ha dato il suo unigenito Figliuolo, affinché chiunque crede in lui non perisca, ma abbia vita eterna."
+    },
+    {
+      "uebersetzung": "riv",
+      "buch": "Ps",
+      "kapitel": 119,
+      "vers": 176,
+      "text": "Io vo errando come pecora smarrita; cerca il tuo servitore, perché io non dimentico i tuoi comandamenti."
+    },
+    {
+      "uebersetzung": "riv",
+      "buch": "Offb",
+      "kapitel": 22,
+      "vers": 21,
+      "text": "La grazia del Signor Gesù sia con tutti."
+    },
+    {
+      "uebersetzung": "blivre",
+      "buch": "1Mo",
+      "kapitel": 1,
+      "vers": 1,
+      "text": "No princípio criou Deus os céus e a terra."
+    },
+    {
+      "uebersetzung": "blivre",
+      "buch": "Joh",
+      "kapitel": 3,
+      "vers": 16,
+      "text": "Porque Deus amou ao mundo de tal maneira, que deu o seu Filho unigênito; para que todo aquele que nele crê não pereça, mas tenha a vida eterna."
+    },
+    {
+      "uebersetzung": "blivre",
+      "buch": "Jud",
+      "kapitel": 1,
+      "vers": 25,
+      "text": "Ao único sábio Deus, nosso Salvador,seja a glória e majestade, poder e autoridade, agora, e para todo o sempre, Amém!"
+    },
+    {
+      "uebersetzung": "blivre",
+      "buch": "Offb",
+      "kapitel": 22,
+      "vers": 21,
+      "text": "A graça do nosso Senhor Jesus Cristo seja com todos vós. Amém!"
     }
   ],
   "versifikation": {
@@ -4618,6 +4688,376 @@
             "sch1951": 41
           }
         ]
+      },
+      "riv_kjv": {
+        "anzahl": 0,
+        "faelle": []
+      },
+      "blivre_kjv": {
+        "anzahl": 0,
+        "faelle": []
+      },
+      "riv_elb": {
+        "anzahl": 29,
+        "faelle": [
+          {
+            "buch": "1Kon",
+            "kapitel": 22,
+            "riv": 53,
+            "elb": 54
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 20,
+            "riv": 42,
+            "elb": 43
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 23,
+            "riv": 29,
+            "elb": 28
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 24,
+            "riv": 22,
+            "elb": 23
+          },
+          {
+            "buch": "2Kon",
+            "kapitel": 11,
+            "riv": 21,
+            "elb": 20
+          },
+          {
+            "buch": "2Kon",
+            "kapitel": 15,
+            "riv": 38,
+            "elb": 39
+          },
+          {
+            "buch": "2Kor",
+            "kapitel": 13,
+            "riv": 14,
+            "elb": 13
+          },
+          {
+            "buch": "3Joh",
+            "kapitel": 1,
+            "riv": 14,
+            "elb": 15
+          },
+          {
+            "buch": "3Mo",
+            "kapitel": 5,
+            "riv": 19,
+            "elb": 26
+          },
+          {
+            "buch": "3Mo",
+            "kapitel": 6,
+            "riv": 30,
+            "elb": 23
+          },
+          {
+            "buch": "4Mo",
+            "kapitel": 30,
+            "riv": 16,
+            "elb": 17
+          },
+          {
+            "buch": "5Mo",
+            "kapitel": 28,
+            "riv": 68,
+            "elb": 69
+          },
+          {
+            "buch": "Dan",
+            "kapitel": 5,
+            "riv": 31,
+            "elb": 30
+          },
+          {
+            "buch": "Dan",
+            "kapitel": 6,
+            "riv": 28,
+            "elb": 29
+          },
+          {
+            "buch": "Hes",
+            "kapitel": 20,
+            "riv": 49,
+            "elb": 44
+          },
+          {
+            "buch": "Hes",
+            "kapitel": 21,
+            "riv": 32,
+            "elb": 37
+          },
+          {
+            "buch": "Hi",
+            "kapitel": 39,
+            "riv": 30,
+            "elb": 35
+          },
+          {
+            "buch": "Hi",
+            "kapitel": 40,
+            "riv": 24,
+            "elb": 27
+          },
+          {
+            "buch": "Hi",
+            "kapitel": 41,
+            "riv": 34,
+            "elb": 25
+          },
+          {
+            "buch": "Hos",
+            "kapitel": 11,
+            "riv": 12,
+            "elb": 11
+          },
+          {
+            "buch": "Hos",
+            "kapitel": 12,
+            "riv": 14,
+            "elb": 15
+          },
+          {
+            "buch": "Jon",
+            "kapitel": 1,
+            "riv": 17,
+            "elb": 16
+          },
+          {
+            "buch": "Jon",
+            "kapitel": 2,
+            "riv": 10,
+            "elb": 11
+          },
+          {
+            "buch": "Lk",
+            "kapitel": 17,
+            "riv": 37,
+            "elb": 36
+          },
+          {
+            "buch": "Mi",
+            "kapitel": 4,
+            "riv": 13,
+            "elb": 14
+          },
+          {
+            "buch": "Mi",
+            "kapitel": 5,
+            "riv": 15,
+            "elb": 14
+          },
+          {
+            "buch": "Offb",
+            "kapitel": 12,
+            "riv": 17,
+            "elb": 18
+          },
+          {
+            "buch": "Pred",
+            "kapitel": 6,
+            "riv": 12,
+            "elb": 11
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 13,
+            "riv": 6,
+            "elb": 5
+          }
+        ]
+      },
+      "blivre_elb": {
+        "anzahl": 29,
+        "faelle": [
+          {
+            "buch": "1Kon",
+            "kapitel": 22,
+            "blivre": 53,
+            "elb": 54
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 20,
+            "blivre": 42,
+            "elb": 43
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 23,
+            "blivre": 29,
+            "elb": 28
+          },
+          {
+            "buch": "1Sam",
+            "kapitel": 24,
+            "blivre": 22,
+            "elb": 23
+          },
+          {
+            "buch": "2Kon",
+            "kapitel": 11,
+            "blivre": 21,
+            "elb": 20
+          },
+          {
+            "buch": "2Kon",
+            "kapitel": 15,
+            "blivre": 38,
+            "elb": 39
+          },
+          {
+            "buch": "2Kor",
+            "kapitel": 13,
+            "blivre": 14,
+            "elb": 13
+          },
+          {
+            "buch": "3Joh",
+            "kapitel": 1,
+            "blivre": 14,
+            "elb": 15
+          },
+          {
+            "buch": "3Mo",
+            "kapitel": 5,
+            "blivre": 19,
+            "elb": 26
+          },
+          {
+            "buch": "3Mo",
+            "kapitel": 6,
+            "blivre": 30,
+            "elb": 23
+          },
+          {
+            "buch": "4Mo",
+            "kapitel": 30,
+            "blivre": 16,
+            "elb": 17
+          },
+          {
+            "buch": "5Mo",
+            "kapitel": 28,
+            "blivre": 68,
+            "elb": 69
+          },
+          {
+            "buch": "Dan",
+            "kapitel": 5,
+            "blivre": 31,
+            "elb": 30
+          },
+          {
+            "buch": "Dan",
+            "kapitel": 6,
+            "blivre": 28,
+            "elb": 29
+          },
+          {
+            "buch": "Hes",
+            "kapitel": 20,
+            "blivre": 49,
+            "elb": 44
+          },
+          {
+            "buch": "Hes",
+            "kapitel": 21,
+            "blivre": 32,
+            "elb": 37
+          },
+          {
+            "buch": "Hi",
+            "kapitel": 39,
+            "blivre": 30,
+            "elb": 35
+          },
+          {
+            "buch": "Hi",
+            "kapitel": 40,
+            "blivre": 24,
+            "elb": 27
+          },
+          {
+            "buch": "Hi",
+            "kapitel": 41,
+            "blivre": 34,
+            "elb": 25
+          },
+          {
+            "buch": "Hos",
+            "kapitel": 11,
+            "blivre": 12,
+            "elb": 11
+          },
+          {
+            "buch": "Hos",
+            "kapitel": 12,
+            "blivre": 14,
+            "elb": 15
+          },
+          {
+            "buch": "Jon",
+            "kapitel": 1,
+            "blivre": 17,
+            "elb": 16
+          },
+          {
+            "buch": "Jon",
+            "kapitel": 2,
+            "blivre": 10,
+            "elb": 11
+          },
+          {
+            "buch": "Lk",
+            "kapitel": 17,
+            "blivre": 37,
+            "elb": 36
+          },
+          {
+            "buch": "Mi",
+            "kapitel": 4,
+            "blivre": 13,
+            "elb": 14
+          },
+          {
+            "buch": "Mi",
+            "kapitel": 5,
+            "blivre": 15,
+            "elb": 14
+          },
+          {
+            "buch": "Offb",
+            "kapitel": 12,
+            "blivre": 17,
+            "elb": 18
+          },
+          {
+            "buch": "Pred",
+            "kapitel": 6,
+            "blivre": 12,
+            "elb": 11
+          },
+          {
+            "buch": "Ps",
+            "kapitel": 13,
+            "blivre": 6,
+            "elb": 5
+          }
+        ]
+      },
+      "riv_blivre": {
+        "anzahl": 0,
+        "faelle": []
       }
     }
   }

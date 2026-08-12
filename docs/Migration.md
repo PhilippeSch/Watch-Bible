@@ -27,7 +27,7 @@
 | 12 | Unit-Tests | leere Vorlage | Datenschicht, Versifikation, Sprachen, Themen gegen `test_fixtures.json` |
 | 13 | Widget | fehlte | Vers des Tages, `accessoryRectangular` + `accessoryCircular`, Deep Link |
 
-Danach kamen die Themen (`curated.topic` als eigener Bildschirm) und die Ausweitung der Oberfläche auf alle sechs Übersetzungssprachen dazu.
+Die Zahlen der Spalte «Nachher» sind die vom Abschluss der Migration. Danach kamen die Themen (`curated.topic` als eigener Bildschirm), die Ausweitung der Oberfläche auf alle Übersetzungssprachen und im August 2026 Italienisch und Portugiesisch dazu — heute sind es zwölf Übersetzungen in acht Sprachen, 61.5 MB. Den aktuellen Stand führt das [README](../README.md).
 
 ## Erkenntnisse, die den Aufwand geprägt haben
 

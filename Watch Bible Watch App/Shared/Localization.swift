@@ -11,7 +11,8 @@ enum Localization {
     /// die auch eine Bibelübersetzung mitgeliefert wird. Geschrieben wie
     /// `translation.language` in der Datenbank, damit Anzeigesprache und
     /// Übersetzungssprache ohne Umrechnung vergleichbar sind.
-    static let supportedLanguages = ["de", "en", "es", "fr", "zh-Hant", "zh-Hans"]
+    static let supportedLanguages = ["de", "en", "es", "fr", "it", "pt",
+                                     "zh-Hant", "zh-Hans"]
 
     /// Rückfall, wenn das System eine Sprache meldet, für die es keine
     /// Übersetzung gibt.

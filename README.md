@@ -1,6 +1,6 @@
 # Watch Bible
 
-A standalone Bible app for the Apple Watch. Ten translations in six languages ship as a read-only SQLite file inside the app bundle — no iPhone required, no account, no network, no data collection.
+A standalone Bible app for the Apple Watch. Twelve translations in eight languages ship as a read-only SQLite file inside the app bundle — no iPhone required, no account, no network, no data collection.
 
 <p>
   <img src="AppStore/Screenshots-de/02-Zufallsvers.png" width="180" alt="Random verse">
@@ -43,20 +43,22 @@ Every text shipped is either in the public domain or freely licensed. Each trans
 | BSB | Berean Standard Bible | English | 31,084 | public domain since 30 April 2023 |
 | RVR | Reina-Valera 1909 | Spanish | 31,102 | public domain |
 | LSG | Louis Segond 1910 | French | 31,102 | public domain |
+| RIV | Riveduta 1927 | Italian | 31,102 | public domain |
+| BLV | Bíblia Livre | Portuguese | 31,102 | CC BY 4.0, © 2018 Diego Santos, Mario Sérgio, Marco Teles |
 | CUV | 和合本（繁體） | Chinese, traditional | 31,101 | public domain, term expired |
 | CUVS | 和合本（简体） | Chinese, simplified | 31,101 | public domain, converted from CUV (OpenCC) |
 
-66 books, 1,189 chapters, 311,034 verses, 50.9 MB. Where each text comes from, how it was verified and which edits to the source are documented is recorded in **[docs/Bibeltexte.md](docs/Bibeltexte.md)** (in German) — including why each particular edition was chosen over the obvious alternative next to it.
+66 books, 1,189 chapters, 373,238 verses, 61.5 MB. Where each text comes from, how it was verified and which edits to the source are documented is recorded in **[docs/Bibeltexte.md](docs/Bibeltexte.md)** (in German) — including why each particular edition was chosen over the obvious alternative next to it.
 
 Copyrighted translations are deliberately absent. Schlachter 2000 can be added with written permission from the Genfer Bibelgesellschaft; that takes a converter flag, not a code change.
 
 ## Languages
 
-The interface exists in every language for which a Bible translation ships: **German, English, Spanish, French, Chinese (traditional) and Chinese (simplified).** It follows the system language; there is no separate language setting.
+The interface exists in every language for which a Bible translation ships: **German, English, Spanish, French, Italian, Portuguese, Chinese (traditional) and Chinese (simplified).** It follows the system language; there is no separate language setting. A unit test keeps the two sets identical in both directions — add a translation in a ninth language without translating the interface and the build goes red.
 
 More than the labels is translated:
 
-- **Book names and abbreviations** come from the database, each in the set customary for that language — Elberfelder for German, the SBL Handbook of Style for English, Reina-Valera for Spanish, Segond for French, the 和合本 set for Chinese. The book list's index shows them: 1Mo · Jos · Ps · Jes · Mt · Röm · Offb in German, Gen · Josh · Ps · Isa · Matt · Rom · Rev in English, 創 · 書 · 詩 · 賽 · 太 · 羅 · 啟 in Chinese.
+- **Book names and abbreviations** come from the database, each in the set customary for that language — Elberfelder for German, the SBL Handbook of Style for English, Reina-Valera for Spanish, Segond for French, the CEI set for Italian, the Almeida set for Portuguese, the 和合本 set for Chinese. The book list's index shows them: 1Mo · Jos · Ps · Jes · Mt · Röm · Offb in German, Gen · Josh · Ps · Isa · Matt · Rom · Rev in English, 創 · 書 · 詩 · 賽 · 太 · 羅 · 啟 in Chinese.
 - **The reference format itself.** German Bibles write «Johannes 3,16», every other language in the app "John 3:16".
 - **Numbers follow the region, not the language:** 18’463 in Switzerland, 18,463 in the United States.
 - **Chinese needs more room:** larger type, tighter leading, no forced serif design.
@@ -134,6 +136,19 @@ Things worth knowing:
 - **Never put derived data inside the project folder.** If the directory is synchronised by a file provider (OneDrive, iCloud Drive, `~/Documents` too), it attaches extended attributes to the build products and codesign fails with "resource fork, Finder information, or similar detritus not allowed".
 - A successful build says nothing about layout. Look at the screens in the simulator — day and night, and at least once in Chinese.
 - The path contains spaces, so quote it in every command.
+- **Watch the bundle size.** A watchOS app must stay under 75 MB uncompressed, and this one is mostly database. Measure after archiving, not before:
+
+  ```bash
+  xcodebuild -project "Watch Bible.xcodeproj" -scheme "Watch Bible Watch App" \
+             -destination 'generic/platform=watchOS' \
+             -archivePath "$HOME/Library/Developer/WatchBible-archive" \
+             -derivedDataPath "$HOME/Library/Developer/WatchBible-build" archive
+
+  du -sh "$HOME/Library/Developer/WatchBible-archive.xcarchive/Products/Applications/"\
+"Watch Bible.app/Watch/Watch Bible Watch App.app"
+  ```
+
+  With twelve translations that comes to **62.2 MB**, leaving about 12 MB of headroom — roughly two more translations. The database appears exactly once in the package; the widget reads it out of the app bundle rather than shipping its own copy.
 
 ### The build number sets itself
 
@@ -153,8 +168,9 @@ Four points about it:
 | Tool | Purpose |
 |---|---|
 | `tools/quotepas_to_sqlite.py` | The converter. Reads the LaTeX source file plus OSIS XML (`--osis CODE=FILE`) and USFM directories (`--usfm CODE=DIR`), and writes the database. Standard library only. |
-| `tools/tables.py` | The lookup tables: canon knowledge, book names and abbreviations for all six languages, `TRANSLATION_ORDER`, copyright lines, schema version. Both the converter **and** the top-up scripts import from here — one source. |
+| `tools/tables.py` | The lookup tables: canon knowledge, book names and abbreviations for all eight languages, `TRANSLATION_ORDER`, copyright lines, schema version. Both the converter **and** the top-up scripts import from here — one source. The `book` table's language columns are derived from these dictionaries, never listed a second time. |
 | `tools/add_book_names.py` | Adds book names and abbreviations to an existing database. `--check-zh` verifies the simplified characters against the mapping derived from CUV/CUVS themselves. |
+| `tools/add_translation.py` | Appends a translation to an existing database without rewriting the ones already in it. This is how Italian and Portuguese were added — see the note on verse ids below. |
 | `tools/reorder_translations.py` | Sets `translation.sort_order` from `TRANSLATION_ORDER` — and with it the default translation per language. |
 | `tools/update_curated.py` | Adds key verses and topics. Checks every reference against the master translation and writes nothing while a single one is missing. |
 
@@ -166,10 +182,21 @@ This is how the shipped file is produced:
 python3 tools/quotepas_to_sqlite.py bible.db \
         --osis sch1951=sch1951.xml --osis lut=luth1912.xml \
         --osis cuv=chi.xml --osis cuvs=cuv_simplified.xml \
-        --osis rvr1909=sparv.xml --osis lsg=fren.xml --usfm bsb=./bsb_usfm \
+        --osis rvr1909=sparv.xml --osis lsg=fren.xml \
+        --usfm bsb=./bsb_usfm --usfm riv=./ita1927 --usfm blivre=./porbr2018 \
         --exclude slt --curated tools/curated_verses.json --swiss \
         -o "Watch Bible Watch App/Resources/bible.sqlite"
 ```
+
+The file actually shipped was not built that way, though. Italian and Portuguese were **appended** to the existing database with `add_translation.py`:
+
+```bash
+python3 tools/add_translation.py "Watch Bible Watch App/Resources/bible.sqlite" \
+        --usfm riv=./ita1927 --usfm blivre=./porbr2018 --swiss
+python3 tools/add_book_names.py "Watch Bible Watch App/Resources/bible.sqlite"
+```
+
+The reason is `translation.id`. The shipped database still carries the ids from the original source order, where DAR came before KJV; a full converter run assigns ids from `TRANSLATION_ORDER` instead and would swap the `verse.id` blocks of those two translations — and `test_fixtures.json` pins exactly those blocks. Appending leaves everything existing untouched: the new translations take the next free id and a verse block after the last one in use.
 
 The third-party source files — the quotepas file `bible.db`, the OSIS editions and the USFM directory — are not in this repository; where they come from is documented in [docs/Bibeltexte.md](docs/Bibeltexte.md). What was produced here is included: `tools/cuv_simplified.xml` (generated from the traditional edition) and `tools/curated_verses.json`.
 

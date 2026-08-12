@@ -350,6 +350,8 @@
 				de,
 				es,
 				fr,
+				it,
+				pt,
 				"zh-Hans",
 				"zh-Hant",
 				Base,

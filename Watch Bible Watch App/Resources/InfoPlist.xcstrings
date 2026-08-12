@@ -29,16 +29,28 @@
             "value": "Bible"
           }
         },
-        "zh-Hant": {
+        "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "聖經"
+            "value": "Bibbia"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bíblia"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "圣经"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "聖經"
           }
         }
       }
@@ -51,6 +63,18 @@
           "stringUnit": {
             "state": "new",
             "value": "Watch Bible Watch App"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bibbia"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bíblia"
           }
         }
       }
