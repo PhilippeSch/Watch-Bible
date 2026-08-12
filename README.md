@@ -60,7 +60,7 @@ More than the labels is translated:
 
 - **Book names and abbreviations** come from the database, each in the set customary for that language — Elberfelder for German, the SBL Handbook of Style for English, Reina-Valera for Spanish, Segond for French, the CEI set for Italian, the Almeida set for Portuguese, the 和合本 set for Chinese. The book list's index shows them: 1Mo · Jos · Ps · Jes · Mt · Röm · Offb in German, Gen · Josh · Ps · Isa · Matt · Rom · Rev in English, 創 · 書 · 詩 · 賽 · 太 · 羅 · 啟 in Chinese.
 - **The reference format itself.** German Bibles write «Johannes 3,16», every other language in the app "John 3:16".
-- **Numbers follow the region, not the language:** 18’463 in Switzerland, 18,463 in the United States.
+- **Numbers follow the region, not the language:** 31’103 in Switzerland, 31,103 in the United States.
 - **Chinese needs more room:** larger type, tighter leading, no forced serif design.
 
 On first launch the app picks the first translation of the display language in database order. Never again after that: a translation you have chosen is not overwritten when the system language changes.

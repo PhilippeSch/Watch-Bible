@@ -48,7 +48,7 @@ Schema-Version 4 (`PRAGMA user_version` **und** `meta.schema_version`), `applica
 
 Zwei Kniffe, die den Watch-Code einfach halten:
 
-1. **`verse.id` ist lückenlos und je Übersetzung zusammenhängend.** `translation` speichert `first_verse_id` und `last_verse_id`. Ein Zufallsvers ist damit ein einziger Primärschlüsselzugriff — `Int.random(in: first...last)` — statt `ORDER BY RANDOM()` über 31'000 Zeilen. Dieselbe Eigenschaft trägt die Zählerzeile des Zufallsverses («18’463 / 31’103»): die Zahl ist die normierte `verse.id`, keine Berechnung fürs Layout.
+1. **`verse.id` ist lückenlos und je Übersetzung zusammenhängend.** `translation` speichert `first_verse_id` und `last_verse_id`. Ein Zufallsvers ist damit ein einziger Primärschlüsselzugriff — `Int.random(in: first...last)` — statt `ORDER BY RANDOM()` über 31'000 Zeilen.
 2. **`chapter_meta` ist vorberechnet.** Die Auswahlraster für Kapitel und Verse brauchen keine `COUNT`-Abfragen, sondern nur einen Indexzugriff. Kostet wenige hundert Kilobyte.
 
 Dazu `CREATE UNIQUE INDEX idx_verse_ref ON verse(translation_id, book_id, chapter, verse)` — bedient die Stellensuche und den Übersetzungswechsel bei gleichbleibender Stelle.

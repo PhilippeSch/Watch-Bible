@@ -93,7 +93,7 @@ Bezug ist die 45-mm-Uhr: 396 × 484 px = **198 × 242 pt**. Kleinere Gehäuse ve
 - Stellenangabe oben in Versalien, Karmin.
 - Verstext als Fliesstext, hochgestellte Verszahl vorangestellt.
 - Bändchen links zeigt die Position des Verses im Kapitel.
-- Zählerzeile unten: `18 463 / 31 103` links, Übersetzungskürzel rechts. Die Zahl ist die `verse.id` aus der Datenbank, keine Berechnung fürs Layout.
+- Zählerzeile unten: `3 / 463` links, Übersetzungskürzel rechts. Gezählt wird **das Blättern in dieser Gruppe**, nicht die Lage des Verses in der Übersetzung: links die wievielte Seite dieses Durchgangs, rechts, wie viele Verse der Topf hat, aus dem gezogen wird — das Thema, das Versregister (463) oder die ganze Übersetzung (31'103). Die Zählung beginnt bei jedem Öffnen wieder bei 1; eine Ziehung hat keine Reihenfolge, in die sich ein Vers dauerhaft einordnen liesse. Wer länger blättert, als die Gruppe Verse hat, beginnt wieder bei 1, statt über die Gesamtzahl hinauszuzählen — erreichbar nur in den kleinen Themen.
 - Weiterschalten: Wischen nach oben (`TabView`, `.verticalPage`) **und** Tippen auf die gesamte Fläche. Haptik `.click`, abschaltbar.
 - Die letzten 20 Verse merken und nicht wiederholen.
 - Tippen auf die Stellenangabe öffnet die Leseansicht am selben Vers.
@@ -171,7 +171,7 @@ Keine Signalfarbe, kein Symbol, nichts zum Wegklicken. Zwei Zahlen erklären den
 
 **Das Register der Buchliste ist damit lokalisiert.** Es zeigt das Kürzel der Anzeigesprache aus der Datenbank, nicht `book.code` — der ist Schlüssel und deutsch geprägt. Die sieben Sprungmarken lauten 1Mo · Jos · Ps · Jes · Mt · Röm · Offb auf Deutsch, Gen · Josh · Ps · Isa · Matt · Rom · Rev auf Englisch, Gn · Jos · Sal · Is · Mt · Ro · Ap auf Spanisch, Gn · Jos · Ps · És · Mt · Rm · Ap auf Französisch und 創 · 書 · 詩 · 賽 · 太 · 羅 · 啟 beziehungsweise 创 · 书 · 诗 · 赛 · 太 · 罗 · 启 auf Chinesisch. Vier Zeichen sind die Obergrenze — mehr passt nicht in die 31 pt Registerbreite.
 
-**Die Stellenangabe ist selbst lokalisiert.** Deutsche Bibeln schreiben «Johannes 3,16», alle übrigen Sprachen der App «John 3:16» — Komma gegen Doppelpunkt. Der Trenner steht deshalb im String Catalog (`reference.format`) und darf nirgends fest verdrahtet werden. Die Zahlen der Zählerzeile folgen dagegen der **Region**, nicht der Sprache: 18’463 in der Schweiz, 18,463 in den USA, über `formatted(.number)`.
+**Die Stellenangabe ist selbst lokalisiert.** Deutsche Bibeln schreiben «Johannes 3,16», alle übrigen Sprachen der App «John 3:16» — Komma gegen Doppelpunkt. Der Trenner steht deshalb im String Catalog (`reference.format`) und darf nirgends fest verdrahtet werden. Die Zahlen der Zählerzeile folgen dagegen der **Region**, nicht der Sprache: 31’103 in der Schweiz, 31,103 in den USA, über `formatted(.number)`.
 
 **Pluralformen** für «%lld Kapitel» und «%lld Verse» sind als Varianten hinterlegt: Englisch, Spanisch und Französisch unterscheiden Einzahl und Mehrzahl, Deutsch bei «Kapitel» nicht, Chinesisch kennt nur eine Form.
 

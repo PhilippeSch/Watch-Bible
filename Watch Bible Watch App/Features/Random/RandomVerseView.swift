@@ -43,7 +43,8 @@ struct RandomVerseView: View {
     var body: some View {
         TabView(selection: $selection) {
             ForEach(Array(pages.enumerated()), id: \.element.id) { index, page in
-                RandomVersePage(page: page) { advance() }
+                RandomVersePage(page: page, ordinal: ordinal(at: index),
+                                total: groupTotal) { advance() }
                     .tag(index)
             }
         }
@@ -71,6 +72,33 @@ struct RandomVerseView: View {
     private func advance() {
         guard selection + 1 < pages.count else { return }
         withAnimation { selection += 1 }
+    }
+
+    /// Bezugsgroesse der Zaehlerzeile: wie viele Verse in der Gruppe stehen,
+    /// aus der hier gezogen wird — das Thema, das ganze Versregister oder die
+    /// ganze Uebersetzung. Nicht die Uebersetzung in jedem Fall: aus welchem
+    /// Topf gezogen wird, ist genau das, was die Zahl beantworten soll.
+    private var groupTotal: Int {
+        if let topic { return topic.verseCount }
+        switch model.settings.randomMode {
+        case .wholeBible: return model.translation?.verseCount ?? 0
+        case .curated:    return model.curatedCount
+        }
+    }
+
+    /// Laufende Nummer der Zaehlerzeile: die wievielte Seite dieses Durchgangs.
+    /// Beginnt bei jedem Oeffnen wieder bei 1 — eine Ziehung hat keine
+    /// Reihenfolge, in die sich ein Vers dauerhaft einordnen liesse; gezaehlt
+    /// wird also das Blaettern, nicht der Vers.
+    ///
+    /// Wer laenger blaettert, als die Gruppe Verse hat, faengt wieder bei 1 an,
+    /// statt ueber die Gesamtzahl hinauszuzaehlen: «13 / 10» in einem Thema mit
+    /// zehn Versen sieht nach einem Fehler aus. Erreichbar ist das nur in den
+    /// kleinen Themen — das Register hat 463 Verse, die Bibel 31'000.
+    private func ordinal(at index: Int) -> Int {
+        let total = groupTotal
+        guard total > 0 else { return index + 1 }
+        return index % total + 1
     }
 
     /// Haelt immer zwei Seiten Vorlauf, damit Wischen und Tippen nie warten.
@@ -116,6 +144,10 @@ private struct RandomVersePage: View {
     @Environment(AppModel.self) private var model
     @Environment(\.isLuminanceReduced) private var luminanceReduced
     let page: Page
+    /// Zaehlerzeile: die wievielte Seite dieses Durchgangs, und wie viele Verse
+    /// die Gruppe hat, aus der gezogen wird.
+    let ordinal: Int
+    let total: Int
     let onNext: () -> Void
 
     typealias Page = RandomVerseView.Page
@@ -136,7 +168,7 @@ private struct RandomVersePage: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 if !luminanceReduced {
-                    counterLine(verse)
+                    counterLine
                 }
             }
         }
@@ -182,16 +214,14 @@ private struct RandomVersePage: View {
         return String(text.prefix(110)) + "…"
     }
 
-    private func counterLine(_ verse: Verse) -> some View {
-        // Laufende Nummer innerhalb der Uebersetzung: verse.id ist lueckenlos,
-        // beginnt aber erst bei first_verse_id — daher die Normierung.
-        let translation = model.translation
-        let ordinal = verse.id - (translation?.firstVerseID ?? 1) + 1
-        let total = translation?.verseCount ?? 0
-        return HStack {
+    private var counterLine: some View {
+        // Gezaehlt wird das Blaettern in dieser Gruppe, nicht die Lage des
+        // Verses in der Uebersetzung: dass ein Vers der 18'463. von 31'103 ist,
+        // sagt ueber ihn nichts, und in einem Thema erst recht nichts.
+        HStack {
             Text(verbatim: Localization.position(ordinal, of: total))
             Spacer(minLength: 0)
-            Text(verbatim: translation?.abbrev ?? "")
+            Text(verbatim: model.translation?.abbrev ?? "")
         }
         .font(Typo.counter)
         .foregroundStyle(Color.secondaryInk)

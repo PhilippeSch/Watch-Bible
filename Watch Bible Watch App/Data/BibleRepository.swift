@@ -12,7 +12,9 @@ actor BibleRepository {
     /// Themen des Versregisters, in Datenbankreihenfolge (alphabetisch nach
     /// dem deutschen Schluessel). Die Anzeigereihenfolge macht die Oberflaeche.
     private(set) var topics: [Topic] = []
-    private var curatedCount: Int = 0
+    /// Anzahl Verse im Versregister — Grundlage der Ziehung und zugleich die
+    /// Bezugsgroesse der Zaehlerzeile im Modus «Ausgewaehlte Verse».
+    private(set) var curatedCount: Int = 0
     /// Stellen je Thema, einmal beim Start gelesen. Es sind wenige hundert
     /// Referenzen — billiger als eine Abfrage je Zufallsvers, und der
     /// Zufallszug bleibt damit ein Griff ins Array.

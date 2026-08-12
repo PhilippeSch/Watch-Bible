@@ -151,7 +151,7 @@ enum Localization {
     }
 
     /// Zahlen der Zählerzeile mit den Trennzeichen der jeweiligen Region:
-    /// Schweizer Deutsch 18’463, Englisch 18,463.
+    /// Schweizer Deutsch 31’103, Englisch 31,103.
     static func groupedNumber(_ value: Int) -> String {
         value.formatted(.number.grouping(.automatic))
     }
@@ -168,7 +168,8 @@ enum Localization {
                name(of: book), Int64(chapter))
     }
 
-    /// Zählerzeile des Zufallsverses («18’463 / 31’103»).
+    /// Zählerzeile des Zufallsverses («3 / 463»): die wievielte Seite dieses
+    /// Durchgangs, und wie viele Verse die Gruppe hat, aus der gezogen wird.
     static func position(_ ordinal: Int, of total: Int) -> String {
         String(format: String(localized: "random.position %1$@ %2$@"),
                groupedNumber(ordinal), groupedNumber(total))

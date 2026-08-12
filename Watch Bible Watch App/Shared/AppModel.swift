@@ -18,6 +18,9 @@ final class AppModel {
     private(set) var translations: [Translation] = []
     private(set) var books: [Book] = []
     private(set) var topics: [Topic] = []
+    /// Anzahl Verse des Versregisters, ueber alle Themen. Bezugsgroesse der
+    /// Zaehlerzeile, wenn der Zufallsvers aus dem Register zieht.
+    private(set) var curatedCount: Int = 0
 
     func start() async {
         guard repository == nil else { return }
@@ -28,6 +31,7 @@ final class AppModel {
             translations = await repo.translations
             books = await repo.books
             topics = await repo.topics
+            curatedCount = await repo.curatedCount
             // Sprachvorgabe nur beim allerersten Start; eine gewaehlte
             // Uebersetzung wird nie durch einen Sprachwechsel ueberschrieben.
             if !AppSettings.hasStoredTranslation {
