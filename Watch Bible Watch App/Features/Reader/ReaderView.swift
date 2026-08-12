@@ -30,6 +30,23 @@ struct ReaderView: View {
     @State private var didAutoScroll = false
     @State private var scrollPosition = ScrollPosition()
 
+    /// Solange wahr, stehen die uebrigen Verse auf 70 %. Faellt beim ersten
+    /// Scrollen auf falsch und bleibt es: die Hervorhebung zeigt beim Ankommen,
+    /// wo man gelandet ist, und tritt dann beiseite — wer weiterliest, soll
+    /// nirgends auf blasse Schrift stossen.
+    @State private var dimOthers = false
+    /// Ruhelage nach dem automatischen Hinscrollen, **beobachtet statt
+    /// berechnet**: `scrollTo(y:)` und `onScrollGeometryChange` messen nicht
+    /// dasselbe (die Geometrie rechnet `contentInsets.top` hinzu). Ein
+    /// Vergleich gegen den Zielwert waere darum je nach Einfassung sofort
+    /// ausgeloest worden. `nil` heisst: noch nicht zur Ruhe gekommen.
+    @State private var restOffset: CGFloat?
+    @State private var lastOffset: CGFloat = 0
+
+    /// Wie weit gescrollt sein muss, damit es als Absicht gilt — etwa eine
+    /// Zeile. Ein Streifen beim Antippen soll die Hervorhebung nicht loeschen.
+    private static let scrollIntentThreshold: CGFloat = 12
+
     /// Abweichungsfall nach einem Uebersetzungswechsel (Designspez. 4.6).
     struct SwitchInfo {
         let sourceName: String
@@ -132,6 +149,11 @@ struct ReaderView: View {
                 ? min(1, new.container / new.content) : 1
             let scrollable = max(1, new.content - new.container)
             scrollFraction = min(1, max(0, new.offset / scrollable))
+            lastOffset = new.offset
+            if dimOthers, let rest = restOffset,
+               abs(new.offset - rest) > Self.scrollIntentThreshold {
+                dimOthers = false
+            }
         })
     }
 
@@ -154,7 +176,7 @@ struct ReaderView: View {
             let scale = model.settings.textScale
             let language = model.translation?.language ?? "de"
             subset.reduce(Text(verbatim: "")) { flow, verse in
-                let dim = currentHighlight != nil && verse.reference.verse != currentHighlight
+                let dim = dimOthers && verse.reference.verse != currentHighlight
                 return flow
                     + Text("\(verse.reference.verse)")
                         .font(Typo.verseNumber(scale: scale))
@@ -235,6 +257,10 @@ struct ReaderView: View {
 
     private func load() async {
         guard let repo = model.repository, let translation = model.translation else { return }
+        // Vor dem ersten `await` setzen, sonst zeichnet SwiftUI den Text
+        // dazwischen einmal ungedimmt und er blitzt auf.
+        dimOthers = currentHighlight != nil
+        restOffset = nil
         verses = (try? await repo.chapter(book: bookID, chapter: chapter,
                                           in: translation)) ?? []
         previousStep = try? await repo.adjacentChapter(book: bookID, chapter: chapter,
@@ -243,6 +269,18 @@ struct ReaderView: View {
                                                     offset: +1, in: translation)
         rememberPosition()
         autoScrollIfNeeded()
+
+        // Dem automatischen Hinscrollen Zeit lassen, dann die erreichte
+        // Position als Ruhelage merken. Erst ab hier gilt eine Aenderung als
+        // Scrollen des Lesers. Laeuft in `.task(id:)` — ein Kapitelwechsel
+        // bricht das Warten ab, bevor eine falsche Ruhelage entsteht.
+        guard dimOthers else { return }
+        do {
+            try await Task.sleep(for: .milliseconds(500))
+        } catch {
+            return          // Kapitelwechsel: keine Ruhelage aus dem alten setzen
+        }
+        restOffset = lastOffset
     }
 
     private func rememberPosition() {

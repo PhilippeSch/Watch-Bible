@@ -117,7 +117,10 @@ Bezug ist die 45-mm-Uhr: 396 × 484 px = **198 × 242 pt**. Kleinere Gehäuse ve
 
 ### 4.5 Leseansicht
 - Das ganze Kapitel als **Fliesstext**, nicht Zeile pro Vers. Hochgestellte Verszahlen wie im Druck.
-- Der gewählte Vers in voller Deckkraft, die übrigen auf 70 % — kein Farbwechsel, kein Rahmen.
+- Der gewählte Vers in voller Deckkraft, die übrigen auf 70 % — kein Farbwechsel, kein Rahmen. **Nur beim Ankommen**: sobald der Leser scrollt (mehr als 12 pt, also etwa eine Zeile), gehen alle Verse auf volle Deckkraft und bleiben so. Die Hervorhebung beantwortet die Frage «wo bin ich gelandet» und tritt dann beiseite; sonst läse man den ganzen weiteren Text in blasser Schrift.
+  - Mitlaufen kann die Hervorhebung nicht: das Kapitel ist **ein** zusammengesetzter `Text`, es gibt keine Geometrie je Vers. Wollte man wissen, welcher Vers gerade auf dem Bildschirm steht, müsste je Vers eine eigene Ansicht her — und damit wäre der Fliesstext dahin.
+  - Ob gescrollt wurde, wird gegen eine **beobachtete** Ruhelage geprüft, nicht gegen den berechneten Zielwert des automatischen Hinscrollens: `scrollTo(y:)` und `onScrollGeometryChange` messen nicht dasselbe (Letzteres rechnet `contentInsets.top` hinzu).
+  - Beim Weiterblättern gibt es keinen gewählten Vers und damit nie eine Abblendung.
 - Krone scrollt, das Bändchen bewegt sich mit.
 - Werkzeugleiste: Übersetzung wechseln.
 - **Weiterblättern** am Ende des Kapitels: zwei Knöpfe nebeneinander, je 44 pt hoch, beschriftet mit dem Ziel — Buchkürzel der Anzeigesprache und Kapitelzahl, «‹ Mt 4» und «Mt 6 ›». Karmin auf Feldfläche wie die Rasterzellen. Am Kanonrand bleibt die betreffende Hälfte leer, statt dass der verbleibende Knopf über die volle Breite springt.
