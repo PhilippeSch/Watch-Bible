@@ -10,6 +10,7 @@ struct HomeView: View {
         ScrollView {
             VStack(spacing: 6) {
                 row("home.random", route: .random)
+                row("home.topics", route: .topics)
                 row("home.lookup", route: .books)
                 continueRow
                 row("home.settings", route: .settings, secondary: true)

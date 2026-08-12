@@ -40,7 +40,7 @@ import unicodedata
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 
-SCHEMA_VERSION = 3
+SCHEMA_VERSION = 4
 APPLICATION_ID = 0x42494257  # "BIBW"
 
 # ---------------------------------------------------------------------------
@@ -338,6 +338,57 @@ BOOK_ABBREV_TABLES = {
     "fr": FRENCH_ABBREV,
     "zh_hant": CHINESE_TRAD_ABBREV,
     "zh_hans": CHINESE_SIMP_ABBREV,
+}
+
+# ---------------------------------------------------------------------------
+# Themen des Versregisters je Sprache.
+#
+# `curated.topic` in curated_verses.json ist deutsch und bleibt der Schluessel —
+# wie `book.code`. Die uebrigen Sprachen stehen in `curated` als eigene Spalten
+# (topic_en, topic_es, …) und nicht im String Catalog: die Themenliste ist
+# Datenbankinhalt, kein Oberflaechentext. Kommt ein Thema dazu, zeigt die App es
+# ohne Codeaenderung; nur die Uebersetzung wird hier ergaenzt. Fehlt eine, meldet
+# der Konverter das und schreibt NULL — die App faellt dann auf Deutsch zurueck.
+#
+# Gewaehlt ist je Sprache das in Bibelausgaben und Konkordanzen uebliche Wort,
+# nicht die woertliche Uebersetzung: «Nachfolge» heisst englisch Discipleship
+# und chinesisch 門徒, «Umkehr» heisst spanisch Arrepentimiento.
+# ---------------------------------------------------------------------------
+
+TOPIC_NAMES = {
+    #  deutsch          en                es                 fr                 zh-Hant   zh-Hans
+    "Auftrag":       ("Mission",       "Misión",          "Mission",         "使命",   "使命"),
+    "Christus":      ("Christ",        "Cristo",          "Christ",          "基督",   "基督"),
+    "Dank":          ("Thanksgiving",  "Gratitud",        "Reconnaissance",  "感恩",   "感恩"),
+    "Demut":         ("Humility",      "Humildad",        "Humilité",        "謙卑",   "谦卑"),
+    "Endzeit":       ("Last Things",   "Últimos tiempos", "Fin des temps",   "末世",   "末世"),
+    "Evangelium":    ("Gospel",        "Evangelio",       "Évangile",        "福音",   "福音"),
+    "Freude":        ("Joy",           "Gozo",            "Joie",            "喜樂",   "喜乐"),
+    "Führung":       ("Guidance",      "Dirección",       "Direction",       "引導",   "引导"),
+    "Gebet":         ("Prayer",        "Oración",         "Prière",          "禱告",   "祷告"),
+    "Gebot":         ("Commandment",   "Mandamiento",     "Commandement",    "誡命",   "诫命"),
+    "Gemeinde":      ("Church",        "Iglesia",         "Église",          "教會",   "教会"),
+    "Glaube":        ("Faith",         "Fe",              "Foi",             "信心",   "信心"),
+    "Gott":          ("God",           "Dios",            "Dieu",            "神",     "神"),
+    "Heiliger Geist":("Holy Spirit",   "Espíritu Santo",  "Saint-Esprit",    "聖靈",   "圣灵"),
+    "Hoffnung":      ("Hope",          "Esperanza",       "Espérance",       "盼望",   "盼望"),
+    "Liebe":         ("Love",          "Amor",            "Amour",           "愛",     "爱"),
+    "Lob":           ("Praise",        "Alabanza",        "Louange",         "讚美",   "赞美"),
+    "Nachfolge":     ("Discipleship",  "Discipulado",     "Disciple",        "門徒",   "门徒"),
+    "Segen":         ("Blessing",      "Bendición",       "Bénédiction",     "祝福",   "祝福"),
+    "Treue":         ("Faithfulness",  "Fidelidad",       "Fidélité",        "信實",   "信实"),
+    "Trost":         ("Comfort",       "Consuelo",        "Consolation",     "安慰",   "安慰"),
+    "Umkehr":        ("Repentance",    "Arrepentimiento", "Repentance",      "悔改",   "悔改"),
+    "Vergebung":     ("Forgiveness",   "Perdón",          "Pardon",          "赦免",   "赦免"),
+    "Vertrauen":     ("Trust",         "Confianza",       "Confiance",       "倚靠",   "倚靠"),
+    "Weisheit":      ("Wisdom",        "Sabiduría",       "Sagesse",         "智慧",   "智慧"),
+    "Wort Gottes":   ("Word of God",   "Palabra de Dios", "Parole de Dieu",  "神的話", "神的话"),
+}
+
+# Sprachkennung -> Themenspalte -> Tabelle. Die Spalte heisst topic_<kennung>.
+TOPIC_NAME_TABLES = {
+    kennung: {thema: werte[i] for thema, werte in TOPIC_NAMES.items()}
+    for i, kennung in enumerate(("en", "es", "fr", "zh_hant", "zh_hans"))
 }
 
 # Sprache und Copyright-Zeile je Uebersetzungscode. Wird in die DB geschrieben
@@ -953,11 +1004,16 @@ CREATE TABLE chapter_meta (
 ) WITHOUT ROWID;
 
 CREATE TABLE curated (
-    id      INTEGER PRIMARY KEY,
-    book_id INTEGER NOT NULL,
-    chapter INTEGER NOT NULL,
-    verse   INTEGER NOT NULL,
-    topic   TEXT
+    id             INTEGER PRIMARY KEY,
+    book_id        INTEGER NOT NULL,
+    chapter        INTEGER NOT NULL,
+    verse          INTEGER NOT NULL,
+    topic          TEXT,
+    topic_en       TEXT,
+    topic_es       TEXT,
+    topic_fr       TEXT,
+    topic_zh_hant  TEXT,
+    topic_zh_hans  TEXT
 );
 
 CREATE UNIQUE INDEX idx_curated_ref ON curated (book_id, chapter, verse);
@@ -1038,7 +1094,7 @@ def build_database(res: ParseResult, out_path: str, source_name: str,
 
     # Kuratierte Auswahl: jede Referenz gegen die Leituebersetzung pruefen.
     master = trans_id[keep[0]]
-    curated_ok, curated_missing = 0, []
+    curated_ok, curated_missing, topics_missing = 0, [], set()
     for i, item in enumerate(curated, start=1):
         bcode = item["book"]
         if bcode not in book_id:
@@ -1052,10 +1108,16 @@ def build_database(res: ParseResult, out_path: str, source_name: str,
         if row is None:
             curated_missing.append(f"{bcode} {item['chapter']},{item['verse']}")
             continue
+        topic = item.get("topic")
+        if topic is not None and topic not in TOPIC_NAMES:
+            topics_missing.add(topic)
         con.execute(
-            "INSERT OR IGNORE INTO curated (book_id, chapter, verse, topic)"
-            " VALUES (?,?,?,?)",
-            (book_id[bcode], item["chapter"], item["verse"], item.get("topic")),
+            "INSERT OR IGNORE INTO curated (book_id, chapter, verse, topic,"
+            " topic_en, topic_es, topic_fr, topic_zh_hant, topic_zh_hans)"
+            " VALUES (?,?,?,?,?,?,?,?,?)",
+            (book_id[bcode], item["chapter"], item["verse"], topic,
+             *(TOPIC_NAME_TABLES[k].get(topic) for k in
+               ("en", "es", "fr", "zh_hant", "zh_hans"))),
         )
         curated_ok += 1
 
@@ -1074,7 +1136,9 @@ def build_database(res: ParseResult, out_path: str, source_name: str,
     con.execute("VACUUM")
     con.close()
     return {"per_translation": stats, "curated_ok": curated_ok,
-            "curated_missing": curated_missing, "books": len(res.book_order)}
+            "curated_missing": curated_missing,
+            "topics_missing": sorted(topics_missing),
+            "books": len(res.book_order)}
 
 
 # ---------------------------------------------------------------------------
@@ -1190,6 +1254,9 @@ def main() -> int:
               f"{len(stats['curated_missing'])} nicht gefunden")
         for miss in stats["curated_missing"][:10]:
             print(f"    fehlt: {miss}")
+        for thema in stats["topics_missing"]:
+            print(f"    Thema ohne Uebersetzung (bleibt deutsch): {thema}"
+                  " — in TOPIC_NAMES ergaenzen")
     if size_mb > 70:
         print("WARNUNG: Watch-App-Bundle darf unkomprimiert 75 MB nicht "
               "ueberschreiten. Uebersetzungen reduzieren.")

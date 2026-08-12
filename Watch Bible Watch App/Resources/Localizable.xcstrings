@@ -627,7 +627,7 @@
       }
     },
     "home.lookup": {
-      "comment": "Hauptmenü, zweite Zeile",
+      "comment": "Hauptmenü, dritte Zeile",
       "extractionState": "manual",
       "localizations": {
         "de": {
@@ -748,6 +748,48 @@
           "stringUnit": {
             "state": "translated",
             "value": "設定"
+          }
+        }
+      }
+    },
+    "home.topics": {
+      "comment": "Hauptmenü, zweite Zeile, und Bildschirmtitel der Themenliste",
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Themen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Topics"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thèmes"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主題"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主题"
           }
         }
       }

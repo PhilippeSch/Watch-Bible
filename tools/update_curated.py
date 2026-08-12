@@ -35,6 +35,11 @@ import argparse
 import json
 import os
 import sqlite3
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from quotepas_to_sqlite import TOPIC_NAME_TABLES  # noqa: E402
 
 VORGABE_JSON = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                             "curated_verses.json")
@@ -92,6 +97,22 @@ def schreibe(con: sqlite3.Connection, aufgeloest: list) -> None:
         "INSERT INTO curated (book_id, chapter, verse, topic) VALUES (?,?,?,?)",
         aufgeloest,
     )
+    # Themen in den uebrigen Oberflaechensprachen wieder auffuellen: das DELETE
+    # oben nimmt sie mit, und eine Datenbank ohne sie zeigt in der Themenliste
+    # ueberall Deutsch. Dieselbe Tabelle wie in add_topic_names.py und im
+    # Konverter — es gibt nur eine Quelle.
+    spalten = [r[1] for r in con.execute("PRAGMA table_info(curated)")]
+    themen = sorted({t for *_, t in aufgeloest if t})
+    for kennung, tabelle in TOPIC_NAME_TABLES.items():
+        spalte = f"topic_{kennung}"
+        if spalte not in spalten:
+            continue
+        con.executemany(f"UPDATE curated SET {spalte} = ? WHERE topic = ?",
+                        [(tabelle.get(t), t) for t in themen])
+    fehlend = [t for t in themen if t not in TOPIC_NAME_TABLES["en"]]
+    for thema in fehlend:
+        print(f"    Thema ohne Uebersetzung (bleibt deutsch): {thema}"
+              " — TOPIC_NAMES in quotepas_to_sqlite.py ergaenzen")
     con.execute("INSERT OR REPLACE INTO meta (key, value) VALUES (?,?)",
                 ("curated_count", str(len(aufgeloest))))
     con.commit()

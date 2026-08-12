@@ -17,6 +17,7 @@ final class AppModel {
     private(set) var repository: BibleRepository?
     private(set) var translations: [Translation] = []
     private(set) var books: [Book] = []
+    private(set) var topics: [Topic] = []
 
     func start() async {
         guard repository == nil else { return }
@@ -26,6 +27,7 @@ final class AppModel {
             try await repo.load()
             translations = await repo.translations
             books = await repo.books
+            topics = await repo.topics
             // Sprachvorgabe nur beim allerersten Start; eine gewaehlte
             // Uebersetzung wird nie durch einen Sprachwechsel ueberschrieben.
             if !AppSettings.hasStoredTranslation {
@@ -53,12 +55,20 @@ final class AppModel {
     func book(id: Int) -> Book? {
         books.first { $0.id == id }
     }
+
+    func topic(key: String) -> Topic? {
+        topics.first { $0.key == key }
+    }
 }
 
 /// Navigationsziele. Werte statt Views, damit Stellen (Buch, Kapitel, Vers)
 /// als Daten durch den NavigationStack wandern.
 enum Route: Hashable {
     case random
+    case topics
+    /// Zufallsvers, auf ein Thema beschraenkt. Uebergeben wird der Schluessel
+    /// (der deutsche Wert aus `curated.topic`), nicht der Anzeigename.
+    case topicVerses(key: String)
     case books
     case chapters(bookID: Int)
     case verses(bookID: Int, chapter: Int)

@@ -112,6 +112,33 @@ enum Localization {
         book.abbreviations[language] ?? book.code
     }
 
+    /// Themenname in der Anzeigesprache. Wie bei den Buchnamen aus der
+    /// Datenbank, nicht aus dem String Catalog — die Themenliste ist Inhalt.
+    /// Fehlt die Spalte (ältere Datenbank), bleibt der deutsche Schlüssel
+    /// stehen: lesbar, wenn auch in der falschen Sprache.
+    static func name(of topic: Topic) -> String {
+        name(of: topic, in: displayLanguage)
+    }
+
+    static func name(of topic: Topic, in language: String) -> String {
+        topic.names[language] ?? topic.key
+    }
+
+    /// Themen in der Reihenfolge der Anzeigesprache sortiert — «Amour» steht
+    /// im Französischen vorn, «Liebe» im Deutschen in der Mitte. Die Datenbank
+    /// liefert sie nach dem deutschen Schlüssel; das wäre in fünf von sechs
+    /// Sprachen keine Ordnung.
+    static func sorted(_ topics: [Topic]) -> [Topic] {
+        sorted(topics, in: displayLanguage)
+    }
+
+    static func sorted(_ topics: [Topic], in language: String) -> [Topic] {
+        topics.sorted {
+            name(of: $0, in: language)
+                .localizedStandardCompare(name(of: $1, in: language)) == .orderedAscending
+        }
+    }
+
     /// Stellenangabe. Der Trenner ist **nicht** kosmetisch: deutsche Bibeln
     /// schreiben «Johannes 3,16», englische «John 3:16». Darum über den
     /// String Catalog, nicht als fest verdrahtetes Zeichen.

@@ -33,6 +33,25 @@ struct Book: Identifiable, Hashable, Sendable {
     enum Testament: String, Sendable { case at = "AT", nt = "NT" }
 }
 
+/// Ein Thema des kuratierten Versregisters (`curated.topic`) samt Anzahl Verse.
+///
+/// Der deutsche Wert ist der **Schluessel** — wie `book.code` und aus demselben
+/// Grund: er steht so in `curated_verses.json` und bleibt in jeder Sprache
+/// gleich. Die Anzeigenamen kommen aus den Spalten `topic_en`, `topic_es`,
+/// `topic_fr`, `topic_zh_hant`, `topic_zh_hans` derselben Tabelle, nicht aus
+/// dem String Catalog: die Themenliste ist Datenbankinhalt. Kommt ein Thema
+/// dazu, zeigt die App es ohne Codeaenderung.
+struct Topic: Identifiable, Hashable, Sendable {
+    /// Deutscher Wert aus `curated.topic`.
+    let key: String
+    /// Anzeigename je Sprache, Schluessel wie in `translation.language`.
+    /// Deutsch steht mit darin, damit der Zugriff ohne Sonderfall auskommt.
+    let names: [String: String]
+    let verseCount: Int
+
+    var id: String { key }
+}
+
 /// Eine Stellenangabe. Bewusst ohne Uebersetzung: dieselbe Referenz kann
 /// je nach Uebersetzung auf unterschiedliche Texte zeigen (siehe Konzept, Kap. 6).
 struct VerseReference: Hashable, Sendable, Codable {

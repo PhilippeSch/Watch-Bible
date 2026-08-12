@@ -74,8 +74,8 @@
 		3777272F2D25D64E00DEE4D8 /* Watch Bible Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Watch Bible Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		377727392D25D64E00DEE4D8 /* Watch Bible Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Watch Bible Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB10000000000000000000A1 /* BibelWatchWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BibelWatchWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		AB10000000000000000000FB /* Version.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Version.xcconfig; sourceTree = "<group>"; };
 		AB10000000000000000000F3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AB10000000000000000000FB /* Version.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Version.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -185,20 +185,20 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		AB10000000000000000000FC /* Config */ = {
-			isa = PBXGroup;
-			children = (
-				AB10000000000000000000FB /* Version.xcconfig */,
-			);
-			path = Config;
-			sourceTree = "<group>";
-		};
 		AB10000000000000000000F4 /* Watch Bible */ = {
 			isa = PBXGroup;
 			children = (
 				AB10000000000000000000F3 /* Assets.xcassets */,
 			);
 			path = "Watch Bible";
+			sourceTree = "<group>";
+		};
+		AB10000000000000000000FC /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				AB10000000000000000000FB /* Version.xcconfig */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

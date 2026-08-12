@@ -9,7 +9,14 @@ actor BibleRepository {
     private let db: BibleDatabase
     private(set) var translations: [Translation] = []
     private(set) var books: [Book] = []
+    /// Themen des Versregisters, in Datenbankreihenfolge (alphabetisch nach
+    /// dem deutschen Schluessel). Die Anzeigereihenfolge macht die Oberflaeche.
+    private(set) var topics: [Topic] = []
     private var curatedCount: Int = 0
+    /// Stellen je Thema, einmal beim Start gelesen. Es sind wenige hundert
+    /// Referenzen — billiger als eine Abfrage je Zufallsvers, und der
+    /// Zufallszug bleibt damit ein Griff ins Array.
+    private var curatedByTopic: [String: [VerseReference]] = [:]
 
     init(database: BibleDatabase) {
         self.db = database
@@ -71,6 +78,67 @@ actor BibleRepository {
         curatedCount = try await db.queryOne("SELECT COUNT(*) FROM curated") {
             $0.int(0)
         } ?? 0
+        try await loadTopics()
+    }
+
+    /// Themenregister. Die Namensspalten werden wie bei den Buechern erst
+    /// gesucht und dann angehaengt: eine Datenbank aus einem aelteren
+    /// Konverterlauf kennt sie noch nicht, und ein `no such column` beim
+    /// Vorbereiten wuerde die ganze App lahmlegen. Fehlt eine Spalte, bleibt
+    /// fuer diese Sprache das deutsche Thema stehen (tools/add_topic_names.py
+    /// traegt sie nach).
+    private func loadTopics() async throws {
+        let columns = Set(try await db.query("PRAGMA table_info(curated)") { $0.string(1) })
+        let nameColumns = [("en", "topic_en"), ("es", "topic_es"),
+                           ("fr", "topic_fr"), ("zh-Hant", "topic_zh_hant"),
+                           ("zh-Hans", "topic_zh_hans")]
+            .filter { columns.contains($0.1) }
+        let fixed = ["topic", "book_id", "chapter", "verse"]
+        let selection = (fixed + nameColumns.map(\.1)).joined(separator: ", ")
+        let nameBase = Int32(fixed.count)
+
+        struct Row {
+            let topic: String
+            let names: [String: String]
+            let reference: VerseReference
+        }
+        let rows = try await db.query("""
+            SELECT \(selection) FROM curated
+             WHERE topic IS NOT NULL ORDER BY topic, id
+            """) { r in
+            var names = ["de": r.string(0)]
+            for (offset, column) in nameColumns.enumerated() {
+                if let name = r.stringOrNil(nameBase + Int32(offset)) {
+                    names[column.0] = name
+                }
+            }
+            return Row(topic: r.string(0), names: names,
+                       reference: VerseReference(bookID: r.int(1),
+                                                 chapter: r.int(2),
+                                                 verse: r.int(3)))
+        }
+
+        var references: [String: [VerseReference]] = [:]
+        var names: [String: [String: String]] = [:]
+        var order: [String] = []
+        for row in rows {
+            if references[row.topic] == nil { order.append(row.topic) }
+            references[row.topic, default: []].append(row.reference)
+            names[row.topic] = row.names
+        }
+        curatedByTopic = references
+        topics = order.map { key in
+            Topic(key: key, names: names[key] ?? ["de": key],
+                  verseCount: references[key]?.count ?? 0)
+        }
+    }
+
+    func topic(key: String) -> Topic? { topics.first { $0.key == key } }
+
+    /// Die Stellen eines Themas, in Datenbankreihenfolge. Unbekanntes Thema
+    /// ergibt eine leere Liste.
+    func references(topic key: String) -> [VerseReference] {
+        curatedByTopic[key] ?? []
     }
 
     func translation(code: String) -> Translation? {
@@ -118,6 +186,30 @@ actor BibleRepository {
                !recent.contains(verse.id) {
                 return verse
             }
+        }
+        return nil
+    }
+
+    /// Zufallsvers aus genau einem Thema.
+    ///
+    /// Die Stellen des Themas liegen bereits im Speicher, gezogen wird darum in
+    /// Swift statt in SQL. Gesperrt wird ueber die **Stelle**, nicht ueber
+    /// `verse.id`: dieselbe Stelle hat je Uebersetzung eine andere id, und die
+    /// Sperre soll auch nach einem Uebersetzungswechsel greifen.
+    ///
+    /// Die Liste wird gemischt und die erste Stelle genommen, die es in dieser
+    /// Uebersetzung wirklich gibt — ein Thema kann eine Stelle enthalten, die
+    /// in einer anderen Versifikation fehlt (siehe Konzept, Kap. 6). Sind alle
+    /// Stellen gesperrt, faellt die Sperre fuer diesen Zug weg, statt nichts zu
+    /// liefern.
+    func randomCuratedVerse(in translation: Translation, topic key: String,
+                            excluding recent: Set<VerseReference> = []) async throws -> Verse? {
+        guard let references = curatedByTopic[key], !references.isEmpty else {
+            return nil
+        }
+        let open = references.filter { !recent.contains($0) }
+        for ref in (open.isEmpty ? references : open).shuffled() {
+            if let verse = try await verse(ref, in: translation) { return verse }
         }
         return nil
     }

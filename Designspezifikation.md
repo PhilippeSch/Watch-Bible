@@ -87,7 +87,7 @@ Bezug ist die 45-mm-Uhr: 396 × 484 px = **198 × 242 pt**. Kleinere Gehäuse ve
 ## 4. Bildschirme
 
 ### 4.1 Einstieg
-`NavigationStack` mit zwei Zeilen — **Zufallsvers**, **Nachschlagen** — darunter **Einstellungen**. Gab es eine zuletzt gelesene Stelle, erscheint sie als dritte Zeile: «Weiterlesen · Psalm 23,3». Kein Startbildschirm, kein Onboarding.
+`NavigationStack` mit drei Zeilen — **Zufallsvers**, **Themen**, **Nachschlagen** — darunter **Einstellungen**. Gab es eine zuletzt gelesene Stelle, erscheint sie als weitere Zeile: «Weiterlesen · Psalm 23,3». Kein Startbildschirm, kein Onboarding.
 
 ### 4.2 Zufallsvers
 - Stellenangabe oben in Versalien, Karmin.
@@ -97,6 +97,12 @@ Bezug ist die 45-mm-Uhr: 396 × 484 px = **198 × 242 pt**. Kleinere Gehäuse ve
 - Weiterschalten: Wischen nach oben (`TabView`, `.verticalPage`) **und** Tippen auf die gesamte Fläche. Haptik `.click`, abschaltbar.
 - Die letzten 20 Verse merken und nicht wiederholen.
 - Tippen auf die Stellenangabe öffnet die Leseansicht am selben Vers.
+
+### 4.2a Themen
+- Liste wie die Buchwahl, aber **ohne Register**: 26 Einträge erschliessen sich mit der Krone, 66 nicht mehr. Je Zeile der Themenname links, die Anzahl Verse rechts in Monoschrift.
+- Themen und Anzahl kommen zur Laufzeit aus `curated`; ein Thema mehr in der Datenbank ist eine Zeile mehr, ohne Codeänderung.
+- Sortiert nach dem Namen der **Anzeigesprache**, nicht nach dem deutschen Schlüssel — «Amour» steht im Französischen vorn.
+- Ein Tipp öffnet den Zufallsvers, auf dieses Thema beschränkt: dieselbe Ansicht wie 4.2, mit dem Thema als Bildschirmtitel. Die Wiederholungssperre greift dort über die **Stelle** statt über `verse.id` und umfasst die halbe Themenliste, höchstens aber 20 — ein Thema mit zehn Versen kann keine zwanzig sperren.
 
 ### 4.3 Nachschlagen — Bücher
 - Liste, in Abschnitte `Altes Testament` / `Neues Testament` geteilt.
@@ -153,6 +159,8 @@ Keine Signalfarbe, kein Symbol, nichts zum Wegklicken. Zwei Zahlen erklären den
 **Buchnamen** kommen aus der Datenbank, nicht aus dem String Catalog: `book.name` für Deutsch, dazu `name_en`, `name_es`, `name_fr`, `name_zh_hant`, `name_zh_hans`. Alle sechs Spalten sind für alle 66 Bücher gefüllt. Wo die Schreibweise schwankt, gilt die der mitgelieferten Übersetzung derselben Sprache — spanisch «Ruth», «Esther», «Haggeo» nach RVR1909, französisch «Habakuk», «Ésaïe» nach LSG; sonst stünde in der Buchliste etwas anderes als im Verstext.
 
 **Buchkürzel** stehen ebenfalls in der Datenbank: `abbrev_de`, `abbrev_en`, `abbrev_es`, `abbrev_fr`, `abbrev_zh_hant`, `abbrev_zh_hans`. Genommen ist je Sprache der dort übliche Satz, nicht eine selbstgebaute Kürzung — Elberfelder für Deutsch (1Mo, nicht das Loccumer «Gen»; die deutschen Buchnamen der Datenbank stehen in derselben Tradition), SBL Handbook of Style für Englisch, Reina-Valera für Spanisch, Segond für Französisch, der Kürzelsatz des 和合本 für Chinesisch. Sie sind je Sprache eindeutig; ein Unit-Test prüft das.
+
+**Themennamen** stehen aus demselben Grund in der Datenbank: `curated.topic` (deutsch, zugleich Schlüssel) sowie `topic_en`, `topic_es`, `topic_fr`, `topic_zh_hant`, `topic_zh_hans`. Die Themenliste ist Inhalt, kein Oberflächentext — käme sie aus dem String Catalog, stünde bei jedem neuen Thema in fünf Sprachen der deutsche Rohwert, ohne dass etwas fehlschlägt. Genommen ist je Sprache das in Bibelausgaben übliche Wort, nicht die wörtliche Übersetzung: «Nachfolge» heisst englisch Discipleship, «Umkehr» spanisch Arrepentimiento. Die Tabelle steht als `TOPIC_NAMES` im Konverter, `tools/add_topic_names.py` trägt sie in eine bestehende Datenbank nach; ein Unit-Test hält alle sechs Sprachen vollständig und je Sprache eindeutig.
 
 **Das Register der Buchliste ist damit lokalisiert.** Es zeigt das Kürzel der Anzeigesprache aus der Datenbank, nicht `book.code` — der ist Schlüssel und deutsch geprägt. Die sieben Sprungmarken lauten 1Mo · Jos · Ps · Jes · Mt · Röm · Offb auf Deutsch, Gen · Josh · Ps · Isa · Matt · Rom · Rev auf Englisch, Gn · Jos · Sal · Is · Mt · Ro · Ap auf Spanisch, Gn · Jos · Ps · És · Mt · Rm · Ap auf Französisch und 創 · 書 · 詩 · 賽 · 太 · 羅 · 啟 beziehungsweise 创 · 书 · 诗 · 赛 · 太 · 罗 · 启 auf Chinesisch. Vier Zeichen sind die Obergrenze — mehr passt nicht in die 31 pt Registerbreite.
 

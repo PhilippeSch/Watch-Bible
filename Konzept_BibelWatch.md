@@ -52,7 +52,8 @@ book          (id, code, name, name_en, name_es, name_fr, name_zh_hant,
                name_zh_hans, testament, chapter_count, sort_order)
 verse         (id, translation_id, book_id, chapter, verse, text)
 chapter_meta  (translation_id, book_id, chapter, verse_count)
-curated       (id, book_id, chapter, verse, topic)
+curated       (id, book_id, chapter, verse, topic, topic_en, topic_es,
+               topic_fr, topic_zh_hant, topic_zh_hans)
 ```
 
 Zwei Kniffe, die den Watch-Code einfach halten:
@@ -64,7 +65,7 @@ Zusätzlich `CREATE UNIQUE INDEX idx_verse_ref ON verse(translation_id, book_id,
 
 ---
 
-## 4. Die vier Abfragen, die die App braucht
+## 4. Die Abfragen, die die App braucht
 
 ```sql
 -- 1. Zufallsvers, ganze Bibel  (id vorher in Swift gewürfelt)
@@ -90,7 +91,14 @@ SELECT text FROM verse
 SELECT id, code, name, testament, chapter_count FROM book ORDER BY sort_order;
 SELECT chapter, verse_count FROM chapter_meta
  WHERE translation_id = ? AND book_id = ? ORDER BY chapter;
+
+-- 5. Themenregister  (einmal beim Start; die Ziehung selbst läuft in Swift)
+SELECT topic, topic_en, topic_es, topic_fr, topic_zh_hant, topic_zh_hans,
+       book_id, chapter, verse
+  FROM curated WHERE topic IS NOT NULL ORDER BY topic, id;
 ```
+
+Die fünfte Abfrage liest wenige hundert Zeilen und wird nie wiederholt: Themenliste, Anzahl Verse je Thema und die Stellen des Themenmodus stehen danach im Speicher. Ein Zufallsvers innerhalb eines Themas kostet damit genau eine Stellenabfrage (Nr. 3), keinen Durchlauf über `curated`.
 
 ---
 
@@ -226,7 +234,9 @@ BibelWatch/
 > **Verbindlich ist `Designspezifikation.md`** (Richtung «Dünndruck», Tag/Nacht) samt den Bildschirmentwürfen in `Design_TagNacht.html`. Dieses Kapitel beschreibt die Bedienlogik, die Spezifikation die Gestaltung. Bei Widersprüchen gilt die Spezifikation.
 
 
-**Einstieg.** `NavigationStack` mit zwei grossen Zeilen: **Zufallsvers** und **Nachschlagen**, darunter **Einstellungen**. Kein Splash, kein Onboarding — die App ist in einem Tipp am Ziel.
+**Einstieg.** `NavigationStack` mit drei grossen Zeilen: **Zufallsvers**, **Themen** und **Nachschlagen**, darunter **Einstellungen**. Kein Splash, kein Onboarding — die App ist in einem Tipp am Ziel.
+
+**Themen.** Die Themen aus `curated.topic` als Liste, je mit der Anzahl Verse. Ein Tipp öffnet den Zufallsvers, auf dieses Thema beschränkt — dieselbe Ansicht, nur mit einer anderen Ziehungsmenge. Es gibt dafür keine eigene Abfrage über die Verstabelle: die Stellen je Thema (wenige hundert) liegen seit dem Start im Speicher, gezogen wird in Swift.
 
 **Zufallsvers.** Ein `TabView` im Stil `.verticalPage`: jede Seite ist ein Vers, Wischen nach oben erzeugt den nächsten. Zusätzlich unten eine flächige Schaltfläche «Nächster», damit es auch mit Handschuhen oder einhändig geht. Die Digital Crown scrollt innerhalb langer Verse. Beim Weiterschalten ein `WKInterfaceDevice.current().play(.click)`. Stellenangabe oben klein, Vers gross, Übersetzungskürzel unten rechts. Ein Tipp auf die Stellenangabe öffnet den Vers im Nachschlagemodus, damit man den Zusammenhang lesen kann.
 

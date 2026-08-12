@@ -74,6 +74,13 @@ struct RootView: View {
         switch route {
         case .random:
             RandomVerseView()
+        case .topics:
+            TopicListView()
+        case .topicVerses(let key):
+            // Themen kommen aus der Datenbank; steht der Schluessel nicht mehr
+            // darin (andere Datenbank, Thema entfernt), bleibt es beim
+            // Zufallsvers ueber alles, statt einen leeren Bildschirm zu zeigen.
+            RandomVerseView(topic: model.topic(key: key))
         case .books:
             BookListView()
         case .chapters(let bookID):

@@ -561,3 +561,105 @@ struct ZufallTests {
         #expect(ids.count > 200)
     }
 }
+
+// MARK: - Themen
+
+struct ThemenTests {
+
+    @Test func themenKommenAusDerDatenbank() async throws {
+        let repo = try await TestSupport.repository()
+        let topics = await repo.topics
+
+        #expect(!topics.isEmpty)
+        #expect(topics.allSatisfy { $0.verseCount > 0 })
+        #expect(Set(topics.map(\.key)).count == topics.count)
+        // Die Zahl in der Liste ist die Laenge der Stellenliste, nicht
+        // irgendeine zweite Zaehlung.
+        for topic in topics {
+            let references = await repo.references(topic: topic.key)
+            #expect(references.count == topic.verseCount, "\(topic.key)")
+            #expect(Set(references).count == references.count,
+                    "\(topic.key): doppelte Stelle")
+        }
+    }
+
+    /// Wie bei den Buchnamen: alle sechs Oberflaechensprachen, keine Doppel.
+    /// Faellt der Test aus, steht in der Themenliste Deutsch statt der
+    /// Anzeigesprache — tools/add_topic_names.py traegt die Spalten nach.
+    @Test func themenLiegenInAllenSprachenVor() async throws {
+        let repo = try await TestSupport.repository()
+        let topics = await repo.topics
+
+        for sprache in Localization.supportedLanguages {
+            let ohne = topics.filter { $0.names[sprache] == nil }
+            #expect(ohne.isEmpty,
+                    "\(sprache): kein Name fuer \(ohne.map(\.key).joined(separator: ", "))")
+            let namen = topics.compactMap { $0.names[sprache] }
+            #expect(Set(namen).count == namen.count, "\(sprache): doppelte Themennamen")
+        }
+    }
+
+    @Test func themenStimmen() async throws {
+        let repo = try await TestSupport.repository()
+        let topics = await repo.topics
+        let erwartet: [String: [String: String]] = [
+            "Nachfolge":   ["de": "Nachfolge", "en": "Discipleship",
+                            "es": "Discipulado", "fr": "Disciple",
+                            "zh-Hant": "門徒", "zh-Hans": "门徒"],
+            "Wort Gottes": ["de": "Wort Gottes", "en": "Word of God",
+                            "es": "Palabra de Dios", "fr": "Parole de Dieu",
+                            "zh-Hant": "神的話", "zh-Hans": "神的话"],
+        ]
+        for (key, namen) in erwartet {
+            let topic = try #require(topics.first { $0.key == key },
+                                     "Thema \(key) fehlt")
+            for (sprache, name) in namen {
+                #expect(Localization.name(of: topic, in: sprache) == name,
+                        "\(key) in \(sprache)")
+            }
+        }
+    }
+
+    /// Der Zufallsvers eines Themas darf das Thema nie verlassen.
+    @Test func themenversBleibtImThema() async throws {
+        let repo = try await TestSupport.repository()
+        let elb = try #require(await repo.translations.first { $0.code == "elb" })
+        let topic = try #require(await repo.topics.first { $0.verseCount >= 10 })
+
+        let erlaubt = Set(await repo.references(topic: topic.key))
+        var gezogen: Set<VerseReference> = []
+        for _ in 0..<30 {
+            let verse = try #require(try await repo.randomCuratedVerse(
+                in: elb, topic: topic.key))
+            #expect(verse.translationID == elb.id)
+            #expect(erlaubt.contains(verse.reference),
+                    "\(verse.displayReference) gehoert nicht zu \(topic.key)")
+            gezogen.insert(verse.reference)
+        }
+        // Streuung: 30 Ziehungen aus mindestens 10 Stellen duerfen nicht
+        // immer dieselbe liefern.
+        #expect(gezogen.count > 1)
+    }
+
+    /// Die Wiederholungssperre gilt auch hier: sind alle Stellen bis auf eine
+    /// gesperrt, kommt genau diese.
+    @Test func sperreLaesstNurDieOffeneStelleUebrig() async throws {
+        let repo = try await TestSupport.repository()
+        let elb = try #require(await repo.translations.first { $0.code == "elb" })
+        let topic = try #require(await repo.topics.first)
+
+        let alle = Set(await repo.references(topic: topic.key))
+        let offen = try #require(alle.first)
+        let verse = try #require(try await repo.randomCuratedVerse(
+            in: elb, topic: topic.key, excluding: alle.subtracting([offen])))
+        #expect(verse.reference == offen)
+    }
+
+    /// Ein Thema, das es nicht gibt, ist ein `nil` — kein Absturz.
+    @Test func unbekanntesThemaIstNil() async throws {
+        let repo = try await TestSupport.repository()
+        let elb = try #require(await repo.translations.first { $0.code == "elb" })
+        let verse = try await repo.randomCuratedVerse(in: elb, topic: "Gibt es nicht")
+        #expect(verse == nil)
+    }
+}
