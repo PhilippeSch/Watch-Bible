@@ -29,18 +29,25 @@ struct RootView: View {
         switch model.state {
         case .loading:
             ProgressView()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.ground.ignoresSafeArea())
         case .failed(let message):
             // Ein fehlendes bible.sqlite ist ein Paketierungsfehler; die App
-            // meldet ihn, statt leer dazustehen.
+            // meldet ihn, statt leer dazustehen. Grund und Schriftfarben
+            // explizit: diese beiden Zustaende liegen ausserhalb des
+            // NavigationStack und bekaemen sonst keinen `containerBackground`.
             VStack(spacing: 6) {
                 Text("error.databaseMissing")
+                    .foregroundStyle(Color.ink)
                     .multilineTextAlignment(.center)
                 Text(message)
                     .font(.caption2)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryInk)
                     .multilineTextAlignment(.center)
             }
             .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.ground.ignoresSafeArea())
         case .ready:
             NavigationStack(path: $path) {
                 HomeView()

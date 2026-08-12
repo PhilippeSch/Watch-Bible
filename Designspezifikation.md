@@ -8,7 +8,7 @@ Referenz-Bildschirme: `Design_TagNacht.html`. Diese Datei ist die verbindliche F
 
 ## 1. Farben
 
-Als Asset-Katalog anlegen, nicht als Konstanten im Code. Jede Farbe bekommt eine Any/Dark-Variante, damit der Themenwechsel über `.environment(\.colorScheme, …)` läuft und nirgends von Hand geprüft werden muss.
+Als Asset-Katalog anlegen, nicht als Konstanten im Code. Jede Rolle bekommt zwei Colorsets (`…Day` / `…Night`): watchOS wertet die Any/Dark-Variante eines Assets nicht aus, `Color("Ground")` bliebe im Tagmodus schwarz. Umgeschaltet wird zentral in `ThemeState`. `\.colorScheme` wird zusätzlich gesetzt — nicht für diese Farben, sondern für alles, was das System selbst zeichnet (Picker-Wert, Warnhinweise, `.secondary`).
 
 | Rolle | Asset-Name | Tag | Nacht |
 |---|---|---|---|
@@ -16,11 +16,16 @@ Als Asset-Katalog anlegen, nicht als Konstanten im Code. Jede Farbe bekommt eine
 | Text | `Ink` | `#14161A` | `#E8E6E1` |
 | Verszahl, aktive Auswahl | `Carmine` | `#8C1D2B` | `#C4525C` |
 | Bändchen (Position) | `Brass` | `#A8842E` | `#C8A44D` |
-| Sekundärtext, Zahlen | `Secondary` | `#8E8B7E` | `#7E858C` |
+| Sekundärtext, Zahlen | `Secondary` | `#5E5B4C` | `#7E858C` |
 | Trennlinie | `Rule` | `#C9C5B8` | `#1F2124` |
 | Feldfläche (Raster, Register) | `Field` | `#D8D5CA` | `#141618` |
+| Bildschirmtitel (Systemleiste) | `AccentColor` | `#706C5F` | `#706C5F` |
 
 Zwei Akzente, mehr nicht: **Karmin** trägt Verszahl und aktive Auswahl, **Messing** trägt ausschliesslich die Position. Keine dritte Farbe, keine Signalfarbe für Warnungen.
+
+Der Tagwert von `Secondary` war ursprünglich `#8E8B7E` und erreichte auf der Feldfläche nur 2,3 : 1 — auf einer Uhr im Freien nicht lesbar. `#5E5B4C` bringt 4,6 : 1 auf `Field` und 5,3 : 1 auf `Ground`.
+
+`AccentColor` ist die einzige Stellschraube für den Bildschirmtitel: watchOS zieht dafür weder `\.colorScheme` noch `.tint`, und die Dark-Variante des Assets wird nie ausgewertet (im Simulator geprüft). Der eine Wert muss deshalb auf beiden Gründen tragen — `#706C5F` ergibt 4,0 : 1 auf Papier wie auf Schwarz, das Maximum, das ein einzelner Wert für beide Zustände zulässt.
 
 ### Themenwechsel
 
@@ -47,7 +52,8 @@ Systemschrift SF Compact, im Fliesstext die serife Variante (`.font(.system(.bod
 | Verstext, klein | 14 pt | Serif, Regular | `Ink` |
 | Hochgestellte Verszahl | 0.6 × Verstext, Grundlinie +0.44 em | Sans, Bold | `Carmine` |
 | Stellenangabe über dem Vers | 11 pt, Versalien, Sperrung 0.15 em | Sans, Semibold | `Carmine` |
-| Bildschirmtitel, Uhrzeit | 10.5 pt | Sans, Semibold | `Secondary` |
+| Bildschirmtitel | 10.5 pt | Sans, Semibold | `AccentColor` (Grösse und Schnitt gibt watchOS vor) |
+| Uhrzeit | — | — | zeichnet watchOS, weiss, nicht beeinflussbar |
 | Rasterziffern | 17 pt, tabellarisch | Sans, Semibold | `Ink` bzw. `Ground` auf Karmin |
 | Zählerzeile, Verszahlen in Listen | 9 pt, tabellarisch | Mono | `Secondary` |
 | Registerbeschriftung | 9.5 pt | Sans, Bold | `Secondary` bzw. `Ground` auf Karmin |

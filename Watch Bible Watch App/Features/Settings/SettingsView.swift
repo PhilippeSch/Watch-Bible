@@ -65,7 +65,7 @@ struct SettingsView: View {
             }
             .listRowBackground(rowBackground)
         }
-        .foregroundStyle(Color.ink)
+        .foregroundStyle(Color.ink, Color.secondaryInk)
         .containerBackground(Color.ground, for: .navigation)
         .navigationTitle(Text("home.settings"))
     }

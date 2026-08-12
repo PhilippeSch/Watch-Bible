@@ -135,7 +135,8 @@ python3 tools/add_book_names.py "Watch Bible Watch App/Resources/bible.sqlite"
 | `quotepas_to_sqlite.py` | Konverter. Liest die LaTeX-Quelldatei, zusätzlich OSIS-XML (`--osis CODE=DATEI`) und USFM-Verzeichnisse (`--usfm CODE=ORDNER`). Im Repository behalten, damit die Datenbank reproduzierbar bleibt. Führt auch Buchnamen und Buchkürzel aller sechs Oberflächensprachen sowie `TRANSLATION_ORDER`. |
 | `reorder_translations.py` | Setzt `translation.sort_order` einer bestehenden Datenbank auf `TRANSLATION_ORDER` aus dem Konverter — damit auch die Vorgabeübersetzung je Sprache. `--check` prüft, ohne zu schreiben. |
 | `add_book_names.py` | Trägt Buchnamen (`name_es`, `name_fr`, `name_zh_hant`, `name_zh_hans`) und Buchkürzel (`abbrev_de` … `abbrev_zh_hans`) in eine bestehende Datenbank nach und setzt die Schema-Version auf 3. Dieselben Tabellen wie im Konverter — für den Fall, dass die Quelldateien nicht zur Hand sind. `--check` prüft, ohne zu schreiben; `--check-zh` prüft die vereinfachten Zeichen gegen die Zeichenabbildung, die sich aus cuv/cuvs der Datenbank selbst ergibt. |
-| `curated_verses.json` | 180 Kernverse aus 50 Büchern für den kuratierten Zufallsmodus |
+| `curated_verses.json` | 463 Kernverse aus 54 Büchern in 26 Themen für den kuratierten Zufallsmodus. Verszählung der Leitübersetzung (`elb`, englische Zählung — Psalmenüberschriften sind kein eigener Vers) |
+| `update_curated.py` | Trägt das Themenregister aus `curated_verses.json` in eine bestehende Datenbank nach (Tabelle `curated`, `meta.curated_count`) — für den Fall, dass die Quelldateien nicht zur Hand sind. Prüft jede Referenz gegen die Leitübersetzung und schreibt nichts, solange eine Stelle fehlt. `--check` prüft, ohne zu schreiben. |
 | `test_fixtures.json` | Erwartungswerte für Unit-Tests, erzeugt gegen `bible_frei_10-Uebersetzungen.sqlite`: 28 Stichproben und alle Versifikations-Abweichungen für vierzehn Übersetzungspaare |
 
 ### Dokumente

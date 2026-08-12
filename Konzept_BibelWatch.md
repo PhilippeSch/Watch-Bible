@@ -308,7 +308,7 @@ Vorarbeit, die du nicht mehr machen musst — und ebenso wichtig: was davon **ge
 | `bible_frei_10-Uebersetzungen.sqlite` | 10 frei verwendbare Übersetzungen in 6 Sprachen, 311'034 Verse, 48.5 MB | Integrität, Stichproben, Zählwerte — **die Datei für die Veröffentlichung** |
 | `bible_mit-SLT_11-Uebersetzungen.sqlite` | zusätzlich Schlachter 2000, 342'205 Verse, 53.8 MB | dito |
 | `quotepas_to_sqlite.py` | Konverter, reproduzierbar | Läuft fehlerfrei über die volle Quelle |
-| `curated_verses.json` | 180 Kernverse aus 50 Büchern, 25 Themen | Alle 180 Referenzen in der Datenbank vorhanden |
+| `curated_verses.json` | 463 Kernverse aus 54 Büchern, 26 Themen | Alle 463 Referenzen in der Leitübersetzung vorhanden, Text je Stelle gegengelesen |
 | `test_fixtures.json` | Erwartungswerte für Unit-Tests, inkl. aller 29 Versifikations-Abweichungen ELB ↔ KJV | direkt aus der Datenbank erzeugt |
 | `PrivacyInfo.xcprivacy` | Privacy-Manifest | Als Plist geparst, Struktur gültig |
 | `Localizable.xcstrings` | 58 Schlüssel in sechs Sprachen, inklusive Pluralformen | Als JSON geparst, keine Lücke in einer Sprache |

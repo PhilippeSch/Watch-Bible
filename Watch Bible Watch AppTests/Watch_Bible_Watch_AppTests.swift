@@ -544,8 +544,10 @@ struct ZufallTests {
         #expect(ids.count > 1)
     }
 
-    /// Ueber ein Jahr hinweg muss die Tagesauswahl den grossen Teil der 180
-    /// Kernverse abdecken — sonst wiederholt sich das Widget zu haeufig.
+    /// Ueber ein Jahr hinweg muss die Tagesauswahl breit aus dem Themenregister
+    /// schoepfen — sonst wiederholt sich das Widget zu haeufig. Bei 463 Kern-
+    /// versen und 365 Ziehungen sind rund 250 verschiedene zu erwarten; die
+    /// Schranke laesst Luft nach unten, ohne eine kaputte Streuung zu decken.
     @Test func tagesauswahlDecktDieListeAb() async throws {
         let repo = try await TestSupport.repository()
         let translations = await repo.translations
@@ -556,6 +558,6 @@ struct ZufallTests {
             let verse = try #require(try await repo.randomCuratedVerse(in: elb, seed: day))
             ids.insert(verse.id)
         }
-        #expect(ids.count > 150)
+        #expect(ids.count > 200)
     }
 }

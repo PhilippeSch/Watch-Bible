@@ -94,7 +94,7 @@ actor BibleRepository {
         return try await verse(id: Int.random(in: translation.firstVerseID...translation.lastVerseID))
     }
 
-    /// Zufallsvers aus der kuratierten Auswahl (180 Kernverse).
+    /// Zufallsvers aus der kuratierten Auswahl (Themenregister der Datenbank).
     ///
     /// Mit `seed` liefert derselbe Startwert dieselbe Ziehung. Das Widget setzt
     /// die Nummer des Kalendertages ein: der Vers steht damit von Mitternacht

@@ -79,6 +79,15 @@ enum Grid3 {
 /// Haelt ThemeState mit Einstellung, Uhrzeit und Handgelenk-Zustand synchron.
 /// Bei `isLuminanceReduced` immer Nacht — helles Papier bei gesenktem
 /// Handgelenk waere falsch, unabhaengig der Einstellung.
+///
+/// `\.colorScheme` faerbt zwar keine benannten Farben (siehe ThemeState),
+/// steuert aber alles, was das System selbst zeichnet: den Wert eines Pickers
+/// unter seiner Beschriftung, Warnhinweise, `.secondary`. Ohne das steht im
+/// Tagmodus weisse Systemschrift auf hellem Grund. Der Bildschirmtitel gehorcht
+/// weder dem noch `.tint` — er nimmt ausschliesslich `AccentColor` (im
+/// Simulator geprueft: `.principal` gibt es auf watchOS nicht, und die
+/// Dark-Variante des Assets wird nie gezogen). Deshalb traegt `AccentColor`
+/// einen einzigen mittleren Grauton, der auf beiden Gruenden lesbar ist.
 struct ThemeApplier: ViewModifier {
     @Environment(\.isLuminanceReduced) private var luminanceReduced
     let settings: AppSettings
@@ -87,6 +96,7 @@ struct ThemeApplier: ViewModifier {
         TimelineView(.periodic(from: .now, by: 60)) { context in
             let night = luminanceReduced || settings.isNight(at: context.date)
             content.task(id: night) { ThemeState.shared.isNight = night }
+                .environment(\.colorScheme, night ? .dark : .light)
         }
     }
 }

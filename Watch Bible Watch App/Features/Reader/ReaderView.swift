@@ -64,10 +64,14 @@ struct ReaderView: View {
             }
         }
         .sheet(isPresented: $showTranslationPicker) {
+            // Ein Blatt bekommt keinen `containerBackground`; ohne eigenen
+            // Grund stuende die Abschnittsueberschrift auf dem grauen
+            // Systemblatt statt auf Papier.
             TranslationListView(selectedCode: model.settings.translationCode) { code in
                 showTranslationPicker = false
                 Task { await switchTranslation(to: code) }
             }
+            .background(Color.ground.ignoresSafeArea())
         }
         .alert(Text("divergence.unavailable \(unavailableIn ?? "")"),
                isPresented: Binding(get: { unavailableIn != nil },
