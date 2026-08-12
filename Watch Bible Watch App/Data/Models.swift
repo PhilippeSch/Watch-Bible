@@ -15,6 +15,13 @@ struct Translation: Identifiable, Hashable, Sendable {
     let lastVerseID: Int
 }
 
+/// Ein Kapitel als Stelle ohne Vers — Ergebnis des Weiterblaetterns in der
+/// Leseansicht. Kein Schemabestandteil, nur ein Rueckgabewert.
+struct ChapterReference: Hashable, Sendable {
+    let bookID: Int
+    let chapter: Int
+}
+
 struct Book: Identifiable, Hashable, Sendable {
     let id: Int               // 1…66, kanonische Reihenfolge
     let code: String          // "1Mo", "Offb"

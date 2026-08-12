@@ -246,6 +246,40 @@ actor BibleRepository {
             """, [translation.id, bookID, chapter]) { $0.int(0) }
     }
 
+    // MARK: - Weiterblaettern
+
+    /// Das Kapitel vor oder nach diesem — in **dieser** Uebersetzung und ueber
+    /// Buchgrenzen hinweg. `nil` heisst Kanonende: vor 1Mo 1 und nach dem
+    /// letzten Kapitel der Offenbarung gibt es nichts mehr.
+    ///
+    /// Massgeblich ist `chapter_meta`, **nicht `book.chapter_count`**: dort
+    /// steht das Maximum ueber alle Uebersetzungen. Joel fuehrt darin vier
+    /// Kapitel, hat aber in zehn von zwoelf Uebersetzungen nur drei; Maleachi
+    /// umgekehrt. Wer nach `chapter_count` blaettert, landet auf einem leeren
+    /// Kapitel — kein Absturz, nur eine leere Seite ohne Erklaerung.
+    func adjacentChapter(book bookID: Int, chapter: Int, offset: Int,
+                         in translation: Translation) async throws -> ChapterReference? {
+        let direction = offset < 0 ? -1 : 1
+        let here = try await chapterVerseCounts(book: bookID, in: translation)
+        let target = chapter + direction
+        if here[target] != nil {
+            return ChapterReference(bookID: bookID, chapter: target)
+        }
+        // Buchgrenze. Ein Buch, das diese Uebersetzung gar nicht fuehrt, wird
+        // uebersprungen — vorkommen sollte das nicht, kosten tut es nichts.
+        guard var index = books.firstIndex(where: { $0.id == bookID }) else { return nil }
+        index += direction
+        while books.indices.contains(index) {
+            let neighbour = books[index]
+            let list = try await chapterVerseCounts(book: neighbour.id, in: translation)
+            if let edge = direction > 0 ? list.keys.min() : list.keys.max() {
+                return ChapterReference(bookID: neighbour.id, chapter: edge)
+            }
+            index += direction
+        }
+        return nil
+    }
+
     // MARK: - Uebersetzungswechsel
 
     /// Loest eine Stelle in einer anderen Uebersetzung auf.

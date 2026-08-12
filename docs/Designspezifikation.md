@@ -120,6 +120,10 @@ Bezug ist die 45-mm-Uhr: 396 × 484 px = **198 × 242 pt**. Kleinere Gehäuse ve
 - Der gewählte Vers in voller Deckkraft, die übrigen auf 70 % — kein Farbwechsel, kein Rahmen.
 - Krone scrollt, das Bändchen bewegt sich mit.
 - Werkzeugleiste: Übersetzung wechseln.
+- **Weiterblättern** am Ende des Kapitels: zwei Knöpfe nebeneinander, je 44 pt hoch, beschriftet mit dem Ziel — Buchkürzel der Anzeigesprache und Kapitelzahl, «‹ Mt 4» und «Mt 6 ›». Karmin auf Feldfläche wie die Rasterzellen. Am Kanonrand bleibt die betreffende Hälfte leer, statt dass der verbleibende Knopf über die volle Breite springt.
+  - Kein Wischen quer: das ist auf watchOS die Rücknavigation. Keine Krone über das Kapitelende hinaus: die Krone scrollt bereits, und ein Weiterblättern aus Versehen wäre schlimmer als ein Knopf mehr.
+  - Der Wechsel **tauscht die Stelle in derselben Ansicht aus**, statt eine weitere auf den `NavigationStack` zu legen — sonst wüchse der Stapel mit jedem gelesenen Kapitel. Neues Kapitel heisst: oben beginnen, kein hervorgehobener Vers, Abweichungstabelle des alten Kapitels verworfen, Haptik wie beim Zufallsvers.
+  - **Die Kapitelgrenzen kommen aus `chapter_meta` der aktiven Übersetzung, nie aus `book.chapter_count`.** Dort steht das Maximum über alle Übersetzungen: Joel führt vier Kapitel, hat aber in zehn von zwölf nur drei, Maleachi umgekehrt. Nach `chapter_count` geblättert landet man auf einer leeren Seite. Umgesetzt in `BibleRepository.adjacentChapter`, festgehalten von `WeiterblaetternTests`.
 
 ### 4.6 Abweichungsfall
 Löst `BibleRepository.resolve` etwas anderes als `.exact` auf, erscheint unter dem Verstext eine zweizeilige Tabelle mit beiden Verszahlen des Kapitels, darunter eine Zeile mit Karminstrich links:

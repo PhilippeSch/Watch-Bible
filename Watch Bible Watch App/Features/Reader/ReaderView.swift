@@ -9,9 +9,14 @@ import SwiftUI
 /// Warnung den falschen Bibeltext.
 struct ReaderView: View {
     @Environment(AppModel.self) private var model
-    let bookID: Int
-    let chapter: Int
     let highlight: Int?
+
+    /// Stelle veraenderlich: das Weiterblaettern tauscht sie aus, statt eine
+    /// weitere Ansicht auf den NavigationStack zu legen — sonst wuechse der
+    /// Stapel mit jedem gelesenen Kapitel, und die Ruecktaste fuehrte durch
+    /// jedes einzelne zurueck.
+    @State private var bookID: Int
+    @State private var chapter: Int
 
     @State private var verses: [Verse] = []
     @State private var currentHighlight: Int?
@@ -34,10 +39,16 @@ struct ReaderView: View {
         let clampedRequested: Int?
     }
 
+    /// Nachbarkapitel in der aktiven Uebersetzung, Buchgrenzen eingeschlossen.
+    /// `nil` heisst Kanonende — vor 1Mo 1 und nach Offb 22 gibt es nichts.
+    /// Bestimmt wird beides in `BibleRepository.adjacentChapter`.
+    @State private var previousStep: ChapterReference?
+    @State private var nextStep: ChapterReference?
+
     init(bookID: Int, chapter: Int, highlight: Int?) {
-        self.bookID = bookID
-        self.chapter = chapter
         self.highlight = highlight
+        _bookID = State(initialValue: bookID)
+        _chapter = State(initialValue: chapter)
         _currentHighlight = State(initialValue: highlight)
     }
 
@@ -78,7 +89,7 @@ struct ReaderView: View {
                                     set: { if !$0 { unavailableIn = nil } })) {
             Button("OK", role: .cancel) {}
         }
-        .task { await load() }
+        .task(id: ChapterReference(bookID: bookID, chapter: chapter)) { await load() }
     }
 
     private var scroll: some View {
@@ -95,6 +106,7 @@ struct ReaderView: View {
                 } else {
                     flowText(verses)
                 }
+                chapterFooter
             }
             .padding(.bottom, 12)
             .background(
@@ -158,12 +170,77 @@ struct ReaderView: View {
         }
     }
 
+    // MARK: - Weiterblaettern
+
+    /// Zwei Knoepfe am Ende des Kapitels, beschriftet mit dem Ziel. Wischen
+    /// quer waere auf watchOS die Ruecknavigation, und die Krone scrollt
+    /// bereits — der Leser kommt hier ohnehin an, wenn er zu Ende gelesen hat.
+    @ViewBuilder
+    private var chapterFooter: some View {
+        if previousStep != nil || nextStep != nil {
+            HStack(spacing: 6) {
+                stepButton(previousStep, forward: false)
+                stepButton(nextStep, forward: true)
+            }
+            .padding(.top, 12)
+        }
+    }
+
+    @ViewBuilder
+    private func stepButton(_ step: ChapterReference?, forward: Bool) -> some View {
+        if let step, let book = model.book(id: step.bookID) {
+            Button {
+                go(to: step)
+            } label: {
+                HStack(spacing: 2) {
+                    if !forward { Image(systemName: "chevron.backward") }
+                    Text(verbatim: "\(Localization.abbreviation(of: book)) \(step.chapter)")
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.6)
+                    if forward { Image(systemName: "chevron.forward") }
+                }
+                .font(Typo.bookRow)
+                .foregroundStyle(Color.carmine)
+                .frame(maxWidth: .infinity, minHeight: 44)
+                .background(
+                    RoundedRectangle(cornerRadius: Grid3.cornerRadius)
+                        .fill(Color.fieldFill)
+                )
+            }
+            .buttonStyle(.plain)
+            // Vorgelesen ist «Mt 6» nichtssagend — hier der volle Name.
+            .accessibilityLabel(Text(verbatim:
+                Localization.chapterReference(book: book, chapter: step.chapter)))
+        } else {
+            // Kanonende: die Haelfte bleibt leer, damit der verbleibende Knopf
+            // nicht ueber die ganze Breite springt und die Seite ruhig bleibt.
+            Color.clear.frame(maxWidth: .infinity, minHeight: 44)
+        }
+    }
+
+    private func go(to step: ChapterReference) {
+        playAdvanceHaptic(model.settings)
+        // Ein neues Kapitel beginnt oben und ohne hervorgehobenen Vers; der
+        // Abweichungsfall galt fuer das alte und wird mit ihm ungueltig.
+        currentHighlight = nil
+        switchInfo = nil
+        didAutoScroll = true
+        verses = []
+        scrollPosition.scrollTo(y: 0)
+        bookID = step.bookID
+        chapter = step.chapter
+    }
+
     // MARK: - Laden und Wechsel
 
     private func load() async {
         guard let repo = model.repository, let translation = model.translation else { return }
         verses = (try? await repo.chapter(book: bookID, chapter: chapter,
                                           in: translation)) ?? []
+        previousStep = try? await repo.adjacentChapter(book: bookID, chapter: chapter,
+                                                       offset: -1, in: translation)
+        nextStep = try? await repo.adjacentChapter(book: bookID, chapter: chapter,
+                                                    offset: +1, in: translation)
         rememberPosition()
         autoScrollIfNeeded()
     }

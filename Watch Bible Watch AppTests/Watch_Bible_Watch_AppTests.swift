@@ -688,3 +688,132 @@ struct ThemenTests {
         #expect(verse == nil)
     }
 }
+
+// MARK: - Weiterblaettern
+
+/// `adjacentChapter` traegt die Leseansicht von Kapitel zu Kapitel. Der Fehler,
+/// den diese Suite verhindert, stuerzt nicht ab: er zeigt eine leere Seite.
+struct WeiterblaetternTests {
+
+    /// Der Kern: `book.chapter_count` ist das **Maximum ueber alle
+    /// Uebersetzungen**. Joel steht dort mit vier Kapiteln, hat aber nur in
+    /// LUT und SCH ein viertes. Wer danach blaettert, landet in der ELB auf
+    /// Joel 4 — null Verse, leere Seite. Richtig ist der Sprung nach Amos 1.
+    @Test func joelViertesKapitelNurWoEsExistiert() async throws {
+        let repo = try await TestSupport.repository()
+        let books = await repo.books
+        let joel = try #require(books.first { $0.code == "Joel" })
+        let amos = try #require(books.first { $0.code == "Am" })
+        #expect(joel.chapterCount == 4, "Vorbedingung: chapter_count ist das Maximum")
+
+        for code in ["elb", "kjv", "riv", "blivre", "rvr1909", "lsg", "bsb", "dar",
+                     "cuv", "cuvs"] {
+            let t = try #require(await repo.translations.first { $0.code == code })
+            let weiter = try await repo.adjacentChapter(book: joel.id, chapter: 3,
+                                                        offset: 1, in: t)
+            #expect(weiter == ChapterReference(bookID: amos.id, chapter: 1),
+                    "\(code): Joel 3 muss nach Amos 1 fuehren, nicht auf Joel 4")
+        }
+        for code in ["lut", "sch1951"] {
+            let t = try #require(await repo.translations.first { $0.code == code })
+            let weiter = try await repo.adjacentChapter(book: joel.id, chapter: 3,
+                                                        offset: 1, in: t)
+            #expect(weiter == ChapterReference(bookID: joel.id, chapter: 4),
+                    "\(code): hier gibt es Joel 4")
+        }
+    }
+
+    /// Dasselbe umgekehrt bei Maleachi: vier Kapitel ausser in LUT und SCH.
+    @Test func maleachiViertesKapitelNurWoEsExistiert() async throws {
+        let repo = try await TestSupport.repository()
+        let books = await repo.books
+        let mal = try #require(books.first { $0.code == "Mal" })
+        let mt = try #require(books.first { $0.code == "Mt" })
+
+        for code in ["lut", "sch1951"] {
+            let t = try #require(await repo.translations.first { $0.code == code })
+            let weiter = try await repo.adjacentChapter(book: mal.id, chapter: 3,
+                                                        offset: 1, in: t)
+            #expect(weiter == ChapterReference(bookID: mt.id, chapter: 1),
+                    "\(code): Maleachi 3 muss ins Neue Testament fuehren")
+        }
+        let elb = try #require(await repo.translations.first { $0.code == "elb" })
+        #expect(try await repo.adjacentChapter(book: mal.id, chapter: 3, offset: 1,
+                                               in: elb)
+                == ChapterReference(bookID: mal.id, chapter: 4))
+    }
+
+    /// Kanonrand: vor dem ersten Kapitel und nach dem letzten ist Schluss.
+    @Test func kanonrandHatKeinenNachbarn() async throws {
+        let repo = try await TestSupport.repository()
+        let books = await repo.books
+        let erstes = try #require(books.first)
+        let letztes = try #require(books.last)
+        #expect(erstes.code == "1Mo" && letztes.code == "Offb")
+
+        for t in await repo.translations {
+            #expect(try await repo.adjacentChapter(book: erstes.id, chapter: 1,
+                                                   offset: -1, in: t) == nil,
+                    "\(t.code): vor 1Mo 1 darf nichts kommen")
+            let letzteKapitel = try await repo.chapterVerseCounts(book: letztes.id, in: t)
+            let ende = try #require(letzteKapitel.keys.max())
+            #expect(try await repo.adjacentChapter(book: letztes.id, chapter: ende,
+                                                   offset: 1, in: t) == nil,
+                    "\(t.code): nach Offb \(ende) darf nichts kommen")
+        }
+    }
+
+    /// Buchgrenzen in beide Richtungen, an einer Stelle ohne Versifikationsfrage.
+    @Test func buchgrenzeFuehrtInsNachbarbuch() async throws {
+        let repo = try await TestSupport.repository()
+        let books = await repo.books
+        let elb = try #require(await repo.translations.first { $0.code == "elb" })
+        let mose1 = try #require(books.first { $0.code == "1Mo" })
+        let mose2 = try #require(books.first { $0.code == "2Mo" })
+
+        #expect(try await repo.adjacentChapter(book: mose1.id, chapter: 50,
+                                               offset: 1, in: elb)
+                == ChapterReference(bookID: mose2.id, chapter: 1))
+        #expect(try await repo.adjacentChapter(book: mose2.id, chapter: 1,
+                                               offset: -1, in: elb)
+                == ChapterReference(bookID: mose1.id, chapter: 50))
+    }
+
+    /// Der ganze Kanon in einem Durchgang: von 1Mo 1 bis ans Ende der
+    /// Offenbarung. Jeder Schritt muss auf einem Kapitel landen, das in dieser
+    /// Uebersetzung Verse hat, und die Schrittzahl muss der Kapitelzahl
+    /// entsprechen. Geprueft an ELB und LUT — den beiden Seiten des
+    /// Joel/Maleachi-Unterschieds.
+    @Test func durchgangDurchDenGanzenKanon() async throws {
+        let repo = try await TestSupport.repository()
+        let books = await repo.books
+        let erstes = try #require(books.first)
+
+        for code in ["elb", "lut"] {
+            let t = try #require(await repo.translations.first { $0.code == code })
+            var kapitelGesamt = 0
+            for book in books {
+                kapitelGesamt += try await repo.chapterVerseCounts(book: book.id, in: t).count
+            }
+
+            var hier = ChapterReference(bookID: erstes.id, chapter: 1)
+            var besucht = 1
+            var gesehen: Set<ChapterReference> = [hier]
+            while let weiter = try await repo.adjacentChapter(book: hier.bookID,
+                                                              chapter: hier.chapter,
+                                                              offset: 1, in: t) {
+                let anzahl = try await repo.verseCount(book: weiter.bookID,
+                                                       chapter: weiter.chapter, in: t)
+                #expect((anzahl ?? 0) > 0,
+                        "\(code): leeres Kapitel bei Buch \(weiter.bookID) \(weiter.chapter)")
+                #expect(gesehen.insert(weiter).inserted,
+                        "\(code): Kreis bei Buch \(weiter.bookID) \(weiter.chapter)")
+                hier = weiter
+                besucht += 1
+            }
+            #expect(besucht == kapitelGesamt,
+                    "\(code): \(besucht) Kapitel durchlaufen, \(kapitelGesamt) erwartet")
+            #expect(hier.bookID == books.last?.id, "\(code): endet nicht in der Offenbarung")
+        }
+    }
+}
