@@ -2,3 +2,7 @@ build/
 DerivedData/
 .DS_Store
 xcuserdata/
+
+# Python-Bytecode der Werkzeuge in tools/
+__pycache__/
+*.pyc

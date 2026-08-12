@@ -242,7 +242,7 @@ Der Impressumsbildschirm wird nicht hartkodiert, sondern aus der Datenbank gefü
 
 ## 10. Tests
 
-29 Unit-Tests (Swift Testing) in sechs Suiten, alle gegen die echte Datenbank und `test_fixtures.json`:
+34 Unit-Tests (Swift Testing) in sieben Suiten, alle gegen die echte Datenbank und `test_fixtures.json`:
 
 | Suite | Prüft |
 |---|---|
@@ -252,6 +252,7 @@ Der Impressumsbildschirm wird nicht hartkodiert, sondern aus der Datenbank gefü
 | `SprachenTests` | Übersetzungssprachen ↔ Oberflächensprachen, Normalisierung, Vorgaben, Buchnamen, Kürzel, Stellenformat |
 | `ZufallTests` | Grenzen, Streuung, Determinismus des Tagesverses, Abdeckung der Liste |
 | `ThemenTests` | Themen aus der Datenbank, Übersetzung in allen acht Sprachen, Wiederholungssperre |
+| `WeiterblaetternTests` | Nachbarkapitel je Übersetzung, Buchgrenzen, Kanonrand, ein Durchgang durch alle 1'189 Kapitel |
 
 Randfälle, die immer mitlaufen: Ps 119,176 · Jud 1,25 · letzter Vers der Offenbarung · erster Vers von 1. Mose.
 

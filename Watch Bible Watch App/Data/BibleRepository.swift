@@ -285,9 +285,9 @@ actor BibleRepository {
     /// Loest eine Stelle in einer anderen Uebersetzung auf.
     ///
     /// Wichtig: dieselbe Stellenangabe bezeichnet nicht zwingend denselben Text.
-    /// In dieser Datenbank haben 136 von 1189 Kapiteln zwischen Schlachter und
-    /// KJV unterschiedliche Verszahlen, teils durch verschobene Kapitelgrenzen
-    /// (4Mo 16/17, 3Mo 5/6, Joel 3/4). Weicht die Verszahl des Kapitels ab, wird
+    /// In dieser Datenbank haben 139 von 1189 Kapiteln zwischen Schlachter 1951
+    /// und KJV unterschiedliche Verszahlen, teils durch verschobene
+    /// Kapitelgrenzen (4Mo 16/17, 3Mo 5/6, Joel 3/4). Weicht die Verszahl ab, wird
     /// das Ergebnis als `.divergent` markiert — die Oberflaeche muss das sichtbar
     /// machen, sonst zeigt die App stillschweigend den falschen Vers.
     func resolve(_ ref: VerseReference, from source: Translation,

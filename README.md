@@ -82,7 +82,7 @@ The app collects nothing. No network APIs, no account, no analytics, no permissi
 - The database is **opened once at launch, read-only** (`SQLITE_OPEN_READONLY`), and prepared statements are cached. Queries run off the main actor; return values are `Sendable` structs.
 - **No `ORDER BY RANDOM()`:** `verse.id` is gapless and contiguous per translation, so a random verse is a single primary-key lookup. `chapter_meta` is precomputed, so the selection grids need no `COUNT` queries.
 - **Nothing is hardcoded:** translations, books, book names, abbreviations, topics and copyright lines are read from the database at runtime. Remove a translation and the app keeps working without a code change.
-- **29 unit tests** (Swift Testing) cover the data layer, versification, languages and topics against `test_fixtures.json`.
+- **34 unit tests** (Swift Testing) cover the data layer, versification, languages, topics and chapter paging against `test_fixtures.json`.
 
 Architecture, schema and the queries in detail: **[docs/Architektur.md](docs/Architektur.md)**. Colours, typography, grid geometry and the behaviour of every screen: **[docs/Designspezifikation.md](docs/Designspezifikation.md)**. Both are in German.
 
