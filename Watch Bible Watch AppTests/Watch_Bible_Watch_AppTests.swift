@@ -496,6 +496,25 @@ struct SprachenTests {
             #expect(stelle == (sprache == "de" ? "Johannes 3,16" : "Johannes 3:16"))
         }
     }
+
+    /// Die runde Komplikation setzt Kapitel und Vers ohne Buchname. Sie hatte
+    /// das Komma einmal fest verdrahtet und schrieb damit in sieben von acht
+    /// Sprachen «5,1» statt «5:1» — derselbe Trenner wie oben, aus dem Katalog.
+    @Test func kapitelVersFormatIstJeSpracheUebersetzt() throws {
+        let bundle = Bundle.main
+        for sprache in Localization.supportedLanguages {
+            let pfad = try #require(bundle.path(forResource: sprache, ofType: "lproj"),
+                                    "\(sprache).lproj fehlt")
+            let sprachbundle = try #require(Bundle(path: pfad))
+            let schluessel = "reference.chapterVerse %1$lld %2$lld"
+            let format = sprachbundle.localizedString(forKey: schluessel, value: "",
+                                                      table: nil)
+            #expect(!format.isEmpty, "\(sprache): kein Kapitel-Vers-Format")
+            let stelle = String(format: format, Int64(5), Int64(1))
+            #expect(stelle == (sprache == "de" ? "5,1" : "5:1"),
+                    "\(sprache): «\(stelle)»")
+        }
+    }
 }
 
 // MARK: - Zufall und Vers des Tages
@@ -741,6 +760,32 @@ struct WeiterblaetternTests {
         #expect(try await repo.adjacentChapter(book: mal.id, chapter: 3, offset: 1,
                                                in: elb)
                 == ChapterReference(bookID: mal.id, chapter: 4))
+    }
+
+    /// Die Zahl neben dem Buchnamen in der Buchliste muss die Kapitel **dieser**
+    /// Uebersetzung zaehlen. Sie kam einmal aus `book.chapter_count` und
+    /// versprach damit in der Schlachter ein Maleachi 4, das das Raster einen
+    /// Tipp spaeter nicht anbot — und verschwieg umgekehrt Joel 4.
+    @Test func kapitelzahlDerBuchlisteFolgtDerUebersetzung() async throws {
+        let repo = try await TestSupport.repository()
+        let books = await repo.books
+        let joel = try #require(books.first { $0.code == "Joel" })
+        let mal = try #require(books.first { $0.code == "Mal" })
+
+        for t in await repo.translations {
+            let zahlen = try await repo.chapterCounts(in: t)
+            #expect(zahlen.count == books.count,
+                    "\(t.code): \(zahlen.count) statt \(books.count) Buecher")
+            // Gegenprobe Buch fuer Buch gegen chapter_meta selbst.
+            for book in books {
+                let kapitel = try await repo.chapterVerseCounts(book: book.id, in: t)
+                #expect(zahlen[book.id] == kapitel.count,
+                        "\(t.code) \(book.code): \(zahlen[book.id] ?? -1) statt \(kapitel.count)")
+            }
+            let vier = ["lut", "sch1951"].contains(t.code)
+            #expect(zahlen[joel.id] == (vier ? 4 : 3), "\(t.code): Joel")
+            #expect(zahlen[mal.id] == (vier ? 3 : 4), "\(t.code): Maleachi")
+        }
     }
 
     /// Kanonrand: vor dem ersten Kapitel und nach dem letzten ist Schluss.

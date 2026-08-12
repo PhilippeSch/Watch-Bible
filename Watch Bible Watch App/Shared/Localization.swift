@@ -150,6 +150,18 @@ enum Localization {
             .replacingOccurrences(of: "%3$lld", with: String(ref.verse))
     }
 
+    /// Kapitel und Vers ohne Buchname («3,16» / «3:16») — für die runde
+    /// Komplikation, in der das Kürzel über den Zahlen steht und der volle Name
+    /// nicht hinpasst. Der Trenner ist derselbe wie in `reference`: er gehört
+    /// auch hier in den Katalog und darf nicht fest verdrahtet werden.
+    ///
+    /// `Int64(...)` ist Pflicht: auf der Uhr (arm64_32) ist `Int` 32 Bit breit,
+    /// `%lld` liest 64 Bit.
+    static func chapterVerse(chapter: Int, verse: Int) -> String {
+        String(format: String(localized: "reference.chapterVerse %1$lld %2$lld"),
+               Int64(chapter), Int64(verse))
+    }
+
     /// Zahlen der Zählerzeile mit den Trennzeichen der jeweiligen Region:
     /// Schweizer Deutsch 31’103, Englisch 31,103.
     static func groupedNumber(_ value: Int) -> String {

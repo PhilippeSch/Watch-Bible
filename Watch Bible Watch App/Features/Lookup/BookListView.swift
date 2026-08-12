@@ -6,6 +6,9 @@ import SwiftUI
 struct BookListView: View {
     @Environment(AppModel.self) private var model
     @State private var activeMark: Int = 1
+    /// Kapitelzahl je Buch in der aktiven Uebersetzung. Leer, solange die
+    /// Abfrage laeuft — dann bleibt die Zahl des Kanons stehen.
+    @State private var chapterCounts: [Int: Int] = [:]
 
     /// Sieben Sprungmarken gemaess Spezifikation, als Buch-id:
     /// 1. Mose · Josua · Psalmen · Jesaja · Matthaeus · Roemer · Offenbarung.
@@ -30,6 +33,10 @@ struct BookListView: View {
         }
         .containerBackground(Color.ground, for: .navigation)
         .navigationTitle(Text("lookup.books"))
+        .task(id: model.settings.translationCode) {
+            guard let repo = model.repository, let translation = model.translation else { return }
+            chapterCounts = (try? await repo.chapterCounts(in: translation)) ?? [:]
+        }
     }
 
     private func eyebrow(_ key: LocalizedStringKey) -> some View {
@@ -50,7 +57,10 @@ struct BookListView: View {
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
                 Spacer(minLength: 4)
-                Text(verbatim: "\(book.chapterCount)")
+                // Kapitelzahl der aktiven Uebersetzung, nie book.chapterCount
+                // (Designspez. 4.5): dort steht das Maximum ueber alle
+                // Uebersetzungen, und Joel und Maleachi weichen davon ab.
+                Text(verbatim: "\(chapterCounts[book.id] ?? book.chapterCount)")
                     .font(Typo.bookCount)
                     .foregroundStyle(Color.secondaryInk)
             }

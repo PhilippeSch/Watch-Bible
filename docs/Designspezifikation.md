@@ -107,7 +107,7 @@ Bezug ist die 45-mm-Uhr: 396 × 484 px = **198 × 242 pt**. Kleinere Gehäuse ve
 ### 4.3 Nachschlagen — Bücher
 - Liste, in Abschnitte `Altes Testament` / `Neues Testament` geteilt.
 - Rechts das Register mit sieben Sprungmarken (1. Mose · Josua · Psalmen · Jesaja · Matthäus · Römer · Offenbarung), beschriftet mit dem Buchkürzel der Anzeigesprache aus der Datenbank. Aktive Marke in Karmin.
-- Je Zeile: Buchname links, Kapitelzahl rechts in Monoschrift.
+- Je Zeile: Buchname links, Kapitelzahl rechts in Monoschrift. Die Zahl zählt die Kapitel der **aktiven Übersetzung** (`BibleRepository.chapterCounts`, eine Abfrage über alle 66 Bücher), nicht `book.chapter_count` — sonst verspräche die Liste in der Schlachter ein Maleachi 4, das das Raster einen Tipp später nicht anbietet, und verschwiege dort Joel 4. Es ist dieselbe Regel wie beim Weiterblättern (4.5).
 
 ### 4.4 Nachschlagen — Kapitel und Verse
 - Dreispaltiges Raster, Zellen mit `Field` hinterlegt, 14 pt gerundet.
@@ -157,7 +157,7 @@ Keine Signalfarbe, kein Symbol, nichts zum Wegklicken. Zwei Zahlen erklären den
 
 **Chinesisch nie auf zwei Zeichen kürzen.** `zh-Hant` und `zh-Hans` unterscheiden sich in der Schrift, nicht in der Sprache; ein `String(code.prefix(2))` trifft weder die eine noch die andere Übersetzung. `Localization.normalized` bildet Systemkennungen ab: `de-CH` → `de`, `zh-TW` → `zh-Hant`, `zh` → `zh-Hans`.
 
-**Texte** liegen in `Resources/Localizable.xcstrings` (String Catalog, 81 Schlüssel, alle acht Sprachen vollständig), der App-Name in `Resources/InfoPlist.xcstrings` — «Bibel», «Bible», «Biblia», «Bible», «Bibbia», «Bíblia», 聖經, 圣经, kurz gehalten, weil unter dem Symbol auf der Uhr wenig Platz ist. Schlüssel sind semantisch benannt (`settings.textSize`), nicht der englische Text selbst.
+**Texte** liegen in `Resources/Localizable.xcstrings` (String Catalog, 82 Schlüssel, alle acht Sprachen vollständig), der App-Name in `Resources/InfoPlist.xcstrings` — «Bibel», «Bible», «Biblia», «Bible», «Bibbia», «Bíblia», 聖經, 圣经, kurz gehalten, weil unter dem Symbol auf der Uhr wenig Platz ist. Schlüssel sind semantisch benannt (`settings.textSize`), nicht der englische Text selbst.
 
 **Vorgabe der Bibelübersetzung nach Anzeigesprache:** die **erste Übersetzung dieser Sprache in der Reihenfolge der Datenbank** (`sort_order`) — also genau die, die in der Auswahl auch zuoberst steht: Deutsch Elberfelder 1905, Englisch King James, Chinesisch das 和合本 der jeweiligen Schrift, Spanisch Reina-Valera, Französisch Louis Segond. Nichts davon ist fest verdrahtet; die Reihenfolge selbst steht in `TRANSLATION_ORDER` in `tools/tables.py`, und fällt eine Übersetzung weg, rückt die nächste derselben Sprache nach. Das gilt **nur beim ersten Start**: wer einmal eine Übersetzung gewählt hat, behält sie, auch nach einem Sprachwechsel des Systems. Gibt es zur Anzeigesprache keine Übersetzung, greift bei Chinesisch die andere Schriftvariante, sonst Englisch, zuletzt die erste überhaupt. Umgesetzt in `Shared/Localization.swift`.
 

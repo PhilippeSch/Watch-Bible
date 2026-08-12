@@ -36,14 +36,17 @@ struct VerseEntry: TimelineEntry {
     /// Buchkuerzel der Anzeigesprache fuer die runde Komplikation
     /// («Joh» · «John» · «Jn» · «約»). Nicht book.code: der ist deutsch.
     let bookAbbrev: String
-    let chapter: Int
-    let verse: Int
+    /// Kapitel und Vers, fertig gesetzt mit dem Trenner der Anzeigesprache
+    /// («3,16» deutsch, «3:16» sonst). Hier steht die fertige Zeichenkette und
+    /// nicht zwei Zahlen: der Trenner gehoert in den String Catalog, und die
+    /// Ansicht soll ihn nicht selber setzen muessen.
+    let chapterVerse: String
     let text: String
     let url: URL?
 
     static let placeholder = VerseEntry(
         date: .now,
-        reference: "Johannes 3,16", bookAbbrev: "Joh", chapter: 3, verse: 16,
+        reference: "Johannes 3,16", bookAbbrev: "Joh", chapterVerse: "3,16",
         text: "Denn also hat Gott die Welt geliebt, dass er seinen eingeborenen Sohn gab …",
         url: nil)
 }
@@ -105,8 +108,9 @@ struct VerseOfDayProvider: TimelineProvider {
                     date: day,
                     reference: Localization.reference(verse.reference, book: book),
                     bookAbbrev: Localization.abbreviation(of: book),
-                    chapter: verse.reference.chapter,
-                    verse: verse.reference.verse,
+                    chapterVerse: Localization.chapterVerse(
+                        chapter: verse.reference.chapter,
+                        verse: verse.reference.verse),
                     text: verse.text,
                     url: URL(string: "watchbible://verse/\(verse.reference.bookID)/\(verse.reference.chapter)/\(verse.reference.verse)")))
             }
@@ -130,7 +134,7 @@ struct VerseWidgetView: View {
                     .font(.system(size: 13, weight: .semibold))
                     .lineLimit(1)
                     .widgetAccentable()
-                Text(verbatim: "\(entry.chapter),\(entry.verse)")
+                Text(verbatim: entry.chapterVerse)
                     .font(.system(size: 12, weight: .medium))
                     .foregroundStyle(.secondary)
             }

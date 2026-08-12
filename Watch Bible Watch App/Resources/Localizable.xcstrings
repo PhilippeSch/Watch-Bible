@@ -2060,6 +2060,60 @@
         }
       }
     },
+    "reference.chapterVerse %1$lld %2$lld": {
+      "comment": "Kapitel und Vers ohne Buchname, fuer die runde Komplikation. 1 = Kapitel, 2 = Vers. Derselbe Trenner wie reference.format: deutsch Komma, sonst Doppelpunkt.",
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld,%2$lld"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld:%2$lld"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld:%2$lld"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld:%2$lld"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld:%2$lld"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld:%2$lld"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld:%2$lld"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld:%2$lld"
+          }
+        }
+      }
+    },
     "reference.format %1$@ %2$lld %3$lld": {
       "comment": "Stellenangabe. 1 = Buchname, 2 = Kapitel, 3 = Vers. Deutsch Komma, Englisch Doppelpunkt.",
       "extractionState": "manual",

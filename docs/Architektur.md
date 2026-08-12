@@ -217,7 +217,7 @@ Der Vers steht damit von Mitternacht bis Mitternacht, und jede Neuberechnung der
 
 Die Zeitleiste trägt sieben Tage vor und lädt danach neu (`.atEnd`). Tippen öffnet die App auf demselben Vers, über `widgetURL` und das Schema `watchbible://verse/<buchID>/<kapitel>/<vers>`.
 
-Die runde Komplikation zeigt das **Buchkürzel der Anzeigesprache** aus der Datenbank, nicht `book.code` — der ist deutsch geprägt.
+Die runde Komplikation zeigt das **Buchkürzel der Anzeigesprache** aus der Datenbank, nicht `book.code` — der ist deutsch geprägt. Kapitel und Vers darunter kommen über `Localization.chapterVerse` und damit über den String Catalog (`reference.chapterVerse`): der Trenner ist derselbe wie in der vollen Stellenangabe, deutsch Komma, sonst Doppelpunkt. Fest verdrahtet stand dort einmal das Komma, und die runde Komplikation schrieb in sieben von acht Sprachen «Rm 5,1», während das rechteckige Widget daneben «Romani 5:1» setzte.
 
 ## 9. Einstellungen
 

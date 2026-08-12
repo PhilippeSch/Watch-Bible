@@ -240,6 +240,22 @@ actor BibleRepository {
         return Dictionary(uniqueKeysWithValues: rows)
     }
 
+    /// Kapitelzahl je Buch fuer **diese** Uebersetzung, alle 66 Buecher in einer
+    /// Abfrage — die Zahl der Buchliste.
+    ///
+    /// Nicht `book.chapter_count`: dort steht das Maximum ueber alle
+    /// Uebersetzungen (Designspez. 4.5). Joel fuehrt darin vier Kapitel, hat aber
+    /// in zehn von zwoelf Uebersetzungen nur drei, Maleachi umgekehrt — die
+    /// Buchliste versprach sonst ein Kapitel, das das Raster einen Tipp spaeter
+    /// nicht anbietet.
+    func chapterCounts(in translation: Translation) async throws -> [Int: Int] {
+        let rows = try await db.query("""
+            SELECT book_id, COUNT(*) FROM chapter_meta
+             WHERE translation_id = ? GROUP BY book_id
+            """, [translation.id]) { ($0.int(0), $0.int(1)) }
+        return Dictionary(uniqueKeysWithValues: rows)
+    }
+
     func verseCount(book bookID: Int, chapter: Int,
                     in translation: Translation) async throws -> Int? {
         try await db.queryOne("""
