@@ -6,11 +6,11 @@ Der wiederkehrende Punkt: bei fast jeder dieser Übersetzungen gibt es eine jün
 
 | Kürzel | Übersetzung | Sprache | Verse | Quelle |
 |---|---|---|---:|---|
-| ELB | Elberfelder 1905 | Deutsch | 31'103 | quotepas-Quelldatei `bible.db` |
+| ELB | Elberfelder 1905 | Deutsch | 31'103 | Ausgangsbestand, quotepas-LaTeX |
 | SCH | Schlachter 1951 | Deutsch | 31'172 | `de/sch1951.xml`, gratis-bible |
 | LUT | Luther 1912 | Deutsch | 31'171 | `de/luth1912.xml`, gratis-bible |
-| KJV | King James Version | Englisch | 31'102 | quotepas-Quelldatei `bible.db` |
-| DAR | Darby Bible | Englisch | 30'996 | quotepas-Quelldatei `bible.db` |
+| KJV | King James Version | Englisch | 31'102 | Ausgangsbestand, quotepas-LaTeX |
+| DAR | Darby Bible | Englisch | 30'996 | Ausgangsbestand, quotepas-LaTeX |
 | BSB | Berean Standard Bible | Englisch | 31'084 | `usfm-bible/examples.bsb` |
 | RVR | Reina-Valera 1909 | Spanisch | 31'102 | `es/sparv.xml`, gratis-bible |
 | LSG | Louis Segond 1910 | Französisch | 31'102 | `fr/fren.xml`, gratis-bible |
@@ -132,7 +132,7 @@ Die Richtung traditionell → vereinfacht ist nahezu eindeutig und damit unkriti
 
 ## Elberfelder 1905, King James Version, Darby Bible
 
-Diese drei kommen aus der quotepas-Quelldatei `bible.db`, dem Ausgangsbestand des Projekts. Alle drei sind gemeinfrei; die KJV mit der üblichen Einschränkung, dass im Vereinigten Königreich ein Kronrecht (letters patent) fortbesteht.
+Diese drei stammen aus dem Ausgangsbestand des Projekts — einer LaTeX-Datei im quotepas-Format, die nicht Teil dieses Repositoriums und heute nicht mehr Teil des Projekts ist. Sie wird auch nicht mehr gebraucht: `bible.sqlite` ist der massgebliche Bestand und wird fortgeschrieben, nicht neu gebaut (siehe README). Alle drei sind gemeinfrei; die KJV mit der üblichen Einschränkung, dass im Vereinigten Königreich ein Kronrecht (letters patent) fortbesteht.
 
 Kontrollwerte des Konverterlaufs: 66 Bücher (39 AT / 27 NT), 1'189 Kapitel, KJV mit exakt 31'102 Versen wie erwartet, keine Duplikate, keine leeren Blöcke, keine LaTeX-Reste. Die Abweichungen der übrigen Übersetzungen sind Zählunterschiede, keine Fehler.
 

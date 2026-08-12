@@ -4,7 +4,7 @@
 
 ## Was der Prototyp war
 
-- Lud die rohe LaTeX-Quelldatei `bible.db` (25 MB) beim Start **komplett in den Speicher** und suchte Verse per String-Suche. Kein SQLite.
+- Lud eine rohe LaTeX-Quelldatei im quotepas-Format (25 MB) beim Start **komplett in den Speicher** und suchte Verse per String-Suche. Kein SQLite. Diese Datei ist heute nicht mehr Teil des Projekts; massgeblich ist `bible.sqlite`, und sie wird fortgeschrieben statt neu gebaut.
 - Buchliste, Verszahlen und Übersetzungen waren **im Code hartkodiert** (`verseCountMap`, `getBooks()`, `getTranslations()`).
 - Oberfläche: eine Picker-Kette (Übersetzung → Testament → Buch → Kapitel → Vers) als Listen im Standard-Look. Keine Lokalisierung, kein Zufallsvers, keine Einstellungen.
 - Kein Privacy-Manifest, keine Tests, kein Tag/Nacht-Thema, kein Widget.
@@ -14,7 +14,7 @@
 | # | Punkt | Vorher | Nachher |
 |---|---|---|---|
 | 1 | Datenschicht | String-Parser über LaTeX-Datei | SQLite read-only, Actor, Statement-Cache (`Data/`) |
-| 2 | Datenbank | `bible.db` (Rohtext, 25 MB) | `bible.sqlite` (10 Übersetzungen, 50.9 MB) |
+| 2 | Datenbank | Rohtext im quotepas-Format, 25 MB | `bible.sqlite` (10 Übersetzungen, 50.9 MB) |
 | 3 | Stammdaten | hartkodiert | zur Laufzeit aus der Datenbank |
 | 4 | Lokalisierung | deutsch, Klartext in Views | sechs Sprachen über String Catalogs, `Localization.swift` |
 | 5 | Einstellungen | keine | Übersetzung, Zufallsmodus, Darstellung, Schrift, Haptik, Impressum |

@@ -437,7 +437,6 @@ TRANSLATION_META = {
     "kjv": ("en", "King James Version (1611/1769). "
                   "Gemeinfrei ausserhalb des Vereinigten Koenigreichs."),
     "lut": ("de", "Luther 1912. Gemeinfrei."),
-    "meng": ("de", "Menge-Bibel. Gemeinfrei."),
     "bsb": ("en", "Berean Standard Bible (BSB). Gemeinfrei; von den Rechteinhabern "
                   "am 30. April 2023 in die Public Domain entlassen."),
     "cuv":  ("zh-Hant", "\u548c\u5408\u672c Chinese Union Version (1919). "
@@ -466,7 +465,7 @@ TRANSLATION_META = {
 # James, Chinesisch die traditionelle Ausgabe. Codes, die hier fehlen, haengen
 # sich hinten in der Reihenfolge der Quelle an.
 TRANSLATION_ORDER = [
-    "elb", "kjv", "dar", "slt", "sch1951", "lut", "meng",
+    "elb", "kjv", "dar", "slt", "sch1951", "lut",
     "cuv", "cuvs", "rvr1909", "lsg", "riv", "blivre", "bsb",
 ]
 
@@ -474,7 +473,6 @@ TRANSLATION_ORDER = [
 TRANSLATION_NAMES = {
     "sch1951": ("SCH", "Schlachter 1951"),
     "lut": ("LUT", "Luther 1912"),
-    "meng": ("MENG", "Menge-Bibel"),
     "bsb": ("BSB", "Berean Standard Bible"),
     "cuv":  ("CUV", "\u548c\u5408\u672c\uff08\u7e41\u9ad4\uff09"),
     "rvr1909": ("RVR", "Reina-Valera 1909"),

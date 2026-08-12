@@ -176,19 +176,7 @@ Four points about it:
 
 All top-up scripts understand `--check`: verify without writing.
 
-This is how the shipped file is produced:
-
-```bash
-python3 tools/quotepas_to_sqlite.py bible.db \
-        --osis sch1951=sch1951.xml --osis lut=luth1912.xml \
-        --osis cuv=chi.xml --osis cuvs=cuv_simplified.xml \
-        --osis rvr1909=sparv.xml --osis lsg=fren.xml \
-        --usfm bsb=./bsb_usfm --usfm riv=./ita1927 --usfm blivre=./porbr2018 \
-        --exclude slt --curated tools/curated_verses.json --swiss \
-        -o "Watch Bible Watch App/Resources/bible.sqlite"
-```
-
-The file actually shipped was not built that way, though. Italian and Portuguese were **appended** to the existing database with `add_translation.py`:
+**`bible.sqlite` is the artifact of record and is maintained in place**, not rebuilt from scratch. A translation is appended:
 
 ```bash
 python3 tools/add_translation.py "Watch Bible Watch App/Resources/bible.sqlite" \
@@ -196,11 +184,16 @@ python3 tools/add_translation.py "Watch Bible Watch App/Resources/bible.sqlite" 
 python3 tools/add_book_names.py "Watch Bible Watch App/Resources/bible.sqlite"
 ```
 
-The reason is `translation.id`. The shipped database still carries the ids from the original source order, where DAR came before KJV; a full converter run assigns ids from `TRANSLATION_ORDER` instead and would swap the `verse.id` blocks of those two translations — and `test_fixtures.json` pins exactly those blocks. Appending leaves everything existing untouched: the new translations take the next free id and a verse block after the last one in use.
+Two reasons it works this way rather than by re-running the converter over all sources:
 
-The third-party source files — the quotepas file `bible.db`, the OSIS editions and the USFM directory — are not in this repository; where they come from is documented in [docs/Bibeltexte.md](docs/Bibeltexte.md). What was produced here is included: `tools/cuv_simplified.xml` (generated from the traditional edition) and `tools/curated_verses.json`.
+- **`translation.id` would move.** The database carries its ids from the original source order, where DAR came before KJV. A full converter run assigns them from `TRANSLATION_ORDER` instead and would swap the `verse.id` blocks of those two translations — and `test_fixtures.json` pins exactly those blocks. Appending leaves everything existing untouched: a new translation takes the next free id and a verse block after the last one in use.
+- **The original source is no longer at hand.** Elberfelder, King James and Darby came out of a LaTeX file in the quotepas format that is not part of this repository and no longer part of the project. Everything added since — the OSIS and USFM editions — is fetched per translation, and `docs/Bibeltexte.md` records where each one came from.
 
-**The order of the source arguments determines `translation.id` and the `verse.id` ranges.** Moving them moves every verse that follows — the app reads both at runtime, but `test_fixtures.json` then has to be recomputed. The **display order**, by contrast, lives in `TRANSLATION_ORDER` and can be changed afterwards with `reorder_translations.py` without touching the verse table; `id` and `sort_order` then diverge (KJV has `id` 3 and `sort_order` 2), and the app reads `ORDER BY sort_order` exclusively.
+`tools/quotepas_to_sqlite.py` stays regardless: `add_translation.py` imports its OSIS and USFM readers, and it is the written record of how the texts were cleaned up (LaTeX handling, the documented corrections to the sources, the typography fixes).
+
+The **display order** lives in `TRANSLATION_ORDER` and can be changed at any time with `reorder_translations.py` without touching the verse table; `id` and `sort_order` then diverge (KJV has `id` 3 and `sort_order` 2), and the app reads `ORDER BY sort_order` exclusively.
+
+Of the source material, what was produced here is included: `tools/cuv_simplified.xml` (generated from the traditional Chinese edition) and `tools/curated_verses.json`. The third-party editions are not, and are documented in [docs/Bibeltexte.md](docs/Bibeltexte.md) instead.
 
 ## Documentation
 
