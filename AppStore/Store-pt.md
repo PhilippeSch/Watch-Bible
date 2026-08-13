@@ -2,30 +2,56 @@
 
 ## Nome (máx. 30)
 
-    Watch Bible — Bíblia
+```
+Watch Bible — Bíblia
+```
 
 ## Subtítulo (máx. 30)
 
-    A Bíblia no seu pulso
+```
+A Bíblia no seu pulso
+```
 
 ## Palavras-chave (máx. 100)
 
-    versiculo,devocional,diario,escritura,offline,Almeida,capitulo,leitura,complicacao
+```
+versiculo,devocional,diario,escritura,offline,Almeida,capitulo,leitura,complicacao
+```
 
 ## Descrição (máx. 4000)
 
+```
 Versículos bíblicos no pulso, sem passar pelo iPhone.
 
 O Watch Bible mostra um versículo aleatório que você percorre deslizando, e permite buscar um específico: livro, capítulo, versículo. A passagem aparece no contexto do capítulo inteiro, como texto corrido com os números de versículo sobrescritos, como numa Bíblia impressa — e você segue lendo capítulo após capítulo sem voltar à seleção.
 
 DOZE TRADUÇÕES
-Português — Bíblia Livre
-Inglês — King James Version, Berean Standard Bible, Darby
-Alemão — Elberfelder 1905, Schlachter 1951, Luther 1912
-Espanhol — Reina-Valera 1909
-Francês — Louis Segond 1910
-Italiano — Riveduta 1927
-Chinês — 和合本, tradicional e simplificado
+
+Português
+• Bíblia Livre
+
+Inglês
+• King James Version
+• Berean Standard Bible
+• Darby
+
+Alemão
+• Elberfelder 1905
+• Schlachter 1951
+• Luther 1912
+
+Espanhol
+• Reina-Valera 1909
+
+Francês
+• Louis Segond 1910
+
+Italiano
+• Riveduta 1927
+
+Chinês
+• 和合本, tradicional
+• 和合本, simplificado
 
 O próprio app fala esses idiomas, com os nomes e as abreviaturas dos livros usados em cada um, e segue o idioma do seu relógio.
 
@@ -43,3 +69,4 @@ RECURSOS
 As doze traduções estão inteiras dentro do app: 66 livros, mais de 370.000 versículos. Sem servidor, sem cadastro, sem precisar de iPhone — no modo avião tudo funciona igual. O app não coleta dado algum e não pede permissões.
 
 Todos os textos bíblicos são de uso livre: domínio público ou Creative Commons. As fontes e licenças completas estão no app em Ajustes › Créditos.
+```

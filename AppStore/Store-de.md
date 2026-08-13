@@ -2,30 +2,56 @@
 
 ## Name (max. 30)
 
-    Watch Bible — Bibel
+```
+Watch Bible — Bibel
+```
 
 ## Untertitel (max. 30)
 
-    Die Bibel am Handgelenk
+```
+Die Bibel am Handgelenk
+```
 
 ## Keywords (max. 100)
 
-    Vers,Andacht,Tageslosung,Bibelvers,offline,Elberfelder,Schlachter,Luther,Kapitel,Losung
+```
+Vers,Andacht,Tageslosung,Bibelvers,offline,Elberfelder,Schlachter,Luther,Kapitel,Losung
+```
 
 ## Beschreibung (max. 4000)
 
+```
 Bibelverse auf dem Handgelenk — ohne Umweg über das iPhone.
 
 Watch Bible zeigt einen zufälligen Vers zum Weiterwischen und lässt Sie gezielt nachschlagen: Buch, Kapitel, Vers. Die Stelle erscheint im Zusammenhang des ganzen Kapitels, als Fliesstext mit hochgestellten Verszahlen wie in einer gedruckten Bibel — und Sie lesen Kapitel für Kapitel weiter, ohne zurück in die Auswahl zu müssen.
 
 ZWÖLF ÜBERSETZUNGEN
-Deutsch — Elberfelder 1905, Schlachter 1951, Luther 1912
-Englisch — King James Version, Berean Standard Bible, Darby
-Spanisch — Reina-Valera 1909
-Französisch — Louis Segond 1910
-Italienisch — Riveduta 1927
-Portugiesisch — Bíblia Livre
-Chinesisch — 和合本, traditionell und vereinfacht
+
+Deutsch
+• Elberfelder 1905
+• Schlachter 1951
+• Luther 1912
+
+Englisch
+• King James Version
+• Berean Standard Bible
+• Darby
+
+Spanisch
+• Reina-Valera 1909
+
+Französisch
+• Louis Segond 1910
+
+Italienisch
+• Riveduta 1927
+
+Portugiesisch
+• Bíblia Livre
+
+Chinesisch
+• 和合本, traditionell
+• 和合本, vereinfacht
 
 Auch die App selbst spricht diese Sprachen, mit den Buchnamen und Kürzeln, die im jeweiligen Sprachraum üblich sind. Sie folgt der Sprache Ihrer Uhr.
 
@@ -43,3 +69,4 @@ FUNKTIONEN
 Alle zwölf Übersetzungen stecken vollständig in der App: 66 Bücher, über 370'000 Verse. Kein Server, keine Anmeldung, kein iPhone nötig — im Flugzeugmodus funktioniert alles gleich. Die App erfasst keine Daten und fordert keine Berechtigungen an.
 
 Sämtliche Bibeltexte sind frei verwendbar: gemeinfrei oder unter Creative Commons. Quellen- und Lizenzangaben in der App unter Einstellungen › Impressum.
+```
