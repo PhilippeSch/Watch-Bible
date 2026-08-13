@@ -90,7 +90,7 @@ xcodebuild -project "Watch Bible.xcodeproj" \
 
 Zwei Eigenheiten dieses Rechners: `xcode-select` zeigt auf die CommandLineTools — vor xcodebuild `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer` setzen. Und Derived Data **nie** in den Projektordner legen (Documents wird von einem File Provider synchronisiert; codesign scheitert sonst an «detritus»-xattrs).
 
-Fehler selbst lesen und beheben, statt sie zu melden. Weiterführende Befehle und Fallstricke stehen im `README.md` unter «Bauen und prüfen».
+Fehler selbst lesen und beheben, statt sie zu melden. Der Testbefehl mit konkretem Simulator steht im `README.md` unter «Building and testing»; die Eigenheiten dieses Rechners stehen oben in diesem Abschnitt und nicht dort — das `README` ist öffentlich.
 
 Zwei Grenzen: ein erfolgreicher Build sagt nichts über das Layout — Bildschirme gehören in den Simulator angesehen, Tag und Nacht und wenigstens einmal auf Chinesisch. Und die Unit-Tests brauchen einen konkreten Simulator statt `generic` (Befehl im README).
 

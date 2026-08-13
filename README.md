@@ -130,25 +130,7 @@ xcodebuild -project "Watch Bible.xcodeproj" \
            test 2>&1 | grep -E "error:|failed|passed"
 ```
 
-Things worth knowing:
-
-- If `xcode-select -p` points at the CommandLineTools rather than Xcode, prefix the command with `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer`.
-- **Never put derived data inside the project folder.** If the directory is synchronised by a file provider (OneDrive, iCloud Drive, `~/Documents` too), it attaches extended attributes to the build products and codesign fails with "resource fork, Finder information, or similar detritus not allowed".
-- A successful build says nothing about layout. Look at the screens in the simulator — day and night, and at least once in Chinese.
-- The path contains spaces, so quote it in every command.
-- **Watch the bundle size.** A watchOS app must stay under 75 MB uncompressed, and this one is mostly database. Measure after archiving, not before:
-
-  ```bash
-  xcodebuild -project "Watch Bible.xcodeproj" -scheme "Watch Bible Watch App" \
-             -destination 'generic/platform=watchOS' \
-             -archivePath "$HOME/Library/Developer/WatchBible-archive" \
-             -derivedDataPath "$HOME/Library/Developer/WatchBible-build" archive
-
-  du -sh "$HOME/Library/Developer/WatchBible-archive.xcarchive/Products/Applications/"\
-"Watch Bible.app/Watch/Watch Bible Watch App.app"
-  ```
-
-  With twelve translations that comes to **62.2 MB**, leaving about 12 MB of headroom — roughly two more translations. The database appears exactly once in the package; the widget reads it out of the app bundle rather than shipping its own copy.
+A watchOS app must stay under **75 MB uncompressed**, and this one is almost entirely database. Archived, it comes to 62.2 MB with twelve translations — room for about two more. The database sits in the package exactly once: the widget reads it out of the app bundle instead of shipping its own copy.
 
 ### The build number sets itself
 
