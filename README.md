@@ -3,13 +3,13 @@
 A standalone Bible app for the Apple Watch. Twelve translations in eight languages ship as a read-only SQLite file inside the app bundle — no iPhone required, no account, no network, no data collection.
 
 <p>
-  <img src="AppStore/Screenshots-de/02-Zufallsvers.png" width="180" alt="Random verse">
-  <img src="AppStore/Screenshots-de/01-Leseansicht.png" width="180" alt="Reading view">
-  <img src="AppStore/Screenshots-de/03-Buchliste-Register.png" width="180" alt="Book list with index tabs">
-  <img src="AppStore/Screenshots-de/04-Versraster.png" width="180" alt="Verse grid">
+  <img src="AppStore/Screenshots-en/02-Zufallsvers.png" width="180" alt="Random verse">
+  <img src="AppStore/Screenshots-en/01-Leseansicht.png" width="180" alt="Reading view">
+  <img src="AppStore/Screenshots-en/03-Buchliste-Register.png" width="180" alt="Book list with index tabs">
+  <img src="AppStore/Screenshots-en/04-Versraster.png" width="180" alt="Verse grid">
 </p>
 
-> **A note on language.** German is this project's source language: the string catalog is authored in German, book names and topic keys are stored in German in the data model, and the documents under `docs/` are written in German. The app's interface, however, follows the watch's system language across all six supported languages and falls back to **English** when the system language is none of them. The screenshots above show the German interface.
+> **A note on language.** German is this project's source language: the string catalog is authored in German, book names and topic keys are stored in German in the data model, and the documents under `docs/` are written in German. The app's interface, however, follows the watch's system language across all eight supported languages and falls back to **English** when the system language is none of them. The screenshots above show the English interface; `AppStore/` carries the same four shots in each of the eight languages.
 
 ## What the app does
 
