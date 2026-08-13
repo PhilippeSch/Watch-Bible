@@ -14,7 +14,7 @@ struct TopicListView: View {
             LazyVStack(alignment: .leading, spacing: 0) {
                 ForEach(Localization.sorted(model.topics)) { row($0) }
             }
-            .padding(.horizontal, 4)
+            .padding(.horizontal, Layout.textInset)
         }
         .containerBackground(Color.ground, for: .navigation)
         .navigationTitle(Text("home.topics"))

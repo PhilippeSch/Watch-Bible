@@ -150,6 +150,27 @@ enum Localization {
             .replacingOccurrences(of: "%3$lld", with: String(ref.verse))
     }
 
+    /// Copyright-Zeile einer Übersetzung im Impressum, in der Anzeigesprache.
+    ///
+    /// Dieselbe Arbeitsteilung wie bei den Themen: die **Datenbank sagt, welche
+    /// Übersetzungen es gibt**, der **Katalog, wie ihre Zeile geschrieben
+    /// wird** — unter `copyright.<translation.code>`. Der Code ist der stabile
+    /// Schlüssel; die `id` verschiebt sich, sobald die Datenbank neu erzeugt
+    /// wird, der Code nie.
+    ///
+    /// Fällt eine Übersetzung aus der Datenbank, verschwindet ihre Zeile mit
+    /// ihr, ohne Codeänderung. Kommt eine dazu, für die der Katalog noch nichts
+    /// hat, bleibt `translation.copyright` aus der Datenbank stehen — deutsch,
+    /// aber vorhanden; eine Rechteangabe darf nie ganz fehlen. Der Unit-Test
+    /// `copyrightZeilenSindInAllenSprachenUebersetzt` schlägt dann fehl.
+    static func copyright(of translation: Translation) -> String? {
+        let key = "copyright.\(translation.code)"
+        let localized = String(localized: String.LocalizationValue(key))
+        if localized != key, !localized.isEmpty { return localized }
+        guard let fallback = translation.copyright, !fallback.isEmpty else { return nil }
+        return fallback
+    }
+
     /// Kapitel und Vers ohne Buchname («3,16» / «3:16») — für die runde
     /// Komplikation, in der das Kürzel über den Zahlen steht und der volle Name
     /// nicht hinpasst. Der Trenner ist derselbe wie in `reference`: er gehört

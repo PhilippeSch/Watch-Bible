@@ -31,7 +31,7 @@ A standalone Bible app for the Apple Watch. Twelve translations in eight languag
 
 ## Bible translations and licences
 
-Every text shipped is either in the public domain or freely licensed. Each translation's copyright line lives in the database, which is why it appears in the app's credits screen by itself.
+Every text shipped is either in the public domain or freely licensed. The database says which translations exist, so a translation's entry appears in the credits screen by itself; the wording of its rights line comes from the string catalog and is therefore translated along with the rest of the interface. Rights holders, work titles and the licence name stay verbatim in every language.
 
 | Abbr. | Translation | Language | Verses | Rights |
 |---|---|---|---:|---|
@@ -81,8 +81,8 @@ The app collects nothing. No network APIs, no account, no analytics, no permissi
 - **No external dependencies.** SQLite is used directly through `import SQLite3` — the widget extension needs the same access, and SPM packages are known to cause trouble there.
 - The database is **opened once at launch, read-only** (`SQLITE_OPEN_READONLY`), and prepared statements are cached. Queries run off the main actor; return values are `Sendable` structs.
 - **No `ORDER BY RANDOM()`:** `verse.id` is gapless and contiguous per translation, so a random verse is a single primary-key lookup. `chapter_meta` is precomputed, so the selection grids need no `COUNT` queries.
-- **Nothing is hardcoded:** translations, books, book names, abbreviations, topics and copyright lines are read from the database at runtime. Remove a translation and the app keeps working without a code change.
-- **34 unit tests** (Swift Testing) cover the data layer, versification, languages, topics and chapter paging against `test_fixtures.json`.
+- **Nothing is hardcoded:** which translations, books and topics exist is read from the database at runtime, together with book names and abbreviations. Remove a translation and the app keeps working without a code change. Topic names and rights lines are the two labels that live in the string catalog instead — the database says what there is, the catalog how it is written.
+- **38 unit tests** (Swift Testing) cover the data layer, versification, languages, topics and chapter paging against `test_fixtures.json`.
 
 Architecture, schema and the queries in detail: **[docs/Architektur.md](docs/Architektur.md)**. Colours, typography, grid geometry and the behaviour of every screen: **[docs/Designspezifikation.md](docs/Designspezifikation.md)**. Both are in German.
 
@@ -211,4 +211,4 @@ The documents below are written in German.
 
 The code is licensed under the **GNU General Public License v3.0** (see [LICENSE](LICENSE)).
 
-The Bible texts are **not** covered by that licence. Each translation carries its own rights situation; the table above names them, `docs/Bibeltexte.md` substantiates them, and each translation's copyright line is stored in the database and shown in the app's credits. For Schlachter 1951 (CC BY 4.0) attribution is mandatory — and is provided there.
+The Bible texts are **not** covered by that licence. Each translation carries its own rights situation; the table above names them, `docs/Bibeltexte.md` substantiates them, and each translation's rights line is shown in the app's credits, in the interface language. For Schlachter 1951 (CC BY 4.0) attribution is mandatory — and is provided there; the rights holder and the licence name are never translated.

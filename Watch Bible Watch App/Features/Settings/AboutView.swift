@@ -1,8 +1,10 @@
 import SwiftUI
 
-/// Impressum. Die Copyright-Zeilen kommen aus translation.copyright — wird
-/// eine Uebersetzung aus der Datenbank genommen, verschwindet ihre Zeile
-/// automatisch mit (docs/Architektur.md, Kap. 9).
+/// Impressum. **Welche** Uebersetzungen hier stehen, sagt die Datenbank — wird
+/// eine herausgenommen, verschwindet ihre Zeile automatisch mit
+/// (docs/Architektur.md, Kap. 9). **Wie** ihre Rechteangabe geschrieben wird,
+/// sagt der String Catalog unter `copyright.<code>`; ohne Eintrag bleibt die
+/// deutsche Zeile aus `translation.copyright` stehen (Localization.copyright).
 struct AboutView: View {
     @Environment(AppModel.self) private var model
 
@@ -34,7 +36,7 @@ struct AboutView: View {
                         Text(verbatim: translation.name)
                             .font(Typo.bookRow)
                             .foregroundStyle(Color.ink)
-                        if let copyright = translation.copyright, !copyright.isEmpty {
+                        if let copyright = Localization.copyright(of: translation) {
                             Text(verbatim: copyright)
                                 .font(.caption2)
                                 .foregroundStyle(Color.secondaryInk)
@@ -49,7 +51,7 @@ struct AboutView: View {
                     .padding(.top, 6)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 4)
+            .padding(.horizontal, Layout.textInset)
         }
         .containerBackground(Color.ground, for: .navigation)
         .navigationTitle(Text("settings.about"))

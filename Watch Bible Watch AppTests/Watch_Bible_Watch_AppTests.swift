@@ -641,6 +641,52 @@ struct ThemenTests {
         }
     }
 
+    /// Dieselbe Naht bei den Rechteangaben: **jede** Uebersetzung der Datenbank
+    /// braucht in **jeder** Sprache eine Copyright-Zeile im Katalog. Sie standen
+    /// einmal nur in `translation.copyright` und damit auf jeder Uhr deutsch —
+    /// auf einer chinesischen las man «Gemeinfrei, Schutzfrist abgelaufen».
+    ///
+    /// Die deutsche Fassung muss zusaetzlich woertlich mit der Datenbank
+    /// uebereinstimmen: sie ist der Rueckfall fuer eine Uebersetzung, die der
+    /// Katalog noch nicht kennt, und darf nicht unbemerkt auseinanderlaufen.
+    @Test func copyrightZeilenSindInAllenSprachenUebersetzt() async throws {
+        let repo = try await TestSupport.repository()
+        let translations = await repo.translations
+        #expect(!translations.isEmpty)
+
+        for sprache in Localization.supportedLanguages {
+            let pfad = try #require(Bundle.main.path(forResource: sprache, ofType: "lproj"),
+                                    "\(sprache).lproj fehlt")
+            let sprachbundle = try #require(Bundle(path: pfad))
+            for translation in translations {
+                let schluessel = "copyright.\(translation.code)"
+                let zeile = sprachbundle.localizedString(forKey: schluessel,
+                                                         value: "", table: nil)
+                #expect(!zeile.isEmpty && zeile != schluessel,
+                        "\(sprache): kein Eintrag fuer \(schluessel)")
+                if sprache == "de" {
+                    #expect(zeile == translation.copyright,
+                            "de \(translation.code): Katalog und Datenbank weichen ab")
+                }
+            }
+        }
+    }
+
+    /// Rueckfall: eine Uebersetzung, die der Katalog nicht kennt, behaelt die
+    /// Zeile aus der Datenbank — eine Rechteangabe darf nie ganz fehlen.
+    @Test func unbekannteUebersetzungBehaeltDieDatenbankzeile() throws {
+        let fremd = Translation(id: 99, code: "gibtesnicht", abbrev: "XXX",
+                                name: "Phantasie 1900", language: "de",
+                                copyright: "Phantasie 1900. Gemeinfrei.",
+                                verseCount: 1, firstVerseID: 1, lastVerseID: 1)
+        #expect(Localization.copyright(of: fremd) == "Phantasie 1900. Gemeinfrei.")
+
+        let ohne = Translation(id: 98, code: "auchnicht", abbrev: "YYY",
+                               name: "Ohne Angabe", language: "de", copyright: nil,
+                               verseCount: 1, firstVerseID: 1, lastVerseID: 1)
+        #expect(Localization.copyright(of: ohne) == nil)
+    }
+
     /// Stichproben: das in der Sprache uebliche Wort, nicht die woertliche
     /// Uebersetzung.
     @Test func themenStimmen() throws {

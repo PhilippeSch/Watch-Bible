@@ -230,13 +230,13 @@ Die runde Komplikation zeigt das **Buchkürzel der Anzeigesprache** aus der Date
 | Schriftgrösse | klein / mittel / gross (14 / 16 / 18 pt) | `@AppStorage("textScale")` |
 | Haptik | ein / aus | `@AppStorage("haptics")` |
 | Zuletzt gelesen | Stelle als JSON | `@AppStorage("lastReference")` |
-| Impressum | Copyright-Zeilen aus `translation.copyright` | — |
+| Impressum | Übersetzungen aus der Datenbank, Rechteangaben aus `copyright.<code>` | — |
 
 Bewusst nur `@AppStorage`: kein eigener Speicher, keine Datei, keine Synchronisation. Das hält das Privacy-Manifest bei einem einzigen Eintrag.
 
 `@AppStorage` und `@Observable` vertragen sich nicht von selbst — die Speicher-Properties sind `@ObservationIgnored`, sonst kollidieren die Property-Wrapper. Damit die Oberfläche Änderungen trotzdem sieht, läuft jeder Zugriff über beobachtete computed Properties, deren Setter einen Revisionszähler erhöhen.
 
-Der Impressumsbildschirm wird nicht hartkodiert, sondern aus der Datenbank gefüllt. Wird eine Übersetzung herausgenommen, verschwindet ihre Copyright-Zeile automatisch mit.
+Der Impressumsbildschirm wird nicht hartkodiert, sondern aus der Datenbank gefüllt. Wird eine Übersetzung herausgenommen, verschwindet ihre Copyright-Zeile automatisch mit. Die Zeile selbst kommt in der Anzeigesprache aus dem String Catalog (`copyright.<translation.code>`, `Localization.copyright`) — der `code` ist der stabile Schlüssel, die `id` verschiebt sich beim Neuerzeugen der Datenbank. `translation.copyright` bleibt der deutsche Rückfall für eine Übersetzung, die der Katalog noch nicht kennt; der Unit-Test `copyrightZeilenSindInAllenSprachenUebersetzt` hält beide Seiten deckungsgleich und prüft zusätzlich, dass die deutsche Katalogfassung wörtlich der Datenbank entspricht.
 
 **Kein Standortzugriff für den Sonnenuntergang.** Das würde eine Berechtigung und einen zweiten Eintrag im Privacy-Manifest nach sich ziehen, für einen Nutzen, den zwei Uhrzeiten ebenso erbringen.
 

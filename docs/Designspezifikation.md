@@ -82,6 +82,14 @@ Bezug ist die 45-mm-Uhr: 396 × 484 px = **198 × 242 pt**. Kleinere Gehäuse ve
 
 **Register und Raster schliessen sich aus.** Mit Register bleiben pro Zelle nur 42 pt. Das Register ist deshalb der Buchwahl vorbehalten, wo es 66 Einträge erschliesst; Kapitel und Verse bekommen das volle Raster.
 
+### Wer die 14 pt trägt
+
+Der Seitenrand gilt für **Text ohne eigene Fläche** — Listenzeilen und Impressum; er steht als `Layout.textInset` in `Shared/Theme.swift`. Der Einstieg kommt auf denselben Wert, nur anders zusammengesetzt: dort liegt der Text auf einer Feldfläche, die bei 2 pt beginnt und innen 12 pt Luft lässt.
+
+**Rasterzellen tragen ihre Fläche selbst und bleiben bei 2 pt.** 14 pt ergäben auf der 40-mm-Uhr (162 pt breit) Zellen von 40.7 pt und unterschritten die 44 pt für Tippziele — die Rechnung oben geht von der 45-mm-Uhr aus.
+
+In der Buchliste kostet der Rand Breite, die dort schon das Register beansprucht: «Apostelgeschichte» ist der längste Buchname und passt auf der 40-mm-Uhr erst ab `minimumScaleFactor(0.65)`, während 0.7 in den übrigen Listen reicht.
+
 ---
 
 ## 4. Bildschirme
@@ -147,7 +155,7 @@ Keine Signalfarbe, kein Symbol, nichts zum Wegklicken. Zwei Zahlen erklären den
 | `.unavailable` | «Dieses Kapitel gibt es in der *X* nicht.» — der Wechsel wird abgebrochen, die bisherige Übersetzung bleibt stehen |
 
 ### 4.7 Einstellungen
-Übersetzung · Zufallsmodus · Darstellung (Tag / Nacht / Automatisch, bei Automatisch zwei Uhrzeiten) · Schriftgrösse · Haptik · Impressum. Die Copyright-Zeilen im Impressum kommen aus `translation.copyright`, nicht aus dem Code.
+Übersetzung · Zufallsmodus · Darstellung (Tag / Nacht / Automatisch, bei Automatisch zwei Uhrzeiten) · Schriftgrösse · Haptik · Impressum. **Welche** Übersetzungen im Impressum stehen, sagt die Datenbank; **wie** ihre Rechteangabe geschrieben wird, der String Catalog unter `copyright.<code>` — dieselbe Arbeitsteilung wie bei den Themen (Kapitel 5). Rechteinhaber, Werktitel und der Lizenzname «Creative Commons Attribution 4.0 (CC BY 4.0)» bleiben in jeder Sprache wörtlich stehen; übersetzt wird nur der Satz drumherum. Fehlt ein Katalogeintrag, bleibt die deutsche Zeile aus `translation.copyright` stehen — eine Rechteangabe darf nie ganz fehlen.
 
 ---
 
@@ -157,7 +165,7 @@ Keine Signalfarbe, kein Symbol, nichts zum Wegklicken. Zwei Zahlen erklären den
 
 **Chinesisch nie auf zwei Zeichen kürzen.** `zh-Hant` und `zh-Hans` unterscheiden sich in der Schrift, nicht in der Sprache; ein `String(code.prefix(2))` trifft weder die eine noch die andere Übersetzung. `Localization.normalized` bildet Systemkennungen ab: `de-CH` → `de`, `zh-TW` → `zh-Hant`, `zh` → `zh-Hans`.
 
-**Texte** liegen in `Resources/Localizable.xcstrings` (String Catalog, 82 Schlüssel, alle acht Sprachen vollständig), der App-Name in `Resources/InfoPlist.xcstrings` — «Bibel», «Bible», «Biblia», «Bible», «Bibbia», «Bíblia», 聖經, 圣经, kurz gehalten, weil unter dem Symbol auf der Uhr wenig Platz ist. Schlüssel sind semantisch benannt (`settings.textSize`), nicht der englische Text selbst.
+**Texte** liegen in `Resources/Localizable.xcstrings` (String Catalog, 93 Schlüssel, alle acht Sprachen vollständig), der App-Name in `Resources/InfoPlist.xcstrings` — «Bibel», «Bible», «Biblia», «Bible», «Bibbia», «Bíblia», 聖經, 圣经, kurz gehalten, weil unter dem Symbol auf der Uhr wenig Platz ist. Schlüssel sind semantisch benannt (`settings.textSize`), nicht der englische Text selbst.
 
 **Vorgabe der Bibelübersetzung nach Anzeigesprache:** die **erste Übersetzung dieser Sprache in der Reihenfolge der Datenbank** (`sort_order`) — also genau die, die in der Auswahl auch zuoberst steht: Deutsch Elberfelder 1905, Englisch King James, Chinesisch das 和合本 der jeweiligen Schrift, Spanisch Reina-Valera, Französisch Louis Segond. Nichts davon ist fest verdrahtet; die Reihenfolge selbst steht in `TRANSLATION_ORDER` in `tools/tables.py`, und fällt eine Übersetzung weg, rückt die nächste derselben Sprache nach. Das gilt **nur beim ersten Start**: wer einmal eine Übersetzung gewählt hat, behält sie, auch nach einem Sprachwechsel des Systems. Gibt es zur Anzeigesprache keine Übersetzung, greift bei Chinesisch die andere Schriftvariante, sonst Englisch, zuletzt die erste überhaupt. Umgesetzt in `Shared/Localization.swift`.
 

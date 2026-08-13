@@ -66,6 +66,19 @@ enum Typo {
     }
 }
 
+/// Seitenraender (Designspezifikation, Kapitel 3).
+enum Layout {
+    /// Rand links und rechts fuer **Text ohne eigene Flaeche**: Listenzeilen,
+    /// Impressum. 14 pt, wie es die Spezifikation vorgibt.
+    ///
+    /// Der Einstieg kommt auf denselben Wert, nur anders zusammengesetzt: dort
+    /// liegt der Text auf einer Feldflaeche, die bei 2 pt beginnt und innen
+    /// 12 pt Luft laesst. Rasterzellen tragen ihre Flaeche ebenfalls selbst und
+    /// bleiben darum bei 2 pt — 14 pt ergaeben auf der 40-mm-Uhr 40.7 pt breite
+    /// Zellen und unterschritten die 44 pt fuer Tippziele.
+    static let textInset: CGFloat = 14
+}
+
 /// Rastergeometrie (Designspezifikation, Kapitel 3): immer drei Spalten —
 /// vier ergaeben 38-pt-Zellen und unterschritten die 44 pt fuer Tippziele.
 enum Grid3 {

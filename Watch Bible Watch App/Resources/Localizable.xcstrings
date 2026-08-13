@@ -218,6 +218,654 @@
         }
       }
     },
+    "copyright.blivre": {
+      "comment": "Copyright-Zeile der Uebersetzung «blivre» im Impressum. Schluessel ist translation.code. Rechteinhaber, Werktitel und Lizenzname bleiben woertlich; uebersetzt wird nur der Satz drumherum.",
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bíblia Livre, © 2018 Diego Santos, Mario Sérgio, Marco Teles. Lizenziert unter Creative Commons Attribution 4.0 (CC BY 4.0)."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bíblia Livre, © 2018 Diego Santos, Mario Sérgio, Marco Teles. Licensed under Creative Commons Attribution 4.0 (CC BY 4.0)."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bíblia Livre, © 2018 Diego Santos, Mario Sérgio, Marco Teles. Con licencia Creative Commons Attribution 4.0 (CC BY 4.0)."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bíblia Livre, © 2018 Diego Santos, Mario Sérgio, Marco Teles. Sous licence Creative Commons Attribution 4.0 (CC BY 4.0)."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bíblia Livre, © 2018 Diego Santos, Mario Sérgio, Marco Teles. Concessa in licenza Creative Commons Attribution 4.0 (CC BY 4.0)."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bíblia Livre, © 2018 Diego Santos, Mario Sérgio, Marco Teles. Licenciada sob Creative Commons Attribution 4.0 (CC BY 4.0)."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bíblia Livre，© 2018 Diego Santos、Mario Sérgio、Marco Teles。依 Creative Commons Attribution 4.0（CC BY 4.0）授权。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bíblia Livre，© 2018 Diego Santos、Mario Sérgio、Marco Teles。依 Creative Commons Attribution 4.0（CC BY 4.0）授權。"
+          }
+        }
+      }
+    },
+    "copyright.bsb": {
+      "comment": "Copyright-Zeile der Uebersetzung «bsb» im Impressum. Schluessel ist translation.code. Rechteinhaber, Werktitel und Lizenzname bleiben woertlich; uebersetzt wird nur der Satz drumherum.",
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Berean Standard Bible (BSB). Gemeinfrei; von den Rechteinhabern am 30. April 2023 in die Public Domain entlassen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Berean Standard Bible (BSB). Public domain; released into the public domain by the rights holders on 30 April 2023."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Berean Standard Bible (BSB). Dominio público; liberada al dominio público por los titulares de derechos el 30 de abril de 2023."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Berean Standard Bible (BSB). Domaine public ; versée dans le domaine public par les ayants droit le 30 avril 2023."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Berean Standard Bible (BSB). Di pubblico dominio; rilasciata nel pubblico dominio dai titolari dei diritti il 30 aprile 2023."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Berean Standard Bible (BSB). Domínio público; liberada para o domínio público pelos titulares dos direitos em 30 de abril de 2023."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Berean Standard Bible（BSB）。公有领域；权利人于 2023 年 4 月 30 日释出至公有领域。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Berean Standard Bible（BSB）。公有領域；權利人於 2023 年 4 月 30 日釋出至公有領域。"
+          }
+        }
+      }
+    },
+    "copyright.cuv": {
+      "comment": "Copyright-Zeile der Uebersetzung «cuv» im Impressum. Schluessel ist translation.code. Rechteinhaber, Werktitel und Lizenzname bleiben woertlich; uebersetzt wird nur der Satz drumherum.",
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "和合本 Chinese Union Version (1919). Gemeinfrei, Schutzfrist abgelaufen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "和合本 Chinese Union Version (1919). Public domain, term expired."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "和合本 Chinese Union Version (1919). Dominio público, plazo de protección expirado."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "和合本 Chinese Union Version (1919). Domaine public, durée de protection expirée."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "和合本 Chinese Union Version (1919). Di pubblico dominio, termine di protezione scaduto."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "和合本 Chinese Union Version (1919). Domínio público, prazo de proteção expirado."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "和合本 Chinese Union Version（1919）。公有领域，保护期已届满。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "和合本 Chinese Union Version（1919）。公有領域，保護期已屆滿。"
+          }
+        }
+      }
+    },
+    "copyright.cuvs": {
+      "comment": "Copyright-Zeile der Uebersetzung «cuvs» im Impressum. Schluessel ist translation.code. Rechteinhaber, Werktitel und Lizenzname bleiben woertlich; uebersetzt wird nur der Satz drumherum.",
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "和合本 Chinese Union Version (1919). Gemeinfrei, Schutzfrist abgelaufen. Vereinfachte Zeichen maschinell aus der traditionellen Ausgabe (OpenCC t2s)."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "和合本 Chinese Union Version (1919). Public domain, term expired. Simplified characters converted from the traditional edition (OpenCC t2s)."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "和合本 Chinese Union Version (1919). Dominio público, plazo de protección expirado. Caracteres simplificados convertidos automáticamente de la edición tradicional (OpenCC t2s)."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "和合本 Chinese Union Version (1919). Domaine public, durée de protection expirée. Caractères simplifiés convertis automatiquement depuis l’édition traditionnelle (OpenCC t2s)."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "和合本 Chinese Union Version (1919). Di pubblico dominio, termine di protezione scaduto. Caratteri semplificati convertiti automaticamente dall’edizione tradizionale (OpenCC t2s)."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "和合本 Chinese Union Version (1919). Domínio público, prazo de proteção expirado. Caracteres simplificados convertidos automaticamente da edição tradicional (OpenCC t2s)."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "和合本 Chinese Union Version（1919）。公有领域，保护期已届满。简体字由繁体版本机器转换（OpenCC t2s）。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "和合本 Chinese Union Version（1919）。公有領域，保護期已屆滿。簡體字由繁體版本機器轉換（OpenCC t2s）。"
+          }
+        }
+      }
+    },
+    "copyright.dar": {
+      "comment": "Copyright-Zeile der Uebersetzung «dar» im Impressum. Schluessel ist translation.code. Rechteinhaber, Werktitel und Lizenzname bleiben woertlich; uebersetzt wird nur der Satz drumherum.",
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Darby Bible (J. N. Darby). Gemeinfrei."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Darby Bible (J. N. Darby). Public domain."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Darby Bible (J. N. Darby). Dominio público."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Darby Bible (J. N. Darby). Domaine public."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Darby Bible (J. N. Darby). Di pubblico dominio."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Darby Bible (J. N. Darby). Domínio público."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Darby Bible（J. N. Darby）。公有领域。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Darby Bible（J. N. Darby）。公有領域。"
+          }
+        }
+      }
+    },
+    "copyright.elb": {
+      "comment": "Copyright-Zeile der Uebersetzung «elb» im Impressum. Schluessel ist translation.code. Rechteinhaber, Werktitel und Lizenzname bleiben woertlich; uebersetzt wird nur der Satz drumherum.",
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elberfelder Bibel 1905. Gemeinfrei."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elberfelder Bibel 1905. Public domain."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elberfelder Bibel 1905. Dominio público."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elberfelder Bibel 1905. Domaine public."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elberfelder Bibel 1905. Di pubblico dominio."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elberfelder Bibel 1905. Domínio público."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elberfelder Bibel 1905。公有领域。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elberfelder Bibel 1905。公有領域。"
+          }
+        }
+      }
+    },
+    "copyright.kjv": {
+      "comment": "Copyright-Zeile der Uebersetzung «kjv» im Impressum. Schluessel ist translation.code. Rechteinhaber, Werktitel und Lizenzname bleiben woertlich; uebersetzt wird nur der Satz drumherum.",
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "King James Version (1611/1769). Gemeinfrei ausserhalb des Vereinigten Koenigreichs."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "King James Version (1611/1769). Public domain outside the United Kingdom."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "King James Version (1611/1769). Dominio público fuera del Reino Unido."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "King James Version (1611/1769). Domaine public hors du Royaume-Uni."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "King James Version (1611/1769). Di pubblico dominio fuori dal Regno Unito."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "King James Version (1611/1769). Domínio público fora do Reino Unido."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "King James Version（1611/1769）。除英国外属公有领域。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "King James Version（1611/1769）。除英國外屬公有領域。"
+          }
+        }
+      }
+    },
+    "copyright.lsg": {
+      "comment": "Copyright-Zeile der Uebersetzung «lsg» im Impressum. Schluessel ist translation.code. Rechteinhaber, Werktitel und Lizenzname bleiben woertlich; uebersetzt wird nur der Satz drumherum.",
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Louis Segond 1910. Gemeinfrei."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Louis Segond 1910. Public domain."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Louis Segond 1910. Dominio público."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Louis Segond 1910. Domaine public."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Louis Segond 1910. Di pubblico dominio."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Louis Segond 1910. Domínio público."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Louis Segond 1910。公有领域。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Louis Segond 1910。公有領域。"
+          }
+        }
+      }
+    },
+    "copyright.lut": {
+      "comment": "Copyright-Zeile der Uebersetzung «lut» im Impressum. Schluessel ist translation.code. Rechteinhaber, Werktitel und Lizenzname bleiben woertlich; uebersetzt wird nur der Satz drumherum.",
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Luther 1912. Gemeinfrei."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Luther 1912. Public domain."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Luther 1912. Dominio público."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Luther 1912. Domaine public."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Luther 1912. Di pubblico dominio."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Luther 1912. Domínio público."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Luther 1912。公有领域。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Luther 1912。公有領域。"
+          }
+        }
+      }
+    },
+    "copyright.riv": {
+      "comment": "Copyright-Zeile der Uebersetzung «riv» im Impressum. Schluessel ist translation.code. Rechteinhaber, Werktitel und Lizenzname bleiben woertlich; uebersetzt wird nur der Satz drumherum.",
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riveduta 1927 (Giovanni Luzzi). Gemeinfrei."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riveduta 1927 (Giovanni Luzzi). Public domain."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riveduta 1927 (Giovanni Luzzi). Dominio público."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riveduta 1927 (Giovanni Luzzi). Domaine public."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riveduta 1927 (Giovanni Luzzi). Di pubblico dominio."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riveduta 1927 (Giovanni Luzzi). Domínio público."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riveduta 1927（Giovanni Luzzi）。公有领域。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riveduta 1927（Giovanni Luzzi）。公有領域。"
+          }
+        }
+      }
+    },
+    "copyright.rvr1909": {
+      "comment": "Copyright-Zeile der Uebersetzung «rvr1909» im Impressum. Schluessel ist translation.code. Rechteinhaber, Werktitel und Lizenzname bleiben woertlich; uebersetzt wird nur der Satz drumherum.",
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reina-Valera 1909. Gemeinfrei."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reina-Valera 1909. Public domain."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reina-Valera 1909. Dominio público."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reina-Valera 1909. Domaine public."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reina-Valera 1909. Di pubblico dominio."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reina-Valera 1909. Domínio público."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reina-Valera 1909。公有领域。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reina-Valera 1909。公有領域。"
+          }
+        }
+      }
+    },
+    "copyright.sch1951": {
+      "comment": "Copyright-Zeile der Uebersetzung «sch1951» im Impressum. Schluessel ist translation.code. Rechteinhaber, Werktitel und Lizenzname bleiben woertlich; uebersetzt wird nur der Satz drumherum.",
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schlachter 1951, © 1951 Genfer Bibelgesellschaft. Lizenziert unter Creative Commons Attribution 4.0 (CC BY 4.0)."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schlachter 1951, © 1951 Genfer Bibelgesellschaft. Licensed under Creative Commons Attribution 4.0 (CC BY 4.0)."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schlachter 1951, © 1951 Genfer Bibelgesellschaft. Con licencia Creative Commons Attribution 4.0 (CC BY 4.0)."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schlachter 1951, © 1951 Genfer Bibelgesellschaft. Sous licence Creative Commons Attribution 4.0 (CC BY 4.0)."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schlachter 1951, © 1951 Genfer Bibelgesellschaft. Concessa in licenza Creative Commons Attribution 4.0 (CC BY 4.0)."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schlachter 1951, © 1951 Genfer Bibelgesellschaft. Licenciada sob Creative Commons Attribution 4.0 (CC BY 4.0)."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schlachter 1951，© 1951 Genfer Bibelgesellschaft。依 Creative Commons Attribution 4.0（CC BY 4.0）授权。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schlachter 1951，© 1951 Genfer Bibelgesellschaft。依 Creative Commons Attribution 4.0（CC BY 4.0）授權。"
+          }
+        }
+      }
+    },
     "count.chapters": {
       "comment": "Anzahl Kapitel eines Buches",
       "extractionState": "manual",
@@ -548,60 +1196,6 @@
         }
       }
     },
-    "divergence.title": {
-      "comment": "Überschrift der Zähltabelle",
-      "extractionState": "manual",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Andere Zählung"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Different numbering"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Numeración distinta"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Numérotation différente"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Numerazione diversa"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Numeração diferente"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "节数不同"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "節數不同"
-          }
-        }
-      }
-    },
     "divergence.unavailable %@": {
       "comment": "Kapitel fehlt in der Zielübersetzung. %@ = Name der Übersetzung",
       "extractionState": "manual",
@@ -909,7 +1503,7 @@
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Versículo aleatório"
+            "value": "Aleatório"
           }
         },
         "zh-Hans": {

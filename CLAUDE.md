@@ -22,7 +22,7 @@ Schema und die fünf Abfragen stehen in `docs/Architektur.md`, Kapitel 3 und 4. 
 - `verse.id` ist lückenlos und je Übersetzung zusammenhängend, dazu `translation.first_verse_id` / `last_verse_id`. Zufallsvers = ein Primärschlüsselzugriff. **Nie `ORDER BY RANDOM()`** über die Verstabelle.
 - `chapter_meta` ist vorberechnet. Für Auswahlräder keine `COUNT`-Abfragen schreiben.
 
-Übersetzungen, Bücher, Themen und Copyright-Zeilen werden **zur Laufzeit aus der Datenbank gelesen**, nie im Code hartkodiert. Wird eine Übersetzung aus der Datenbank entfernt, muss die App ohne Codeänderung weiterlaufen.
+Übersetzungen, Bücher und Themen werden **zur Laufzeit aus der Datenbank gelesen**, nie im Code hartkodiert. Wird eine Übersetzung aus der Datenbank entfernt, muss die App ohne Codeänderung weiterlaufen. **Welche** Rechteangaben es gibt, sagt ebenfalls die Datenbank; **wie** sie geschrieben werden, steht wie bei den Themen im Katalog (`copyright.<translation.code>`) — sonst stünde auf jeder Uhr «Gemeinfrei». `translation.copyright` bleibt der deutsche Rückfall.
 
 ## Versifikation
 

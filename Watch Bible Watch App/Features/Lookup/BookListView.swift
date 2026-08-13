@@ -26,8 +26,9 @@ struct BookListView: View {
                         .padding(.top, 10)
                     ForEach(model.books.filter { $0.testament == .nt }) { row($0) }
                 }
-                .padding(.leading, 4)
-                .padding(.trailing, 36)   // Platz fuer das Register
+                .padding(.leading, Layout.textInset)
+                // Register (31 pt) plus Abstand zur Zeile.
+                .padding(.trailing, 36)
             }
             .overlay(alignment: .trailing) { register(proxy) }
         }
@@ -55,7 +56,11 @@ struct BookListView: View {
                     .font(Typo.bookRow)
                     .foregroundStyle(Color.ink)
                     .lineLimit(1)
-                    .minimumScaleFactor(0.7)
+                    // Enger als in den uebrigen Listen: hier nimmt das Register
+                    // 36 pt der Breite. «Apostelgeschichte» ist der laengste
+                    // Buchname und passt auf der 40-mm-Uhr erst ab 0.65 —
+                    // bei 0.7 brach er mit Auslassungspunkten ab.
+                    .minimumScaleFactor(0.65)
                 Spacer(minLength: 4)
                 // Kapitelzahl der aktiven Uebersetzung, nie book.chapterCount
                 // (Designspez. 4.5): dort steht das Maximum ueber alle
