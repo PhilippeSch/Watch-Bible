@@ -320,6 +320,55 @@ struct SprachenTests {
         }
     }
 
+    /// Der Fall, der das ausgeloest hat: Erststart mit der Uhr auf
+    /// Portugiesisch, spaeter Deutsch. Wer nie selbst gewaehlt hat, bekommt
+    /// die Vorgabe der neuen Sprache und nicht weiter die portugiesische Bibel.
+    @Test func vorgabeFolgtDemSprachwechsel() async throws {
+        let repo = try await TestSupport.repository()
+        let translations = await repo.translations
+        let portugiesisch = try #require(translations.first { $0.language == "pt" })
+
+        for sprache in Localization.supportedLanguages {
+            let erwartet = try #require(translations.first { $0.language == sprache })
+            let code = Localization.startupTranslationCode(stored: portugiesisch.code,
+                                                          pickedByUser: false,
+                                                          available: translations,
+                                                          language: sprache)
+            #expect(code == erwartet.code,
+                    "\(sprache): \(code) statt \(erwartet.code)")
+        }
+    }
+
+    /// Die Gegenprobe, und die Zusage der Einstellungen: eine ausdrueckliche
+    /// Wahl ueberlebt jeden Sprachwechsel.
+    @Test func gewaehlteUebersetzungUeberlebtDenSprachwechsel() async throws {
+        let repo = try await TestSupport.repository()
+        let translations = await repo.translations
+        let gewaehlt = try #require(translations.first { $0.language == "pt" })
+
+        for sprache in Localization.supportedLanguages {
+            let code = Localization.startupTranslationCode(stored: gewaehlt.code,
+                                                          pickedByUser: true,
+                                                          available: translations,
+                                                          language: sprache)
+            #expect(code == gewaehlt.code,
+                    "\(sprache) hat die Wahl ueberschrieben: \(code)")
+        }
+    }
+
+    /// Faellt die gewaehlte Uebersetzung aus der Datenbank, greift die
+    /// Sprachvorgabe — kein leerer Code, kein Absturz.
+    @Test func verschwundeneWahlFaelltAufDieSprachvorgabeZurueck() async throws {
+        let repo = try await TestSupport.repository()
+        let translations = await repo.translations
+        let franzoesisch = try #require(translations.first { $0.language == "fr" })
+        let code = Localization.startupTranslationCode(stored: "gibtesnicht",
+                                                      pickedByUser: true,
+                                                      available: translations,
+                                                      language: "fr")
+        #expect(code == franzoesisch.code)
+    }
+
     /// Unbekannte Systemsprache: Englisch, kein Absturz, kein leerer Code.
     ///
     /// `ja` steht hier fuer «Sprache ohne Uebersetzung» und muss eine bleiben:

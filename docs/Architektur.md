@@ -224,6 +224,7 @@ Die runde Komplikation zeigt das **Buchkürzel der Anzeigesprache** aus der Date
 | Einstellung | Werte | Speicherung |
 |---|---|---|
 | Übersetzung | dynamisch aus der `translation`-Tabelle | `@AppStorage("translationCode")` |
+| Übersetzung selbst gewählt? | ja / nein | `@AppStorage("translationPickedByUser")` |
 | Zufallsmodus | ganze Bibel / kuratierte Kernverse | `@AppStorage("randomMode")` |
 | Darstellung | Tag / Nacht / Automatisch | `@AppStorage("appearance")` |
 | Nachtfenster (bei Automatisch) | zwei Uhrzeiten in Halbstundenschritten | `@AppStorage("nightStart")`, `("nightEnd")` |
@@ -234,6 +235,8 @@ Die runde Komplikation zeigt das **Buchkürzel der Anzeigesprache** aus der Date
 
 Bewusst nur `@AppStorage`: kein eigener Speicher, keine Datei, keine Synchronisation. Das hält das Privacy-Manifest bei einem einzigen Eintrag.
 
+**Warum die Übersetzung zwei Einträge braucht.** Der Code allein sagt nicht, woher er stammt. Setzte die App die Sprachvorgabe nur, solange nichts gespeichert war, dann schrieb ein Erststart auf einer portugiesischen Uhr `blivre` — und ein späterer Wechsel auf Deutsch liess die portugiesische Bibel stehen, weil sie wie eine getroffene Wahl aussah. `translationPickedByUser` trennt beides: geschrieben wird ausschliesslich über `AppSettings.chooseTranslation` (Wahl in den Einstellungen oder in der Leseansicht), während `applyTranslation` die Sprachvorgabe setzt, ohne zu markieren. `translationCode` selbst hat darum keinen Setter. Welcher Code beim Start gilt, entscheidet `Localization.startupTranslationCode`; kennt die Datenbank einen gewählten Code nicht mehr, greift die Sprachvorgabe, ohne die Wahl zu löschen.
+
 `@AppStorage` und `@Observable` vertragen sich nicht von selbst — die Speicher-Properties sind `@ObservationIgnored`, sonst kollidieren die Property-Wrapper. Damit die Oberfläche Änderungen trotzdem sieht, läuft jeder Zugriff über beobachtete computed Properties, deren Setter einen Revisionszähler erhöhen.
 
 Der Impressumsbildschirm wird nicht hartkodiert, sondern aus der Datenbank gefüllt. Wird eine Übersetzung herausgenommen, verschwindet ihre Copyright-Zeile automatisch mit. Die Zeile selbst kommt in der Anzeigesprache aus dem String Catalog (`copyright.<translation.code>`, `Localization.copyright`) — der `code` ist der stabile Schlüssel, die `id` verschiebt sich beim Neuerzeugen der Datenbank. `translation.copyright` bleibt der deutsche Rückfall für eine Übersetzung, die der Katalog noch nicht kennt; der Unit-Test `copyrightZeilenSindInAllenSprachenUebersetzt` hält beide Seiten deckungsgleich und prüft zusätzlich, dass die deutsche Katalogfassung wörtlich der Datenbank entspricht.
@@ -242,7 +245,7 @@ Der Impressumsbildschirm wird nicht hartkodiert, sondern aus der Datenbank gefü
 
 ## 10. Tests
 
-34 Unit-Tests (Swift Testing) in sieben Suiten, alle gegen die echte Datenbank und `test_fixtures.json`:
+41 Unit-Tests (Swift Testing) in sieben Suiten, alle gegen die echte Datenbank und `test_fixtures.json`:
 
 | Suite | Prüft |
 |---|---|

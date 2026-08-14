@@ -337,7 +337,7 @@ struct ReaderView: View {
                                         clampedRequested: requested)
                 currentHighlight = verse.reference.verse
             }
-            model.settings.translationCode = target.code
+            model.settings.chooseTranslation(target.code)
             didAutoScroll = false
             await load()
         } catch {

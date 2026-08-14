@@ -75,6 +75,26 @@ enum Localization {
             ?? available.first?.code ?? ""
     }
 
+    /// Die Übersetzung, mit der die App startet.
+    ///
+    /// Eine **ausdrücklich gewählte** Übersetzung bleibt, auch wenn die
+    /// Anzeigesprache später wechselt — das ist die Zusage der Einstellungen.
+    /// Eine bloss **vorgegebene** folgt der Sprache: wer die Uhr auf
+    /// Portugiesisch einrichtet, nie eine Übersetzung wählt und später auf
+    /// Deutsch wechselt, soll nicht weiter eine portugiesische Bibel lesen.
+    ///
+    /// Kennt die Datenbank den gewählten Code nicht mehr, greift ebenfalls die
+    /// Sprachvorgabe — ohne die gespeicherte Wahl zu löschen.
+    static func startupTranslationCode(stored: String,
+                                       pickedByUser: Bool,
+                                       available: [Translation],
+                                       language: String = displayLanguage) -> String {
+        if pickedByUser, available.contains(where: { $0.code == stored }) {
+            return stored
+        }
+        return defaultTranslationCode(available: available, language: language)
+    }
+
     /// Sprachen für die Übersetzungswahl: die Anzeigesprache zuoberst, danach
     /// die übrigen in der Reihenfolge der Datenbank.
     static func languageOrder(of translations: [Translation]) -> [String] {

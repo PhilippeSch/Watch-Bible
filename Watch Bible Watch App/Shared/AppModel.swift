@@ -32,12 +32,13 @@ final class AppModel {
             books = await repo.books
             topics = await repo.topics
             curatedCount = await repo.curatedCount
-            // Sprachvorgabe nur beim allerersten Start; eine gewaehlte
-            // Uebersetzung wird nie durch einen Sprachwechsel ueberschrieben.
-            if !AppSettings.hasStoredTranslation {
-                settings.translationCode =
-                    Localization.defaultTranslationCode(available: translations)
-            }
+            // Eine gewaehlte Uebersetzung bleibt; eine blosse Sprachvorgabe
+            // folgt der Anzeigesprache, auch nach einem Sprachwechsel.
+            settings.applyTranslation(
+                Localization.startupTranslationCode(
+                    stored: settings.translationCode,
+                    pickedByUser: settings.translationPickedByUser,
+                    available: translations))
             repository = repo
             state = .ready
         } catch {

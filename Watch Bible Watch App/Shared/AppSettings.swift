@@ -64,8 +64,16 @@ final class AppSettings {
 
     // MARK: - Speicher (nicht direkt verwenden, Zugriff ueber die computed Properties)
 
+    /// Kein Vorgabecode: welche Uebersetzung gilt, sagt beim ersten Start die
+    /// Anzeigesprache (`Localization.startupTranslationCode`). Ein Code hier
+    /// waere fest verdrahtet und beim Neuerzeugen der Datenbank falsch.
     @ObservationIgnored
-    @AppStorage("translationCode") private var translationCodeStorage: String = "elb"
+    @AppStorage("translationCode") private var translationCodeStorage: String = ""
+
+    /// Hat der Nutzer die Uebersetzung selbst gewaehlt? Nur dann ueberlebt sie
+    /// einen Sprachwechsel; sonst folgt sie der Anzeigesprache.
+    @ObservationIgnored
+    @AppStorage("translationPickedByUser") private var translationPickedStorage: Bool = false
 
     @ObservationIgnored
     @AppStorage("randomMode") private var randomModeRaw: String = RandomMode.curated.rawValue
@@ -92,9 +100,32 @@ final class AppSettings {
 
     // MARK: - Beobachtete Zugriffe
 
+    /// Nur lesend. Geschrieben wird ueber `chooseTranslation` (Wahl des
+    /// Nutzers) oder `applyTranslation` (Sprachvorgabe) — so kann keine
+    /// Aufrufstelle offenlassen, welche der beiden Bedeutungen sie meint.
     var translationCode: String {
-        get { _ = revision; return translationCodeStorage }
-        set { translationCodeStorage = newValue; revision += 1 }
+        _ = revision
+        return translationCodeStorage
+    }
+
+    var translationPickedByUser: Bool {
+        _ = revision
+        return translationPickedStorage
+    }
+
+    /// Wahl des Nutzers: Code merken und die Wahl festhalten. Ab hier folgt
+    /// die Uebersetzung keinem Sprachwechsel mehr.
+    func chooseTranslation(_ code: String) {
+        translationCodeStorage = code
+        translationPickedStorage = true
+        revision += 1
+    }
+
+    /// Sprachvorgabe: Code setzen, ohne ihn als Wahl zu markieren.
+    func applyTranslation(_ code: String) {
+        guard translationCodeStorage != code else { return }
+        translationCodeStorage = code
+        revision += 1
     }
 
     var randomMode: RandomMode {
@@ -161,9 +192,4 @@ final class AppSettings {
         }
     }
 
-    /// True beim allerersten Start — dann darf die Sprachvorgabe die
-    /// Uebersetzung setzen. Danach nie wieder (siehe Localization.swift).
-    static var hasStoredTranslation: Bool {
-        UserDefaults.standard.string(forKey: "translationCode") != nil
-    }
 }

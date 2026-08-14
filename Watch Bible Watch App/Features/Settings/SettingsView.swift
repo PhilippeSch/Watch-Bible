@@ -104,7 +104,7 @@ struct TranslationPickerView: View {
 
     var body: some View {
         TranslationListView(selectedCode: model.settings.translationCode) { code in
-            model.settings.translationCode = code
+            model.settings.chooseTranslation(code)
             dismiss()
         }
         .containerBackground(Color.ground, for: .navigation)
