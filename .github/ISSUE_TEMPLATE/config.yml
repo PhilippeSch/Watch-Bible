@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Where the Bible texts come from
+    url: https://github.com/PhilippeSch/Watch-Bible/blob/main/docs/Bibeltexte.md
+    about: Provenance, verification and licence of every translation (in German).
+  - name: Privacy policy
+    url: https://github.com/PhilippeSch/Watch-Bible/blob/main/docs/Privacy.md
+    about: What stays on your watch, and what is not collected. Eight languages.

@@ -1,0 +1,69 @@
+name: Feature request
+description: Suggest something the app should do
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Two things worth knowing before you write, because they decide most
+        requests:
+
+        - The app **stays offline**. No network, no account, no sync, no
+          analytics — that is the point of it, not a gap.
+        - A **new Bible translation** must be free to use: public domain or a
+          licence such as CC BY. Name the edition and its rights situation, and
+          have a look at [docs/Bibeltexte.md](https://github.com/PhilippeSch/Watch-Bible/blob/main/docs/Bibeltexte.md)
+          for how the ones already included were checked. Each translation costs
+          about 5 MB, and a watch app has 75 MB in total.
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What would you like the app to do?
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: What are you trying to do?
+      description: >
+        The situation you are in when you miss it. This says more than the
+        feature itself and often points at a simpler answer.
+      placeholder: I read a chapter a day and lose my place when I switch translations.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where would it fit?
+      options:
+        - Home screen
+        - Random verse
+        - Topics
+        - Look-up (book, chapter, verse)
+        - Reading view
+        - Verse of the day (complication or Smart Stack)
+        - Settings or credits
+        - A new Bible translation
+        - A new interface language
+        - Somewhere else
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Anything you tried or considered?
+      description: Including what does not work well enough today.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched the open and closed issues and did not find this one.
+          required: true
+        - label: My request works without network access, an account or any data collection.
+          required: true

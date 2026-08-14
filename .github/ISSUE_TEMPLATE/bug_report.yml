@@ -1,0 +1,110 @@
+name: Bug report
+description: Something in the app behaves wrongly
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time. The app collects nothing and sends nothing,
+        so there are no logs on my side — everything I know about a problem comes
+        from what you write here.
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you saw, in one or two sentences.
+      placeholder: The verse grid showed 31 verses for a chapter that has 29.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: How can I reproduce it?
+      description: The taps that lead there, starting from the home screen.
+      placeholder: |
+        1. Look up → Psalms → chapter 23
+        2. Switch translation to Schlachter 1951
+        3. …
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect instead?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where in the app?
+      options:
+        - Home screen
+        - Random verse
+        - Topics
+        - Look-up (book, chapter, verse)
+        - Reading view
+        - Verse of the day (complication or Smart Stack)
+        - Settings or credits
+        - Somewhere else
+    validations:
+      required: true
+
+  - type: input
+    id: reference
+    attributes:
+      label: Which passage?
+      description: >
+        Fill this in if a verse is wrong, missing or numbered oddly. Translations
+        do not all count alike, so the exact reference and the translation matter
+        more than anything else here.
+      placeholder: Numbers 17:2 in Schlachter 1951, compared with Elberfelder 1905
+
+  - type: input
+    id: translation
+    attributes:
+      label: Which translation was selected?
+      description: The abbreviation in the bottom right corner of a verse, e.g. ELB, KJV, BLV.
+
+  - type: input
+    id: version
+    attributes:
+      label: App version and build
+      description: Settings › Credits shows both. The build is a twelve-digit timestamp.
+      placeholder: 1.0 (202608142029)
+    validations:
+      required: true
+
+  - type: input
+    id: device
+    attributes:
+      label: Watch and watchOS version
+      placeholder: Apple Watch Series 10, watchOS 11.4
+    validations:
+      required: true
+
+  - type: input
+    id: language
+    attributes:
+      label: Language your watch is set to
+      placeholder: German
+      description: >
+        The interface, the book names and the default translation all follow it,
+        so a problem often shows up in one language and not in another.
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else?
+      description: A screenshot helps. Drag it in here.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched the open and closed issues and did not find this one.
+          required: true
