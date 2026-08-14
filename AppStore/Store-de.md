@@ -3,7 +3,7 @@
 ## Name (max. 30)
 
 ```
-Watch Bible — Offline Bible
+Watch Bible — Offline Bibel
 ```
 
 ## Untertitel (max. 30)

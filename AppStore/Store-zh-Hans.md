@@ -3,7 +3,7 @@
 ## 名称 (最多 30)
 
 ```
-Watch Bible — Offline Bible
+Watch Bible — 离线圣经
 ```
 
 ## 副标题 (最多 30)
