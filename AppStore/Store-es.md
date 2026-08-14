@@ -3,7 +3,7 @@
 ## Nombre (máx. 30)
 
 ```
-Watch Bible — Biblia
+Watch Bible — Offline Bible
 ```
 
 ## Subtítulo (máx. 30)

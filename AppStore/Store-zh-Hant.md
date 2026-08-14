@@ -3,7 +3,7 @@
 ## 名稱 (最多 30)
 
 ```
-Watch Bible 聖經
+Watch Bible — Offline Bible
 ```
 
 ## 副標題 (最多 30)
