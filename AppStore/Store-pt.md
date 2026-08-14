@@ -12,6 +12,12 @@ Watch Bible — Offline Bible
 A Bíblia no seu pulso
 ```
 
+## Texto promocional (máx. 170)
+
+```
+Doze traduções da Bíblia, completas no relógio. Versículo aleatório, 26 temas, busca e leitura capítulo após capítulo. Sem servidor, sem cadastro, sem iPhone.
+```
+
 ## Palavras-chave (máx. 100)
 
 ```
@@ -69,4 +75,10 @@ RECURSOS
 As doze traduções estão inteiras dentro do app: 66 livros, mais de 370.000 versículos. Sem servidor, sem cadastro, sem precisar de iPhone — no modo avião tudo funciona igual. O app não coleta dado algum e não pede permissões.
 
 Todos os textos bíblicos são de uso livre: domínio público ou Creative Commons. As fontes e licenças completas estão no app em Ajustes › Créditos.
+```
+
+## Copyright (máx. 200, igual para todos os idiomas)
+
+```
+2026 Philippe Scheuber
 ```

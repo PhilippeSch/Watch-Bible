@@ -12,6 +12,12 @@ Watch Bible — Offline Bible
 Die Bibel am Handgelenk
 ```
 
+## Werbetext (max. 170)
+
+```
+Zwölf Bibelübersetzungen, vollständig auf der Uhr. Zufallsvers, 26 Themen, Nachschlagen und Weiterlesen Kapitel für Kapitel — ohne Server, ohne Konto, ohne iPhone.
+```
+
 ## Keywords (max. 100)
 
 ```
@@ -69,4 +75,10 @@ FUNKTIONEN
 Alle zwölf Übersetzungen stecken vollständig in der App: 66 Bücher, über 370'000 Verse. Kein Server, keine Anmeldung, kein iPhone nötig — im Flugzeugmodus funktioniert alles gleich. Die App erfasst keine Daten und fordert keine Berechtigungen an.
 
 Sämtliche Bibeltexte sind frei verwendbar: gemeinfrei oder unter Creative Commons. Quellen- und Lizenzangaben in der App unter Einstellungen › Impressum.
+```
+
+## Copyright (max. 200, gilt für alle Sprachen)
+
+```
+2026 Philippe Scheuber
 ```

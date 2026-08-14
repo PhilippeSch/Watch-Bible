@@ -12,6 +12,12 @@ Watch Bible — Offline Bible
 La Bible à votre poignet
 ```
 
+## Texte promotionnel (max. 170)
+
+```
+Douze traductions bibliques, intégrales sur la montre. Verset au hasard, 26 thèmes, recherche et lecture chapitre après chapitre. Sans serveur, sans compte, sans iPhone.
+```
+
 ## Mots-clés (max. 100)
 
 ```
@@ -69,4 +75,10 @@ FONCTIONS
 Les douze traductions sont intégralement contenues dans l'app : 66 livres, plus de 370 000 versets. Aucun serveur, aucun compte, aucun iPhone nécessaire — en mode avion, tout fonctionne à l'identique. L'app ne collecte aucune donnée et ne demande aucune autorisation.
 
 Tous les textes bibliques sont libres d'utilisation : domaine public ou Creative Commons. Les sources et licences complètes figurent dans l'app sous Réglages › Mentions.
+```
+
+## Copyright (max. 200, identique pour toutes les langues)
+
+```
+2026 Philippe Scheuber
 ```

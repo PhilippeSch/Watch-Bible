@@ -12,6 +12,12 @@ Watch Bible — Offline Bible
 The Bible on your wrist
 ```
 
+## Promotional Text (max. 170)
+
+```
+Twelve Bible translations, complete on your watch. A random verse, 26 topics, look-up and reading on chapter by chapter — no server, no account, no iPhone.
+```
+
 ## Keywords (max. 100)
 
 ```
@@ -69,4 +75,10 @@ FEATURES
 All twelve translations are contained in the app: 66 books, more than 370,000 verses. No server, no account, no iPhone needed — in airplane mode everything works exactly the same. The app collects no data and requests no permissions.
 
 Every Bible text is free to use: public domain or Creative Commons. Full source and licence details are in the app under Settings › Credits.
+```
+
+## Copyright (max. 200, same for all languages)
+
+```
+2026 Philippe Scheuber
 ```
