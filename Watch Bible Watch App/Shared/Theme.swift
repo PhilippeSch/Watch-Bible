@@ -136,7 +136,7 @@ struct Ribbon: View {
     }
 }
 
-/// Haptik beim Weiterschalten, abschaltbar (CLAUDE.md, Bedienung).
+/// Haptik beim Weiterschalten, abschaltbar (Designspezifikation, Bedienung).
 @MainActor
 func playAdvanceHaptic(_ settings: AppSettings) {
     if settings.hapticsEnabled {

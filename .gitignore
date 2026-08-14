@@ -6,3 +6,7 @@ xcuserdata/
 # Python-Bytecode der Werkzeuge in tools/
 __pycache__/
 *.pyc
+
+# Projektanweisungen, nur lokal
+CLAUDE.md
+.claude/
