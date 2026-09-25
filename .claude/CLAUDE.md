@@ -56,7 +56,7 @@ Translations, books and topics — including translation ids and the master tran
 
 **`bible.sqlite` is the authoritative dataset and is extended, not rebuilt.** It is never edited by hand. Changes go through the scripts in `tools/`, which all read the same tables from `tools/tables.py` and are therefore reproducible. A translation is added with `tools/add_translation.py`, book names and abbreviations with `tools/add_book_names.py`.
 
-**A full converter run is no longer an option.** It would swap the `verse.id` ranges of KJV and DAR (the file carries its ids from the original source order, a new run assigns them by `TRANSLATION_ORDER`), and `test_fixtures.json` depends on those ranges. The LaTeX source of Elberfelder, KJV and Darby is no longer in the working tree, but it can be restored from git history: `git show '5d2890f:Watch Bible Watch App/bible.db'`. `tools/quotepas_to_sqlite.py` stays regardless: `add_translation.py` imports its OSIS and USFM readers, and it is the written record of how the texts were cleaned.
+**A full converter run is no longer an option.** It would swap the `verse.id` ranges of KJV and DAR (the file carries its ids from the original source order, a new run assigns them by `TRANSLATION_ORDER`), and `test_fixtures.json` depends on those ranges. `tools/quotepas_to_sqlite.py` stays regardless: `add_translation.py` imports its OSIS and USFM readers, and it is the written record of how the texts were cleaned.
 
 **75 MB uncompressed** is the limit for a watch app, and this one is almost entirely database (62.2 MB in the archive). Each further translation costs a good 5 MB. After a change to the dataset, archive and measure instead of estimating.
 
