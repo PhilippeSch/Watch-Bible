@@ -20,12 +20,13 @@ The structure of the code is described in `docs/Architektur.md`, the visual desi
 
 The app is **finished and shipped**: changes improve what exists. Do not build features that have not been agreed. Handle one point per pass and do not anticipate the next one.
 
-1. **Branch.** Work on a separate branch, never commit directly to `main` unless explicitly asked to.
+1. **Branch.** Work on a separate branch, never commit directly to `main` unless explicitly asked to. Name it after what it changes, with a prefix for the kind of change and the issue number when there is one: `fix/3-verse-grid-gaps`, `docs/merge-claude-instructions`. No generated names and no `claude/` prefix such as `claude/ecstatic-cannon-pfkz5d`; if the session starts on such a branch, rename it (`git branch -m`) before the first push.
 2. **Build number.** Every change carries a fresh build number: commit `Config/Version.xcconfig` in its own commit named `update build number`. An Xcode build writes the file (build phase "Set Build Number"); after a local build, just commit it. Without Xcode, write the same two lines the build phase writes, with the timestamp from `TZ=Europe/Zurich date +%Y%m%d%H%M`.
 3. **Docs.** Check `README.md` and `docs/` against the change and update whatever no longer holds, including test counts. Say in the pull request what was checked.
 4. **Build and test.** Compiling is part of the change, not a check left to the user: build after every change, and read and fix errors yourself instead of reporting them. Then run the unit tests and check the change in the watchOS simulator. A successful build says nothing about layout: look at the screens by day and by night, and at least once in Chinese. The commands are in `README.md` under "Building and testing"; the unit tests need a concrete simulator instead of `generic`. The data layer and reference resolution get unit tests; edge cases to cover every time are Psalm 119:176, Jude 1:25, the last verse of Revelation and the first verse of Genesis. A session without Xcode, such as a cloud session, cannot do this step: then write in the pull request that build, tests and simulator check are still open, and never claim otherwise.
 5. **Pull request.** Open a pull request against `main`. After a change to the project or its targets, list which files were created and what has to be set by hand in Xcode (target membership, capabilities, signing).
-6. **Clean up.** Once the pull request is merged, delete its branch on GitHub and locally.
+6. **Merge.** Merge by fast-forward, not with GitHub's merge buttons: if `main` has moved, rebase the branch onto `origin/main` and push it again (`--force-with-lease` on the branch only), then `git switch main && git merge --ff-only <branch> && git push origin main`. GitHub then marks the pull request as merged. "Rebase and merge" and "Squash and merge" re-create the commits with GitHub's noreply address as committer, which breaks the authorship rule.
+7. **Clean up.** Once the pull request is merged, delete its branch on GitHub and locally.
 
 Two things that break a local build depending on the Mac:
 
