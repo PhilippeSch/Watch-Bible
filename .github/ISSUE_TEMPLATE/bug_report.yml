@@ -74,7 +74,7 @@ body:
     attributes:
       label: App version and build
       description: Settings › Credits shows both. The build is a twelve-digit timestamp.
-      placeholder: 1.0 (202608142029)
+      placeholder: 1.1 (202609252053)
     validations:
       required: true
 
