@@ -9,7 +9,7 @@
 [繁體中文](#繁體中文) ·
 [简体中文](#简体中文)
 
-Last updated: 14 August 2026
+Last updated: 25 September 2026
 
 ## Short version
 
@@ -31,7 +31,7 @@ The app asks for no permissions. It has no access to location, health data, cont
 
 Your settings and your reading position remain on your Apple Watch alone, in the app's own storage area:
 
-- the chosen Bible translation, the random-verse mode and the chosen topic
+- the chosen Bible translation and the random-verse mode
 - appearance (day/night, the two switching times), text size, haptic feedback
 - the passage you last read, so the app can offer to continue there
 - the verse of the day currently shown by the complication
@@ -58,7 +58,7 @@ Developer: Philippe Scheuber, Switzerland
 
 # Datenschutzerklärung — Watch Bible
 
-Stand: 14. August 2026
+Stand: 25. September 2026
 
 ### Kurz
 
@@ -80,7 +80,7 @@ Die App fragt keine Berechtigungen ab. Sie hat keinen Zugriff auf Standort, Gesu
 
 Ihre Einstellungen und Ihre Leseposition bleiben allein auf Ihrer Apple Watch, im eigenen Speicherbereich der App:
 
-- gewählte Bibelübersetzung, Modus des Zufallsverses und gewähltes Thema
+- gewählte Bibelübersetzung und Modus des Zufallsverses
 - Erscheinungsbild (Tag/Nacht, die beiden Umschaltzeiten), Textgrösse, Haptik
 - die zuletzt gelesene Stelle, damit die App das Weiterlesen anbieten kann
 - der Vers des Tages, den die Komplikation gerade zeigt
@@ -107,7 +107,7 @@ Entwickler: Philippe Scheuber, Schweiz
 
 # Política de privacidad — Watch Bible
 
-Última actualización: 14 de agosto de 2026
+Última actualización: 25 de septiembre de 2026
 
 ### En resumen
 
@@ -129,7 +129,7 @@ La app no solicita ningún permiso. No accede a la ubicación, ni a datos de sal
 
 Sus ajustes y su posición de lectura permanecen únicamente en su Apple Watch, en el área de almacenamiento propia de la app:
 
-- la traducción elegida, el modo del versículo aleatorio y el tema elegido
+- la traducción elegida y el modo del versículo aleatorio
 - apariencia (día/noche y las dos horas de cambio), tamaño del texto, respuesta táctil
 - el pasaje leído por última vez, para poder ofrecerle continuar allí
 - el versículo del día que muestra la complicación en ese momento
@@ -156,7 +156,7 @@ Desarrollador: Philippe Scheuber, Suiza
 
 # Politique de confidentialité — Watch Bible
 
-Dernière mise à jour : 14 août 2026
+Dernière mise à jour : 25 septembre 2026
 
 ### En bref
 
@@ -178,7 +178,7 @@ L'app ne demande aucune autorisation. Elle n'accède ni à la localisation, ni a
 
 Vos réglages et votre position de lecture restent sur votre Apple Watch seule, dans l'espace de stockage propre à l'app :
 
-- la traduction choisie, le mode du verset aléatoire et le thème choisi
+- la traduction choisie et le mode du verset aléatoire
 - l'apparence (jour/nuit et les deux heures de basculement), la taille du texte, le retour haptique
 - le passage lu en dernier, afin que l'app puisse proposer d'y reprendre
 - le verset du jour affiché par la complication
@@ -205,7 +205,7 @@ Développeur : Philippe Scheuber, Suisse
 
 # Informativa sulla privacy — Watch Bible
 
-Ultimo aggiornamento: 14 agosto 2026
+Ultimo aggiornamento: 25 settembre 2026
 
 ### In breve
 
@@ -227,7 +227,7 @@ L'app non chiede alcuna autorizzazione. Non accede alla posizione, ai dati sulla
 
 Le vostre impostazioni e la vostra posizione di lettura restano soltanto sul vostro Apple Watch, nell'area di memoria propria dell'app:
 
-- la traduzione scelta, la modalità del versetto casuale e il tema scelto
+- la traduzione scelta e la modalità del versetto casuale
 - l'aspetto (giorno/notte e i due orari di commutazione), la dimensione del testo, il feedback tattile
 - il passo letto per ultimo, perché l'app possa proporre di riprendere da lì
 - il versetto del giorno mostrato in quel momento dalla complicazione
@@ -254,7 +254,7 @@ Sviluppatore: Philippe Scheuber, Svizzera
 
 # Política de privacidade — Watch Bible
 
-Última atualização: 14 de agosto de 2026
+Última atualização: 25 de setembro de 2026
 
 ### Em resumo
 
@@ -276,7 +276,7 @@ O app não pede nenhuma permissão. Não acede à localização, a dados de saú
 
 As suas definições e a sua posição de leitura permanecem apenas no seu Apple Watch, na área de armazenamento própria do app:
 
-- a tradução escolhida, o modo do versículo aleatório e o tema escolhido
+- a tradução escolhida e o modo do versículo aleatório
 - a aparência (dia/noite e os dois horários de mudança), o tamanho do texto, o retorno tátil
 - a passagem lida por último, para que o app possa oferecer continuar dali
 - o versículo do dia mostrado no momento pela complicação
@@ -303,7 +303,7 @@ Desenvolvedor: Philippe Scheuber, Suíça
 
 # 隱私權政策 — Watch Bible
 
-最後更新：2026 年 8 月 14 日
+最後更新：2026 年 9 月 25 日
 
 ### 摘要
 
@@ -325,7 +325,7 @@ Desenvolvedor: Philippe Scheuber, Suíça
 
 您的設定與閱讀位置僅留在您的 Apple Watch 上，存放於本應用程式自有的儲存空間：
 
-- 所選譯本、隨機經節模式與所選主題
+- 所選譯本與隨機經節模式
 - 外觀（日間／夜間及兩個切換時間）、文字大小、觸覺回饋
 - 最後閱讀的段落，以便應用程式提供「繼續閱讀」
 - 錶面複雜功能目前顯示的每日經節
@@ -352,7 +352,7 @@ Desenvolvedor: Philippe Scheuber, Suíça
 
 # 隐私政策 — Watch Bible
 
-最后更新：2026 年 8 月 14 日
+最后更新：2026 年 9 月 25 日
 
 ### 摘要
 
@@ -374,7 +374,7 @@ Desenvolvedor: Philippe Scheuber, Suíça
 
 您的设置与阅读位置仅留在您的 Apple Watch 上，存放于本应用自有的存储空间：
 
-- 所选译本、随机经节模式与所选主题
+- 所选译本与随机经节模式
 - 外观（日间／夜间及两个切换时间）、文字大小、触觉反馈
 - 最后阅读的段落，以便应用提供「继续阅读」
 - 表盘复杂功能当前显示的每日经节

@@ -94,7 +94,7 @@ python3 tools/add_translation.py "Watch Bible Watch App/Resources/bible.sqlite" 
 python3 tools/add_book_names.py "Watch Bible Watch App/Resources/bible.sqlite"
 ```
 
-Every script understands `--check`: verify without writing. The whole procedure is written out in [docs/Bibeltexte.md](docs/Bibeltexte.md) under «Eine Übersetzung dazunehmen».
+Each of these appending scripts understands `--check`: verify without writing. The full converter `tools/quotepas_to_sqlite.py` has `--dry-run` instead. The whole procedure is written out in [docs/Bibeltexte.md](docs/Bibeltexte.md) under «Eine Übersetzung dazunehmen».
 
 ## Documentation
 

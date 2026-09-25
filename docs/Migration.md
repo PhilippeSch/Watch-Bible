@@ -53,6 +53,6 @@ Die Zahlen der Spalte «Nachher» sind die vom Abschluss der Migration. Danach k
 
 ## Offen geblieben
 
-**In der BSB fehlt Klagelieder 2,1** — das Kapitel beginnt bei Vers 2, der einzige solche Fall in der ganzen Datenbank. Die App zeigt die Lücke sauber an; zu klären bleibt, ob die Quelle den Vers wirklich nicht führt. Siehe [Bibeltexte.md](Bibeltexte.md).
+**In der BSB fehlen 18 Verse**, darunter Klagelieder 2,1 und Ps 106,42; das Versraster zeigt diese Lücken nicht an. Zu klären bleibt, ob die Quelle die beiden Verse wirklich nicht führt. Siehe [Bibeltexte.md](Bibeltexte.md).
 
 **Die Schlachter 1951 sollte aus der CC-BY-Quelle bei ebible.org neu bezogen werden.** Der verwendete Text ist inhaltlich geprüft, die Quelldatei trägt aber noch einen älteren, engeren Lizenzvermerk im Kopf. Ebenfalls in [Bibeltexte.md](Bibeltexte.md).
