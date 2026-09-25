@@ -7,6 +7,9 @@ xcuserdata/
 __pycache__/
 *.pyc
 
-# Projektanweisungen, nur lokal
+# Projektanweisungen: persoenliche bleiben lokal (CLAUDE.md, CLAUDE.local.md),
+# die gemeinsamen Regeln in .claude/CLAUDE.md gehen mit ins Repository.
 CLAUDE.md
-.claude/
+CLAUDE.local.md
+.claude/*
+!.claude/CLAUDE.md
