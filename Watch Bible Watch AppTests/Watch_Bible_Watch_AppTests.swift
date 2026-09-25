@@ -640,6 +640,36 @@ struct ZufallTests {
     }
 }
 
+// MARK: - Deep Link des Widgets
+
+/// Widget und App teilen sich `DeepLink` (docs/Architektur.md, Kap. 8): was das
+/// eine schreibt, muss das andere lesen, und sonst nichts.
+struct DeepLinkTests {
+
+    @Test func stelleUeberlebtHinUndRueckweg() throws {
+        let stelle = VerseReference(bookID: 43, chapter: 3, verse: 16)
+        let url = try #require(DeepLink.url(for: stelle))
+        #expect(url.absoluteString == "watchbible://verse/43/3/16")
+        #expect(DeepLink.verseReference(from: url) == stelle)
+    }
+
+    /// Alles, was nicht genau dem Schema entspricht, ist `nil`: die App bleibt
+    /// dann, wo sie ist, statt irgendwo zu landen.
+    @Test func fremdeUndUnvollstaendigeLinksSindNil() throws {
+        let faelle = [
+            "https://verse/43/3/16",           // fremdes Schema
+            "watchbible://book/43/3/16",       // fremder Host
+            "watchbible://verse/43/3",         // zu kurz
+            "watchbible://verse/43/3/16/1",    // zu lang
+            "watchbible://verse/43/drei/16",   // keine Zahl
+        ]
+        for fall in faelle {
+            let url = try #require(URL(string: fall), "\(fall) ist keine URL")
+            #expect(DeepLink.verseReference(from: url) == nil, "\(fall)")
+        }
+    }
+}
+
 // MARK: - Themen
 
 struct ThemenTests {
