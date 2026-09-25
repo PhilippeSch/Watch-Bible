@@ -112,7 +112,7 @@ struct VerseOfDayProvider: TimelineProvider {
                         chapter: verse.reference.chapter,
                         verse: verse.reference.verse),
                     text: verse.text,
-                    url: URL(string: "watchbible://verse/\(verse.reference.bookID)/\(verse.reference.chapter)/\(verse.reference.verse)")))
+                    url: DeepLink.url(for: verse.reference)))
             }
             return entries
         } catch {

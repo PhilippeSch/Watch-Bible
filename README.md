@@ -55,7 +55,7 @@ Nothing is collected: no network code, no account, no analytics, no permission p
 - The database is opened once at launch, read-only, with cached prepared statements. Queries run off the main actor and return `Sendable` structs.
 - **No `ORDER BY RANDOM()`:** `verse.id` is gapless and contiguous per translation, so a random verse is a single primary-key lookup. `chapter_meta` is precomputed, so the selection grids need no `COUNT` queries.
 - **Nothing is hardcoded:** which translations, books and topics exist is read from the database at runtime, book names and abbreviations included. Remove a translation and the app keeps working without a code change. Topic names and rights lines are the exception and live in the string catalog — the database says what there is, the catalog how it is written.
-- 41 unit tests (Swift Testing) cover the data layer, versification, languages, topics and chapter paging against `test_fixtures.json`.
+- 43 unit tests (Swift Testing) cover the data layer, versification, languages, topics and chapter paging against `test_fixtures.json`, plus the widget's deep link.
 - A watchOS app must stay under **75 MB uncompressed**, and this one is almost entirely database. Archived it comes to 62.2 MB — room for about two more translations. The widget reads the database out of the app bundle rather than shipping a second copy.
 
 ## Building and testing

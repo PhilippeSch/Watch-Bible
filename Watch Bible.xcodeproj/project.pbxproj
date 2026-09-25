@@ -86,6 +86,7 @@
 				Data/BibleRepository.swift,
 				Data/Models.swift,
 				Resources/Localizable.xcstrings,
+				Shared/DeepLink.swift,
 				Shared/Localization.swift,
 			);
 			target = AB10000000000000000000B0 /* BibelWatchWidget */;

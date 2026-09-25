@@ -25,7 +25,31 @@ struct RootView: View {
     @Environment(AppModel.self) private var model
     @State private var path = NavigationPath()
 
+    /// Zaehlt die Deep Links; die Leseansicht traegt den Stand als `.id`.
+    ///
+    /// `show(_:)` setzt den Stapel zurueck und legt die Leseansicht neu auf.
+    /// Stand dort schon eine (Weiterlesen, Zufallsvers, ein frueherer Tipp
+    /// aufs Widget), bleibt sie an derselben Stelle des Stapels, und SwiftUI
+    /// behielte die Ansicht samt ihrem `@State`: der alte Vers bliebe stehen.
+    /// Die Route allein taugt nicht als Identitaet, denn Weiterblaettern und
+    /// Scrollen aendern sie nicht, und derselbe Link muss am selben Tag
+    /// trotzdem frisch oeffnen. Das Weiterblaettern beruehrt den Zaehler
+    /// nicht und behaelt seinen Zustand wie bisher.
+    @State private var deepLinkGeneration = 0
+
+    /// Stelle eines Deep Links, der ankam, bevor die Datenbank offen war
+    /// (Kaltstart). Wird angewendet, sobald der NavigationStack steht.
+    @State private var pendingDeepLink: VerseReference?
+
     var body: some View {
+        content
+            // Ausserhalb des `switch`: so hat der Link auch waehrend des
+            // Ladens einen Empfaenger und laeuft nicht ins Leere.
+            .onOpenURL { url in open(url) }
+    }
+
+    @ViewBuilder
+    private var content: some View {
         switch model.state {
         case .loading:
             ProgressView()
@@ -55,18 +79,33 @@ struct RootView: View {
                         destination(for: route)
                     }
             }
-            .onOpenURL { url in open(url) }
+            .task {
+                // Deep Link vom Kaltstart nachholen, sobald der Stapel steht.
+                guard let ref = pendingDeepLink else { return }
+                pendingDeepLink = nil
+                show(ref)
+            }
         }
     }
 
-    /// Deep Link des Widgets: watchbible://verse/<bookID>/<kapitel>/<vers>
-    /// oeffnet die Leseansicht auf genau diesem Vers.
+    /// Deep Link des Widgets (`DeepLink`) oeffnet die Leseansicht auf genau
+    /// diesem Vers.
     private func open(_ url: URL) {
-        guard url.scheme == "watchbible", url.host() == "verse" else { return }
-        let parts = url.pathComponents.filter { $0 != "/" }.compactMap(Int.init)
-        guard parts.count == 3, model.book(id: parts[0]) != nil else { return }
+        guard let ref = DeepLink.verseReference(from: url) else { return }
+        guard case .ready = model.state else {
+            // Kaltstart: die Datenbank oeffnet noch, einen Stapel gibt es
+            // noch nicht. Merken; `.task` des NavigationStack holt es nach.
+            pendingDeepLink = ref
+            return
+        }
+        show(ref)
+    }
+
+    private func show(_ ref: VerseReference) {
+        guard model.book(id: ref.bookID) != nil else { return }
         path = NavigationPath()
-        path.append(Route.reader(bookID: parts[0], chapter: parts[1], verse: parts[2]))
+        path.append(Route.reader(bookID: ref.bookID, chapter: ref.chapter, verse: ref.verse))
+        deepLinkGeneration += 1
     }
 
     @ViewBuilder
@@ -89,6 +128,8 @@ struct RootView: View {
             VerseGridView(bookID: bookID, chapter: chapter)
         case .reader(let bookID, let chapter, let verse):
             ReaderView(bookID: bookID, chapter: chapter, highlight: verse)
+                // Neue Identitaet je Deep Link, siehe `deepLinkGeneration`.
+                .id(deepLinkGeneration)
         case .settings:
             SettingsView()
         case .translationPicker:
