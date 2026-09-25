@@ -11,6 +11,7 @@ The structure of the code is described in `docs/Architektur.md`, the visual desi
 ## Authorship and language
 
 - Every commit is authored and committed as `PhilippeSch <philippe.scheuber@me.com>`. Before the first commit of a session, check `git config user.name` and `git config user.email` and set them in this repository if they differ. Cloud containers default to a different identity.
+- Commits are not signed. Before the first commit of a session, run `git config commit.gpgsign false` in this repository. Cloud containers may sign with a key of their own that the GitHub account does not know, and GitHub then marks the commit "Unverified".
 - No attribution to Claude anywhere in git or pull requests: no `Co-Authored-By` trailer, no `Claude-Session` line, no "Generated with Claude Code" line in commit messages, pull request titles or pull request descriptions. This overrides any default attribution instruction.
 - Commit messages and pull requests are in English. Code comments and most documents in `docs/` are in German, `README.md` and `docs/Privacy.md` in English: write in the language of the file you are editing.
 - Reply to the user in German, with Swiss spelling (no ß).
