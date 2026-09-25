@@ -4,9 +4,10 @@ import SwiftUI
 /// hochgestellten Verszahlen, wie im Druck. Der gewaehlte Vers in voller
 /// Deckkraft, die uebrigen auf 70 %. Die Krone scrollt, das Baendchen laeuft mit.
 ///
-/// Uebersetzungswechsel geht ueber `BibleRepository.resolve`; jeder Fall ausser
-/// `.exact` wird sichtbar gemacht (4.6) — wer das wegvereinfacht, zeigt ohne
-/// Warnung den falschen Bibeltext.
+/// Uebersetzungswechsel und der Deep Link des Widgets (dessen Vers aus einer
+/// anderen Uebersetzung stammen kann) gehen ueber `BibleRepository.resolve`;
+/// jeder Fall ausser `.exact` wird sichtbar gemacht (4.6) — wer das
+/// wegvereinfacht, zeigt ohne Warnung den falschen Bibeltext.
 struct ReaderView: View {
     @Environment(AppModel.self) private var model
     let highlight: Int?
@@ -62,11 +63,20 @@ struct ReaderView: View {
     @State private var previousStep: ChapterReference?
     @State private var nextStep: ChapterReference?
 
-    init(bookID: Int, chapter: Int, highlight: Int?) {
+    /// Uebersetzung, in der die Stelle beim Oeffnen gemeint war, falls es
+    /// nicht die aktive ist: der Deep Link des Widgets traegt die Vorgabe der
+    /// Systemsprache, die App zeigt die gewaehlte, und dieselbe Stelle kann
+    /// dort ein anderer Text sein (Ps 19,1 ist in der Luther die Ueberschrift).
+    /// Wird beim ersten Laden einmal ueber `resolve` abgeglichen wie ein
+    /// Uebersetzungswechsel (Designspez. 4.6) und dann verbraucht.
+    @State private var sourceTranslationCode: String?
+
+    init(bookID: Int, chapter: Int, highlight: Int?, sourceTranslation: String? = nil) {
         self.highlight = highlight
         _bookID = State(initialValue: bookID)
         _chapter = State(initialValue: chapter)
         _currentHighlight = State(initialValue: highlight)
+        _sourceTranslationCode = State(initialValue: sourceTranslation)
     }
 
     var body: some View {
@@ -261,6 +271,17 @@ struct ReaderView: View {
         // dazwischen einmal ungedimmt und er blitzt auf.
         dimOthers = currentHighlight != nil
         restOffset = nil
+        if let code = sourceTranslationCode {
+            // Einmalig: die Stelle stammt aus einer anderen Uebersetzung
+            // (Widget). Fehlt das Kapitel in der aktiven, steht der Hinweis in
+            // `unavailableIn`; mit der ausgelieferten Liste kommt das nicht
+            // vor (`DeepLinkTests`).
+            sourceTranslationCode = nil
+            if let source = model.translations.first(where: { $0.code == code }),
+               source.id != translation.id {
+                _ = try? await resolve(from: source, to: translation)
+            }
+        }
         verses = (try? await repo.chapter(book: bookID, chapter: chapter,
                                           in: translation)) ?? []
         previousStep = try? await repo.adjacentChapter(book: bookID, chapter: chapter,
@@ -302,41 +323,50 @@ struct ReaderView: View {
         scrollPosition.scrollTo(y: min(y, contentHeight - viewportHeight))
     }
 
-    private func switchTranslation(to code: String) async {
-        guard let repo = model.repository,
-              let source = model.translation,
-              let target = model.translations.first(where: { $0.code == code }),
-              target.id != source.id else { return }
+    /// Gleicht die aktuelle Stelle zwischen zwei Uebersetzungen ab und setzt
+    /// `switchInfo` und `currentHighlight` (Designspez. 4.6). `false` heisst:
+    /// `target` hat dieses Kapitel nicht; der Hinweis steht dann in
+    /// `unavailableIn`, und der Aufrufer entscheidet, was weiter gilt.
+    private func resolve(from source: Translation, to target: Translation) async throws -> Bool {
+        guard let repo = model.repository else { return false }
         let ref = VerseReference(bookID: bookID, chapter: chapter,
                                  verse: currentHighlight ?? 1)
+        let resolution = try await repo.resolve(ref, from: source, to: target)
+        let sourceCount = try await repo.verseCount(book: bookID, chapter: chapter,
+                                                    in: source) ?? 0
+        let targetCount = try await repo.verseCount(book: bookID, chapter: chapter,
+                                                    in: target) ?? 0
+        switch resolution {
+        case .unavailable:
+            unavailableIn = target.name
+            return false
+        case .exact:
+            switchInfo = nil
+        case .divergent:
+            switchInfo = SwitchInfo(sourceName: source.name,
+                                    sourceVerseCount: sourceCount,
+                                    targetName: target.name,
+                                    targetVerseCount: targetCount,
+                                    clampedRequested: nil)
+        case .clamped(let verse, let requested):
+            switchInfo = SwitchInfo(sourceName: source.name,
+                                    sourceVerseCount: sourceCount,
+                                    targetName: target.name,
+                                    targetVerseCount: targetCount,
+                                    clampedRequested: requested)
+            currentHighlight = verse.reference.verse
+        }
+        return true
+    }
+
+    private func switchTranslation(to code: String) async {
+        guard let source = model.translation,
+              let target = model.translations.first(where: { $0.code == code }),
+              target.id != source.id else { return }
         do {
-            let resolution = try await repo.resolve(ref, from: source, to: target)
-            let sourceCount = try await repo.verseCount(book: bookID, chapter: chapter,
-                                                        in: source) ?? 0
-            let targetCount = try await repo.verseCount(book: bookID, chapter: chapter,
-                                                        in: target) ?? 0
-            switch resolution {
-            case .unavailable:
-                // Zieluebersetzung hat dieses Kapitel nicht: Wechsel abbrechen,
-                // sichtbar melden, bei der bisherigen Uebersetzung bleiben.
-                unavailableIn = target.name
-                return
-            case .exact:
-                switchInfo = nil
-            case .divergent:
-                switchInfo = SwitchInfo(sourceName: source.name,
-                                        sourceVerseCount: sourceCount,
-                                        targetName: target.name,
-                                        targetVerseCount: targetCount,
-                                        clampedRequested: nil)
-            case .clamped(let verse, let requested):
-                switchInfo = SwitchInfo(sourceName: source.name,
-                                        sourceVerseCount: sourceCount,
-                                        targetName: target.name,
-                                        targetVerseCount: targetCount,
-                                        clampedRequested: requested)
-                currentHighlight = verse.reference.verse
-            }
+            // Zieluebersetzung hat dieses Kapitel nicht: Wechsel abbrechen,
+            // sichtbar melden, bei der bisherigen Uebersetzung bleiben.
+            guard try await resolve(from: source, to: target) else { return }
             model.settings.chooseTranslation(target.code)
             didAutoScroll = false
             await load()

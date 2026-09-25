@@ -147,12 +147,14 @@ King James             19 Verse
 
 Keine Signalfarbe, kein Symbol, nichts zum Wegklicken. Zwei Zahlen erklären den Sachverhalt vollständig; eine Warnung würde ihn dramatisieren, ohne mehr zu sagen.
 
+Dasselbe gilt für den Deep Link des Widgets: das Widget zeigt den Vers in der Vorgabeübersetzung der Systemsprache, die App öffnet ihn in der gewählten. Der Link trägt den Code der Widget-Übersetzung, die Leseansicht löst die Stelle beim ersten Laden von dort in die aktive Übersetzung auf und zeigt die Tabelle wie nach einem Wechsel (Architektur, Kapitel 8).
+
 | Fall | Anzeige |
 |---|---|
 | `.exact` | nichts |
 | `.divergent` | Tabelle mit beiden Verszahlen |
 | `.clamped` | Tabelle plus Zeile «Vers *n* angefragt, Kapitelende gezeigt.» |
-| `.unavailable` | «Dieses Kapitel gibt es in der *X* nicht.» — der Wechsel wird abgebrochen, die bisherige Übersetzung bleibt stehen |
+| `.unavailable` | «Dieses Kapitel gibt es in der *X* nicht.» — der Wechsel wird abgebrochen, die bisherige Übersetzung bleibt stehen. Beim Deep Link des Widgets ausgeschlossen: jedes kuratierte Kapitel gibt es in allen Übersetzungen (`DeepLinkTests`) |
 
 ### 4.7 Einstellungen
 Übersetzung · Zufallsmodus · Darstellung (Tag / Nacht / Automatisch, bei Automatisch zwei Uhrzeiten) · Schriftgrösse · Haptik · Impressum. **Welche** Übersetzungen im Impressum stehen, sagt die Datenbank; **wie** ihre Rechteangabe geschrieben wird, der String Catalog unter `copyright.<code>` — dieselbe Arbeitsteilung wie bei den Themen (Kapitel 5). Rechteinhaber, Werktitel und der Lizenzname «Creative Commons Attribution 4.0 (CC BY 4.0)» bleiben in jeder Sprache wörtlich stehen; übersetzt wird nur der Satz drumherum. Fehlt ein Katalogeintrag, bleibt die deutsche Zeile aus `translation.copyright` stehen — eine Rechteangabe darf nie ganz fehlen.
