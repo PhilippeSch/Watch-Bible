@@ -172,6 +172,7 @@ Watch Bible Watch App/
 ├── Shared/
 │   ├── AppModel.swift          Zustand, Stammdaten, Navigationsziele (Route)
 │   ├── AppSettings.swift       @AppStorage hinter @Observable
+│   ├── DeepLink.swift          Schema des Widget-Links, Aufbau und Auslesen (auch im Widget)
 │   ├── Localization.swift      Sprache, Vorgaben, Buchnamen, Stellenformat
 │   └── Theme.swift             ThemeState, Typo, Grid3, Ribbon, Haptik
 ├── Resources/                  bible.sqlite, Localizable.xcstrings, InfoPlist.xcstrings
@@ -215,7 +216,9 @@ let verse = try await repository.randomCuratedVerse(in: translation, seed: UInt6
 
 Der Vers steht damit von Mitternacht bis Mitternacht, und jede Neuberechnung der Zeitleiste liefert denselben. Ein ungeseedeter `Int.random`-Aufruf wäre falsch: WidgetKit berechnet die Zeitleiste mehrmals, der Vers würde mitten am Tag wechseln. Es gibt deshalb auch keine eigene `verseOfDay`-Abfrage — Widget und Zufallsmodus teilen sich `randomCuratedVerse`, das Widget setzt zusätzlich den Startwert.
 
-Die Zeitleiste trägt sieben Tage vor und lädt danach neu (`.atEnd`). Tippen öffnet die App auf demselben Vers, über `widgetURL` und das Schema `watchbible://verse/<buchID>/<kapitel>/<vers>`.
+Die Zeitleiste trägt sieben Tage vor und lädt danach neu (`.atEnd`). Tippen öffnet die App auf demselben Vers, über `widgetURL` und das Schema `watchbible://verse/<buchID>/<kapitel>/<vers>`. Das Schema steht nur einmal, in `Shared/DeepLink.swift`, das beide Targets übersetzen: das Widget baut die URL damit, die App liest sie. Registriert ist es nicht (kein `CFBundleURLTypes`), `widgetURL` reicht die URL ohne Registrierung an die eigene App durch.
+
+**Der Link in der App.** `RootView` setzt den `NavigationStack` zurück und legt die Leseansicht neu auf. Stand dort schon eine, über «Weiterlesen», aus dem Zufallsvers oder von einem früheren Tipp aufs Widget, bleibt sie an derselben Stelle des Stapels, und SwiftUI behielte die Ansicht samt ihrem `@State`: der alte Vers bliebe stehen, weil `ReaderView` Buch und Kapitel nur in `init` übernimmt. Darum zählt `RootView` die Deep Links und gibt der Leseansicht den Zählerstand als `.id`, jeder Tipp erzeugt eine frische Ansicht. Die Route allein taugte nicht als Identität, weil Weiterblättern und Scrollen sie nicht ändern und derselbe Link am selben Tag trotzdem frisch öffnen muss. Das Weiterblättern berührt den Zähler nicht und behält seinen Zustand. Kommt der Link, bevor die Datenbank offen ist (Kaltstart), merkt sich `RootView` die Stelle und wendet sie an, sobald der Stapel steht; `.onOpenURL` hängt deshalb ausserhalb des Zustands-`switch`, nicht nur im Zweig `.ready`.
 
 Die runde Komplikation zeigt das **Buchkürzel der Anzeigesprache** aus der Datenbank, nicht `book.code` — der ist deutsch geprägt. Kapitel und Vers darunter kommen über `Localization.chapterVerse` und damit über den String Catalog (`reference.chapterVerse`): der Trenner ist derselbe wie in der vollen Stellenangabe, deutsch Komma, sonst Doppelpunkt. Fest verdrahtet stand dort einmal das Komma, und die runde Komplikation schrieb in sieben von acht Sprachen «Rm 5,1», während das rechteckige Widget daneben «Romani 5:1» setzte.
 
@@ -245,7 +248,7 @@ Der Impressumsbildschirm wird nicht hartkodiert, sondern aus der Datenbank gefü
 
 ## 10. Tests
 
-41 Unit-Tests (Swift Testing) in sieben Suiten, alle gegen die echte Datenbank und `test_fixtures.json`:
+43 Unit-Tests (Swift Testing) in acht Suiten, bis auf `DeepLinkTests` alle gegen die echte Datenbank und `test_fixtures.json`:
 
 | Suite | Prüft |
 |---|---|
@@ -254,6 +257,7 @@ Der Impressumsbildschirm wird nicht hartkodiert, sondern aus der Datenbank gefü
 | `VersifikationTests` | `.divergent`, `.clamped`, `.unavailable` an den bekannten Fällen |
 | `SprachenTests` | Übersetzungssprachen ↔ Oberflächensprachen, Normalisierung, Vorgaben, Buchnamen, Kürzel, Stellenformat |
 | `ZufallTests` | Grenzen, Streuung, Determinismus des Tagesverses, Abdeckung der Liste |
+| `DeepLinkTests` | Widget-Link: Hin- und Rückweg der Stelle, fremde und unvollständige Links ergeben `nil` |
 | `ThemenTests` | Themen aus der Datenbank, Übersetzung in allen acht Sprachen, Wiederholungssperre |
 | `WeiterblaetternTests` | Nachbarkapitel je Übersetzung, Buchgrenzen, Kanonrand, ein Durchgang durch alle 1'189 Kapitel |
 
