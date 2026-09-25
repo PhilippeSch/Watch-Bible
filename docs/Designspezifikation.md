@@ -122,6 +122,7 @@ In der Buchliste kostet der Rand Breite, die dort schon das Register beansprucht
 - Dreispaltiges Raster, Zellen mit `Field` hinterlegt, 14 pt gerundet.
 - Aktueller Eintrag in Karmin, Ziffer in Grundfarbe.
 - **Nicht vorhandene Verse bleiben sichtbar, aber auf 32 % Deckkraft gesetzt** statt ausgeblendet. Damit wird die Grenze des Kapitels begreifbar, statt nur zu fehlen.
+  - Das gilt auch für Lücken mitten im Kapitel: in der BSB fehlen 18 Verse (Mt 17,21, Klgl 2,1 …). Das Raster reicht deshalb bis zur **höchsten vorhandenen Versnummer**, nicht bis zur Anzahl Verse — sonst wäre die fehlende Nummer antippbar und der letzte Vers nicht. Die Zählerzeile nennt die vorhandenen Verse: BSB Mt 17 zeigt 27 Zellen und «26 Verse».
 - Zählerzeile unten: `6 Verse`, Übersetzungskürzel.
 
 ### 4.5 Leseansicht

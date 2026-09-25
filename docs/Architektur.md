@@ -50,6 +50,7 @@ Zwei Kniffe, die den Watch-Code einfach halten:
 
 1. **`verse.id` ist lückenlos und je Übersetzung zusammenhängend.** `translation` speichert `first_verse_id` und `last_verse_id`. Ein Zufallsvers ist damit ein einziger Primärschlüsselzugriff — `Int.random(in: first...last)` — statt `ORDER BY RANDOM()` über 31'000 Zeilen.
 2. **`chapter_meta` ist vorberechnet.** Die Auswahlraster für Kapitel und Verse brauchen keine `COUNT`-Abfragen, sondern nur einen Indexzugriff. Kostet wenige hundert Kilobyte.
+   **`verse_count` zählt die vorhandenen Verse, nicht die höchste Versnummer.** In der BSB fehlen 18 Verse mitten im Kapitel ([Bibeltexte.md](Bibeltexte.md)): Mt 17 hat dort 26 Verse und endet mit Vers 27, Klgl 2 beginnt bei Vers 2. Wo das Kapitelende oder die einzelnen Nummern gebraucht werden — Versraster, Klemmen beim Übersetzungswechsel, Bändchen des Zufallsverses —, liest die App sie deshalb aus `verse` (`BibleRepository.verseNumbers` und `lastVerse`). Beide Abfragen bleiben im Index `idx_verse_ref` und lesen höchstens 176 Einträge.
 
 Dazu `CREATE UNIQUE INDEX idx_verse_ref ON verse(translation_id, book_id, chapter, verse)` — bedient die Stellensuche, das Kapitel der Leseansicht und den Übersetzungswechsel bei gleichbleibender Stelle. `chapter_meta` ist eine `WITHOUT ROWID`-Tabelle mit dem Primärschlüssel `(translation_id, book_id, chapter)`, `curated` trägt `idx_curated_ref` auf `(book_id, chapter, verse)`.
 
@@ -89,6 +90,12 @@ SELECT chapter, verse_count FROM chapter_meta
  WHERE translation_id = ? AND book_id = ? ORDER BY chapter;
 SELECT verse_count FROM chapter_meta
  WHERE translation_id = ? AND book_id = ? AND chapter = ?;
+SELECT verse FROM verse
+ WHERE translation_id = ? AND book_id = ? AND chapter = ?
+ ORDER BY verse;                                 -- Versraster: vorhandene Nummern
+SELECT verse FROM verse
+ WHERE translation_id = ? AND book_id = ? AND chapter = ?
+ ORDER BY verse DESC LIMIT 1;                    -- Kapitelende
 
 -- 6. Themenregister  (einmal beim Start; die Ziehung selbst läuft in Swift)
 SELECT topic, book_id, chapter, verse
@@ -256,13 +263,14 @@ Der Impressumsbildschirm wird nicht hartkodiert, sondern aus der Datenbank gefü
 
 ## 10. Tests
 
-45 Unit-Tests (Swift Testing) in acht Suiten, bis auf drei Schema-Tests des Deep Links alle gegen die echte Datenbank und `test_fixtures.json`:
+51 Unit-Tests (Swift Testing) in neun Suiten, bis auf drei Schema-Tests des Deep Links alle gegen die echte Datenbank und `test_fixtures.json`:
 
 | Suite | Prüft |
 |---|---|
 | `ZaehlwerteTests` | 66 Bücher, 1'189 Kapitel, Verszahlen und `verse.id`-Bereiche je Übersetzung |
 | `StichprobenTests` | 36 Stellen wörtlich; ein fehlender Vers ergibt `nil`, keinen Absturz |
 | `VersifikationTests` | `.divergent`, `.clamped`, `.unavailable` an den bekannten Fällen |
+| `VerslueckenTests` | alle 18 fehlenden BSB-Verse, sonst jedes Kapitel lückenlos; Versraster und Klemmen gehen vom letzten vorhandenen Vers aus, nicht von `verse_count` |
 | `SprachenTests` | Übersetzungssprachen ↔ Oberflächensprachen, Normalisierung, Vorgaben, Buchnamen, Kürzel, Stellenformat |
 | `ZufallTests` | Grenzen, Streuung, Determinismus des Tagesverses, Abdeckung der Liste |
 | `DeepLinkTests` | Widget-Link: Hin- und Rückweg von Stelle und Übersetzung, Link ohne Übersetzung, fremde und unvollständige Links ergeben `nil`; jedes kuratierte Kapitel gibt es in jeder Übersetzung |
