@@ -646,11 +646,21 @@ struct ZufallTests {
 /// eine schreibt, muss das andere lesen, und sonst nichts.
 struct DeepLinkTests {
 
-    @Test func stelleUeberlebtHinUndRueckweg() throws {
-        let stelle = VerseReference(bookID: 43, chapter: 3, verse: 16)
-        let url = try #require(DeepLink.url(for: stelle))
-        #expect(url.absoluteString == "watchbible://verse/43/3/16")
-        #expect(DeepLink.verseReference(from: url) == stelle)
+    @Test func stelleUndUebersetzungUeberlebenHinUndRueckweg() throws {
+        let link = DeepLink(reference: VerseReference(bookID: 43, chapter: 3, verse: 16),
+                            translationCode: "elb")
+        let url = try #require(link.url)
+        #expect(url.absoluteString == "watchbible://verse/43/3/16?translation=elb")
+        #expect(DeepLink(url: url) == link)
+    }
+
+    /// Ohne Uebersetzung bleibt der Link lesbar: die App oeffnet die Stelle
+    /// dann ohne Abgleich in der aktiven.
+    @Test func linkOhneUebersetzungIstLesbar() throws {
+        let url = try #require(URL(string: "watchbible://verse/19/19/1"))
+        let link = try #require(DeepLink(url: url))
+        #expect(link.reference == VerseReference(bookID: 19, chapter: 19, verse: 1))
+        #expect(link.translationCode == nil)
     }
 
     /// Alles, was nicht genau dem Schema entspricht, ist `nil`: die App bleibt
@@ -665,7 +675,30 @@ struct DeepLinkTests {
         ]
         for fall in faelle {
             let url = try #require(URL(string: fall), "\(fall) ist keine URL")
-            #expect(DeepLink.verseReference(from: url) == nil, "\(fall)")
+            #expect(DeepLink(url: url) == nil, "\(fall)")
+        }
+    }
+
+    /// Das Widget zeigt nur kuratierte Verse, die App loest die Stelle in der
+    /// gewaehlten Uebersetzung auf. Damit dabei nie `.unavailable` faellt, muss
+    /// jedes kuratierte Kapitel in jeder Uebersetzung existieren. Die Verszahl
+    /// darf abweichen (43 Stellen, etwa Ps 19,1) oder klemmen (Joel 2,28 in
+    /// LUT und SCH): beides zeigt die Leseansicht, ein fehlendes Kapitel
+    /// bliebe eine leere Seite.
+    @Test func kuratierteKapitelGibtEsInJederUebersetzung() async throws {
+        let repo = try await TestSupport.repository()
+        let translations = await repo.translations
+        let topics = await repo.topics
+        for topic in topics {
+            for ref in await repo.references(topic: topic.key) {
+                for translation in translations {
+                    let count = try await repo.verseCount(book: ref.bookID,
+                                                          chapter: ref.chapter,
+                                                          in: translation)
+                    #expect(count != nil,
+                            "\(translation.code): Kapitel \(ref.bookID)/\(ref.chapter) fehlt")
+                }
+            }
         }
     }
 }

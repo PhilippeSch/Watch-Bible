@@ -10,7 +10,7 @@ Deshalb liegt `bible.sqlite` auch nur **einmal** im Paket: das Widget liest sie 
 
 **Kein Netzwerk.** Die App fragt nichts ab und lädt nichts nach. Das ist keine Sparsamkeit, sondern die Grundlage von allem Weiteren: keine Berechtigungen, kein Konto, kein zweiter Eintrag im Privacy-Manifest, keine Latenz auf einer Uhr ohne Empfang.
 
-**Privatsphäre.** Seit dem 1. Mai 2024 nimmt App Store Connect keine Apps mehr an, die ihre Verwendung von «Required Reason APIs» nicht im Privacy-Manifest deklarieren. Die App nutzt `UserDefaults` für die Einstellungen, also braucht sie eine `PrivacyInfo.xcprivacy` mit `NSPrivacyAccessedAPICategoryUserDefaults`. Reason CA92.1 gilt, wenn nur die App selbst zugreift; teilen sich App und Extension die Einstellungen über eine App Group, gilt stattdessen 1C8F.1. Das Widget kommt deshalb bewusst ohne App Group aus — es folgt der Systemsprache statt der gewählten Übersetzung, dafür bleibt der Manifest-Eintrag bei CA92.1.
+**Privatsphäre.** Seit dem 1. Mai 2024 nimmt App Store Connect keine Apps mehr an, die ihre Verwendung von «Required Reason APIs» nicht im Privacy-Manifest deklarieren. Die App nutzt `UserDefaults` für die Einstellungen, also braucht sie eine `PrivacyInfo.xcprivacy` mit `NSPrivacyAccessedAPICategoryUserDefaults`. Reason CA92.1 gilt, wenn nur die App selbst zugreift; teilen sich App und Extension die Einstellungen über eine App Group, gilt stattdessen 1C8F.1. Das Widget kommt deshalb bewusst ohne App Group aus — es folgt der Systemsprache statt der gewählten Übersetzung, dafür bleibt der Manifest-Eintrag bei CA92.1. Welche Übersetzung es gezeigt hat, gibt es der App im Deep Link mit (Kapitel 8).
 
 **Keine externen Abhängigkeiten.** SQLite ist in watchOS enthalten und über `import SQLite3` direkt ansprechbar. GRDB unterstützt zwar watchOS ab 7.0 und ist MIT-lizenziert, dokumentiert aber einen Xcode-Fehler, der beim Einbinden in andere Targets als die Haupt-App — namentlich Watch-Extensions — zu «No such module 'CSQLite'» führt. Weil die Widget-Extension dieselbe Datenbank liest, ist die C-API direkt angebunden: rund 100 Zeilen Wrapper, null Abhängigkeiten, kein Risiko im Extension-Target.
 
@@ -216,9 +216,11 @@ let verse = try await repository.randomCuratedVerse(in: translation, seed: UInt6
 
 Der Vers steht damit von Mitternacht bis Mitternacht, und jede Neuberechnung der Zeitleiste liefert denselben. Ein ungeseedeter `Int.random`-Aufruf wäre falsch: WidgetKit berechnet die Zeitleiste mehrmals, der Vers würde mitten am Tag wechseln. Es gibt deshalb auch keine eigene `verseOfDay`-Abfrage — Widget und Zufallsmodus teilen sich `randomCuratedVerse`, das Widget setzt zusätzlich den Startwert.
 
-Die Zeitleiste trägt sieben Tage vor und lädt danach neu (`.atEnd`). Tippen öffnet die App auf demselben Vers, über `widgetURL` und das Schema `watchbible://verse/<buchID>/<kapitel>/<vers>`. Das Schema steht nur einmal, in `Shared/DeepLink.swift`, das beide Targets übersetzen: das Widget baut die URL damit, die App liest sie. Registriert ist es nicht (kein `CFBundleURLTypes`), `widgetURL` reicht die URL ohne Registrierung an die eigene App durch.
+Die Zeitleiste trägt sieben Tage vor und lädt danach neu (`.atEnd`). Tippen öffnet die App auf demselben Vers, über `widgetURL` und das Schema `watchbible://verse/<buchID>/<kapitel>/<vers>?translation=<code>`. Das Schema steht nur einmal, in `Shared/DeepLink.swift`, das beide Targets übersetzen: das Widget baut die URL damit, die App liest sie. Registriert ist es nicht (kein `CFBundleURLTypes`), `widgetURL` reicht die URL ohne Registrierung an die eigene App durch.
 
 **Der Link in der App.** `RootView` setzt den `NavigationStack` zurück und legt die Leseansicht neu auf. Stand dort schon eine, über «Weiterlesen», aus dem Zufallsvers oder von einem früheren Tipp aufs Widget, bleibt sie an derselben Stelle des Stapels, und SwiftUI behielte die Ansicht samt ihrem `@State`: der alte Vers bliebe stehen, weil `ReaderView` Buch und Kapitel nur in `init` übernimmt. Darum zählt `RootView` die Deep Links und gibt der Leseansicht den Zählerstand als `.id`, jeder Tipp erzeugt eine frische Ansicht. Die Route allein taugte nicht als Identität, weil Weiterblättern und Scrollen sie nicht ändern und derselbe Link am selben Tag trotzdem frisch öffnen muss. Das Weiterblättern berührt den Zähler nicht und behält seinen Zustand. Kommt der Link, bevor die Datenbank offen ist (Kaltstart), merkt sich `RootView` die Stelle und wendet sie an, sobald der Stapel steht; `.onOpenURL` hängt deshalb ausserhalb des Zustands-`switch`, nicht nur im Zweig `.ready`.
+
+**Die Übersetzung im Link.** Widget und App zeigen nicht zwingend dieselbe Übersetzung: das Widget nimmt die Vorgabe der Systemsprache (Kapitel 1), die App die gewählte. Dieselbe Stelle kann dort ein anderer Text sein (Kapitel 5); 43 der 463 kuratierten Stellen liegen in Kapiteln mit abweichender Verszahl. Auf Deutsch zeigt das Widget ELB Ps 19,1 «Die Himmel erzählen die Herrlichkeit Gottes», die App mit Luther 1912 öffnet Ps 19 und hebt Vers 1 hervor: «Ein Psalm Davids, vorzusingen.» Darum trägt der Link den Code der Übersetzung, in der das Widget den Vers gezeigt hat, und die Leseansicht gleicht die Stelle beim ersten Laden über `resolve` ab, genau wie einen Übersetzungswechsel (Designspezifikation 4.6): `.divergent` zeigt die Tabelle mit beiden Verszahlen, `.clamped` dazu die Zeile mit dem angefragten Vers. Der einzige Klemmfall der Liste ist Joel 2,28 «I will pour out my spirit» aus der King James: in Luther und Schlachter hat Joel 2 nur 27 Verse, der Text steht dort in Joel 3,1. `.unavailable` kommt mit der ausgelieferten Liste nicht vor, jedes kuratierte Kapitel gibt es in allen zwölf Übersetzungen; `DeepLinkTests` hält das fest. Ein Link ohne Übersetzung öffnet die Stelle ohne Abgleich in der aktiven.
 
 Die runde Komplikation zeigt das **Buchkürzel der Anzeigesprache** aus der Datenbank, nicht `book.code` — der ist deutsch geprägt. Kapitel und Vers darunter kommen über `Localization.chapterVerse` und damit über den String Catalog (`reference.chapterVerse`): der Trenner ist derselbe wie in der vollen Stellenangabe, deutsch Komma, sonst Doppelpunkt. Fest verdrahtet stand dort einmal das Komma, und die runde Komplikation schrieb in sieben von acht Sprachen «Rm 5,1», während das rechteckige Widget daneben «Romani 5:1» setzte.
 
@@ -248,7 +250,7 @@ Der Impressumsbildschirm wird nicht hartkodiert, sondern aus der Datenbank gefü
 
 ## 10. Tests
 
-43 Unit-Tests (Swift Testing) in acht Suiten, bis auf `DeepLinkTests` alle gegen die echte Datenbank und `test_fixtures.json`:
+45 Unit-Tests (Swift Testing) in acht Suiten, bis auf drei Schema-Tests des Deep Links alle gegen die echte Datenbank und `test_fixtures.json`:
 
 | Suite | Prüft |
 |---|---|
@@ -257,7 +259,7 @@ Der Impressumsbildschirm wird nicht hartkodiert, sondern aus der Datenbank gefü
 | `VersifikationTests` | `.divergent`, `.clamped`, `.unavailable` an den bekannten Fällen |
 | `SprachenTests` | Übersetzungssprachen ↔ Oberflächensprachen, Normalisierung, Vorgaben, Buchnamen, Kürzel, Stellenformat |
 | `ZufallTests` | Grenzen, Streuung, Determinismus des Tagesverses, Abdeckung der Liste |
-| `DeepLinkTests` | Widget-Link: Hin- und Rückweg der Stelle, fremde und unvollständige Links ergeben `nil` |
+| `DeepLinkTests` | Widget-Link: Hin- und Rückweg von Stelle und Übersetzung, Link ohne Übersetzung, fremde und unvollständige Links ergeben `nil`; jedes kuratierte Kapitel gibt es in jeder Übersetzung |
 | `ThemenTests` | Themen aus der Datenbank, Übersetzung in allen acht Sprachen, Wiederholungssperre |
 | `WeiterblaetternTests` | Nachbarkapitel je Übersetzung, Buchgrenzen, Kanonrand, ein Durchgang durch alle 1'189 Kapitel |
 

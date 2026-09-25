@@ -37,9 +37,9 @@ struct RootView: View {
     /// nicht und behaelt seinen Zustand wie bisher.
     @State private var deepLinkGeneration = 0
 
-    /// Stelle eines Deep Links, der ankam, bevor die Datenbank offen war
-    /// (Kaltstart). Wird angewendet, sobald der NavigationStack steht.
-    @State private var pendingDeepLink: VerseReference?
+    /// Deep Link, der ankam, bevor die Datenbank offen war (Kaltstart).
+    /// Wird angewendet, sobald der NavigationStack steht.
+    @State private var pendingDeepLink: DeepLink?
 
     var body: some View {
         content
@@ -81,9 +81,9 @@ struct RootView: View {
             }
             .task {
                 // Deep Link vom Kaltstart nachholen, sobald der Stapel steht.
-                guard let ref = pendingDeepLink else { return }
+                guard let link = pendingDeepLink else { return }
                 pendingDeepLink = nil
-                show(ref)
+                show(link)
             }
         }
     }
@@ -91,20 +91,24 @@ struct RootView: View {
     /// Deep Link des Widgets (`DeepLink`) oeffnet die Leseansicht auf genau
     /// diesem Vers.
     private func open(_ url: URL) {
-        guard let ref = DeepLink.verseReference(from: url) else { return }
+        guard let link = DeepLink(url: url) else { return }
         guard case .ready = model.state else {
             // Kaltstart: die Datenbank oeffnet noch, einen Stapel gibt es
             // noch nicht. Merken; `.task` des NavigationStack holt es nach.
-            pendingDeepLink = ref
+            pendingDeepLink = link
             return
         }
-        show(ref)
+        show(link)
     }
 
-    private func show(_ ref: VerseReference) {
+    private func show(_ link: DeepLink) {
+        let ref = link.reference
         guard model.book(id: ref.bookID) != nil else { return }
         path = NavigationPath()
-        path.append(Route.reader(bookID: ref.bookID, chapter: ref.chapter, verse: ref.verse))
+        // Die Uebersetzung des Widgets reist mit: die Leseansicht gleicht die
+        // Stelle damit gegen die aktive ab (Designspez. 4.6).
+        path.append(Route.reader(bookID: ref.bookID, chapter: ref.chapter, verse: ref.verse,
+                                 sourceTranslation: link.translationCode))
         deepLinkGeneration += 1
     }
 
@@ -126,8 +130,9 @@ struct RootView: View {
             ChapterGridView(bookID: bookID)
         case .verses(let bookID, let chapter):
             VerseGridView(bookID: bookID, chapter: chapter)
-        case .reader(let bookID, let chapter, let verse):
-            ReaderView(bookID: bookID, chapter: chapter, highlight: verse)
+        case .reader(let bookID, let chapter, let verse, let sourceTranslation):
+            ReaderView(bookID: bookID, chapter: chapter, highlight: verse,
+                       sourceTranslation: sourceTranslation)
                 // Neue Identitaet je Deep Link, siehe `deepLinkGeneration`.
                 .id(deepLinkGeneration)
         case .settings:

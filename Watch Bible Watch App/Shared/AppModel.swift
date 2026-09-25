@@ -77,7 +77,10 @@ enum Route: Hashable {
     case books
     case chapters(bookID: Int)
     case verses(bookID: Int, chapter: Int)
-    case reader(bookID: Int, chapter: Int, verse: Int?)
+    /// `sourceTranslation`: Code der Uebersetzung, aus der die Stelle stammt,
+    /// falls es nicht die aktive ist (Deep Link des Widgets). Die Leseansicht
+    /// gleicht sie dann einmal ueber `resolve` ab, wie einen Wechsel.
+    case reader(bookID: Int, chapter: Int, verse: Int?, sourceTranslation: String? = nil)
     case settings
     case translationPicker
     case about
