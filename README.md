@@ -45,6 +45,8 @@ Translations count differently, and it is not only psalm headings — **whole ch
 
 So the app never pretends the place is the same. `BibleRepository.resolve` returns `.exact`, `.divergent`, `.clamped` or `.unavailable`, and **every case but `.exact` is shown** — a two-row table of both chapters' verse counts, plus a line when a verse had to be clamped. Two numbers explain the situation completely, so there is no warning colour and nothing to dismiss.
 
+The Verse of the day goes through the same check. The complication shows the verse in the display language's first translation, the app opens it in the one you chose, and the link carries which translation the complication used, so the reading view resolves the reference and shows the table when the numbering differs.
+
 ## Privacy
 
 Nothing is collected: no network code, no account, no analytics, no permission prompts, no App Group. Your settings and reading position stay in `UserDefaults` on the watch. The privacy manifest has exactly one entry (`NSPrivacyAccessedAPICategoryUserDefaults`, reason CA92.1). Full statement in eight languages: [docs/Privacy.md](docs/Privacy.md).
@@ -55,7 +57,7 @@ Nothing is collected: no network code, no account, no analytics, no permission p
 - The database is opened once at launch, read-only, with cached prepared statements. Queries run off the main actor and return `Sendable` structs.
 - **No `ORDER BY RANDOM()`:** `verse.id` is gapless and contiguous per translation, so a random verse is a single primary-key lookup. `chapter_meta` is precomputed, so the selection grids need no `COUNT` queries.
 - **Nothing is hardcoded:** which translations, books and topics exist is read from the database at runtime, book names and abbreviations included. Remove a translation and the app keeps working without a code change. Topic names and rights lines are the exception and live in the string catalog — the database says what there is, the catalog how it is written.
-- 43 unit tests (Swift Testing) cover the data layer, versification, languages, topics and chapter paging against `test_fixtures.json`, plus the widget's deep link.
+- 45 unit tests (Swift Testing) cover the data layer, versification, languages, topics and chapter paging against `test_fixtures.json`, plus the widget's deep link.
 - A watchOS app must stay under **75 MB uncompressed**, and this one is almost entirely database. Archived it comes to 62.2 MB — room for about two more translations. The widget reads the database out of the app bundle rather than shipping a second copy.
 
 ## Building and testing
