@@ -64,7 +64,7 @@ Zwei Auffälligkeiten in dieser Ausgabe: die Datei zu Prediger hat keinen `\id`-
 
 **Bekannter Datenfund:** In der BSB fehlen 18 Verse in 17 Kapiteln; in allen übrigen Übersetzungen ist jedes Kapitel lückenlos. 16 davon sind die bekannten textkritisch umstrittenen Verse des Neuen Testaments: Mt 17,21 · 18,11 · 23,14 · Mk 7,16 · 9,44 · 9,46 · 11,26 · 15,28 · Lk 17,36 · 23,17 · Joh 5,4 · Apg 8,37 · 15,34 · 24,7 · 28,29 · Röm 16,24. Zwei fallen aus dieser Reihe: Ps 106,42 und Klagelieder 2,1, das Kapitel beginnt dort bei Vers 2. Für diese beiden bleibt zu klären, ob die Quelle die Verse wirklich nicht führt.
 
-**Die App zeigt diese Lücken nicht an.** `chapter_meta.verse_count` zählt die vorhandenen Verse, und das Versraster nummeriert von 1 bis zu dieser Zahl. In den 17 Kapiteln ist deshalb die fehlende Nummer antippbar, und der letzte Vers des Kapitels ist im Raster nicht wählbar; in der Leseansicht steht der ganze vorhandene Text.
+**Die App zeigt diese Lücken an.** Das Versraster reicht bis zur höchsten vorhandenen Versnummer und setzt eine fehlende Nummer blass und nicht antippbar, wie die Zellen nach dem Kapitelende. Wer beim Übersetzungswechsel auf einem fehlenden Vers steht, landet sichtbar geklemmt am Kapitelende (Designspezifikation 4.6). `chapter_meta.verse_count` zählt die vorhandenen Verse und taugt deshalb nicht als Kapitelende: BSB Mt 17 hat 26 Verse und endet mit Vers 27 ([Architektur.md](Architektur.md), Kapitel 3).
 
 ---
 

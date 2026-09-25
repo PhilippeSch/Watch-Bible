@@ -338,6 +338,13 @@ struct ReaderView: View {
            let page = await fetchPage(ref, in: translation) {
             show(page)
         }
+        // Einen Vers, den es in dieser Uebersetzung nicht gibt (BSB Mt 17,21,
+        // gemerkt unter einer anderen), kann nichts hervorheben — abgeblendet
+        // stuende sonst das ganze Kapitel, bis gescrollt wird.
+        if let target = currentHighlight,
+           !verses.contains(where: { $0.reference.verse == target }) {
+            dimOthers = false
+        }
         rememberPosition()
         autoScrollIfNeeded()
 
@@ -354,9 +361,12 @@ struct ReaderView: View {
         restOffset = lastOffset
     }
 
+    /// Ohne gewaehlten Vers der erste des Kapitels, nicht fest Vers 1: BSB
+    /// Klgl 2 beginnt bei Vers 2.
     private func rememberPosition() {
+        let first = verses.first?.reference.verse ?? 1
         model.settings.lastReference = VerseReference(bookID: bookID, chapter: chapter,
-                                                      verse: currentHighlight ?? 1)
+                                                      verse: currentHighlight ?? first)
     }
 
     /// Ein Fliesstext hat keine Ankerpunkte je Vers; die Zielposition wird

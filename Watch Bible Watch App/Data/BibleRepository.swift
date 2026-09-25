@@ -256,11 +256,40 @@ actor BibleRepository {
         return Dictionary(uniqueKeysWithValues: rows)
     }
 
+    /// Anzahl der Verse, die es im Kapitel gibt — **nicht** die hoechste
+    /// Versnummer. Beides faellt nur in lueckenlosen Kapiteln zusammen; in der
+    /// BSB fehlen 18 Verse in 17 Kapiteln (Mt 17 hat 26 Verse und endet mit
+    /// Vers 27). Wo das Kapitelende gebraucht wird: `lastVerse`.
     func verseCount(book bookID: Int, chapter: Int,
                     in translation: Translation) async throws -> Int? {
         try await db.queryOne("""
             SELECT verse_count FROM chapter_meta
              WHERE translation_id = ? AND book_id = ? AND chapter = ?
+            """, [translation.id, bookID, chapter]) { $0.int(0) }
+    }
+
+    /// Die Versnummern, die es im Kapitel gibt, aufsteigend — Grundlage des
+    /// Versrasters. Leer, wenn es das Kapitel in dieser Uebersetzung nicht
+    /// gibt. Ein Bereichszugriff auf `idx_verse_ref`, der den Index nicht
+    /// verlaesst (covering), hoechstens 176 Zeilen.
+    func verseNumbers(book bookID: Int, chapter: Int,
+                      in translation: Translation) async throws -> [Int] {
+        try await db.query("""
+            SELECT verse FROM verse
+             WHERE translation_id = ? AND book_id = ? AND chapter = ?
+             ORDER BY verse
+            """, [translation.id, bookID, chapter]) { $0.int(0) }
+    }
+
+    /// Hoechste vorhandene Versnummer — das Kapitelende. `nil`, wenn es das
+    /// Kapitel in dieser Uebersetzung nicht gibt. Ein Indexzugriff wie
+    /// `verseNumbers`, rueckwaerts gelesen.
+    func lastVerse(book bookID: Int, chapter: Int,
+                   in translation: Translation) async throws -> Int? {
+        try await db.queryOne("""
+            SELECT verse FROM verse
+             WHERE translation_id = ? AND book_id = ? AND chapter = ?
+             ORDER BY verse DESC LIMIT 1
             """, [translation.id, bookID, chapter]) { $0.int(0) }
     }
 
@@ -322,8 +351,15 @@ actor BibleRepository {
         if let verse = try await verse(ref, in: target) {
             return diverges ? .divergent(verse) : .exact(verse)
         }
+        // Geklemmt wird auf den letzten vorhandenen Vers, nicht auf
+        // `targetCount`: der zaehlt die Verse und liegt in einem Kapitel mit
+        // Luecke vor dem Kapitelende (BSB Mt 17: 26 Verse, Ende bei 27).
+        guard let last = try await lastVerse(book: ref.bookID, chapter: ref.chapter,
+                                             in: target) else {
+            return .unavailable
+        }
         let clampedRef = VerseReference(bookID: ref.bookID, chapter: ref.chapter,
-                                        verse: targetCount)
+                                        verse: last)
         guard let verse = try await verse(clampedRef, in: target) else {
             return .unavailable
         }
