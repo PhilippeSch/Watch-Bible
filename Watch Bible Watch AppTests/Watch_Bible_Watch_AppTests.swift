@@ -273,6 +273,135 @@ struct VersifikationTests {
     }
 }
 
+// MARK: - Versluecken
+
+/// In der BSB fehlen einzelne Verse mitten im Kapitel. `chapter_meta.verse_count`
+/// zaehlt dort die vorhandenen Verse und ist kleiner als die hoechste
+/// Versnummer: BSB Mt 17 hat 26 Verse und endet mit Vers 27. Versraster und
+/// Klemmen muessen vom Kapitelende ausgehen, nicht von der Anzahl.
+struct VerslueckenTests {
+
+    /// Jede Luecke der Datenbank. Alle liegen in der BSB, jede andere
+    /// Uebersetzung ist lueckenlos. 16 sind die textkritisch umstrittenen
+    /// Verse des Neuen Testaments, dazu Ps 106,42 und Klgl 2,1
+    /// (docs/Bibeltexte.md).
+    private static let bsbLuecken = [
+        "bsb Ps 106,42", "bsb Kla 2,1",
+        "bsb Mt 17,21", "bsb Mt 18,11", "bsb Mt 23,14",
+        "bsb Mk 7,16", "bsb Mk 9,44", "bsb Mk 9,46", "bsb Mk 11,26", "bsb Mk 15,28",
+        "bsb Lk 17,36", "bsb Lk 23,17", "bsb Joh 5,4",
+        "bsb Apg 8,37", "bsb Apg 15,34", "bsb Apg 24,7", "bsb Apg 28,29",
+        "bsb Rom 16,24",
+    ]
+
+    private static func kontext(_ buch: String) async throws
+        -> (BibleRepository, Translation, Book) {
+        let repo = try await TestSupport.repository()
+        let bsb = try #require(await repo.translations.first { $0.code == "bsb" })
+        let book = try #require(await repo.books.first { $0.code == buch })
+        return (repo, bsb, book)
+    }
+
+    /// Durch alle Kapitel aller Uebersetzungen: `verseNumbers` stimmt mit
+    /// `verse_count` ueberein, `lastVerse` mit der hoechsten Nummer, und die
+    /// fehlenden Nummern sind genau die bekannten.
+    @Test func alleLueckenSindBekannt() async throws {
+        let repo = try await TestSupport.repository()
+        let books = await repo.books
+        var gefunden: [String] = []
+        for translation in await repo.translations {
+            for book in books {
+                let kapitel = try await repo.chapterVerseCounts(book: book.id, in: translation)
+                for (chapter, anzahl) in kapitel {
+                    let stelle = "\(translation.code) \(book.code) \(chapter)"
+                    let nummern = try await repo.verseNumbers(book: book.id, chapter: chapter,
+                                                              in: translation)
+                    #expect(nummern.count == anzahl, "\(stelle)")
+                    let letzter = try await repo.lastVerse(book: book.id, chapter: chapter,
+                                                           in: translation)
+                    #expect(letzter == nummern.last, "\(stelle)")
+                    guard let ende = nummern.last else {
+                        Issue.record("\(stelle): Kapitel ohne Verse")
+                        continue
+                    }
+                    let vorhanden = Set(nummern)
+                    for vers in 1...ende where !vorhanden.contains(vers) {
+                        gefunden.append("\(stelle),\(vers)")
+                    }
+                }
+            }
+        }
+        #expect(gefunden.sorted() == Self.bsbLuecken.sorted())
+    }
+
+    /// Klgl 2 beginnt in der BSB bei Vers 2: das Raster bietet 2 bis 22 an,
+    /// Vers 1 bleibt blass, Vers 22 ist waehlbar.
+    @Test func klagelieder2BeginntBeiVers2() async throws {
+        let (repo, bsb, klgl) = try await Self.kontext("Kla")
+        #expect(try await repo.verseNumbers(book: klgl.id, chapter: 2, in: bsb) == Array(2...22))
+        #expect(try await repo.verseCount(book: klgl.id, chapter: 2, in: bsb) == 21)
+        #expect(try await repo.lastVerse(book: klgl.id, chapter: 2, in: bsb) == 22)
+    }
+
+    /// Mt 17,21 fehlt in der BSB, Vers 27 gibt es.
+    @Test func matthaeus17EndetBeiVers27() async throws {
+        let (repo, bsb, mt) = try await Self.kontext("Mt")
+        #expect(try await repo.verseNumbers(book: mt.id, chapter: 17, in: bsb)
+                == Array(1...20) + Array(22...27))
+        #expect(try await repo.verseCount(book: mt.id, chapter: 17, in: bsb) == 26)
+        #expect(try await repo.lastVerse(book: mt.id, chapter: 17, in: bsb) == 27)
+    }
+
+    /// KJV Mt 17,21 → BSB: geklemmt auf das wirkliche Kapitelende 27, nicht
+    /// auf die Anzahl 26.
+    @Test func klemmtAufLetztenVorhandenenVers() async throws {
+        let (repo, bsb, mt) = try await Self.kontext("Mt")
+        let kjv = try #require(await repo.translations.first { $0.code == "kjv" })
+        let ref = VerseReference(bookID: mt.id, chapter: 17, verse: 21)
+        guard case .clamped(let verse, let requested) = try await repo.resolve(ref, from: kjv,
+                                                                               to: bsb) else {
+            Issue.record("Erwartet .clamped")
+            return
+        }
+        #expect(requested == 21)
+        #expect(verse.reference.verse == 27)
+    }
+
+    /// ELB Klgl 2,1 → BSB: Vers 1 fehlt, geklemmt wird auf Vers 22.
+    @Test func klemmtVorDemErstenVersAufsKapitelende() async throws {
+        let (repo, bsb, klgl) = try await Self.kontext("Kla")
+        let elb = try #require(await repo.translations.first { $0.code == "elb" })
+        let ref = VerseReference(bookID: klgl.id, chapter: 2, verse: 1)
+        guard case .clamped(let verse, let requested) = try await repo.resolve(ref, from: elb,
+                                                                               to: bsb) else {
+            Issue.record("Erwartet .clamped")
+            return
+        }
+        #expect(requested == 1)
+        #expect(verse.reference.verse == 22)
+    }
+
+    /// Kapitelende an den Pflicht-Randfaellen, in jeder Uebersetzung:
+    /// 1Mo 1 beginnt bei 1, Ps 119 endet bei 176, Jud 1 bei 25, Offb 22 bei 21.
+    /// Ein Kapitel, das es nicht gibt, hat keine Verse und kein Ende.
+    @Test func randfaelle() async throws {
+        let repo = try await TestSupport.repository()
+        let books = await repo.books
+        let buch = { (code: String) in try #require(books.first { $0.code == code }) }
+        let genesis = try buch("1Mo"), psalmen = try buch("Ps")
+        let judas = try buch("Jud"), offb = try buch("Offb"), joel = try buch("Joel")
+        for t in await repo.translations {
+            #expect(try await repo.verseNumbers(book: genesis.id, chapter: 1, in: t).first == 1)
+            #expect(try await repo.lastVerse(book: psalmen.id, chapter: 119, in: t) == 176)
+            #expect(try await repo.lastVerse(book: judas.id, chapter: 1, in: t) == 25)
+            #expect(try await repo.lastVerse(book: offb.id, chapter: 22, in: t) == 21)
+        }
+        let kjv = try #require(await repo.translations.first { $0.code == "kjv" })
+        #expect(try await repo.verseNumbers(book: joel.id, chapter: 4, in: kjv).isEmpty)
+        #expect(try await repo.lastVerse(book: joel.id, chapter: 4, in: kjv) == nil)
+    }
+}
+
 // MARK: - Sprachen
 
 /// Die Oberflaeche soll es in jeder Sprache geben, fuer die eine
