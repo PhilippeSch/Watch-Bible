@@ -4,7 +4,7 @@ Wie Watch Bible aufgebaut ist: Datenmodell, Schema, Abfragen, Versifikationslogi
 
 ## 1. Rahmenbedingungen
 
-**Platz — die bindende Grenze.** Apple-Watch-Apps müssen unkomprimiert unter 75 MB bleiben, und watchOS unterstützt keine On-Demand-Resources — nachladbare Datenpakete fallen also weg, alles muss ins Bundle. Die Datenbank mit zwölf Übersetzungen misst 61.5 MB, die archivierte Watch-App **62.2 MB**. Es bleiben rund 12 MB, also gut zwei weitere Übersetzungen zu je etwa 5 MB. Der Konverter meldet die Grösse bei jedem Lauf und warnt ab 70 MB; verlassen sollte man sich darauf nicht, sondern nach dem Archivieren messen (Befehl im README).
+**Platz — die bindende Grenze.** Apple-Watch-Apps müssen unkomprimiert unter 75 MB bleiben, und watchOS unterstützt keine On-Demand-Resources — nachladbare Datenpakete fallen also weg, alles muss ins Bundle. Die Datenbank mit zwölf Übersetzungen misst 61.5 MB, die archivierte Watch-App **62.2 MB**. Es bleiben rund 12 MB, also gut zwei weitere Übersetzungen zu je etwa 5 MB. Der Konverter meldet die Grösse bei jedem Lauf und warnt ab 70 MB; verlassen sollte man sich darauf nicht, sondern nach dem Archivieren die Watch-App im Archiv messen.
 
 Deshalb liegt `bible.sqlite` auch nur **einmal** im Paket: das Widget liest sie aus dem Bundle der App, zwei Ebenen über der `.appex`. Eine eigene Kopie würde die Grenze auf einen Schlag sprengen.
 
@@ -51,7 +51,7 @@ Zwei Kniffe, die den Watch-Code einfach halten:
 1. **`verse.id` ist lückenlos und je Übersetzung zusammenhängend.** `translation` speichert `first_verse_id` und `last_verse_id`. Ein Zufallsvers ist damit ein einziger Primärschlüsselzugriff — `Int.random(in: first...last)` — statt `ORDER BY RANDOM()` über 31'000 Zeilen.
 2. **`chapter_meta` ist vorberechnet.** Die Auswahlraster für Kapitel und Verse brauchen keine `COUNT`-Abfragen, sondern nur einen Indexzugriff. Kostet wenige hundert Kilobyte.
 
-Dazu `CREATE UNIQUE INDEX idx_verse_ref ON verse(translation_id, book_id, chapter, verse)` — bedient die Stellensuche und den Übersetzungswechsel bei gleichbleibender Stelle.
+Dazu `CREATE UNIQUE INDEX idx_verse_ref ON verse(translation_id, book_id, chapter, verse)` — bedient die Stellensuche, das Kapitel der Leseansicht und den Übersetzungswechsel bei gleichbleibender Stelle. `chapter_meta` ist eine `WITHOUT ROWID`-Tabelle mit dem Primärschlüssel `(translation_id, book_id, chapter)`, `curated` trägt `idx_curated_ref` auf `(book_id, chapter, verse)`.
 
 **Buchnamen und Kürzel stehen in der Datenbank, nicht im String Catalog**, weil ein Buchname der Rechtschreibung der Übersetzung folgen muss, in der der Vers steht («Ruth» nach Reina-Valera). Die Spalten werden zur Laufzeit über `PRAGMA table_info` gesucht statt fest in die Abfrage geschrieben: eine Datenbank aus einem älteren Konverterlauf kennt sie nicht, und ein `no such column` beim Vorbereiten würde die App beim Start scheitern lassen. Fehlt eine Spalte, steht für diese Sprache der deutsche Buchname beziehungsweise im Register der Buchcode.
 
@@ -61,37 +61,43 @@ Dazu `CREATE UNIQUE INDEX idx_verse_ref ON verse(translation_id, book_id, chapte
 
 ```sql
 -- 1. Zufallsvers, ganze Bibel  (id vorher in Swift gewürfelt)
-SELECT b.name, v.chapter, v.verse, v.text
+SELECT v.id, v.translation_id, v.book_id, v.chapter, v.verse, v.text, b.name
   FROM verse v JOIN book b ON b.id = v.book_id
  WHERE v.id = ?;
 
--- 2. Zufallsvers, kuratiert  (offset vorher in Swift gewürfelt)
-SELECT b.name, c.chapter, c.verse, v.text
-  FROM curated c
-  JOIN book b   ON b.id = c.book_id
-  JOIN verse v  ON v.translation_id = ?
-                AND v.book_id = c.book_id
-                AND v.chapter = c.chapter
-                AND v.verse   = c.verse
- LIMIT 1 OFFSET ?;
+-- 2. Zufallsvers, kuratiert  (offset vorher in Swift gewürfelt, der Text
+--    danach über Nr. 3)
+SELECT book_id, chapter, verse FROM curated
+ ORDER BY id LIMIT 1 OFFSET ?;
 
 -- 3. Stelle nachschlagen
-SELECT text FROM verse
- WHERE translation_id = ? AND book_id = ? AND chapter = ? AND verse = ?;
+SELECT v.id, v.text, b.name FROM verse v JOIN book b ON b.id = v.book_id
+ WHERE v.translation_id = ? AND v.book_id = ? AND v.chapter = ? AND v.verse = ?;
 
--- 4. Auswahlräder füllen
-SELECT id, code, name, testament, chapter_count FROM book ORDER BY sort_order;
+-- 4. Leseansicht: das ganze Kapitel
+SELECT id, verse, text FROM verse
+ WHERE translation_id = ? AND book_id = ? AND chapter = ?
+ ORDER BY verse;
+
+-- 5. Buchliste und Raster füllen
+SELECT id, code, name, testament, chapter_count,
+       name_en, …, abbrev_de, …                 -- nur vorhandene Spalten
+  FROM book ORDER BY sort_order;                 -- einmal beim Start
+SELECT book_id, COUNT(*) FROM chapter_meta
+ WHERE translation_id = ? GROUP BY book_id;      -- Kapitelzahl der Buchliste
 SELECT chapter, verse_count FROM chapter_meta
  WHERE translation_id = ? AND book_id = ? ORDER BY chapter;
+SELECT verse_count FROM chapter_meta
+ WHERE translation_id = ? AND book_id = ? AND chapter = ?;
 
--- 5. Themenregister  (einmal beim Start; die Ziehung selbst läuft in Swift)
+-- 6. Themenregister  (einmal beim Start; die Ziehung selbst läuft in Swift)
 SELECT topic, book_id, chapter, verse
   FROM curated WHERE topic IS NOT NULL ORDER BY topic, id;
 ```
 
-Die fünfte Abfrage liest wenige hundert Zeilen und wird nie wiederholt: Themenliste, Anzahl Verse je Thema und die Stellen des Themenmodus stehen danach im Speicher. Ein Zufallsvers innerhalb eines Themas kostet damit genau eine Stellenabfrage (Nr. 3), keinen Durchlauf über `curated`.
+Die sechste Abfrage liest wenige hundert Zeilen und wird nie wiederholt: Themenliste, Anzahl Verse je Thema und die Stellen des Themenmodus stehen danach im Speicher. Ein Zufallsvers innerhalb eines Themas kostet damit genau eine Stellenabfrage (Nr. 3), keinen Durchlauf über `curated`.
 
-Die Abfragepläne sind gegen die echte Datenbank geprüft — kein Table Scan. **Die SQL-Strings und Spaltenindizes in `Data/` gelten deshalb als verifiziert und werden nicht «aufgeräumt».**
+Die Abfragepläne sind gegen die echte Datenbank geprüft: jeder Zugriff auf `verse` und `chapter_meta` läuft über den Primärschlüssel oder `idx_verse_ref`. Durchlaufen werden nur die zwei kleinen Tabellen, `book` (66 Zeilen, einmal beim Start) und `curated` (463 Zeilen, beim Start und bei jeder kuratierten Ziehung bis zum gewürfelten Offset). **Die SQL-Strings und Spaltenindizes in `Data/` gelten deshalb als verifiziert und werden nicht «aufgeräumt».**
 
 ## 5. Versifikation
 
@@ -161,7 +167,7 @@ Watch Bible Watch App/
 │   ├── BibleDatabase.swift     Actor um die sqlite3-C-API, read-only, Statement-Cache
 │   ├── BibleRepository.swift   alle Abfragen, Zufallsvers, Vers des Tages, resolve
 │   └── Models.swift            Translation · Book · Verse · VerseReference ·
-│                               VerseResolution · Topic
+│                               ChapterReference · VerseResolution · Topic
 ├── Features/
 │   ├── Home/HomeView.swift
 │   ├── Random/RandomVerseView.swift        (auch der Themenmodus)
@@ -174,7 +180,7 @@ Watch Bible Watch App/
 │   ├── AppSettings.swift       @AppStorage hinter @Observable
 │   ├── DeepLink.swift          Schema des Widget-Links, Aufbau und Auslesen (auch im Widget)
 │   ├── Localization.swift      Sprache, Vorgaben, Buchnamen, Stellenformat
-│   └── Theme.swift             ThemeState, Typo, Grid3, Ribbon, Haptik
+│   └── Theme.swift             ThemeState, Typo, Layout, Grid3, Ribbon, Haptik
 ├── Resources/                  bible.sqlite, Localizable.xcstrings, InfoPlist.xcstrings
 └── PrivacyInfo.xcprivacy
 ```
@@ -203,7 +209,7 @@ Watch Bible Watch App/
 
 **Leseansicht.** Das ganze Kapitel als Fliesstext, der gewählte Vers hervorgehoben, die Krone scrollt. Damit ist der Zusammenhang ohne zusätzliche Navigation da. Ein Fliesstext hat keine Ankerpunkte je Vers; die Startposition wird deshalb über den Zeichenanteil vor dem gewählten Vers geschätzt.
 
-**Wie lang sind Verse wirklich?** Ausgezählt über die ganze Datenbank: Median 122–128 Zeichen, 90. Perzentil 209–218, 99. Perzentil rund 300. Der längste Vers ist Jeremia 21,7 mit 503 Zeichen. Rund 91 % aller Verse bleiben unter 220 Zeichen und passen bei mittlerer Schrift ohne Scrollen auf eine 45-mm-Uhr. Für die restlichen 9 % braucht es zwingend die Krone — `.minimumScaleFactor` löst das nicht, Scrollen schon. Der längste chinesische Vers hat 108 Zeichen.
+**Wie lang sind Verse wirklich?** Ausgezählt über die ganze Datenbank, je Übersetzung in lateinischer Schrift: Median 113–127 Zeichen, 90. Perzentil 191–216, 99. Perzentil 264–303. Der längste Vers ist Ester 8,9 mit 537 Zeichen in der Darby und 474 in der Elberfelder. Rund 93 % aller Verse in lateinischer Schrift bleiben unter 220 Zeichen (Elberfelder 91 %) und passen bei mittlerer Schrift ohne Scrollen auf eine 45-mm-Uhr. Für den Rest braucht es zwingend die Krone — `.minimumScaleFactor` löst das nicht, Scrollen schon. Der längste chinesische Vers ist 5. Mose 30,9 mit 109 Zeichen.
 
 ## 8. Vers des Tages
 

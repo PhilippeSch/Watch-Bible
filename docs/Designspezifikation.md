@@ -16,6 +16,7 @@ Als Asset-Katalog anlegen, nicht als Konstanten im Code. Jede Rolle bekommt zwei
 | Text | `Ink` | `#14161A` | `#E8E6E1` |
 | Verszahl, aktive Auswahl | `Carmine` | `#8C1D2B` | `#C4525C` |
 | Bändchen (Position) | `Brass` | `#A8842E` | `#C8A44D` |
+| Bändchen (Spur darunter) | `RibbonTrack` | `#CFCBBD` | `#26241E` |
 | Sekundärtext, Zahlen | `Secondary` | `#5E5B4C` | `#7E858C` |
 | Trennlinie | `Rule` | `#C9C5B8` | `#1F2124` |
 | Feldfläche (Raster, Register) | `Field` | `#D8D5CA` | `#141618` |
@@ -78,7 +79,7 @@ Bezug ist die 45-mm-Uhr: 396 × 484 px = **198 × 242 pt**. Kleinere Gehäuse ve
 
 ### Raster für Kapitel und Verse
 
-**Drei Spalten, 12 pt Abstand, Zellhöhe 52 pt.** Nachgerechnet: (198 − 2 × 14 − 2 × 6) ÷ 3 = **52.7 pt** pro Zelle. Vier Spalten ergäben 38 pt, fünf Spalten 29 pt — beides unterschreitet die übliche Mindestgrösse von 44 pt für Tippziele.
+**Drei Spalten, 6 pt Abstand, Zellhöhe 52 pt.** Nachgerechnet: (198 − 2 × 14 − 2 × 6) ÷ 3 = **52.7 pt** pro Zelle. Vier Spalten ergäben 38 pt, fünf Spalten 29 pt — beides unterschreitet die übliche Mindestgrösse von 44 pt für Tippziele.
 
 **Register und Raster schliessen sich aus.** Mit Register bleiben pro Zelle nur 42 pt. Das Register ist deshalb der Buchwahl vorbehalten, wo es 66 Einträge erschliesst; Kapitel und Verse bekommen das volle Raster.
 
@@ -175,15 +176,15 @@ Dasselbe gilt für den Deep Link des Widgets: das Widget zeigt den Vers in der V
 
 **Buchnamen** kommen aus der Datenbank, nicht aus dem String Catalog: `book.name` für Deutsch, dazu `name_en`, `name_es`, `name_fr`, `name_it`, `name_pt`, `name_zh_hant`, `name_zh_hans`. Alle acht Spalten sind für alle 66 Bücher gefüllt. Wo die Schreibweise schwankt, gilt die der mitgelieferten Übersetzung derselben Sprache — spanisch «Ruth», «Esther», «Haggeo» nach RVR1909, französisch «Habakuk», «Ésaïe» nach LSG; sonst stünde in der Buchliste etwas anderes als im Verstext.
 
-**Buchkürzel** stehen ebenfalls in der Datenbank: `abbrev_de`, `abbrev_en`, `abbrev_es`, `abbrev_fr`, `abbrev_it`, `abbrev_pt`, `abbrev_zh_hant`, `abbrev_zh_hans`. Genommen ist je Sprache der dort übliche Satz, nicht eine selbstgebaute Kürzung — Elberfelder für Deutsch (1Mo, nicht das Loccumer «Gen»; die deutschen Buchnamen der Datenbank stehen in derselben Tradition), SBL Handbook of Style für Englisch, Reina-Valera für Spanisch, Segond für Französisch, der Kürzelsatz des 和合本 für Chinesisch. Sie sind je Sprache eindeutig; ein Unit-Test prüft das.
+**Buchkürzel** stehen ebenfalls in der Datenbank: `abbrev_de`, `abbrev_en`, `abbrev_es`, `abbrev_fr`, `abbrev_it`, `abbrev_pt`, `abbrev_zh_hant`, `abbrev_zh_hans`. Genommen ist je Sprache der dort übliche Satz, nicht eine selbstgebaute Kürzung — Elberfelder für Deutsch (1Mo, nicht das Loccumer «Gen»; die deutschen Buchnamen der Datenbank stehen in derselben Tradition), SBL Handbook of Style für Englisch, Reina-Valera für Spanisch, Segond für Französisch, CEI / Nuova Riveduta für Italienisch, die Bíblia Livre für Portugiesisch, der Kürzelsatz des 和合本 für Chinesisch. Sie sind je Sprache eindeutig; ein Unit-Test prüft das.
 
 **Themennamen** stehen als einzige Beschriftung des Registers **nicht** in der Datenbank, sondern im String Catalog unter «topic.<deutscher Wert>» — der deutsche Wert aus `curated.topic` ist zugleich der Schlüssel. Der Unterschied zu den Buchnamen ist kein Zufall: ein Buchname folgt der Rechtschreibung der Übersetzung, in der der Vers steht («Ruth» nach Reina-Valera), er hängt also am Text. Ein Themenname hängt an nichts. Die Datenbank sagt, **welche** Themen es gibt, der Katalog, **wie sie geschrieben werden**. Genommen ist je Sprache das in Bibelausgaben übliche Wort, nicht die wörtliche Übersetzung: «Nachfolge» heisst englisch Discipleship, «Umkehr» spanisch Arrepentimiento. Ein Unit-Test hält beide Seiten deckungsgleich — jedes Thema der Datenbank braucht in allen acht Sprachen einen Eintrag, sonst stünde auf einer französischen Uhr still «Wort Gottes».
 
-**Das Register der Buchliste ist damit lokalisiert.** Es zeigt das Kürzel der Anzeigesprache aus der Datenbank, nicht `book.code` — der ist Schlüssel und deutsch geprägt. Die sieben Sprungmarken lauten 1Mo · Jos · Ps · Jes · Mt · Röm · Offb auf Deutsch, Gen · Josh · Ps · Isa · Matt · Rom · Rev auf Englisch, Gn · Jos · Sal · Is · Mt · Ro · Ap auf Spanisch, Gn · Jos · Ps · És · Mt · Rm · Ap auf Französisch und 創 · 書 · 詩 · 賽 · 太 · 羅 · 啟 beziehungsweise 创 · 书 · 诗 · 赛 · 太 · 罗 · 启 auf Chinesisch. Vier Zeichen sind die Obergrenze — mehr passt nicht in die 31 pt Registerbreite.
+**Das Register der Buchliste ist damit lokalisiert.** Es zeigt das Kürzel der Anzeigesprache aus der Datenbank, nicht `book.code` — der ist Schlüssel und deutsch geprägt. Die sieben Sprungmarken lauten 1Mo · Jos · Ps · Jes · Mt · Röm · Offb auf Deutsch, Gen · Josh · Ps · Isa · Matt · Rom · Rev auf Englisch, Gn · Jos · Sal · Is · Mt · Ro · Ap auf Spanisch, Gn · Jos · Ps · És · Mt · Rm · Ap auf Französisch, Gen · Gs · Sal · Is · Mt · Rm · Ap auf Italienisch, Gn · Js · Sl · Is · Mt · Rm · Ap auf Portugiesisch und 創 · 書 · 詩 · 賽 · 太 · 羅 · 啟 beziehungsweise 创 · 书 · 诗 · 赛 · 太 · 罗 · 启 auf Chinesisch. Vier Zeichen sind die Obergrenze — mehr passt nicht in die 31 pt Registerbreite.
 
 **Die Stellenangabe ist selbst lokalisiert.** Deutsche Bibeln schreiben «Johannes 3,16», alle übrigen Sprachen der App «John 3:16» — Komma gegen Doppelpunkt. Der Trenner steht deshalb im String Catalog (`reference.format`) und darf nirgends fest verdrahtet werden. Die Zahlen der Zählerzeile folgen dagegen der **Region**, nicht der Sprache: 31’103 in der Schweiz, 31,103 in den USA, über `formatted(.number)`.
 
-**Pluralformen** für «%lld Kapitel» und «%lld Verse» sind als Varianten hinterlegt: Englisch, Spanisch und Französisch unterscheiden Einzahl und Mehrzahl, Deutsch bei «Kapitel» nicht, Chinesisch kennt nur eine Form.
+**Pluralformen** für «%lld Kapitel» und «%lld Verse» sind als Varianten hinterlegt: Englisch, Spanisch, Französisch, Italienisch und Portugiesisch unterscheiden Einzahl und Mehrzahl, Deutsch bei «Kapitel» nicht, Chinesisch kennt nur eine Form.
 
 Was nicht übersetzt wird: die Namen der Bibelübersetzungen selbst («Elberfelder 1905», «King James Version») sind Eigennamen und kommen unverändert aus `translation.name`.
 
@@ -195,7 +196,7 @@ Die Datenbank enthält das 和合本 in traditionellen und vereinfachten Zeichen
 - **Zeilenabstand erhöhen** auf etwa 1.6 statt 1.42 — CJK-Schriften füllen die Zeile dichter.
 - **Keine serife Variante erzwingen.** Das System setzt PingFang SC bzw. TC; ein Serif-Design-Parameter greift dort nicht wie bei lateinischer Schrift.
 - **U+3000 nie wegkürzen.** Der ideographische Abstand vor 神 ist Teil des Textes, keine überflüssige Formatierung.
-- Die Textmenge ist unkritisch: längster chinesischer Vers 108 Zeichen gegenüber 503 im Deutschen.
+- Die Textmenge ist unkritisch: längster chinesischer Vers 109 Zeichen gegenüber 474 im Deutschen.
 
 Die Bedienoberfläche gibt es seit August 2026 auch auf Chinesisch (siehe Kapitel 5). Buchnamen und Stellenangaben folgen weiterhin der **Anzeigesprache**, nicht der gewählten Übersetzung: über einem chinesischen Vers steht «Johannes 3,16», wenn die Uhr auf Deutsch läuft, und 約翰福音 3:16, wenn sie auf Chinesisch läuft. Das ist bei mehrsprachigen Bibelprogrammen üblich und bewusst so.
 

@@ -62,7 +62,9 @@ Aus `github.com/usfm-bible/examples.bsb` — einer USFM-Aufbereitung des offizie
 
 Zwei Auffälligkeiten in dieser Ausgabe: die Datei zu Prediger hat keinen `\id`-Marker, der Konverter bestimmt das Buch dort aus dem Dateinamen und meldet das. Und der Text verwendet U+02BC als Apostroph, was der Konverter auf das übliche U+2019 vereinheitlicht.
 
-**Bekannter Datenfund:** In der BSB fehlt Klagelieder 2,1 — das Kapitel beginnt bei Vers 2. Das ist der einzige solche Fall in der ganzen Datenbank. Die App zeigt die Lücke sauber an (die Zelle im Versraster bleibt blass); zu klären bleibt, ob die Quelle den Vers wirklich nicht führt.
+**Bekannter Datenfund:** In der BSB fehlen 18 Verse in 17 Kapiteln; in allen übrigen Übersetzungen ist jedes Kapitel lückenlos. 16 davon sind die bekannten textkritisch umstrittenen Verse des Neuen Testaments: Mt 17,21 · 18,11 · 23,14 · Mk 7,16 · 9,44 · 9,46 · 11,26 · 15,28 · Lk 17,36 · 23,17 · Joh 5,4 · Apg 8,37 · 15,34 · 24,7 · 28,29 · Röm 16,24. Zwei fallen aus dieser Reihe: Ps 106,42 und Klagelieder 2,1, das Kapitel beginnt dort bei Vers 2. Für diese beiden bleibt zu klären, ob die Quelle die Verse wirklich nicht führt.
+
+**Die App zeigt diese Lücken nicht an.** `chapter_meta.verse_count` zählt die vorhandenen Verse, und das Versraster nummeriert von 1 bis zu dieser Zahl. In den 17 Kapiteln ist deshalb die fehlende Nummer antippbar, und der letzte Vers des Kapitels ist im Raster nicht wählbar; in der Leseansicht steht der ganze vorhandene Text.
 
 ---
 
@@ -86,7 +88,7 @@ Aus der USFM-Ausgabe `ita1927` von ebible.org, deren Lizenzblatt «Public Domain
 
 Die Alternative wäre die **Diodati** gewesen (`ita1885` bei ebible, ebenfalls gemeinfrei): der italienische Klassiker von 1641, das Gegenstück zur King James. Die Riveduta passt besser in diese Sammlung, weil alle übrigen Sprachen ihre Standardausgabe der Jahrhundertwende führen — Elberfelder 1905, Luther 1912, Segond 1910, Reina-Valera 1909, 和合本 1919.
 
-**Eine Abweichung von der Quelle.** Die Buchnamen stammen aus den `\h`-Kopfzeilen der USFM-Dateien, mit einer Korrektur: dort steht «Giosué», der Verstext schreibt 225-mal «Giosuè» und nur 5-mal «Giosué». Es gilt die Form des Textes — sonst stünde in der Buchliste etwas anderes als im Vers.
+**Eine Abweichung von der Quelle.** Die Buchnamen stammen aus den `\h`-Kopfzeilen der USFM-Dateien, mit einer Korrektur: dort steht «Giosué», der Verstext in der Datenbank schreibt 225-mal «Giosuè» und kein einziges Mal «Giosué». Es gilt die Form des Textes — sonst stünde in der Buchliste etwas anderes als im Vers.
 
 Die Buchkürzel kommen **nicht** aus der Quelle: deren `\toc3` wiederholt bloss den vollen Namen. Genommen ist der in italienischen Bibelausgaben übliche Satz (CEI / Nuova Riveduta), der Gen (Genesi) und Gn (Giona) auseinanderhält.
 
