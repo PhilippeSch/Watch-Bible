@@ -81,7 +81,6 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3777271C2D25D64D00DEE4D8"
             BuildableName = "Watch Bible Watch App.app"
-            BlueprintName = "Watch Bible Watch App"
             ReferencedContainer = "container:Watch Bible.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -98,7 +97,6 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3777271C2D25D64D00DEE4D8"
             BuildableName = "Watch Bible Watch App.app"
-            BlueprintName = "Watch Bible Watch App"
             ReferencedContainer = "container:Watch Bible.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
