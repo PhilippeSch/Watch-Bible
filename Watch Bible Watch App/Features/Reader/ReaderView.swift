@@ -63,6 +63,28 @@ struct ReaderView: View {
     @State private var previousStep: ChapterReference?
     @State private var nextStep: ChapterReference?
 
+    /// Kapitel und Uebersetzung, die `verses` gerade zeigt. `load` fragt nur
+    /// ab, was davon abweicht: beim Weiterblaettern steht das neue Kapitel
+    /// schon da, wenn `.task(id:)` anspringt.
+    @State private var shown: ShownChapter?
+
+    private struct ShownChapter: Equatable {
+        let chapter: ChapterReference
+        let translationID: Int
+    }
+
+    /// Ein Kapitel samt Nachbarn, fertig geladen. Gesetzt wird es nur als
+    /// Ganzes (`show(_:)`): Text und Knoepfe einzeln nach je einer Abfrage zu
+    /// setzen liess dazwischen ein halbes Kapitel stehen — beim
+    /// Weiterblaettern einen leeren Text unter den Knoepfen des alten.
+    private struct Page {
+        let chapter: ChapterReference
+        let translationID: Int
+        let verses: [Verse]
+        let previous: ChapterReference?
+        let next: ChapterReference?
+    }
+
     /// Uebersetzung, in der die Stelle beim Oeffnen gemeint war, falls es
     /// nicht die aktive ist: der Deep Link des Widgets traegt die Vorgabe der
     /// Systemsprache, die App zeigt die gewaehlte, und dieselbe Stelle kann
@@ -252,12 +274,21 @@ struct ReaderView: View {
 
     private func go(to step: ChapterReference) {
         playAdvanceHaptic(model.settings)
+        Task { await turnPage(to: step) }
+    }
+
+    /// Das alte Kapitel bleibt stehen, bis das neue samt Nachbarn geladen ist;
+    /// dann wechseln Titel, Text und Knoepfe in einem Zug.
+    private func turnPage(to step: ChapterReference) async {
+        guard let translation = model.translation,
+              let page = await fetchPage(step, in: translation) else { return }
         // Ein neues Kapitel beginnt oben und ohne hervorgehobenen Vers; der
         // Abweichungsfall galt fuer das alte und wird mit ihm ungueltig.
         currentHighlight = nil
         switchInfo = nil
+        dimOthers = false
         didAutoScroll = true
-        verses = []
+        show(page)
         scrollPosition.scrollTo(y: 0)
         bookID = step.bookID
         chapter = step.chapter
@@ -265,8 +296,28 @@ struct ReaderView: View {
 
     // MARK: - Laden und Wechsel
 
+    /// Laedt Text und Nachbarkapitel, ohne etwas am Bildschirm zu aendern.
+    private func fetchPage(_ ref: ChapterReference, in translation: Translation) async -> Page? {
+        guard let repo = model.repository else { return nil }
+        let verses = (try? await repo.chapter(book: ref.bookID, chapter: ref.chapter,
+                                              in: translation)) ?? []
+        let previous = try? await repo.adjacentChapter(book: ref.bookID, chapter: ref.chapter,
+                                                       offset: -1, in: translation)
+        let next = try? await repo.adjacentChapter(book: ref.bookID, chapter: ref.chapter,
+                                                   offset: +1, in: translation)
+        return Page(chapter: ref, translationID: translation.id,
+                    verses: verses, previous: previous, next: next)
+    }
+
+    private func show(_ page: Page) {
+        verses = page.verses
+        previousStep = page.previous
+        nextStep = page.next
+        shown = ShownChapter(chapter: page.chapter, translationID: page.translationID)
+    }
+
     private func load() async {
-        guard let repo = model.repository, let translation = model.translation else { return }
+        guard model.repository != nil, let translation = model.translation else { return }
         // Vor dem ersten `await` setzen, sonst zeichnet SwiftUI den Text
         // dazwischen einmal ungedimmt und er blitzt auf.
         dimOthers = currentHighlight != nil
@@ -282,12 +333,11 @@ struct ReaderView: View {
                 _ = try? await resolve(from: source, to: translation)
             }
         }
-        verses = (try? await repo.chapter(book: bookID, chapter: chapter,
-                                          in: translation)) ?? []
-        previousStep = try? await repo.adjacentChapter(book: bookID, chapter: chapter,
-                                                       offset: -1, in: translation)
-        nextStep = try? await repo.adjacentChapter(book: bookID, chapter: chapter,
-                                                    offset: +1, in: translation)
+        let ref = ChapterReference(bookID: bookID, chapter: chapter)
+        if shown != ShownChapter(chapter: ref, translationID: translation.id),
+           let page = await fetchPage(ref, in: translation) {
+            show(page)
+        }
         rememberPosition()
         autoScrollIfNeeded()
 
