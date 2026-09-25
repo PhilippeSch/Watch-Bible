@@ -2,19 +2,22 @@ import SwiftUI
 
 /// Verswahl (Designspezifikation 4.4): dreispaltiges Raster. Zellen jenseits
 /// des Kapitelendes bleiben sichtbar, aber auf 32 % Deckkraft — die Grenze des
-/// Kapitels wird begreifbar, statt nur zu fehlen.
+/// Kapitels wird begreifbar, statt nur zu fehlen. Ebenso Verse, die dieser
+/// Uebersetzung mitten im Kapitel fehlen (BSB Mt 17,21, Klgl 2,1).
 struct VerseGridView: View {
     @Environment(AppModel.self) private var model
     let bookID: Int
     let chapter: Int
 
-    @State private var verseCount = 0
+    /// Die Versnummern, die es gibt. Nicht `1...verse_count`: der zaehlt die
+    /// Verse, und in einem Kapitel mit Luecke endet das Kapitel dahinter.
+    @State private var verses: Set<Int> = []
 
     var body: some View {
         ScrollView {
             LazyVGrid(columns: Grid3.columns, spacing: Grid3.spacing) {
                 ForEach(1...displayCount, id: \.self) { verse in
-                    if verse <= verseCount {
+                    if verses.contains(verse) {
                         NavigationLink(value: Route.reader(bookID: bookID,
                                                            chapter: chapter,
                                                            verse: verse)) {
@@ -34,14 +37,16 @@ struct VerseGridView: View {
         .navigationTitle(title)
         .task(id: model.settings.translationCode) {
             guard let repo = model.repository, let translation = model.translation else { return }
-            verseCount = (try? await repo.verseCount(book: bookID, chapter: chapter,
-                                                     in: translation)) ?? 0
+            verses = Set((try? await repo.verseNumbers(book: bookID, chapter: chapter,
+                                                       in: translation)) ?? [])
         }
     }
 
-    /// Auf volle Dreierreihen auffuellen; die ueberzaehligen Zellen sind blass.
+    /// Bis zum letzten vorhandenen Vers, dann auf volle Dreierreihen
+    /// auffuellen; die ueberzaehligen Zellen sind blass.
     private var displayCount: Int {
-        max(3, Int((Double(max(1, verseCount)) / 3.0).rounded(.up)) * 3)
+        let last = verses.max() ?? 0
+        return max(3, Int((Double(max(1, last)) / 3.0).rounded(.up)) * 3)
     }
 
     private var title: Text {
@@ -53,7 +58,7 @@ struct VerseGridView: View {
         HStack {
             // Int64: %lld des Katalogs liest 64 Bit, `Int` ist auf der Uhr 32 Bit.
             Text(String.localizedStringWithFormat(String(localized: "count.verses"),
-                                                  Int64(verseCount)))
+                                                  Int64(verses.count)))
             Spacer(minLength: 0)
             Text(verbatim: model.translation?.abbrev ?? "")
         }

@@ -37,7 +37,9 @@ struct RandomVerseView: View {
     struct Page: Identifiable {
         let id = UUID()
         let verse: Verse
-        let chapterVerseCount: Int
+        /// Letzter Vers des Kapitels, fuer das Baendchen. Nicht die Anzahl
+        /// Verse: in einem Kapitel mit Luecke (BSB Mt 17) liegt das Ende dahinter.
+        let chapterLastVerse: Int
     }
 
     var body: some View {
@@ -121,11 +123,11 @@ struct RandomVerseView: View {
                     }
                 }
                 guard let verse else { return }
-                let count = try await repo.verseCount(book: verse.reference.bookID,
-                                                      chapter: verse.reference.chapter,
-                                                      in: translation) ?? verse.reference.verse
+                let last = try await repo.lastVerse(book: verse.reference.bookID,
+                                                    chapter: verse.reference.chapter,
+                                                    in: translation) ?? verse.reference.verse
                 remember(verse)
-                pages.append(Page(verse: verse, chapterVerseCount: count))
+                pages.append(Page(verse: verse, chapterLastVerse: last))
             } catch {
                 return
             }
@@ -159,7 +161,7 @@ private struct RandomVersePage: View {
 
         HStack(alignment: .top, spacing: 8) {
             Ribbon(position: 0,
-                   extent: Double(verse.reference.verse) / Double(max(1, page.chapterVerseCount)))
+                   extent: Double(verse.reference.verse) / Double(max(1, page.chapterLastVerse)))
                 .padding(.vertical, 2)
             VStack(alignment: .leading, spacing: 6) {
                 referenceLink(verse)
