@@ -87,7 +87,7 @@ diagnostics() {
         both "Keine Warnungen, keine Fehler."
     fi
     if grep -q 'range of supported deployment target versions' "$log"; then
-        fail "Deployment Target ausserhalb des von diesem Xcode unterstuetzten Bereichs (siehe Log). Die Watch-Targets stehen auf $DEPLOYMENT_TARGET, der iOS-Container auf 15.0."
+        fail "Deployment Target ausserhalb des von diesem Xcode unterstuetzten Bereichs (siehe Log). Die Watch-Targets stehen auf $DEPLOYMENT_TARGET, der iOS-Container auf \$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)."
     fi
     if grep -qE 'used before being initialized|use before initialization' "$log"; then
         fail "@State-Makro: Zuweisung im init trifft auf einen Standardwert in der Deklaration. Regel von Apple: Standardwert entfernen, Backing-Storage im init ueber _name = State(initialValue:) setzen."

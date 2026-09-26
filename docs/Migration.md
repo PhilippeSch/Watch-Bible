@@ -47,7 +47,7 @@ Die Zahlen der Spalte «Nachher» sind die vom Abschluss der Migration. Danach k
 
 **Das Widget teilt die Datenbank mit der App**, statt sie zu kopieren: es liest `bible.sqlite` zwei Ebenen über der `.appex` aus dem App-Bundle. Eine eigene Kopie hätte das Paket verdoppelt und das 75-MB-Limit gesprengt. Bewusst ohne App Group — das Widget folgt der Systemsprache statt der gewählten Übersetzung, dafür bleibt das Privacy-Manifest bei CA92.1.
 
-**Der iOS-Container braucht ein eigenes Deployment Target.** Die Hülle einer watchOS-only App hatte gar kein `IPHONEOS_DEPLOYMENT_TARGET` und fiel damit auf den SDK-Vorgabewert 13.0 zurück; App Store Connect beanstandet das. Jetzt fest auf 15.0. Die Hülle wird nie ausgeführt, ihr Wert steuert nur die Annahme im Store — die Uhr selbst bleibt bei watchOS 11.2.
+**Der iOS-Container braucht ein eigenes Deployment Target.** Die Hülle einer watchOS-only App hatte gar kein `IPHONEOS_DEPLOYMENT_TARGET` und fiel damit auf den SDK-Vorgabewert 13.0 zurück; App Store Connect beanstandet das. Jetzt fest auf 15.0. Die Hülle wird nie ausgeführt, ihr Wert steuert nur die Annahme im Store — die Uhr selbst bleibt bei watchOS 11.2. Seit dem Umstieg auf Xcode 27 (Issue #4) steht dort `$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)`, übernommen aus «Update to recommended settings», derzeit 17.0.
 
 **Export Compliance wird am iOS-Container geprüft**, nicht an der Watch-App: `ITSAppUsesNonExemptEncryption` muss in beiden Targets stehen.
 

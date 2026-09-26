@@ -160,7 +160,7 @@ Kuratierte Verse folgen der Zählung der Leitübersetzung (`meta.master_translat
 
 | Target | Zweck |
 |---|---|
-| `Watch Bible` | iOS-Container, leere Hülle einer watchOS-only App. Wird nie ausgeführt; sein `IPHONEOS_DEPLOYMENT_TARGET` steuert nur die Annahme im Store und steht auf 15.0. |
+| `Watch Bible` | iOS-Container, leere Hülle einer watchOS-only App. Wird nie ausgeführt; sein `IPHONEOS_DEPLOYMENT_TARGET` steuert nur die Annahme im Store und steht auf `$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)`, dem Vorschlag des jeweiligen iOS-SDK (Xcode 27: 17.0). Das schliesst niemanden aus: watchOS 11 setzt ohnehin ein iPhone mit iOS 18 voraus. |
 | `Watch Bible Watch App` | die eigentliche App, eigenständig lauffähig, watchOS 11.2 |
 | `BibelWatchWidget` | Vers des Tages für Smart Stack und Zifferblatt |
 | `Watch Bible Watch AppTests` | Unit-Tests für Datenschicht, Versifikation, Sprachen, Themen |
