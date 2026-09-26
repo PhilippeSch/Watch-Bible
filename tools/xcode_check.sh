@@ -10,7 +10,7 @@
 #   0  Umgebung (macOS, Xcode, SDK, Runtimes, Simulator)
 #   1  Debug- und Release-Build mit vollstaendiger Warnungsliste
 #   2  Unit-Tests (Swift Testing), danach der ganze Testplan
-#   3  Screenshots im Simulator: Einstieg Nacht und Tag, Deep Link des Widgets
+#   3  Screenshots im Simulator: Einstieg Nacht, Tag und auf Chinesisch
 #   4  Paketstruktur des Widgets (Datenbank liegt in der App, nicht im Widget)
 #   5  Archiv mit SDK-Nachweis und Groessenkontrolle (75-MB-Grenze)
 #
@@ -95,7 +95,9 @@ diagnostics() {
     if grep -q 'variable initialization expression of' "$log"; then
         fail "Linker: bekannter Fehlerbericht zum @State-Makro (Xcode 27.1, Debug-Builds). Nicht selbst umbauen, melden."
     fi
-    if grep -qi 'deprecated' "$log"; then
+    # Nur Diagnosezeilen: das Log enthaelt auch Compiler-Flags wie
+    # -Wdeprecated-declarations, die sonst jedes Mal anschlagen.
+    if grep -E ' (error|warning): ' "$log" | grep -qi 'deprecated'; then
         both "Hinweis: Deprecation-Warnungen vorhanden, siehe Liste. Beheben nur, wenn der Ersatz ab watchOS $DEPLOYMENT_TARGET verfuegbar ist."
     fi
 }
@@ -203,17 +205,18 @@ if [ "${SKIP_SIM:-0}" = 1 ]; then
 elif [ -z "$DEVICE_ID" ] || [ ! -d "$APP" ]; then
     both "Uebersprungen: kein Simulator oder kein Debug-Build unter $APP."
 else
-    shot() { # shot <appearance> <datei>
+    shot() { # shot <appearance> <datei> [Startargumente ...]
+        local appearance="$1" file="$2"; shift 2
         xcrun simctl terminate "$DEVICE_ID" "$BUNDLE_ID" >/dev/null 2>&1 || true
-        if ! xcrun simctl spawn "$DEVICE_ID" defaults write "$BUNDLE_ID" appearance -string "$1" >/dev/null 2>&1; then
-            both "Hinweis: Darstellung «$1» liess sich nicht per defaults setzen, Screenshot zeigt die aktuelle Einstellung."
+        if ! xcrun simctl spawn "$DEVICE_ID" defaults write "$BUNDLE_ID" appearance -string "$appearance" >/dev/null 2>&1; then
+            both "Hinweis: Darstellung «$appearance» liess sich nicht per defaults setzen, Screenshot zeigt die aktuelle Einstellung."
         fi
-        xcrun simctl launch "$DEVICE_ID" "$BUNDLE_ID" >/dev/null 2>&1 || true
+        xcrun simctl launch "$DEVICE_ID" "$BUNDLE_ID" "$@" >/dev/null 2>&1 || true
         sleep 4
-        if xcrun simctl io "$DEVICE_ID" screenshot "$OUT/$2" >/dev/null 2>&1; then
-            both "Screenshot: $OUT/$2"
+        if xcrun simctl io "$DEVICE_ID" screenshot "$OUT/$file" >/dev/null 2>&1; then
+            both "Screenshot: $OUT/$file"
         else
-            fail "Screenshot $2 fehlgeschlagen."
+            fail "Screenshot $file fehlgeschlagen."
         fi
     }
     xcrun simctl bootstatus "$DEVICE_ID" -b >/dev/null 2>&1 || true
@@ -221,16 +224,14 @@ else
         ok "App installiert."
         shot night home-night.png
         shot day home-day.png
-        # Deep Link des Widgets: Buch 43 ist Johannes.
-        xcrun simctl openurl "$DEVICE_ID" "watchbible://verse/43/3/16" >/dev/null 2>&1 || true
-        sleep 4
-        if xcrun simctl io "$DEVICE_ID" screenshot "$OUT/reader-john-3-16.png" >/dev/null 2>&1; then
-            both "Screenshot: $OUT/reader-john-3-16.png (Deep Link Johannes 3,16)"
-        else
-            fail "Screenshot reader-john-3-16.png fehlgeschlagen."
-        fi
+        # Chinesisch, Sprache nur fuer diesen Start. Den Deep Link des Widgets
+        # kann simctl openurl nicht zustellen: das Schema ist bewusst nicht als
+        # URL-Typ registriert (Shared/DeepLink.swift), ihn pruefen die
+        # DeepLinkTests und das Antippen der Komplikation.
+        shot night home-zh-hans.png -AppleLanguages '(zh-Hans)' -AppleLocale zh_CN
+        xcrun simctl terminate "$DEVICE_ID" "$BUNDLE_ID" >/dev/null 2>&1 || true
         xcrun simctl spawn "$DEVICE_ID" defaults delete "$BUNDLE_ID" appearance >/dev/null 2>&1 || true
-        both "Sichtpruefung der Bilder: Einstieg mit vier Zeilen auf Feldflaechen, Tag- und Nachtpalette, Titel lesbar, Leseansicht mit hochgestellten Verszahlen und hervorgehobenem Vers 16."
+        both "Sichtpruefung der Bilder: Einstieg mit vier Zeilen auf Feldflaechen, Tag- und Nachtpalette, Titel lesbar, auf Chinesisch keine abgeschnittenen Zeilen."
     else
         fail "App liess sich nicht auf dem Simulator installieren."
     fi
