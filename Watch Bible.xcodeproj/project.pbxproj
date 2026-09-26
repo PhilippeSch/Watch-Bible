@@ -325,7 +325,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
-				LastUpgradeCheck = 2660;
+				LastUpgradeCheck = 2700;
 				TargetAttributes = {
 					377727162D25D64D00DEE4D8 = {
 						CreatedOnToolsVersion = 16.2;
@@ -686,7 +686,7 @@
 				CURRENT_PROJECT_VERSION = "$(BUILD_TIMESTAMP)";
 				INFOPLIST_KEY_CFBundleDisplayName = "Watch Bible";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
 				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "Scheuber.Watch-Bible";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -703,7 +703,7 @@
 				CURRENT_PROJECT_VERSION = "$(BUILD_TIMESTAMP)";
 				INFOPLIST_KEY_CFBundleDisplayName = "Watch Bible";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
 				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "Scheuber.Watch-Bible";
 				PRODUCT_NAME = "$(TARGET_NAME)";
