@@ -103,10 +103,17 @@ struct ReaderView: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 8) {
-            Ribbon(position: scrollFraction * (1 - viewportFraction),
-                   extent: viewportFraction)
-                .padding(.vertical, 2)
-            scroll
+            // Erst mit dem geladenen Kapitel: davor hat der leere ScrollView
+            // keine Breite, und das Baendchen stuende allein in voller Hoehe
+            // mitten auf dem Bildschirm (beim Deep Link des Widgets sichtbar).
+            if shown != nil {
+                Ribbon(position: scrollFraction * (1 - viewportFraction),
+                       extent: viewportFraction)
+                    .padding(.vertical, 2)
+                scroll
+            } else {
+                Color.clear.frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
         }
         .padding(.leading, 6)
         .padding(.trailing, 2)

@@ -132,6 +132,7 @@ In der Buchliste kostet der Rand Breite, die dort schon das Register beansprucht
   - Ob gescrollt wurde, wird gegen eine **beobachtete** Ruhelage geprüft, nicht gegen den berechneten Zielwert des automatischen Hinscrollens: `scrollTo(y:)` und `onScrollGeometryChange` messen nicht dasselbe (Letzteres rechnet `contentInsets.top` hinzu).
   - Beim Weiterblättern gibt es keinen gewählten Vers und damit nie eine Abblendung.
 - Krone scrollt, das Bändchen bewegt sich mit.
+- **Bis das erste Kapitel geladen ist**, steht nur der Seitengrund unter Titel und Werkzeugleiste; Bändchen und Text erscheinen zusammen. Der leere ScrollView hat keine Breite, das Bändchen stünde sonst allein in voller Höhe mitten auf dem Bildschirm — am deutlichsten beim Deep Link des Widgets, der vor dem Kapitel noch die Übersetzungen abgleicht.
 - Werkzeugleiste: Übersetzung wechseln.
 - **Weiterblättern** am Ende des Kapitels: zwei Knöpfe nebeneinander, je 44 pt hoch, beschriftet mit dem Ziel — Buchkürzel der Anzeigesprache und Kapitelzahl, «‹ Mt 4» und «Mt 6 ›». Karmin auf Feldfläche wie die Rasterzellen. Am Kanonrand bleibt die betreffende Hälfte leer, statt dass der verbleibende Knopf über die volle Breite springt.
   - Kein Wischen quer: das ist auf watchOS die Rücknavigation. Keine Krone über das Kapitelende hinaus: die Krone scrollt bereits, und ein Weiterblättern aus Versehen wäre schlimmer als ein Knopf mehr.
