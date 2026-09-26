@@ -80,6 +80,8 @@ xcodebuild -project "Watch Bible.xcodeproj" \
            test 2>&1 | grep -E "error:|failed|passed"
 ```
 
+`tools/xcode_check.sh` runs the whole sequence against the installed Xcode: both builds with their full warning lists, the tests, screenshots on a simulator, the widget's bundle layout and an archive whose `DTSDKName` shows which SDK it was built with. The report lands in `build/xcode-check/`, which git ignores.
+
 The build number sets itself: a final build phase writes a `YYYYMMDDHHMM` timestamp into `Config/Version.xcconfig`, the base configuration of both project configurations, and every target reads `CURRENT_PROJECT_VERSION` from it. Only that file is ever written, never `project.pbxproj` — [docs/Migration.md](docs/Migration.md) records what happens otherwise. During archiving the script deliberately skips, so the archive carries the number of the last ordinary build; press ⌘B first if you want a fresh one.
 
 ## The database
