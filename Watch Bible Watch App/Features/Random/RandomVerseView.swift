@@ -96,7 +96,7 @@ struct RandomVerseView: View {
     /// Wer laenger blaettert, als die Gruppe Verse hat, faengt wieder bei 1 an,
     /// statt ueber die Gesamtzahl hinauszuzaehlen: «13 / 10» in einem Thema mit
     /// zehn Versen sieht nach einem Fehler aus. Erreichbar ist das nur in den
-    /// kleinen Themen — das Register hat 463 Verse, die Bibel 31'000.
+    /// kleinen Themen — das Register hat 466 Verse, die Bibel 31'000.
     private func ordinal(at index: Int) -> Int {
         let total = groupTotal
         guard total > 0 else { return index + 1 }

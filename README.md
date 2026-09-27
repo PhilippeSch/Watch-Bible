@@ -11,8 +11,8 @@ A standalone Bible app for the Apple Watch. Twelve translations in eight languag
 
 ## What it does
 
-- **Random verse** — one per page, tap or swipe to advance; from the whole Bible or from 463 curated key verses, with the last twenty remembered and not repeated.
-- **26 topics** — comfort, hope, forgiveness, discipleship and others, drawn from those same 463 verses.
+- **Random verse** — one per page, tap or swipe to advance; from the whole Bible or from 466 curated key verses, with the last twenty remembered and not repeated.
+- **26 topics** — comfort, hope, forgiveness, discipleship and others, drawn from those same 466 verses.
 - **Look-up** — book → chapter → verse, with an index in the book list and three-column grids for chapters and verses.
 - **Reading view** — the whole chapter as running text with superscript verse numbers, the way it is set in print. The Digital Crown scrolls, and you page on chapter by chapter across book boundaries. The last place read is offered on the home screen.
 - **Verse of the day** — a complication for the Smart Stack and watch faces, holding from midnight to midnight.

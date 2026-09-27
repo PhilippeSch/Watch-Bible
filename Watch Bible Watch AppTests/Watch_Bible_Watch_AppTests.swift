@@ -752,7 +752,7 @@ struct ZufallTests {
     }
 
     /// Ueber ein Jahr hinweg muss die Tagesauswahl breit aus dem Themenregister
-    /// schoepfen — sonst wiederholt sich das Widget zu haeufig. Bei 463 Kern-
+    /// schoepfen — sonst wiederholt sich das Widget zu haeufig. Bei 466 Kern-
     /// versen und 365 Ziehungen sind rund 250 verschiedene zu erwarten; die
     /// Schranke laesst Luft nach unten, ohne eine kaputte Streuung zu decken.
     @Test func tagesauswahlDecktDieListeAb() async throws {

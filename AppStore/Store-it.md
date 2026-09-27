@@ -62,7 +62,7 @@ Cinese
 Anche l'app parla queste lingue, con i nomi e le abbreviazioni dei libri in uso in ciascuna, e segue la lingua del tuo orologio.
 
 FUNZIONI
-• Versetto a caso da tutta la Bibbia o da 463 versetti chiave
+• Versetto a caso da tutta la Bibbia o da 466 versetti chiave
 • 26 temi — consolazione, speranza, perdono, discepolato e altri
 • Ricerca per libro, capitolo e versetto
 • Sfogliare di capitolo in capitolo, anche oltre i confini dei libri

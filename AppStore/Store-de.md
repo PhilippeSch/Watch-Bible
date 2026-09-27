@@ -62,7 +62,7 @@ Chinesisch
 Auch die App selbst spricht diese Sprachen, mit den Buchnamen und Kürzeln, die im jeweiligen Sprachraum üblich sind. Sie folgt der Sprache Ihrer Uhr.
 
 FUNKTIONEN
-• Zufallsvers über die ganze Bibel oder aus 463 Kernversen
+• Zufallsvers über die ganze Bibel oder aus 466 Kernversen
 • 26 Themen — Trost, Hoffnung, Vergebung, Nachfolge und weitere
 • Nachschlagen über Buch, Kapitel und Vers
 • Im Kapitel weiterblättern, über Buchgrenzen hinweg

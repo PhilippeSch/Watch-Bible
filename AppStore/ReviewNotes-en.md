@@ -24,7 +24,7 @@ The app puts the complete Bible on the wrist. Bible apps for the watch usually m
 4. SETUP AND ACCESS
 No login, no demo account, no sample files, no configuration: install on the watch, open the app, everything is there.
 - Home: Random verse, Topics, Look up, Settings, and "Continue" with the last place read.
-- Random verse: tap it or swipe up for the next. Settings > Random mode switches between the whole Bible and 463 key verses.
+- Random verse: tap it or swipe up for the next. Settings > Random mode switches between the whole Bible and 466 key verses.
 - Look up: book > chapter > verse, in three-column grids.
 - Reading view: the chapter as running text, Digital Crown scrolls, buttons at its end step to the next or previous chapter. The button at the top right changes translation; where two editions number a chapter differently (Numbers 17, Joel 3), both verse counts are shown rather than a silently different passage.
 - Complication: watch face > Edit > Complications > "Verse of the day"; also in the Smart Stack.

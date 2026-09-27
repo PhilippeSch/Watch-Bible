@@ -102,7 +102,7 @@ In der Buchliste kostet der Rand Breite, die dort schon das Register beansprucht
 - Stellenangabe oben in Versalien, Karmin.
 - Verstext als Fliesstext, hochgestellte Verszahl vorangestellt.
 - Bändchen links zeigt die Position des Verses im Kapitel.
-- Zählerzeile unten: `3 / 463` links, Übersetzungskürzel rechts. Gezählt wird **das Blättern in dieser Gruppe**, nicht die Lage des Verses in der Übersetzung: links die wievielte Seite dieses Durchgangs, rechts, wie viele Verse der Topf hat, aus dem gezogen wird — das Thema, das Versregister (463) oder die ganze Übersetzung (31'103). Die Zählung beginnt bei jedem Öffnen wieder bei 1; eine Ziehung hat keine Reihenfolge, in die sich ein Vers dauerhaft einordnen liesse. Wer länger blättert, als die Gruppe Verse hat, beginnt wieder bei 1, statt über die Gesamtzahl hinauszuzählen — erreichbar nur in den kleinen Themen.
+- Zählerzeile unten: `3 / 466` links, Übersetzungskürzel rechts. Gezählt wird **das Blättern in dieser Gruppe**, nicht die Lage des Verses in der Übersetzung: links die wievielte Seite dieses Durchgangs, rechts, wie viele Verse der Topf hat, aus dem gezogen wird — das Thema, das Versregister (466) oder die ganze Übersetzung (31'103). Die Zählung beginnt bei jedem Öffnen wieder bei 1; eine Ziehung hat keine Reihenfolge, in die sich ein Vers dauerhaft einordnen liesse. Wer länger blättert, als die Gruppe Verse hat, beginnt wieder bei 1, statt über die Gesamtzahl hinauszuzählen — erreichbar nur in den kleinen Themen.
 - Weiterschalten: Wischen nach oben (`TabView`, `.verticalPage`) **und** Tippen auf die gesamte Fläche. Haptik `.click`, abschaltbar.
 - Die letzten 20 Verse merken und nicht wiederholen.
 - Tippen auf die Stellenangabe öffnet die Leseansicht am selben Vers.

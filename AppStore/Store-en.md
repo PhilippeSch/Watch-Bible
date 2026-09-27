@@ -62,7 +62,7 @@ Chinese
 The app itself speaks these languages too, with the book names and abbreviations customary in each, and it follows the language of your watch.
 
 FEATURES
-• A random verse from the whole Bible or from 463 key verses
+• A random verse from the whole Bible or from 466 key verses
 • 26 topics — comfort, hope, forgiveness, discipleship and more
 • Look up by book, chapter and verse
 • Page on through the chapters, across book boundaries

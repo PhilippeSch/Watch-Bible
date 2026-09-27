@@ -62,7 +62,7 @@ Chinois
 L'app elle-même parle ces langues, avec les noms et les abréviations de livres en usage dans chacune, et elle suit la langue de votre montre.
 
 FONCTIONS
-• Verset au hasard dans toute la Bible ou parmi 463 versets clés
+• Verset au hasard dans toute la Bible ou parmi 466 versets clés
 • 26 thèmes — consolation, espérance, pardon, disciple et d'autres
 • Recherche par livre, chapitre et verset
 • Passer d'un chapitre au suivant, par-delà les limites des livres

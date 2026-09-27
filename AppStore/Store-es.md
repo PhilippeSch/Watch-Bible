@@ -62,7 +62,7 @@ Chino
 La app misma habla estos idiomas, con los nombres y las abreviaturas de los libros que se usan en cada uno, y sigue el idioma de tu reloj.
 
 FUNCIONES
-• Versículo al azar de toda la Biblia o de 463 versículos clave
+• Versículo al azar de toda la Biblia o de 466 versículos clave
 • 26 temas — consuelo, esperanza, perdón, discipulado y más
 • Búsqueda por libro, capítulo y versículo
 • Avanzar de capítulo en capítulo, también entre libros

@@ -62,7 +62,7 @@ Chinês
 O próprio app fala esses idiomas, com os nomes e as abreviaturas dos livros usados em cada um, e segue o idioma do seu relógio.
 
 RECURSOS
-• Versículo aleatório de toda a Bíblia ou de 463 versículos-chave
+• Versículo aleatório de toda a Bíblia ou de 466 versículos-chave
 • 26 temas — consolo, esperança, perdão, discipulado e outros
 • Busca por livro, capítulo e versículo
 • Avançar de capítulo em capítulo, inclusive entre livros

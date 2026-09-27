@@ -161,7 +161,7 @@ Dazu: `~` → geschütztes Leerzeichen, `--`/`---` → Halbgeviert-/Geviertstric
 
 ## Die kuratierte Auswahl
 
-`tools/curated_verses.json` enthält 463 Kernverse aus 54 Büchern in 26 Themen. Sie speisen den kuratierten Zufallsmodus, die Themenliste und das Widget. Die Referenzen folgen der Zählung der Leitübersetzung; `update_curated.py` prüft jede einzelne gegen die Datenbank und schreibt nichts, solange auch nur eine Stelle fehlt.
+`tools/curated_verses.json` enthält 466 Kernverse aus 54 Büchern in 26 Themen. Sie speisen den kuratierten Zufallsmodus, die Themenliste und das Widget. Die Referenzen folgen der Zählung der Leitübersetzung; `update_curated.py` prüft jede einzelne gegen die Datenbank und schreibt nichts, solange auch nur eine Stelle fehlt.
 
 Die Themennamen stehen **nicht** in der Datenbank, sondern im String Catalog unter `topic.<deutscher Wert>`. Die Datenbank sagt, welche Themen es gibt; der Katalog, wie sie in den acht Sprachen geschrieben werden.
 

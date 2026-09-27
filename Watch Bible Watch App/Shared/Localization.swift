@@ -221,7 +221,7 @@ enum Localization {
                name(of: book), Int64(chapter))
     }
 
-    /// Zählerzeile des Zufallsverses («3 / 463»): die wievielte Seite dieses
+    /// Zählerzeile des Zufallsverses («3 / 466»): die wievielte Seite dieses
     /// Durchgangs, und wie viele Verse die Gruppe hat, aus der gezogen wird.
     static func position(_ ordinal: Int, of total: Int) -> String {
         String(format: String(localized: "random.position %1$@ %2$@"),
