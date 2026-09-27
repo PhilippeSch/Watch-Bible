@@ -48,6 +48,10 @@ struct ReaderView: View {
     /// Zeile. Ein Streifen beim Antippen soll die Hervorhebung nicht loeschen.
     private static let scrollIntentThreshold: CGFloat = 12
 
+    /// Lesehoehe: so weit unter dem oberen Rand setzt das Hinscrollen den
+    /// Anfang des Zielverses, und dort liest `readingVerse` die Stelle ab.
+    private static let readingLine: CGFloat = 0.25
+
     /// Abweichungsfall nach einem Uebersetzungswechsel (Designspez. 4.6).
     struct SwitchInfo {
         let sourceName: String
@@ -167,7 +171,12 @@ struct ReaderView: View {
             .padding(.bottom, 12)
             .background(
                 GeometryReader { geo in
-                    Color.clear.onAppear { contentHeight = geo.size.height }
+                    // Der ScrollView entsteht erst mit dem geladenen Kapitel;
+                    // die erste Hoehe kommt darum hier an, nicht in `onChange`.
+                    Color.clear.onAppear {
+                        contentHeight = geo.size.height
+                        autoScrollIfNeeded()
+                    }
                         .onChange(of: geo.size.height) { _, h in
                             contentHeight = h
                             autoScrollIfNeeded()
@@ -184,11 +193,13 @@ struct ReaderView: View {
             )
         }, action: { _, new in
             viewportHeight = new.container
+            contentHeight = new.content
             viewportFraction = new.content > 0
                 ? min(1, new.container / new.content) : 1
             let scrollable = max(1, new.content - new.container)
             scrollFraction = min(1, max(0, new.offset / scrollable))
             lastOffset = new.offset
+            autoScrollIfNeeded()
             if dimOthers, let rest = restOffset,
                abs(new.offset - rest) > Self.scrollIntentThreshold {
                 dimOthers = false
@@ -337,13 +348,18 @@ struct ReaderView: View {
             sourceTranslationCode = nil
             if let source = model.translations.first(where: { $0.code == code }),
                source.id != translation.id {
-                _ = try? await resolve(from: source, to: translation)
+                _ = try? await resolve(currentHighlight, from: source, to: translation)
             }
         }
         let ref = ChapterReference(bookID: bookID, chapter: chapter)
         if shown != ShownChapter(chapter: ref, translationID: translation.id),
            let page = await fetchPage(ref, in: translation) {
+            // Hingescrollt wird erst, wenn die Hoehe des neuen Texts gemessen
+            // ist: jetzt stuende in `contentHeight` noch die des alten.
+            didAutoScroll = false
             show(page)
+        } else {
+            autoScrollIfNeeded()
         }
         // Einen Vers, den es in dieser Uebersetzung nicht gibt (BSB Mt 17,21,
         // gemerkt unter einer anderen), kann nichts hervorheben — abgeblendet
@@ -353,13 +369,12 @@ struct ReaderView: View {
             dimOthers = false
         }
         rememberPosition()
-        autoScrollIfNeeded()
 
         // Dem automatischen Hinscrollen Zeit lassen, dann die erreichte
         // Position als Ruhelage merken. Erst ab hier gilt eine Aenderung als
         // Scrollen des Lesers. Laeuft in `.task(id:)` — ein Kapitelwechsel
         // bricht das Warten ab, bevor eine falsche Ruhelage entsteht.
-        guard dimOthers else { return }
+        guard currentHighlight != nil else { return }
         do {
             try await Task.sleep(for: .milliseconds(500))
         } catch {
@@ -378,6 +393,8 @@ struct ReaderView: View {
 
     /// Ein Fliesstext hat keine Ankerpunkte je Vers; die Zielposition wird
     /// deshalb ueber den Zeichenanteil vor dem gewaehlten Vers geschaetzt.
+    /// Aufgerufen, sobald Text- und Fensterhoehe gemessen sind; `didAutoScroll`
+    /// sorgt dafuer, dass es je Ankunft nur einmal geschieht.
     private func autoScrollIfNeeded() {
         guard !didAutoScroll, let target = currentHighlight, !verses.isEmpty,
               contentHeight > viewportHeight, viewportHeight > 0 else { return }
@@ -385,19 +402,43 @@ struct ReaderView: View {
             .reduce(0) { $0 + $1.text.count }
         let total = max(1, verses.reduce(0) { $0 + $1.text.count })
         let fraction = Double(before) / Double(total)
-        let y = max(0, fraction * contentHeight - viewportHeight * 0.25)
+        let y = max(0, fraction * contentHeight - viewportHeight * Self.readingLine)
         didAutoScroll = true
         scrollPosition.scrollTo(y: min(y, contentHeight - viewportHeight))
     }
 
-    /// Gleicht die aktuelle Stelle zwischen zwei Uebersetzungen ab und setzt
-    /// `switchInfo` und `currentHighlight` (Designspez. 4.6). `false` heisst:
-    /// `target` hat dieses Kapitel nicht; der Hinweis steht dann in
-    /// `unavailableIn`, und der Aufrufer entscheidet, was weiter gilt.
-    private func resolve(from source: Translation, to target: Translation) async throws -> Bool {
+    /// Ob der Leser seit dem Ankommen gescrollt hat: gemessen an der Ruhelage
+    /// nach dem Hinscrollen, ohne gewaehlten Vers an der Oberkante.
+    private var hasScrolled: Bool {
+        abs(lastOffset - (restOffset ?? 0)) > Self.scrollIntentThreshold
+    }
+
+    /// Vers auf der Lesehoehe, geschaetzt wie in `autoScrollIfNeeded`, nur in
+    /// Gegenrichtung — so landet ein Wechsel dort, wo man gerade liest.
+    /// `nil` an der Oberkante: dort beginnt das Kapitel, ohne gewaehlten Vers.
+    private func readingVerse() -> Int? {
+        guard lastOffset > Self.scrollIntentThreshold, contentHeight > 0,
+              !verses.isEmpty else { return nil }
+        let total = max(1, verses.reduce(0) { $0 + $1.text.count })
+        let fraction = (lastOffset + viewportHeight * Self.readingLine) / contentHeight
+        let position = fraction * CGFloat(total)
+        var end = 0
+        for verse in verses {
+            end += verse.text.count
+            if CGFloat(end) > position { return verse.reference.verse }
+        }
+        return verses.last?.reference.verse
+    }
+
+    /// Gleicht `verse` im aktuellen Kapitel zwischen zwei Uebersetzungen ab
+    /// und setzt `switchInfo` und `currentHighlight` (Designspez. 4.6).
+    /// `false` heisst: `target` hat dieses Kapitel nicht; der Hinweis steht
+    /// dann in `unavailableIn`, und nichts sonst hat sich geaendert.
+    private func resolve(_ verse: Int?, from source: Translation,
+                         to target: Translation) async throws -> Bool {
         guard let repo = model.repository else { return false }
         let ref = VerseReference(bookID: bookID, chapter: chapter,
-                                 verse: currentHighlight ?? 1)
+                                 verse: verse ?? 1)
         let resolution = try await repo.resolve(ref, from: source, to: target)
         let sourceCount = try await repo.verseCount(book: bookID, chapter: chapter,
                                                     in: source) ?? 0
@@ -409,19 +450,21 @@ struct ReaderView: View {
             return false
         case .exact:
             switchInfo = nil
+            currentHighlight = verse
         case .divergent:
             switchInfo = SwitchInfo(sourceName: source.name,
                                     sourceVerseCount: sourceCount,
                                     targetName: target.name,
                                     targetVerseCount: targetCount,
                                     clampedRequested: nil)
-        case .clamped(let verse, let requested):
+            currentHighlight = verse
+        case .clamped(let clamped, let requested):
             switchInfo = SwitchInfo(sourceName: source.name,
                                     sourceVerseCount: sourceCount,
                                     targetName: target.name,
                                     targetVerseCount: targetCount,
                                     clampedRequested: requested)
-            currentHighlight = verse.reference.verse
+            currentHighlight = clamped.reference.verse
         }
         return true
     }
@@ -430,12 +473,14 @@ struct ReaderView: View {
         guard let source = model.translation,
               let target = model.translations.first(where: { $0.code == code }),
               target.id != source.id else { return }
+        // Wer seit dem Ankommen gescrollt hat, liest nicht mehr beim
+        // gewaehlten Vers: der Wechsel haelt die Stelle, an der er steht.
+        let verse = hasScrolled ? readingVerse() : currentHighlight
         do {
             // Zieluebersetzung hat dieses Kapitel nicht: Wechsel abbrechen,
             // sichtbar melden, bei der bisherigen Uebersetzung bleiben.
-            guard try await resolve(from: source, to: target) else { return }
+            guard try await resolve(verse, from: source, to: target) else { return }
             model.settings.chooseTranslation(target.code)
-            didAutoScroll = false
             await load()
         } catch {
             // Fehler beim Wechsel: bisherige Ansicht bleibt bestehen.
