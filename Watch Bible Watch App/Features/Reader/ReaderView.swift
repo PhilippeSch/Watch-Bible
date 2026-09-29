@@ -30,6 +30,17 @@ struct ReaderView: View {
     @State private var viewportHeight: CGFloat = 0
     @State private var didAutoScroll = false
     @State private var scrollPosition = ScrollPosition()
+    /// Gemessen an `anchorProbe`: Hoehe des Texts bis zur Verszahl des
+    /// gewaehlten Verses und Hoehe einer einzelnen Zeile. `nil`, solange die
+    /// Messung fuer die gezeigte Seite noch aussteht.
+    @State private var probeHeight: CGFloat?
+    @State private var probeLineHeight: CGFloat?
+    /// Unterkante der Abweichungstabelle im Inhalt, gemessen. Gebraucht nur
+    /// beim Klemmen, damit das Hinscrollen ihren Hinweis nicht verdeckt.
+    @State private var tableBottom: CGFloat?
+    /// `nonisolated`: gelesen im Messabschluss von `onGeometryChange`, der
+    /// nicht auf dem Main Actor laeuft.
+    private nonisolated static let contentSpace = "readerContent"
 
     /// Solange wahr, stehen die uebrigen Verse auf 70 %. Faellt beim ersten
     /// Scrollen auf falsch und bleibt es: die Hervorhebung zeigt beim Ankommen,
@@ -72,7 +83,7 @@ struct ReaderView: View {
     /// schon da, wenn `.task(id:)` anspringt.
     @State private var shown: ShownChapter?
 
-    private struct ShownChapter: Equatable {
+    private struct ShownChapter: Hashable {
         let chapter: ChapterReference
         let translationID: Int
     }
@@ -162,13 +173,23 @@ struct ReaderView: View {
                     let split = currentHighlight ?? Int.max
                     flowText(verses.filter { $0.reference.verse <= split })
                     DivergenceTable(info: info)
+                        .onGeometryChange(for: CGFloat.self) {
+                            $0.frame(in: .named(Self.contentSpace)).maxY
+                        } action: { bottom in
+                            tableBottom = bottom
+                            autoScrollIfNeeded()
+                        }
+                        // Je Seite frisch gemessen, wie `anchorProbe`.
+                        .id(shown)
                     flowText(verses.filter { $0.reference.verse > split })
                 } else {
                     flowText(verses)
                 }
                 chapterFooter
             }
+            .coordinateSpace(.named(Self.contentSpace))
             .padding(.bottom, 12)
+            .background(alignment: .topLeading) { anchorProbe }
             .background(
                 GeometryReader { geo in
                     // Der ScrollView entsteht erst mit dem geladenen Kapitel;
@@ -223,22 +244,71 @@ struct ReaderView: View {
     @ViewBuilder
     private func flowText(_ subset: [Verse]) -> some View {
         if !subset.isEmpty {
-            let scale = model.settings.textScale
-            let language = model.translation?.language ?? "de"
-            subset.reduce(Text(verbatim: "")) { flow, verse in
+            flowLayout(subset.reduce(Text(verbatim: "")) { flow, verse in
                 let dim = dimOthers && verse.reference.verse != currentHighlight
                 return flow
-                    + Text("\(verse.reference.verse)")
-                        .font(Typo.verseNumber(scale: scale))
-                        .baselineOffset(Typo.verseNumberOffset(scale: scale))
-                        .foregroundStyle(Color.carmine.opacity(dim ? 0.7 : 1))
+                    + verseNumber(verse.reference.verse, dim: dim)
                     + Text(verbatim: "\u{2009}")
-                    + Text(verbatim: verse.text + " ")
-                        .font(Typo.verse(scale: scale, language: language))
-                        .foregroundStyle(Color.ink.opacity(dim ? 0.7 : 1))
-            }
-            .lineSpacing(Typo.verseLineSpacing(scale: scale, language: language))
+                    + verseBody(verse.text + " ", dim: dim)
+            })
+        }
+    }
+
+    private func verseNumber(_ number: Int, dim: Bool) -> Text {
+        let scale = model.settings.textScale
+        return Text("\(number)")
+            .font(Typo.verseNumber(scale: scale))
+            .baselineOffset(Typo.verseNumberOffset(scale: scale))
+            .foregroundStyle(Color.carmine.opacity(dim ? 0.7 : 1))
+    }
+
+    private func verseBody(_ text: String, dim: Bool) -> Text {
+        Text(verbatim: text)
+            .font(Typo.verse(scale: model.settings.textScale,
+                             language: model.translation?.language ?? "de"))
+            .foregroundStyle(Color.ink.opacity(dim ? 0.7 : 1))
+    }
+
+    private func flowLayout(_ text: Text) -> some View {
+        text
+            .lineSpacing(Typo.verseLineSpacing(scale: model.settings.textScale,
+                                               language: model.translation?.language ?? "de"))
             .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    /// Wo der gewaehlte Vers beginnt, wird gemessen statt geschaetzt: ein
+    /// unsichtbarer Satz des Kapitels bis zu seiner Verszahl, in derselben
+    /// Schrift und Breite wie der Fliesstext — seine letzte Zeile ist die, in
+    /// der der Vers anfaengt. Dazu eine einzelne Zeile fuer deren Hoehe.
+    /// Steht nur bis zum Hinscrollen; `.id` sorgt dafuer, dass eine neue Seite
+    /// frisch gemessen wird und nicht mit den Werten der alten.
+    @ViewBuilder
+    private var anchorProbe: some View {
+        if !didAutoScroll, let target = currentHighlight, !verses.isEmpty {
+            let before = verses.filter { $0.reference.verse < target }
+            ZStack(alignment: .topLeading) {
+                flowLayout(before.reduce(Text(verbatim: "")) { flow, verse in
+                    flow + verseNumber(verse.reference.verse, dim: false)
+                        + Text(verbatim: "\u{2009}")
+                        + verseBody(verse.text + " ", dim: false)
+                } + verseNumber(target, dim: false))
+                    .fixedSize(horizontal: false, vertical: true)
+                    .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { height in
+                        probeHeight = height
+                        autoScrollIfNeeded()
+                    }
+                flowLayout(verseNumber(target, dim: false)
+                           + Text(verbatim: "\u{2009}")
+                           + verseBody("X", dim: false))
+                    .fixedSize(horizontal: false, vertical: true)
+                    .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { height in
+                        probeLineHeight = height
+                        autoScrollIfNeeded()
+                    }
+            }
+            .hidden()
+            .accessibilityHidden(true)
+            .id(shown)
         }
     }
 
@@ -354,9 +424,12 @@ struct ReaderView: View {
         let ref = ChapterReference(bookID: bookID, chapter: chapter)
         if shown != ShownChapter(chapter: ref, translationID: translation.id),
            let page = await fetchPage(ref, in: translation) {
-            // Hingescrollt wird erst, wenn die Hoehe des neuen Texts gemessen
-            // ist: jetzt stuende in `contentHeight` noch die des alten.
+            // Hingescrollt wird erst, wenn der neue Text gemessen ist: jetzt
+            // stuenden in `contentHeight` und der Messung noch die Werte des alten.
             didAutoScroll = false
+            probeHeight = nil
+            probeLineHeight = nil
+            tableBottom = nil
             show(page)
         } else {
             autoScrollIfNeeded()
@@ -391,20 +464,30 @@ struct ReaderView: View {
                                                       verse: currentHighlight ?? first)
     }
 
-    /// Ein Fliesstext hat keine Ankerpunkte je Vers; die Zielposition wird
-    /// deshalb ueber den Zeichenanteil vor dem gewaehlten Vers geschaetzt.
-    /// Aufgerufen, sobald Text- und Fensterhoehe gemessen sind; `didAutoScroll`
-    /// sorgt dafuer, dass es je Ankunft nur einmal geschieht.
+    /// Ein Fliesstext hat keine Ankerpunkte je Vers; die Zeile, in der der
+    /// gewaehlte Vers beginnt, misst `anchorProbe`. Frueher geschaetzt ueber den
+    /// Zeichenanteil mal die ganze Inhaltshoehe — die zaehlt aber auch die
+    /// Knoepfe zum Weiterblaettern mit, und am Ende eines kurzen Kapitels lag
+    /// der Versanfang samt Nummer dann unter dem Titel (Ps 16,11).
+    /// Aufgerufen, sobald Messung, Text- und Fensterhoehe da sind;
+    /// `didAutoScroll` sorgt dafuer, dass es je Ankunft nur einmal geschieht.
     private func autoScrollIfNeeded() {
-        guard !didAutoScroll, let target = currentHighlight, !verses.isEmpty,
+        guard !didAutoScroll, currentHighlight != nil,
+              let height = probeHeight, let line = probeLineHeight,
               contentHeight > viewportHeight, viewportHeight > 0 else { return }
-        let before = verses.filter { $0.reference.verse < target }
-            .reduce(0) { $0 + $1.text.count }
-        let total = max(1, verses.reduce(0) { $0 + $1.text.count })
-        let fraction = Double(before) / Double(total)
-        let y = max(0, fraction * contentHeight - viewportHeight * Self.readingLine)
+        // `scrollTo(y:)` legt die Hoehe y des Inhalts an die Oberkante der
+        // freien Flaeche unter dem Titel; `viewportHeight` ist diese Flaeche.
+        let start = max(0, height - line)
+        var y = start - viewportHeight * Self.readingLine
+        if switchInfo?.clampedRequested != nil {
+            // Geklemmt: «Vers n angefragt, Kapitelende gezeigt» steht in der
+            // Tabelle unter dem letzten Vers und muss ohne Scrollen zu sehen
+            // sein. Reicht der Platz nicht fuer beides, weicht der Versanfang.
+            guard let bottom = tableBottom else { return }
+            y = max(y, bottom - viewportHeight)
+        }
         didAutoScroll = true
-        scrollPosition.scrollTo(y: min(y, contentHeight - viewportHeight))
+        scrollPosition.scrollTo(y: max(0, min(y, contentHeight - viewportHeight)))
     }
 
     /// Ob der Leser seit dem Ankommen gescrollt hat: gemessen an der Ruhelage
@@ -413,8 +496,10 @@ struct ReaderView: View {
         abs(lastOffset - (restOffset ?? 0)) > Self.scrollIntentThreshold
     }
 
-    /// Vers auf der Lesehoehe, geschaetzt wie in `autoScrollIfNeeded`, nur in
-    /// Gegenrichtung — so landet ein Wechsel dort, wo man gerade liest.
+    /// Vers auf der Lesehoehe, geschaetzt ueber den Zeichenanteil — so landet
+    /// ein Wechsel dort, wo man gerade liest. Hier bleibt es bei der Schaetzung:
+    /// gesucht ist der Vers zu einer Hoehe, und dafuer muesste jeder Vers
+    /// einzeln gemessen werden, nicht nur einer wie beim Hinscrollen.
     /// `nil` an der Oberkante: dort beginnt das Kapitel, ohne gewaehlten Vers.
     private func readingVerse() -> Int? {
         guard lastOffset > Self.scrollIntentThreshold, contentHeight > 0,
