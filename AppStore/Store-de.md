@@ -80,5 +80,5 @@ Sämtliche Bibeltexte sind frei verwendbar: gemeinfrei oder unter Creative Commo
 ## Copyright (max. 200, gilt für alle Sprachen)
 
 ```
-2026 Philippe Scheuber
+2026 Scheuber
 ```

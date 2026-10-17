@@ -80,5 +80,5 @@ Every Bible text is free to use: public domain or Creative Commons. Full source 
 ## Copyright (max. 200, same for all languages)
 
 ```
-2026 Philippe Scheuber
+2026 Scheuber
 ```

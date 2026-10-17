@@ -80,5 +80,5 @@ Todos os textos bíblicos são de uso livre: domínio público ou Creative Commo
 ## Copyright (máx. 200, igual para todos os idiomas)
 
 ```
-2026 Philippe Scheuber
+2026 Scheuber
 ```

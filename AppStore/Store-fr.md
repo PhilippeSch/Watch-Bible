@@ -80,5 +80,5 @@ Tous les textes bibliques sont libres d'utilisation : domaine public ou Creative
 ## Copyright (max. 200, identique pour toutes les langues)
 
 ```
-2026 Philippe Scheuber
+2026 Scheuber
 ```
